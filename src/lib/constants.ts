@@ -83,16 +83,6 @@ export const SERVICES = [
     slug: "party-photography",
     featured: true,
   },
-  {
-    id: "nature-photography",
-    name: "Nature & Scenic Photography",
-    shortName: "Nature & Scenic",
-    description:
-      "Beautiful landscape and nature photography showcasing the natural beauty of Northern New Jersey.",
-    icon: "Mountain",
-    slug: "nature-photography",
-    featured: false,
-  },
 ] as const;
 
 export const SERVICE_AREAS = {

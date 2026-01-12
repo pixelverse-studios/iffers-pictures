@@ -21,6 +21,7 @@
 - Heading font options: Italiana, Cormorant Garamond, Aboreto
 - Body font options: Raleway, Questrial, Lato, plus original serif fonts
 - Hidden layout variation switcher (available for later use)
+- Removed Nature & Scenic Photography from services list (not part of client's service offerings)
 
 ## Notes for internal team
 
@@ -40,6 +41,9 @@
 - Logo uses multi-layer drop-shadow filter for white glow effect
 - Nav height increased to h-28 (transparent) / h-24 (scrolled) to accommodate larger logo
 - VariationSwitcher commented out in page.tsx, preserved for future use
+- IFFER-9: Removed nature-photography from SERVICES array in constants.ts
+- Updated CLAUDE.md and implementation-plan.md to reflect current service offerings
+- LocalBusinessSchema dynamically pulls from SERVICES, no code changes needed there
 
 ## Changed URLs
 
