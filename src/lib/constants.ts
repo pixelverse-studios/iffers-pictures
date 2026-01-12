@@ -103,6 +103,16 @@ export const SERVICES = [
     slug: "headshots",
     featured: true,
   },
+  {
+    id: "maternity-photography",
+    name: "Maternity Photography",
+    shortName: "Maternity",
+    description:
+      "Celebrate the beauty of pregnancy with timeless, empowering portraits.",
+    icon: "Heart",
+    slug: "maternity-photography",
+    featured: true,
+  },
 ] as const;
 
 export const SERVICE_AREAS = {
