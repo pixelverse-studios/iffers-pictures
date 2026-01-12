@@ -12,6 +12,7 @@ import {
   ServiceCTA,
   ServiceSchema,
   FAQSchema,
+  BreadcrumbSchema,
 } from "@/components/features/services";
 
 interface ServicePageProps {
@@ -63,11 +64,18 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const breadcrumbItems = [
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: serviceInfo.name },
+  ];
+
   return (
     <>
       {/* Schema markup */}
       <ServiceSchema data={serviceData} serviceName={serviceInfo.name} />
       <FAQSchema data={serviceData.faq} />
+      <BreadcrumbSchema items={breadcrumbItems} />
 
       {/* Page sections */}
       <ServiceHero data={serviceData.hero} serviceName={serviceInfo.name} />

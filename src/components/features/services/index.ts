@@ -7,3 +7,4 @@ export { ServiceFAQ } from "./ServiceFAQ";
 export { ServiceCTA } from "./ServiceCTA";
 export { ServiceSchema } from "./ServiceSchema";
 export { FAQSchema } from "./FAQSchema";
+export { BreadcrumbSchema } from "./BreadcrumbSchema";
