@@ -22,8 +22,12 @@
 - Body font options: Raleway, Questrial, Lato, plus original serif fonts
 - Hidden layout variation switcher (available for later use)
 - Removed Nature & Scenic Photography from services list (not part of client's service offerings)
-- Created Engagement Photography service page with full content sections
-- Page includes hero, benefits, what to expect, gallery, testimonials, pricing packages, and FAQ
+- Created all 4 service pages with full content sections:
+  - Engagement Photography
+  - Baby Shower Photography
+  - Bridal Shower Photography
+  - Party & Event Photography
+- Each page includes hero, benefits, what to expect, gallery, testimonials, pricing packages, and FAQ
 - All content uses placeholder images ready to be swapped with real photography
 - Added services dropdown menu to navigation for easy access to all service pages
 
@@ -50,6 +54,7 @@
 - LocalBusinessSchema dynamically pulls from SERVICES, no code changes needed there
 - IFFER-1: Created dynamic service page route at /services/[slug]
 - New components: ServiceHero, ServiceBenefits, ServiceGallery, ServiceTestimonials, ServicePricing, ServiceFAQ, ServiceCTA
+- Service data files: engagement.ts, baby-shower.ts, bridal-shower.ts, party.ts
 - Service data structure in /src/data/services/ with TypeScript types
 - Service schema and FAQPage schema for SEO
 - Page statically generated with generateStaticParams
@@ -59,3 +64,6 @@
 
 - https://ifferspictures.com/
 - https://ifferspictures.com/services/engagement-photography
+- https://ifferspictures.com/services/baby-shower-photography
+- https://ifferspictures.com/services/bridal-shower-photography
+- https://ifferspictures.com/services/party-photography
