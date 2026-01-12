@@ -141,6 +141,18 @@ export const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
+// Split navigation for centered logo layout
+export const NAV_LINKS_LEFT = [
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
+] as const;
+
+export const NAV_LINKS_RIGHT = [
+  { label: "Pricing", href: "/pricing" },
+  { label: "Blog", href: "/blog" },
+] as const;
+
 export const FOOTER_LINKS = {
   services: SERVICES.filter((s) => s.featured).map((s) => ({
     label: s.shortName,

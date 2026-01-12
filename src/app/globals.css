@@ -124,7 +124,8 @@
   --border: #e5e7eb;
 
   /* Header Height */
-  --header-height: 5rem;
+  --header-height: 6rem;
+  --header-height-scrolled: 5rem;
 }
 
 /* ============================================
@@ -136,7 +137,7 @@ html {
 }
 
 body {
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-body-override, var(--font-body)), system-ui, sans-serif;
   background-color: var(--background);
   color: var(--foreground);
   line-height: 1.6;
@@ -237,7 +238,7 @@ h1, h2, h3, h4, h5, h6,
 
 /* Hero padding for fixed header */
 .pt-hero {
-  padding-top: calc(var(--header-height) + 2rem);
+  padding-top: calc(var(--header-height) + 1rem);
 }
 
 /* Text Gradient */

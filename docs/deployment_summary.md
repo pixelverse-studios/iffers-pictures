@@ -14,6 +14,13 @@
 - Added elegant placeholder components designed to be swapped with real photography later
 - Added Variation 4 "Hybrid": Blends V1 + V3 with minimal hero, compact staggered services, and masonry portfolio
 - Variation 4 now set as default when loading homepage
+- Redesigned navigation with centered logo layout and links split on either side
+- Improved navigation text readability on dark/colorful hero backgrounds with white text and text shadows
+- Enhanced logo visibility with soft white glow effect when on transparent nav
+- Updated font switcher with separate tabs for Headings and Body fonts
+- Heading font options: Italiana, Cormorant Garamond, Aboreto
+- Body font options: Raleway, Questrial, Lato, plus original serif fonts
+- Hidden layout variation switcher (available for later use)
 
 ## Notes for internal team
 
@@ -27,6 +34,12 @@
 - 30 new components total across 4 variations
 - Implementation plans documented in docs/planning/
 - Variation 4 reuses PortfolioPreview and ServiceAreasDisplay from V1
+- Header.tsx redesigned with centered logo, NAV_LINKS_LEFT/RIGHT in constants.ts
+- Nav text uses inline styles for color to overcome CSS specificity issues
+- Multi-layer text shadow for nav readability on any hero background
+- Logo uses multi-layer drop-shadow filter for white glow effect
+- Nav height increased to h-28 (transparent) / h-24 (scrolled) to accommodate larger logo
+- VariationSwitcher commented out in page.tsx, preserved for future use
 
 ## Changed URLs
 

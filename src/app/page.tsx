@@ -19,11 +19,11 @@ export default function HomePage() {
       {activeVariation === 3 && <Variation3 />}
       {activeVariation === 4 && <Variation4 />}
 
-      {/* Variation switcher */}
-      <VariationSwitcher
+      {/* Variation switcher - hidden for now, keeping for potential later use */}
+      {/* <VariationSwitcher
         activeVariation={activeVariation}
         onVariationChange={setActiveVariation}
-      />
+      /> */}
 
       {/* Font switcher for client preview */}
       <FontSwitcher />
