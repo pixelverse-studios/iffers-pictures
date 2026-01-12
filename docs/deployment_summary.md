@@ -22,6 +22,9 @@
 - Body font options: Raleway, Questrial, Lato, plus original serif fonts
 - Hidden layout variation switcher (available for later use)
 - Removed Nature & Scenic Photography from services list (not part of client's service offerings)
+- Created Engagement Photography service page with full content sections
+- Page includes hero, benefits, what to expect, gallery, testimonials, pricing packages, and FAQ
+- All content uses placeholder images ready to be swapped with real photography
 
 ## Notes for internal team
 
@@ -44,7 +47,13 @@
 - IFFER-9: Removed nature-photography from SERVICES array in constants.ts
 - Updated CLAUDE.md and implementation-plan.md to reflect current service offerings
 - LocalBusinessSchema dynamically pulls from SERVICES, no code changes needed there
+- IFFER-1: Created dynamic service page route at /services/[slug]
+- New components: ServiceHero, ServiceBenefits, ServiceGallery, ServiceTestimonials, ServicePricing, ServiceFAQ, ServiceCTA
+- Service data structure in /src/data/services/ with TypeScript types
+- Service schema and FAQPage schema for SEO
+- Page statically generated with generateStaticParams
 
 ## Changed URLs
 
 - https://ifferspictures.com/
+- https://ifferspictures.com/services/engagement-photography
