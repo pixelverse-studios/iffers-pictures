@@ -1,0 +1,9 @@
+export { ServiceHero } from "./ServiceHero";
+export { ServiceBenefits } from "./ServiceBenefits";
+export { ServiceGallery } from "./ServiceGallery";
+export { ServiceTestimonials } from "./ServiceTestimonials";
+export { ServicePricing } from "./ServicePricing";
+export { ServiceFAQ } from "./ServiceFAQ";
+export { ServiceCTA } from "./ServiceCTA";
+export { ServiceSchema } from "./ServiceSchema";
+export { FAQSchema } from "./FAQSchema";

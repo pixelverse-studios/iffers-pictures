@@ -3,14 +3,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO } from "@/lib/constants";
+import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO, SERVICES } from "@/lib/constants";
 import { formatPhoneNumber, formatPhoneLink } from "@/lib/utils";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,12 +43,14 @@ export function Header() {
   );
 
   // Strong text shadow for readability on any colorful background
-  // Multiple shadow layers create a "halo" effect around text
   const heroTextShadow = [
-    "0 1px 3px rgba(0,0,0,0.8)",   // Close, dark shadow
-    "0 2px 6px rgba(0,0,0,0.6)",   // Medium spread
-    "0 0 20px rgba(0,0,0,0.4)",    // Soft glow for extra contrast
+    "0 1px 3px rgba(0,0,0,0.8)",
+    "0 2px 6px rgba(0,0,0,0.6)",
+    "0 0 20px rgba(0,0,0,0.4)",
   ].join(", ");
+
+  // Filter featured services for the dropdown
+  const featuredServices = SERVICES.filter((s) => s.featured);
 
   return (
     <>
@@ -67,25 +71,94 @@ export function Header() {
           >
             {/* Left Navigation - Desktop */}
             <div className="hidden lg:flex items-center gap-9 flex-1">
-              {NAV_LINKS_LEFT.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    linkStyles,
-                    isScrolled
-                      ? "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]"
-                      : "after:bg-white"
-                  )}
-                  style={
-                    isScrolled
-                      ? undefined
-                      : { color: "#ffffff", textShadow: heroTextShadow }
-                  }
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {NAV_LINKS_LEFT.map((link) => {
+                // Special handling for Services link - add dropdown
+                if (link.label === "Services") {
+                  return (
+                    <div
+                      key={link.href}
+                      className="relative"
+                      onMouseEnter={() => setIsServicesOpen(true)}
+                      onMouseLeave={() => setIsServicesOpen(false)}
+                    >
+                      <button
+                        className={cn(
+                          linkStyles,
+                          "flex items-center gap-1",
+                          isScrolled
+                            ? "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]"
+                            : "after:bg-white"
+                        )}
+                        style={
+                          isScrolled
+                            ? undefined
+                            : { color: "#ffffff", textShadow: heroTextShadow }
+                        }
+                      >
+                        {link.label}
+                        <ChevronDown
+                          className={cn(
+                            "w-4 h-4 transition-transform duration-200",
+                            isServicesOpen && "rotate-180"
+                          )}
+                        />
+                      </button>
+
+                      {/* Services Dropdown */}
+                      <div
+                        className={cn(
+                          "absolute top-full left-0 pt-2",
+                          "transition-all duration-200",
+                          isServicesOpen
+                            ? "opacity-100 translate-y-0 pointer-events-auto"
+                            : "opacity-0 -translate-y-2 pointer-events-none"
+                        )}
+                      >
+                        <div className="bg-white rounded-xl shadow-xl border border-[var(--border)] py-2 min-w-[240px]">
+                          {featuredServices.map((service) => (
+                            <Link
+                              key={service.slug}
+                              href={`/services/${service.slug}`}
+                              className={cn(
+                                "block px-4 py-3 text-sm text-[var(--text-secondary)]",
+                                "hover:bg-[var(--background-warm)] hover:text-[var(--teal)]",
+                                "transition-colors duration-150"
+                              )}
+                            >
+                              <span className="font-medium text-[var(--foreground)]">
+                                {service.shortName}
+                              </span>
+                              <span className="block text-xs mt-0.5 text-[var(--text-muted)]">
+                                {service.name}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      linkStyles,
+                      isScrolled
+                        ? "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]"
+                        : "after:bg-white"
+                    )}
+                    style={
+                      isScrolled
+                        ? undefined
+                        : { color: "#ffffff", textShadow: heroTextShadow }
+                    }
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Mobile Menu Button - Left */}
@@ -202,25 +275,75 @@ export function Header() {
         />
 
         {/* Menu Content */}
-        <div className="relative h-full flex flex-col justify-center px-8">
-          <nav className="space-y-6">
-            {NAV_LINKS.map((link, index) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={cn(
-                  "block text-3xl font-heading font-medium text-white",
-                  "opacity-0 translate-x-8 transition-all duration-500",
-                  isMobileMenuOpen && "opacity-100 translate-x-0"
-                )}
-                style={{
-                  transitionDelay: isMobileMenuOpen ? `${150 + index * 50}ms` : "0ms",
-                }}
-              >
-                {link.label}
-              </Link>
-            ))}
+        <div className="relative h-full flex flex-col justify-center px-8 overflow-y-auto py-24">
+          <nav className="space-y-4">
+            {NAV_LINKS.map((link, index) => {
+              // Special handling for Services - make it expandable
+              if (link.label === "Services") {
+                return (
+                  <div key={link.href}>
+                    <button
+                      onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                      className={cn(
+                        "flex items-center justify-between w-full text-3xl font-heading font-medium text-white",
+                        "opacity-0 translate-x-8 transition-all duration-500",
+                        isMobileMenuOpen && "opacity-100 translate-x-0"
+                      )}
+                      style={{
+                        transitionDelay: isMobileMenuOpen ? `${150 + index * 50}ms` : "0ms",
+                      }}
+                    >
+                      {link.label}
+                      <ChevronDown
+                        className={cn(
+                          "w-6 h-6 transition-transform duration-200",
+                          isMobileServicesOpen && "rotate-180"
+                        )}
+                      />
+                    </button>
+
+                    {/* Mobile Services Sub-menu */}
+                    <div
+                      className={cn(
+                        "overflow-hidden transition-all duration-300",
+                        isMobileServicesOpen ? "max-h-96 mt-3" : "max-h-0"
+                      )}
+                    >
+                      <div className="pl-4 space-y-3 border-l-2 border-white/30">
+                        {featuredServices.map((service) => (
+                          <Link
+                            key={service.slug}
+                            href={`/services/${service.slug}`}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block text-xl text-white/80 hover:text-white transition-colors"
+                          >
+                            {service.shortName}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={cn(
+                    "block text-3xl font-heading font-medium text-white",
+                    "opacity-0 translate-x-8 transition-all duration-500",
+                    isMobileMenuOpen && "opacity-100 translate-x-0"
+                  )}
+                  style={{
+                    transitionDelay: isMobileMenuOpen ? `${150 + index * 50}ms` : "0ms",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Mobile Contact Info */}
