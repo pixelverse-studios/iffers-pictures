@@ -8,6 +8,7 @@ export { babyShowerData } from "./baby-shower";
 export { bridalShowerData } from "./bridal-shower";
 export { partyData } from "./party";
 export { familyData } from "./family";
+export { headshotsData } from "./headshots";
 
 import { ServicePageData } from "./types";
 import { engagementData } from "./engagement";
@@ -15,6 +16,7 @@ import { babyShowerData } from "./baby-shower";
 import { bridalShowerData } from "./bridal-shower";
 import { partyData } from "./party";
 import { familyData } from "./family";
+import { headshotsData } from "./headshots";
 
 // Map service slugs to their data
 export const serviceDataMap: Record<string, ServicePageData> = {
@@ -23,6 +25,7 @@ export const serviceDataMap: Record<string, ServicePageData> = {
   "bridal-shower-photography": bridalShowerData,
   "party-photography": partyData,
   "family-photography": familyData,
+  "headshots": headshotsData,
 };
 
 // Get service data by slug

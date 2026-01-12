@@ -93,6 +93,16 @@ export const SERVICES = [
     slug: "family-photography",
     featured: true,
   },
+  {
+    id: "headshots",
+    name: "Professional Headshots",
+    shortName: "Headshots",
+    description:
+      "Polished headshots for LinkedIn, corporate profiles, and performers.",
+    icon: "User",
+    slug: "headshots",
+    featured: true,
+  },
 ] as const;
 
 export const SERVICE_AREAS = {
