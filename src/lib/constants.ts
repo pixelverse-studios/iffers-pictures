@@ -113,6 +113,16 @@ export const SERVICES = [
     slug: "maternity-photography",
     featured: true,
   },
+  {
+    id: "baptism-christening-photography",
+    name: "Baptism & Christening Photography",
+    shortName: "Baptism",
+    description:
+      "Document this sacred milestone while you stay present in the moment.",
+    icon: "Church",
+    slug: "baptism-christening-photography",
+    featured: true,
+  },
 ] as const;
 
 export const SERVICE_AREAS = {
