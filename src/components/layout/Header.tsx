@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, BUSINESS_INFO } from "@/lib/constants";
@@ -49,6 +50,14 @@ export function Header() {
               className="relative z-10 flex items-center gap-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
+              <Image
+                src="/logo.png"
+                alt="Iffer's Pictures"
+                width={40}
+                height={40}
+                className="w-10 h-10"
+                priority
+              />
               <span
                 className={cn(
                   "text-2xl md:text-3xl font-heading font-semibold transition-colors duration-300",
