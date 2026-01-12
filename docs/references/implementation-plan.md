@@ -2,7 +2,7 @@
 
 **Business:** Iffer's Pictures
 **Location:** Cliffside Park, NJ
-**Focus:** Hyper-local SEO for event photography (engagements, baby showers, bridal showers, parties) with secondary nature/scenic photography
+**Focus:** Hyper-local SEO for event photography (engagements, baby showers, bridal showers, parties)
 
 ---
 
@@ -55,13 +55,11 @@ This plan outlines a comprehensive Next.js 14+ website for Iffer's Pictures. The
   /portfolio/baby-showers
   /portfolio/bridal-showers
   /portfolio/parties-events
-  /portfolio/nature-scenic
 /services                   # Services overview
   /services/engagement-photography
   /services/baby-shower-photography
   /services/bridal-shower-photography
   /services/party-photography
-  /services/nature-photography
 /pricing                    # Pricing packages
 /locations                  # Service area hub page
   /locations/cliffside-park-nj
@@ -213,8 +211,7 @@ Each location page should include:
     "Engagement Photography",
     "Baby Shower Photography",
     "Bridal Shower Photography",
-    "Event Photography",
-    "Nature Photography"
+    "Event Photography"
   ]
 }
 ```

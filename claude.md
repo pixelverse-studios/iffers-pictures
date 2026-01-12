@@ -100,7 +100,7 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 
 ## Project Overview
 
-Iffer's Pictures is a professional photography business based in Cliffside Park, NJ, specializing in event photography (engagements, baby showers, bridal showers, parties) with secondary nature/scenic photography services. This Next.js website is designed with a hyper-local SEO strategy to capture event photography searches across Bergen County and surrounding areas in Northern New Jersey.
+Iffer's Pictures is a professional photography business based in Cliffside Park, NJ, specializing in event photography (engagements, baby showers, bridal showers, parties). This Next.js website is designed with a hyper-local SEO strategy to capture event photography searches across Bergen County and surrounding areas in Northern New Jersey.
 
 **Primary Goal:** Generate leads through organic local search traffic by ranking for "[service] photographer [location]" queries across 14+ target towns.
 
@@ -178,7 +178,7 @@ Each major page has its own component directory under `/components/` and a route
 1. **Homepage** - Hero, services overview, portfolio preview, testimonials, service areas, CTA
 2. **About** - Photographer bio, story, approach
 3. **Services** - Overview of all photography services
-4. **Service Detail Pages** - Individual pages for engagement, baby shower, bridal shower, party, nature photography
+4. **Service Detail Pages** - Individual pages for engagement, baby shower, bridal shower, party photography
 5. **Portfolio** - Filterable gallery by category
 6. **Pricing** - Packages and pricing information
 7. **Locations Hub** - Service area overview with links to all location pages
@@ -545,7 +545,6 @@ We are executing a **hyper-local, city-focused SEO strategy** to capture event p
 | Baby Shower          | baby-shower-photography     |
 | Bridal Shower        | bridal-shower-photography   |
 | Party/Event          | party-photography           |
-| Nature/Scenic        | nature-photography          |
 
 ### Key Implementation Requirements
 
