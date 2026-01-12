@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
@@ -13,6 +14,20 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
+  // Only use transparent hero styling on homepage when not scrolled
+  const useHeroStyling = isHomePage && !isScrolled;
+
+  // Check if a nav link is active
+  const isLinkActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(href + "/");
+  };
+
+  // Check if on any services page (hub or individual)
+  const isServicesActive = pathname === "/services" || pathname.startsWith("/services/");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,16 +72,16 @@ export function Header() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled
-            ? "bg-white/95 backdrop-blur-md shadow-sm"
-            : "bg-gradient-to-b from-black/70 via-black/40 to-transparent"
+          useHeroStyling
+            ? "bg-transparent"
+            : "bg-white/95 backdrop-blur-md shadow-sm"
         )}
       >
         <div className="container">
           <nav
             className={cn(
               "flex items-center justify-between transition-all duration-300",
-              isScrolled ? "h-24" : "h-28"
+              useHeroStyling ? "h-28" : "h-24"
             )}
           >
             {/* Left Navigation - Desktop */}
@@ -81,18 +96,22 @@ export function Header() {
                       onMouseEnter={() => setIsServicesOpen(true)}
                       onMouseLeave={() => setIsServicesOpen(false)}
                     >
-                      <button
+                      <Link
+                        href="/services"
                         className={cn(
                           linkStyles,
-                          "flex items-center gap-1",
-                          isScrolled
-                            ? "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]"
-                            : "after:bg-white"
+                          "flex items-center gap-1 cursor-pointer",
+                          useHeroStyling
+                            ? "after:bg-white"
+                            : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+                          // Active state
+                          isServicesActive && "after:w-full",
+                          isServicesActive && !useHeroStyling && "text-[var(--teal)]"
                         )}
                         style={
-                          isScrolled
-                            ? undefined
-                            : { color: "#ffffff", textShadow: heroTextShadow }
+                          useHeroStyling
+                            ? { color: "#ffffff", textShadow: heroTextShadow }
+                            : undefined
                         }
                       >
                         {link.label}
@@ -102,7 +121,7 @@ export function Header() {
                             isServicesOpen && "rotate-180"
                           )}
                         />
-                      </button>
+                      </Link>
 
                       {/* Services Dropdown */}
                       <div
@@ -115,44 +134,59 @@ export function Header() {
                         )}
                       >
                         <div className="bg-white rounded-xl shadow-xl border border-[var(--border)] py-2 min-w-[240px]">
-                          {featuredServices.map((service) => (
-                            <Link
-                              key={service.slug}
-                              href={`/services/${service.slug}`}
-                              className={cn(
-                                "block px-4 py-3 text-sm text-[var(--text-secondary)]",
-                                "hover:bg-[var(--background-warm)] hover:text-[var(--teal)]",
-                                "transition-colors duration-150"
-                              )}
-                            >
-                              <span className="font-medium text-[var(--foreground)]">
-                                {service.shortName}
-                              </span>
-                              <span className="block text-xs mt-0.5 text-[var(--text-muted)]">
-                                {service.name}
-                              </span>
-                            </Link>
-                          ))}
+                          {featuredServices.map((service) => {
+                            const isActiveService = pathname === `/services/${service.slug}`;
+                            return (
+                              <Link
+                                key={service.slug}
+                                href={`/services/${service.slug}`}
+                                className={cn(
+                                  "block px-4 py-3 text-sm",
+                                  "hover:bg-[var(--background-warm)] hover:text-[var(--teal)]",
+                                  "transition-colors duration-150",
+                                  isActiveService
+                                    ? "bg-[var(--background-warm)] border-l-2 border-[var(--teal)]"
+                                    : "text-[var(--text-secondary)]"
+                                )}
+                              >
+                                <span
+                                  className={cn(
+                                    "font-medium",
+                                    isActiveService ? "text-[var(--teal)]" : "text-[var(--foreground)]"
+                                  )}
+                                >
+                                  {service.shortName}
+                                </span>
+                                <span className="block text-xs mt-0.5 text-[var(--text-muted)]">
+                                  {service.name}
+                                </span>
+                              </Link>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
                   );
                 }
 
+                const isActive = isLinkActive(link.href);
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
                     className={cn(
                       linkStyles,
-                      isScrolled
-                        ? "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]"
-                        : "after:bg-white"
+                      useHeroStyling
+                        ? "after:bg-white"
+                        : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+                      // Active state
+                      isActive && "after:w-full",
+                      isActive && !useHeroStyling && "text-[var(--teal)]"
                     )}
                     style={
-                      isScrolled
-                        ? undefined
-                        : { color: "#ffffff", textShadow: heroTextShadow }
+                      useHeroStyling
+                        ? { color: "#ffffff", textShadow: heroTextShadow }
+                        : undefined
                     }
                   >
                     {link.label}
@@ -174,9 +208,9 @@ export function Header() {
                 <Menu
                   className={cn(
                     "w-6 h-6 transition-colors duration-300",
-                    isScrolled ? "text-[var(--foreground)]" : "text-white"
+                    useHeroStyling ? "text-white" : "text-[var(--foreground)]"
                   )}
-                  style={!isScrolled ? { filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.8))" } : undefined}
+                  style={useHeroStyling ? { filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.8))" } : undefined}
                 />
               )}
             </button>
@@ -198,7 +232,7 @@ export function Header() {
                 height={80}
                 className="transition-all duration-300 h-20 w-auto"
                 style={
-                  !isScrolled
+                  useHeroStyling
                     ? {
                         filter: [
                           "drop-shadow(0 0 8px rgba(255,255,255,0.4))",
@@ -214,25 +248,31 @@ export function Header() {
 
             {/* Right Navigation - Desktop */}
             <div className="hidden lg:flex items-center justify-end gap-9 flex-1">
-              {NAV_LINKS_RIGHT.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    linkStyles,
-                    isScrolled
-                      ? "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]"
-                      : "after:bg-white"
-                  )}
-                  style={
-                    isScrolled
-                      ? undefined
-                      : { color: "#ffffff", textShadow: heroTextShadow }
-                  }
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {NAV_LINKS_RIGHT.map((link) => {
+                const isActive = isLinkActive(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      linkStyles,
+                      useHeroStyling
+                        ? "after:bg-white"
+                        : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+                      // Active state
+                      isActive && "after:w-full",
+                      isActive && !useHeroStyling && "text-[var(--teal)]"
+                    )}
+                    style={
+                      useHeroStyling
+                        ? { color: "#ffffff", textShadow: heroTextShadow }
+                        : undefined
+                    }
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <Link
                 href="/contact"
                 className={cn(
@@ -241,9 +281,9 @@ export function Header() {
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
                   "uppercase text-[13px] tracking-wider",
                   "px-5 py-2.5",
-                  isScrolled
-                    ? "bg-[var(--teal)] text-white hover:bg-[var(--teal-dark)] focus-visible:ring-[var(--teal)] shadow-sm hover:shadow-md"
-                    : "bg-white text-[var(--teal-dark)] hover:bg-white/90 focus-visible:ring-white shadow-lg"
+                  useHeroStyling
+                    ? "bg-white text-[var(--teal-dark)] hover:bg-white/90 focus-visible:ring-white shadow-lg"
+                    : "bg-[var(--teal)] text-white hover:bg-[var(--teal-dark)] focus-visible:ring-[var(--teal)] shadow-sm hover:shadow-md"
                 )}
               >
                 Book Now
