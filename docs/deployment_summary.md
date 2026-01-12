@@ -25,6 +25,7 @@
 - Created Engagement Photography service page with full content sections
 - Page includes hero, benefits, what to expect, gallery, testimonials, pricing packages, and FAQ
 - All content uses placeholder images ready to be swapped with real photography
+- Added services dropdown menu to navigation for easy access to all service pages
 
 ## Notes for internal team
 
@@ -52,6 +53,7 @@
 - Service data structure in /src/data/services/ with TypeScript types
 - Service schema and FAQPage schema for SEO
 - Page statically generated with generateStaticParams
+- Header.tsx updated with services dropdown (hover on desktop, tap-to-expand on mobile)
 
 ## Changed URLs
 
