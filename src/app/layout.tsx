@@ -21,6 +21,10 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
+  icons: {
+    icon: "/icon",
+    apple: "/apple-icon",
+  },
   title: {
     default: `${SITE_CONFIG.name} | Event Photographer in ${BUSINESS_INFO.address.city}, ${BUSINESS_INFO.address.state}`,
     template: `%s | ${SITE_CONFIG.name}`,

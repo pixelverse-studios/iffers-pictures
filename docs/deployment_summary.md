@@ -30,6 +30,18 @@
 - Each page includes hero, benefits, what to expect, gallery, testimonials, pricing packages, and FAQ
 - All content uses placeholder images ready to be swapped with real photography
 - Added services dropdown menu to navigation for easy access to all service pages
+- Created Family Photography service page with authentic, candid-focused approach
+- Created Professional Headshots service page serving corporate professionals and performers
+- Created Maternity Photography service page with empowering, goddess-inspired approach
+- Created Baptism & Christening Photography service page supporting multiple religious traditions
+- Added BreadcrumbList schema to all service pages for improved SEO
+- Fixed navigation header styling to only use transparent/hero mode on homepage (other pages always show white nav)
+- Created Services hub page at /services as central pillar for all photography services
+- Hub page features 8 service cards with hover effects and internal links to individual service pages
+- Added "Why Choose Us" section highlighting genuine moments, stress-free experience, professional quality, and local expertise
+- Added Service Areas section with primary and secondary town listings for local SEO
+- Added FAQ section with 6 common questions about booking, delivery, and process
+- Implemented LocalBusiness and Service schema markup for SEO
 
 ## Notes for internal team
 
@@ -59,6 +71,16 @@
 - Service schema and FAQPage schema for SEO
 - Page statically generated with generateStaticParams
 - Header.tsx updated with services dropdown (hover on desktop, tap-to-expand on mobile)
+- IFFER-2, 3, 5, 7: Created service data files for family, headshots, maternity, baptism
+- BreadcrumbSchema component added at /components/features/services/BreadcrumbSchema.tsx
+- IFFER-4, 6, 8 already existed from IFFER-1 implementation
+- Nav styling fix: Added usePathname() to detect homepage, created useHeroStyling variable
+- Hero styling (transparent bg, white text, shadows) only applies on homepage when not scrolled
+- Service pages and other routes always use white nav with dark text
+- Services hub page: New components in /components/features/services-hub/
+- Components: ServicesHubHero, ServicesGrid, ServiceCard, WhyChooseUs, ServiceAreasSection, ServicesHubFAQ, ServicesHubCTA, ServicesHubSchema
+- ServiceCard uses icon mapping for type-safe Lucide icons
+- Hub-and-spoke SEO architecture: /services links to all /services/[slug] pages
 
 ## Changed URLs
 
@@ -67,3 +89,8 @@
 - https://ifferspictures.com/services/baby-shower-photography
 - https://ifferspictures.com/services/bridal-shower-photography
 - https://ifferspictures.com/services/party-photography
+- https://ifferspictures.com/services/family-photography
+- https://ifferspictures.com/services/headshots
+- https://ifferspictures.com/services/maternity-photography
+- https://ifferspictures.com/services/baptism-christening-photography
+- https://ifferspictures.com/services
