@@ -83,6 +83,16 @@ export const SERVICES = [
     slug: "party-photography",
     featured: true,
   },
+  {
+    id: "family-photography",
+    name: "Family Photography",
+    shortName: "Family",
+    description:
+      "Authentic family portraits that capture real connections and genuine moments.",
+    icon: "Users",
+    slug: "family-photography",
+    featured: true,
+  },
 ] as const;
 
 export const SERVICE_AREAS = {
