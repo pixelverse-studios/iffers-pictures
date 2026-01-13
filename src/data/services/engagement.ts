@@ -216,10 +216,11 @@ export const engagementData: ServicePageData = {
     description: "Professional engagement photography in Bergen County, NJ. Capture your love story with stunning photos perfect for save-the-dates and wedding announcements. Serving Fort Lee, Englewood, Edgewater & Northern NJ.",
     keywords: [
       "engagement photographer Bergen County NJ",
-      "engagement photography Fort Lee",
-      "engagement photos Englewood NJ",
-      "couples photography Northern NJ",
-      "save the date photos NJ",
+      "engagement photography Fort Lee NJ",
+      "engagement photos Cliffside Park NJ",
+      "couples photographer North Bergen NJ",
+      "engagement session Englewood NJ",
+      "save the date photos Northern NJ",
     ],
   },
 };

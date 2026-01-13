@@ -216,10 +216,11 @@ export const partyData: ServicePageData = {
     description: "Professional party and event photography in Bergen County, NJ. Birthdays, anniversaries, graduations, and special celebrations captured beautifully. Serving Cliffside Park, Fort Lee, Hackensack & Northern NJ.",
     keywords: [
       "event photographer Bergen County NJ",
-      "birthday party photographer NJ",
-      "anniversary photography Fort Lee",
-      "party photographer Cliffside Park",
-      "celebration photography Northern NJ",
+      "party photographer Cliffside Park NJ",
+      "birthday party photographer Edgewater NJ",
+      "anniversary photography Fairview NJ",
+      "celebration photographer Palisades Park NJ",
+      "party photography Northern NJ",
     ],
   },
 };

@@ -215,10 +215,11 @@ export const headshotsData: ServicePageData = {
     description: "Professional headshots in Bergen County, NJ. LinkedIn photos, corporate headshots, and actor/performer portraits. Quick sessions with fast delivery. Serving Fort Lee, Hackensack, Edgewater & Northern NJ.",
     keywords: [
       "professional headshots Bergen County NJ",
-      "corporate headshots New Jersey",
-      "LinkedIn headshots Fort Lee",
-      "actor headshots NJ",
-      "business portraits Hackensack",
+      "corporate headshots Fort Lee NJ",
+      "LinkedIn headshots Edgewater NJ",
+      "business portraits Fairview NJ",
+      "actor headshots Hackensack NJ",
+      "professional portraits Northern NJ",
     ],
   },
 };

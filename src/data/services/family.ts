@@ -215,9 +215,11 @@ export const familyData: ServicePageData = {
     keywords: [
       "family photographer Bergen County NJ",
       "family portraits Fort Lee NJ",
-      "family photography Cliffside Park",
-      "lifestyle family photos Northern NJ",
-      "outdoor family portraits NJ",
+      "family photography Cliffside Park NJ",
+      "family photographer Edgewater NJ",
+      "family photos North Bergen NJ",
+      "family portraits Palisades Park NJ",
+      "outdoor family photography Northern NJ",
     ],
   },
 };

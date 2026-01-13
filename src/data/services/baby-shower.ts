@@ -217,10 +217,11 @@ export const babyShowerData: ServicePageData = {
     description: "Professional baby shower photography in Bergen County, NJ. Capture every special moment of your celebration with beautiful, candid photos. Serving Cliffside Park, Fort Lee, Edgewater & Northern NJ.",
     keywords: [
       "baby shower photographer Bergen County NJ",
-      "baby shower photography Fort Lee",
-      "baby shower photos Cliffside Park",
+      "baby shower photography Fort Lee NJ",
+      "baby shower photos Cliffside Park NJ",
+      "baby shower photographer North Bergen NJ",
+      "baby shower pictures Palisades Park NJ",
       "event photographer Northern NJ",
-      "baby shower pictures NJ",
     ],
   },
 };

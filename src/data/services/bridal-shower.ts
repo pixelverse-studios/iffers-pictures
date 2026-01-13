@@ -217,10 +217,11 @@ export const bridalShowerData: ServicePageData = {
     description: "Professional bridal shower photography in Bergen County, NJ. Capture elegant celebrations and heartfelt moments for the bride-to-be. Serving Englewood, Tenafly, Fort Lee & Northern NJ.",
     keywords: [
       "bridal shower photographer Bergen County NJ",
-      "bridal shower photography Englewood",
-      "bridal shower photos Fort Lee",
-      "bridal party photographer NJ",
-      "pre-wedding event photography",
+      "bridal shower photography Fort Lee NJ",
+      "bridal shower photos Edgewater NJ",
+      "bridal shower photographer Fairview NJ",
+      "bridal party photographer Englewood NJ",
+      "pre-wedding event photography Northern NJ",
     ],
   },
 };

@@ -219,8 +219,9 @@ export const baptismChristeningData: ServicePageData = {
     keywords: [
       "baptism photographer Bergen County NJ",
       "christening photography Fort Lee NJ",
-      "Catholic baptism photographer NJ",
-      "Orthodox christening photos",
+      "baptism photos Cliffside Park NJ",
+      "christening photographer North Bergen NJ",
+      "baptism photography Palisades Park NJ",
       "baby dedication photographer Northern NJ",
     ],
   },

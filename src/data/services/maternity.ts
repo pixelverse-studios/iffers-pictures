@@ -221,9 +221,10 @@ export const maternityData: ServicePageData = {
     keywords: [
       "maternity photographer Bergen County NJ",
       "pregnancy photos Fort Lee NJ",
-      "maternity photography Cliffside Park",
-      "bump photos Northern NJ",
-      "expecting mom portraits NJ",
+      "maternity photography Cliffside Park NJ",
+      "maternity photographer Edgewater NJ",
+      "bump photos Fairview NJ",
+      "expecting mom portraits Northern NJ",
     ],
   },
 };
