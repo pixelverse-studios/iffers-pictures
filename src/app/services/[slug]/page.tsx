@@ -50,6 +50,14 @@ export async function generateMetadata({
       description: serviceData.seo.description,
       type: "website",
       url: `${SITE_CONFIG.url}/services/${slug}`,
+      images: [
+        {
+          url: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
+          width: 1200,
+          height: 630,
+          alt: serviceData.seo.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",

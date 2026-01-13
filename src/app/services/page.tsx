@@ -30,6 +30,14 @@ export const metadata: Metadata = {
       "Professional photography for engagements, baby showers, bridal showers, family portraits & more in Bergen County, NJ.",
     type: "website",
     url: `${SITE_CONFIG.url}/services`,
+    images: [
+      {
+        url: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
+        width: 1200,
+        height: 630,
+        alt: "Event & Portrait Photography Services | Iffer's Pictures",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
