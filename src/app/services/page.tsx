@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { SITE_CONFIG } from "@/lib/constants";
 import {
   ServicesHubHero,
   ServicesGrid,
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
     description:
       "Professional photography for engagements, baby showers, bridal showers, family portraits & more in Bergen County, NJ.",
     type: "website",
+    url: `${SITE_CONFIG.url}/services`,
   },
 };
 

@@ -46,6 +46,7 @@
 - Updated business phone number to (551) 486-6059
 - Unified schema markup to use "Photographer" type for better local SEO targeting
 - Removed duplicate business schema definitions for cleaner structured data
+- Added explicit og:url to all service pages for better social sharing
 
 ## Notes for internal team
 
@@ -90,6 +91,7 @@
 - IFFER-10: Changed @type from "ProfessionalService" to "Photographer" in ServiceSchema.tsx and LocalBusinessSchema.tsx
 - IFFER-12: Removed duplicate business schemas - ServiceSchema and ServicesHubSchema now reference business by @id only
 - LocalBusinessSchema (Footer) is now the single canonical business definition
+- IFFER-13: Added og:url to services/[slug]/page.tsx and services/page.tsx metadata
 
 ## Changed URLs
 
