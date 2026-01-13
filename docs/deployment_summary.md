@@ -42,6 +42,8 @@
 - Added Service Areas section with primary and secondary town listings for local SEO
 - Added FAQ section with 6 common questions about booking, delivery, and process
 - Implemented LocalBusiness and Service schema markup for SEO
+- Fixed phone number format in services hub schema to use E.164 international format
+- Updated business phone number to (551) 486-6059
 
 ## Notes for internal team
 
@@ -81,6 +83,8 @@
 - Components: ServicesHubHero, ServicesGrid, ServiceCard, WhyChooseUs, ServiceAreasSection, ServicesHubFAQ, ServicesHubCTA, ServicesHubSchema
 - ServiceCard uses icon mapping for type-safe Lucide icons
 - Hub-and-spoke SEO architecture: /services links to all /services/[slug] pages
+- IFFER-11: Updated ServicesHubSchema.tsx telephone field to use +1 prefix for E.164 format
+- IFFER-11: Updated BUSINESS_INFO.phone in constants.ts from placeholder to real number (5514866059)
 
 ## Changed URLs
 
