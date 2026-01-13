@@ -3,7 +3,7 @@ import { SITE_CONFIG, BUSINESS_INFO, SERVICES, SERVICE_AREAS } from "@/lib/const
 export function LocalBusinessSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": "Photographer",
     "@id": `${SITE_CONFIG.url}/#business`,
     name: BUSINESS_INFO.name,
     description: SITE_CONFIG.description,

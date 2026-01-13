@@ -44,6 +44,7 @@
 - Implemented LocalBusiness and Service schema markup for SEO
 - Fixed phone number format in services hub schema to use E.164 international format
 - Updated business phone number to (551) 486-6059
+- Unified schema markup to use "Photographer" type for better local SEO targeting
 
 ## Notes for internal team
 
@@ -85,6 +86,7 @@
 - Hub-and-spoke SEO architecture: /services links to all /services/[slug] pages
 - IFFER-11: Updated ServicesHubSchema.tsx telephone field to use +1 prefix for E.164 format
 - IFFER-11: Updated BUSINESS_INFO.phone in constants.ts from placeholder to real number (5514866059)
+- IFFER-10: Changed @type from "ProfessionalService" to "Photographer" in ServiceSchema.tsx and LocalBusinessSchema.tsx
 
 ## Changed URLs
 
