@@ -1,4 +1,4 @@
-import { SITE_CONFIG, BUSINESS_INFO, SERVICE_AREAS } from "@/lib/constants";
+import { SITE_CONFIG, SERVICE_AREAS } from "@/lib/constants";
 import { ServicePageData } from "@/data/services/types";
 
 interface ServiceSchemaProps {
@@ -15,19 +15,7 @@ export function ServiceSchema({ data, serviceName }: ServiceSchemaProps) {
     description: data.seo.description,
     url: `${SITE_CONFIG.url}/services/${data.slug}`,
     provider: {
-      "@type": "Photographer",
       "@id": `${SITE_CONFIG.url}/#business`,
-      name: BUSINESS_INFO.name,
-      telephone: `+1${BUSINESS_INFO.phone}`,
-      email: BUSINESS_INFO.email,
-      url: SITE_CONFIG.url,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: BUSINESS_INFO.address.city,
-        addressRegion: BUSINESS_INFO.address.state,
-        postalCode: BUSINESS_INFO.address.zip,
-        addressCountry: BUSINESS_INFO.address.country,
-      },
     },
     areaServed: [
       ...SERVICE_AREAS.primary.map((area) => ({
