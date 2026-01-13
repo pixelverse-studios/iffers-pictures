@@ -51,6 +51,11 @@ export async function generateMetadata({
       type: "website",
       url: `${SITE_CONFIG.url}/services/${slug}`,
     },
+    twitter: {
+      card: "summary_large_image",
+      title: serviceData.seo.title,
+      description: serviceData.seo.description,
+    },
   };
 }
 
