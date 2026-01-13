@@ -15,7 +15,7 @@ export function ServiceSchema({ data, serviceName }: ServiceSchemaProps) {
     description: data.seo.description,
     url: `${SITE_CONFIG.url}/services/${data.slug}`,
     provider: {
-      "@type": "ProfessionalService",
+      "@type": "Photographer",
       "@id": `${SITE_CONFIG.url}/#business`,
       name: BUSINESS_INFO.name,
       telephone: `+1${BUSINESS_INFO.phone}`,
