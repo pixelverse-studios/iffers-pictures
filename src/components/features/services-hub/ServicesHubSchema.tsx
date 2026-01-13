@@ -35,7 +35,7 @@ export function ServicesHubSchema() {
         name: BUSINESS_INFO.name,
         description: SITE_CONFIG.description,
         url: SITE_CONFIG.url,
-        telephone: BUSINESS_INFO.phone,
+        telephone: `+1${BUSINESS_INFO.phone}`,
         email: BUSINESS_INFO.email,
         address: {
           "@type": "PostalAddress",
