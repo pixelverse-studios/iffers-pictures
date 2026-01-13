@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SERVICES } from "@/lib/constants";
+import { SERVICES, SITE_CONFIG } from "@/lib/constants";
 import { getServiceData, getAllServiceSlugs } from "@/data/services";
 import {
   ServiceHero,
@@ -49,6 +49,7 @@ export async function generateMetadata({
       title: serviceData.seo.title,
       description: serviceData.seo.description,
       type: "website",
+      url: `${SITE_CONFIG.url}/services/${slug}`,
     },
   };
 }
