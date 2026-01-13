@@ -48,6 +48,7 @@
 - Removed duplicate business schema definitions for cleaner structured data
 - Added explicit og:url to all service pages for better social sharing
 - Added Twitter card metadata to all service pages for better Twitter/X sharing
+- Added explicit og:image to all service pages with absolute URLs for social sharing previews
 
 ## Notes for internal team
 
@@ -94,6 +95,7 @@
 - LocalBusinessSchema (Footer) is now the single canonical business definition
 - IFFER-13: Added og:url to services/[slug]/page.tsx and services/page.tsx metadata
 - IFFER-14: Added Twitter card config (summary_large_image) to service pages
+- IFFER-15: Added og:image with absolute URL, width, height, and alt to service pages
 
 ## Changed URLs
 
