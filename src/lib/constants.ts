@@ -16,7 +16,7 @@ export const BUSINESS_INFO = {
   name: "Iffer's Pictures",
   legalName: "Iffer's Pictures",
   phone: "5514866059",
-  email: "hello@ifferspictures.com", // Update with real email
+  email: "ifferspictures@gmail.com", // Update with real email
   address: {
     street: "", // Update with real address if desired
     city: "Cliffside Park",

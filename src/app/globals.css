@@ -104,7 +104,9 @@
 
 :root {
   /* Brand Colors */
-  --teal: #1a9b8e;
+  /* --teal: #1a9b8e; */
+  /* --teal: #80b2a0; */
+  --teal: #80b2a0;
   --teal-light: #2dd4bf;
   --teal-dark: #0f766e;
   --coral: #ff8559;

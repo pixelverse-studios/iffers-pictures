@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Mail, Phone, Clock } from "lucide-react";
+import { BUSINESS_INFO } from "@/lib/constants";
 
 export function ContactCTA() {
   return (
@@ -28,13 +29,13 @@ export function ContactCTA() {
               {/* Contact info */}
               <div className="space-y-4 mb-10">
                 <a
-                  href="mailto:hello@ifferspictures.com"
+                  href={BUSINESS_INFO.email}
                   className="flex items-center gap-4 text-white hover:text-[var(--teal-light)] transition-colors"
                 >
                   <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
                     <Mail className="w-5 h-5" />
                   </div>
-                  <span className="font-medium">hello@ifferspictures.com</span>
+                  <span className="font-medium">{BUSINESS_INFO.email}</span>
                 </a>
 
                 <a

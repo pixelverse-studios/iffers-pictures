@@ -18,14 +18,14 @@ export function HeroMinimalEnhanced() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <Image
-        src="/hero.jpg"
+      {/* <Image
+        src="/selfie.jpg"
         alt="Event photography background"
         fill
         priority
         className="object-cover"
         sizes="100vw"
-      />
+      /> */}
 
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-black/50" />
@@ -60,8 +60,9 @@ export function HeroMinimalEnhanced() {
         >
           Moments.
           <br />
-          <span className="text-[var(--teal-light)]">Preserved.</span>
+          <span className="text-[var(--teal)]">Preserved.</span>
         </h1>
+        <h2 className="text-3xl text-white italic">Every special moment deserves to last forever</h2>
 
         {/* Location */}
         <p

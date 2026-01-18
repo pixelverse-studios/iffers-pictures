@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, Instagram, Mail } from "lucide-react";
 import { ImagePlaceholder } from "../shared/ImagePlaceholder";
 import { AnimatedCounter } from "../shared/AnimatedCounter";
+import { BUSINESS_INFO } from "@/lib/constants";
 
 export function MeetIffer() {
   return (
@@ -85,7 +86,7 @@ export function MeetIffer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="mailto:hello@ifferspictures.com"
+                href={`mailto:${BUSINESS_INFO.email}`}
                 className="w-12 h-12 rounded-full bg-[var(--teal)]/10 flex items-center justify-center text-[var(--teal)] hover:bg-[var(--teal)] hover:text-white transition-all duration-300"
               >
                 <Mail className="w-5 h-5" />
