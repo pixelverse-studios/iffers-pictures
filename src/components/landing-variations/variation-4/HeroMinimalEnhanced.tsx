@@ -28,12 +28,12 @@ export function HeroMinimalEnhanced() {
       /> */}
 
       {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/50" />
+      {/* <div className="absolute inset-0 bg-black/50" /> */}
 
       {/* Ambient gradient overlay */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[var(--teal)]/10 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[var(--coral)]/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "-2s" }} />
+      <div className="absolute inset-0 bg-gradient-to-tr from-[rgba(230,209,184,1)] via-[rgba(191,214,198,1)] to-[rgba(188,195,204,1)]">
+        {/* <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[var(--teal)]/10 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[var(--coral)]/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "-2s" }} /> */}
       </div>
 
       {/* Content */}
@@ -54,7 +54,7 @@ export function HeroMinimalEnhanced() {
         {/* Single powerful statement */}
         <h1
           className={cn(
-            "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-semibold text-white leading-[1.05] transition-all duration-1000 delay-200",
+            "text-4xl sm:text-5xl md:text-6xl font-heading font-semibold text-white leading-[1.05] transition-all duration-1000 delay-200",
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >

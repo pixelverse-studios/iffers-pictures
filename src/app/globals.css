@@ -27,7 +27,7 @@
   --color-teal: #1a9b8e;
   --color-teal-light: #2dd4bf;
   --color-teal-dark: #0f766e;
-
+  
   /* Accent Colors */
   --color-accent-coral: #ff8559;
   --color-accent-coral-light: #ffab8a;
@@ -111,6 +111,7 @@
   --teal-dark: #0f766e;
   --coral: #ff8559;
   --gold: #d4af37;
+  --sand:#a49177;
 
   /* Backgrounds */
   --background: #ffffff;
@@ -136,6 +137,11 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+.hero {
+  background: #e6d1b8;
+background: linear-gradient(45deg, rgba(230, 209, 184, 1) 0%, rgba(191, 214, 198, 1) 50%, rgba(188, 195, 204, 1) 100%);
 }
 
 body {
