@@ -8,6 +8,8 @@
 - Updated homepage "Meet Jenn" section with Jennifer's real bio copy
 - Updated site tagline to "Your Story, Beautifully Remembered" across footer and metadata
 - Added Person schema (structured data) to About page for Google rich results
+- Refined the About page with an editorial magazine layout for the bio section and cleaner hero presentation
+- Removed Pricing and Blog pages from navigation, footer, and all site components
 
 ## Notes for internal team
 
@@ -17,6 +19,8 @@
 - DEV-320: Updated MeetIffer section — heading "Meet Iffer" → "Meet Jenn", replaced placeholder bio with real Jennifer content
 - DEV-321: Updated SITE_CONFIG.tagline → "Your Story, Beautifully Remembered"; description updated to cover all 8 services
 - DEV-322: Added PersonSchema component to /about page; added canonical URL to metadata
+- About page bio + hero: Editorial magazine redesign (two-column layout, Italiana lede, pull quote); hero redesigned to remove content overlap
+- Pricing/Blog removal: Removed from constants.ts (NAV_LINKS, NAV_LINKS_RIGHT, FOOTER_LINKS), sitemap.ts, CTASection.tsx, BookingCTA.tsx, BookingCTAEnhanced.tsx, ServicesHubCTA.tsx, contact/page.tsx
 
 ## Changed URLs
 
