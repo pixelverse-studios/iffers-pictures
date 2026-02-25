@@ -6,21 +6,34 @@ import { AnimatedCounter } from "@/components/landing-variations/shared/Animated
 export function AboutBio() {
   return (
     <>
-      {/* Bio section */}
-      <section className="py-16 md:py-24 bg-white">
+      {/* Bio section — editorial feature layout */}
+      <section className="py-16 md:py-24 bg-[var(--background-warm)]">
         <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-[var(--teal)] font-medium tracking-wide uppercase text-sm mb-8">
+
+          {/* Header with extending rule */}
+          <div className="flex items-center gap-6 mb-12 md:mb-16">
+            <p className="text-[var(--teal)] font-medium tracking-[0.3em] uppercase text-xs shrink-0">
               My Story
             </p>
+            <div className="h-px flex-1 bg-gradient-to-r from-[var(--teal)]/30 to-transparent" />
+          </div>
 
-            <div className="space-y-6 text-[var(--text-secondary)] leading-relaxed">
-              <p className="text-xl md:text-2xl font-heading text-[var(--foreground)]">
-                Hi! I&apos;m Jennifer, but most of my friends and family call me
-                Jenn.
-              </p>
+          {/* Lede — large Italiana italic, like a magazine opener */}
+          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-heading italic text-[var(--foreground)] leading-[1.2] max-w-3xl mb-10">
+            Hi! I&apos;m Jennifer, but most of my friends and family call me
+            Jenn.
+          </p>
 
-              <p className="text-lg">
+          {/* Accent divider */}
+          <div className="flex items-center gap-3 mb-10">
+            <div className="w-10 h-0.5 bg-[var(--teal)]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[var(--teal)]/40" />
+          </div>
+
+          {/* Two-column body — newspaper article grid */}
+          <div className="grid md:grid-cols-2 gap-x-14 lg:gap-x-20 gap-y-7 mb-14">
+            <div className="space-y-7">
+              <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
                 I have loved photography for as long as I can remember. Growing
                 up, I was always the one holding the camera — drawn to laughter
                 among loved ones, sunlight filtering through the trees, and the
@@ -28,16 +41,17 @@ export function AboutBio() {
                 the time, but somehow became the most meaningful memories.
                 Capturing those moments became second nature to me.
               </p>
-
-              <p className="text-lg">
+              <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
                 Life moves quickly. It&apos;s often the simplest, most
                 unassuming moments that become the memories we treasure most.
                 That understanding is at the heart of everything I do. Through
                 my photography, I strive to preserve those moments so they can
                 be revisited, remembered, and cherished for years to come.
               </p>
+            </div>
 
-              <p className="text-lg">
+            <div className="space-y-7">
+              <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
                 In addition to being a photographer, I am a middle school math
                 teacher based in Bergen County, New Jersey. I spend my days
                 witnessing growth and change, which has given me an even deeper
@@ -48,18 +62,26 @@ export function AboutBio() {
                 a calm, comfortable environment where people can truly be
                 themselves.
               </p>
-
-              <p className="text-lg">
+              <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
                 While I have recently found myself specializing in event and
                 family photography, I welcome the opportunity to capture all of
                 life&apos;s meaningful moments. Whether it&apos;s a milestone
                 celebration, maternity session, engagement, or a quiet season
-                worth remembering, my goal remains the same: to create timeless
-                images that bring you back not just to how it looked — but to
-                how it felt.
+                worth remembering, my goal remains the same.
               </p>
             </div>
           </div>
+
+          {/* Closing pull quote — full width, centered */}
+          <div className="border-t border-[var(--teal)]/15 pt-10">
+            <p className="text-xl md:text-2xl font-heading italic text-[var(--foreground)] text-center max-w-3xl mx-auto leading-snug">
+              &ldquo;To create timeless images that bring you back not just to
+              how it looked —{" "}
+              <span className="text-[var(--teal)]">but to how it felt.</span>
+              &rdquo;
+            </p>
+          </div>
+
         </div>
       </section>
 
