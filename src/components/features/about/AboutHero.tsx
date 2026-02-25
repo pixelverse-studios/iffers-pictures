@@ -4,7 +4,10 @@ import { BUSINESS_INFO } from "@/lib/constants";
 
 export function AboutHero() {
   return (
-    <section className="pt-hero pb-16 md:pb-20 bg-[var(--background-warm)]">
+    <section
+      className="pb-16 md:pb-20 bg-[var(--background-warm)]"
+      style={{ paddingTop: "calc(var(--header-height) + 4rem)" }}
+    >
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Headshot placeholder */}
