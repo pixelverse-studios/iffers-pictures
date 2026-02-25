@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Italiana, Lora } from "next/font/google";
 import "./globals.css";
 import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const italiana = Italiana({
+  variable: "--font-italiana",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+});
+
+const lora = Lora({
+  variable: "--font-lora",
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600", "700"],
-});
-
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -89,7 +89,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${playfair.variable} ${dmSans.variable} antialiased min-h-screen flex flex-col`}
+        className={`${italiana.variable} ${lora.variable} antialiased min-h-screen flex flex-col`}
       >
         <Header />
         <main className="flex-1">{children}</main>
