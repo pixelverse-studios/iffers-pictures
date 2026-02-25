@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { AboutHero, AboutBio, AboutCTA } from "@/components/features/about";
+import { PersonSchema } from "@/components/seo/PersonSchema";
 
 export const metadata: Metadata = {
   title: "About Jennifer | Iffer's Pictures | Bergen County Photographer",
@@ -35,11 +36,15 @@ export const metadata: Metadata = {
     description:
       "Meet Jennifer, the photographer behind Iffer's Pictures. Specializing in event and family photography across Bergen County, NJ.",
   },
+  alternates: {
+    canonical: `${SITE_CONFIG.url}/about`,
+  },
 };
 
 export default function AboutPage() {
   return (
     <>
+      <PersonSchema />
       <AboutHero />
       <AboutBio />
       <AboutCTA />
