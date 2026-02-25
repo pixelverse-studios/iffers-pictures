@@ -5,9 +5,9 @@
 
 export const SITE_CONFIG = {
   name: "Iffer's Pictures",
-  tagline: "Capturing Your Unforgettable Moments",
+  tagline: "Your Story, Beautifully Remembered",
   description:
-    "Professional event photographer in Cliffside Park, NJ. Specializing in engagements, baby showers, bridal showers & parties. Serving Bergen County & Northern NJ.",
+    "Professional photographer in Cliffside Park, NJ. Specializing in engagements, baby showers, bridal showers, family portraits, maternity, headshots, baptisms & events. Serving Bergen County & Northern NJ.",
   url: "https://ifferspictures.com",
   ogImage: "/og-image.jpg",
 } as const;
