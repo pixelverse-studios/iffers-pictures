@@ -18,10 +18,9 @@ export function AboutBio() {
             <div className="h-px flex-1 bg-gradient-to-r from-[var(--teal)]/30 to-transparent" />
           </div>
 
-          {/* Lede — large Italiana italic, like a magazine opener */}
+          {/* Lede — photography origin story picks up from the hero intro */}
           <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-heading italic text-[var(--foreground)] leading-[1.2] max-w-3xl mb-10">
-            Hi! I&apos;m Jennifer, but most of my friends and family call me
-            Jenn.
+            I have loved photography for as long as I can remember.
           </p>
 
           {/* Accent divider */}
@@ -34,12 +33,11 @@ export function AboutBio() {
           <div className="grid md:grid-cols-2 gap-x-14 lg:gap-x-20 gap-y-7 mb-14">
             <div className="space-y-7">
               <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
-                I have loved photography for as long as I can remember. Growing
-                up, I was always the one holding the camera — drawn to laughter
-                among loved ones, sunlight filtering through the trees, and the
-                quiet in-between moments that didn&apos;t seem significant at
-                the time, but somehow became the most meaningful memories.
-                Capturing those moments became second nature to me.
+                Growing up, I was always the one holding the camera — drawn to
+                laughter among loved ones, sunlight filtering through the trees,
+                and the quiet in-between moments that didn&apos;t seem
+                significant at the time, but somehow became the most meaningful
+                memories. Capturing those moments became second nature to me.
               </p>
               <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
                 Life moves quickly. It&apos;s often the simplest, most
