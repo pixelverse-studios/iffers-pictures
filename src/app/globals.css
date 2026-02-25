@@ -7,8 +7,8 @@
 
 @theme inline {
   /* Typography */
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-dm-sans);
+  --font-heading: var(--font-italiana);
+  --font-body: var(--font-lora);
 
   /* Primary Brand Colors - Teal */
   --color-primary-50: #f0fdfa;

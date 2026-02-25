@@ -50,15 +50,25 @@ export function HeroMinimal() {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          Moments.
+          Your Story,
           <br />
-          <span className="text-gradient-teal">Preserved.</span>
+          <span className="text-gradient-teal">Beautifully Remembered</span>
         </h1>
+
+        {/* Subline */}
+        <p
+          className={cn(
+            "mt-6 text-lg text-[var(--text-muted)] italic transition-all duration-1000 delay-500",
+            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
+          because every special moment deserves to last forever
+        </p>
 
         {/* Location that fades in */}
         <p
           className={cn(
-            "mt-8 text-lg text-[var(--text-muted)] transition-all duration-1000 delay-700",
+            "mt-4 text-base text-[var(--text-muted)] transition-all duration-1000 delay-700",
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >

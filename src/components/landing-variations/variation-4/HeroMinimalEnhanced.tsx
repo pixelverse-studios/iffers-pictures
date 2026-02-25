@@ -58,11 +58,11 @@ export function HeroMinimalEnhanced() {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          Moments.
+          Your Story,
           <br />
-          <span className="text-[var(--teal)]">Preserved.</span>
+          <span className="text-[var(--teal)]">Beautifully Remembered</span>
         </h1>
-        <h2 className="text-3xl text-white italic">Every special moment deserves to last forever</h2>
+        <h2 className="text-xl text-white/80 italic mt-4">because every special moment deserves to last forever</h2>
 
         {/* Location */}
         <p

@@ -55,30 +55,30 @@ export function MeetIffer() {
             </span>
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold text-[var(--foreground)] mb-6">
-              Meet Iffer
+              Meet Jenn
             </h2>
 
             <div className="space-y-4 text-[var(--text-secondary)] text-lg leading-relaxed mb-8">
               <p>
-                Based in the heart of Cliffside Park, I&apos;ve spent the last five years
-                turning fleeting moments into lasting memories for families throughout
-                Bergen County.
+                I&apos;ve loved photography for as long as I can remember — always the one
+                holding the camera, drawn to the quiet in-between moments that somehow
+                become the most meaningful memories.
               </p>
               <p>
-                My approach is simple: I believe the best photographs come from genuine
-                connections. When you&apos;re comfortable, your true emotions shine through,
-                and that&apos;s when the magic happens.
+                In addition to photography, I&apos;m a middle school math teacher in Bergen
+                County. That experience has shaped my patience, my attention to detail,
+                and my ability to connect naturally with families and children.
               </p>
               <p>
-                Whether it&apos;s the tears of joy at an engagement or the laughter at a
-                baby shower, I&apos;m there to capture the moments you&apos;ll treasure forever.
+                My goal: to create timeless images that bring you back not just to how
+                it looked — but to how it felt.
               </p>
             </div>
 
             {/* Social links */}
             <div className="flex items-center gap-4 mb-8">
               <a
-                href="https://instagram.com/ifferspictures"
+                href={BUSINESS_INFO.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-full bg-[var(--teal)]/10 flex items-center justify-center text-[var(--teal)] hover:bg-[var(--teal)] hover:text-white transition-all duration-300"

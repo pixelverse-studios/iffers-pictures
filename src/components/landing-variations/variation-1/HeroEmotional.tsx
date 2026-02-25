@@ -56,13 +56,9 @@ export function HeroEmotional() {
 
           {/* Main headline */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-semibold text-[var(--foreground)] leading-[1.08] mb-8 animate-fade-in-up">
-            Every Moment
+            Your Story,
             <br />
-            <span className="relative inline-block">
-              <span className="text-gradient-teal">Deserves to be</span>
-            </span>
-            <br />
-            Remembered
+            <span className="text-gradient-teal">Beautifully Remembered</span>
           </h1>
 
           {/* Subheadline */}

@@ -40,15 +40,6 @@ export function ServicesHubCTA({ className }: ServicesHubCTAProps) {
                 Book a Free Consultation
               </Button>
             </Link>
-            <Link href="/pricing">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-white text-white hover:bg-white/10"
-              >
-                View Pricing
-              </Button>
-            </Link>
           </div>
         </div>
       </div>

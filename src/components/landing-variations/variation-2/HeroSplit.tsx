@@ -59,7 +59,7 @@ export function HeroSplit() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-semibold text-[var(--foreground)] leading-[1.1] mb-6">
               Your Story,
               <br />
-              <span className="text-gradient-teal">Beautifully Told</span>
+              <span className="text-gradient-teal">Beautifully Remembered</span>
             </h1>
 
             {/* Subheadline */}
