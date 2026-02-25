@@ -412,6 +412,14 @@ node scripts/install-hooks.js
 
 This installs a Git hook that automatically tracks deployments on `git push` to `main`.
 
+**Required environment variables in `.env.local`** (copy from `.env.example`):
+
+```
+PVS_WEBSITE_ID=   # Unique UUID for this site
+PVS_API_URL=      # PVS API endpoint (https://pvs-server-62hx7.ondigitalocean.app)
+PVS_BASE_URL=     # Production URL (https://ifferspictures.com)
+```
+
 ---
 
 ### Audit File Requirements
@@ -483,12 +491,13 @@ Page Section: [section name]
 
 When creating Linear tickets for this project:
 
-| Field    | Value                    |
-| -------- | ------------------------ |
-| Team     | Jennifer Matone          |
-| Assignee | `me`                     |
-| Project  | Launching Iffers Pics    |
-| Priority | Medium (3)               |
+| Field     | Value                    |
+| --------- | ------------------------ |
+| Team      | Development (`DEV`)      |
+| Assignee  | `me`                     |
+| Project   | Iffers Pics Site - 2026  |
+| Milestone | Launch                   |
+| Priority  | Medium (3)               |
 
 **Labels:** Apply relevant labels from these categories:
 
@@ -545,6 +554,10 @@ We are executing a **hyper-local, city-focused SEO strategy** to capture event p
 | Baby Shower          | baby-shower-photography     |
 | Bridal Shower        | bridal-shower-photography   |
 | Party/Event          | party-photography           |
+| Family               | family-photography          |
+| Headshots            | headshots                   |
+| Maternity            | maternity-photography       |
+| Baptism/Christening  | baptism-christening         |
 
 ### Key Implementation Requirements
 

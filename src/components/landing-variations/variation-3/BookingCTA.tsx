@@ -63,18 +63,6 @@ export function BookingCTA() {
                     <ArrowRight className="w-5 h-5" />
                   </Link>
 
-                  <Link
-                    href="/pricing"
-                    className={cn(
-                      "inline-flex items-center justify-center gap-2 font-medium",
-                      "rounded-full transition-all duration-200",
-                      "border-2 border-[var(--border)] text-[var(--foreground)]",
-                      "hover:border-[var(--teal)] hover:text-[var(--teal)]",
-                      "px-8 py-4 text-lg"
-                    )}
-                  >
-                    View Pricing
-                  </Link>
                 </div>
               </div>
 

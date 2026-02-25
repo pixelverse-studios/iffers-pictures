@@ -189,18 +189,6 @@ export default function ContactPage() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a
-                href="/pricing"
-                className={cn(
-                  "inline-flex items-center justify-center gap-2 font-medium",
-                  "rounded-full transition-all duration-200",
-                  "bg-[var(--teal)] text-white",
-                  "hover:bg-[var(--teal-dark)]",
-                  "px-6 py-3 text-base"
-                )}
-              >
-                View Pricing
-              </a>
-              <a
                 href="/services"
                 className={cn(
                   "inline-flex items-center justify-center gap-2 font-medium",

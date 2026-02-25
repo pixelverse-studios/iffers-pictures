@@ -5,9 +5,9 @@
 
 export const SITE_CONFIG = {
   name: "Iffer's Pictures",
-  tagline: "Capturing Your Unforgettable Moments",
+  tagline: "Your Story, Beautifully Remembered",
   description:
-    "Professional event photographer in Cliffside Park, NJ. Specializing in engagements, baby showers, bridal showers & parties. Serving Bergen County & Northern NJ.",
+    "Professional photographer in Cliffside Park, NJ. Specializing in engagements, baby showers, bridal showers, family portraits, maternity, headshots, baptisms & events. Serving Bergen County & Northern NJ.",
   url: "https://ifferspictures.com",
   ogImage: "/og-image.jpg",
 } as const;
@@ -166,8 +166,6 @@ export const NAV_LINKS = [
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "About", href: "/about" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -179,8 +177,7 @@ export const NAV_LINKS_LEFT = [
 ] as const;
 
 export const NAV_LINKS_RIGHT = [
-  { label: "Pricing", href: "/pricing" },
-  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export const FOOTER_LINKS = {
@@ -191,11 +188,9 @@ export const FOOTER_LINKS = {
   company: [
     { label: "About", href: "/about" },
     { label: "Portfolio", href: "/portfolio" },
-    { label: "Pricing", href: "/pricing" },
     { label: "Contact", href: "/contact" },
   ],
   resources: [
-    { label: "Blog", href: "/blog" },
     { label: "Service Areas", href: "/locations" },
     { label: "FAQ", href: "/faq" },
   ],
