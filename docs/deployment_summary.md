@@ -7,6 +7,7 @@
 - Added About page with Jennifer's full bio, stats, philosophy quote, and booking CTA
 - Updated homepage "Meet Jenn" section with Jennifer's real bio copy
 - Updated site tagline to "Your Story, Beautifully Remembered" across footer and metadata
+- Added Person schema (structured data) to About page for Google rich results
 
 ## Notes for internal team
 
@@ -15,6 +16,7 @@
 - DEV-319: Created /about page — AboutHero, AboutBio (5 paragraphs + stats + approach), AboutCTA components
 - DEV-320: Updated MeetIffer section — heading "Meet Iffer" → "Meet Jenn", replaced placeholder bio with real Jennifer content
 - DEV-321: Updated SITE_CONFIG.tagline → "Your Story, Beautifully Remembered"; description updated to cover all 8 services
+- DEV-322: Added PersonSchema component to /about page; added canonical URL to metadata
 
 ## Changed URLs
 
