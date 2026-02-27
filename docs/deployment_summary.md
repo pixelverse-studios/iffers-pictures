@@ -12,6 +12,13 @@
 - Removed Pricing and Blog pages from navigation, footer, and all site components
 - Updated homepage hero heading to "Heartfelt moments thoughtfully captured" and made the subtitle text larger for better readability
 - Moved trust stats (5-star reviews, Bergen County, 500+ events) from inside the hero to a clean anchor strip directly below it
+- Consolidated services from 8 categories down to 5: Events, Family, Milestones, Headshots, and Maternity — cleaner, more focused offering
+- Added a new Events service page covering engagement parties, bridal showers, baby showers, birthday parties, holiday gatherings, corporate events, and anniversaries
+- Added a new Milestones service page covering baby showers, baptisms, first birthdays, quinceañeras, graduations, anniversary parties, and gender reveals
+- Updated Family service page URL to /services/family (was /services/family-photography)
+- Updated Maternity service page URL to /services/maternity (was /services/maternity-photography)
+- Replaced the homepage services section with a compact, switchable layout — toggle between Grid, Scroll, and List views
+- Updated the site description and services page metadata to reflect the new 5-service offering
 
 ## Notes for internal team
 
@@ -25,8 +32,18 @@
 - Pricing/Blog removal: Removed from constants.ts (NAV_LINKS, NAV_LINKS_RIGHT, FOOTER_LINKS), sitemap.ts, CTASection.tsx, BookingCTA.tsx, BookingCTAEnhanced.tsx, ServicesHubCTA.tsx, contact/page.tsx
 - DEV-354: Updated H1 in HeroMinimalEnhanced.tsx; subtitle bumped text-xl → text-2xl
 - DEV-355: Removed TrustBadges from HeroMinimalEnhanced; created TrustBar.tsx; inserted after hero in variation-4/index.tsx
+- Created src/data/services/events.ts with full ServicePageData (hero, benefits, whatToExpect, gallery, testimonials, pricing, faq, cta, seo); registered in index.ts under slug "events"
+- Created src/data/services/milestones.ts with full ServicePageData for the Milestones service (slug: "milestones"); registered in index.ts; packages: Essentials $449 / Celebration $749 (popular) / Legacy $1,099
+- Services pruning: Updated constants.ts SERVICES array from 8 → 5 entries (events, family, milestones, headshots, maternity); updated serviceDataMap in index.ts; updated all layout component icon/variant maps (variation-2 ServicesScroll, variation-3 MomentsReveal, variation-4 IconGrid/HorizontalScroll/TwoColumnList); family slug: family-photography → family; maternity slug: maternity-photography → maternity
+- DEV-356: Created ServicesLayoutSwitcher with IconGrid, HorizontalScroll, TwoColumnList sub-layouts; updated variation-4/index.tsx
 
 ## Changed URLs
 
 - https://ifferspictures.com
 - https://ifferspictures.com/about
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/milestones
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/headshots

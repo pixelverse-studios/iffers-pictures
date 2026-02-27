@@ -7,7 +7,7 @@ export const SITE_CONFIG = {
   name: "Iffer's Pictures",
   tagline: "Your Story, Beautifully Remembered",
   description:
-    "Professional photographer in Cliffside Park, NJ. Specializing in engagements, baby showers, bridal showers, family portraits, maternity, headshots, baptisms & events. Serving Bergen County & Northern NJ.",
+    "Professional photographer in Cliffside Park, NJ. Specializing in event photography, family portraits, milestone celebrations, professional headshots & maternity. Serving Bergen County & Northern NJ.",
   url: "https://ifferspictures.com",
   ogImage: "/og-image.jpg",
 } as const;
@@ -44,53 +44,33 @@ export const BUSINESS_INFO = {
 
 export const SERVICES = [
   {
-    id: "engagement-photography",
-    name: "Engagement Photography",
-    shortName: "Engagements",
+    id: "events",
+    name: "Event Photography",
+    shortName: "Events",
     description:
-      "Celebrate your love story with stunning engagement photos that capture the joy and excitement of this special milestone.",
-    icon: "Heart",
-    slug: "engagement-photography",
-    featured: true,
-  },
-  {
-    id: "baby-shower-photography",
-    name: "Baby Shower Photography",
-    shortName: "Baby Showers",
-    description:
-      "Preserve the precious moments of welcoming your little one with beautiful baby shower photography.",
-    icon: "Baby",
-    slug: "baby-shower-photography",
-    featured: true,
-  },
-  {
-    id: "bridal-shower-photography",
-    name: "Bridal Shower Photography",
-    shortName: "Bridal Showers",
-    description:
-      "Document the celebration with the bride-to-be and her closest friends and family.",
-    icon: "Sparkles",
-    slug: "bridal-shower-photography",
-    featured: true,
-  },
-  {
-    id: "party-photography",
-    name: "Party & Event Photography",
-    shortName: "Parties & Events",
-    description:
-      "From birthdays to anniversaries, capture all the fun and festivities of your special celebration.",
+      "From engagement parties and bridal showers to birthdays and corporate gatherings — every celebration captured with energy and heart.",
     icon: "PartyPopper",
-    slug: "party-photography",
+    slug: "events",
     featured: true,
   },
   {
-    id: "family-photography",
+    id: "family",
     name: "Family Photography",
     shortName: "Family",
     description:
-      "Authentic family portraits that capture real connections and genuine moments.",
+      "Authentic family portraits that capture real connections, genuine laughter, and the bonds that make your family uniquely yours.",
     icon: "Users",
-    slug: "family-photography",
+    slug: "family",
+    featured: true,
+  },
+  {
+    id: "milestones",
+    name: "Milestone Photography",
+    shortName: "Milestones",
+    description:
+      "Baby showers, baptisms, first birthdays, quinceañeras, and life's most precious chapters — beautifully documented.",
+    icon: "Sparkles",
+    slug: "milestones",
     featured: true,
   },
   {
@@ -98,29 +78,19 @@ export const SERVICES = [
     name: "Professional Headshots",
     shortName: "Headshots",
     description:
-      "Polished headshots for LinkedIn, corporate profiles, and performers.",
+      "Polished headshots for LinkedIn, corporate profiles, and performers that make a lasting first impression.",
     icon: "User",
     slug: "headshots",
     featured: true,
   },
   {
-    id: "maternity-photography",
+    id: "maternity",
     name: "Maternity Photography",
     shortName: "Maternity",
     description:
-      "Celebrate the beauty of pregnancy with timeless, empowering portraits.",
+      "Timeless, empowering portraits that celebrate the beauty and joy of pregnancy — a chapter worth remembering.",
     icon: "Heart",
-    slug: "maternity-photography",
-    featured: true,
-  },
-  {
-    id: "baptism-christening-photography",
-    name: "Baptism & Christening Photography",
-    shortName: "Baptism",
-    description:
-      "Document this sacred milestone while you stay present in the moment.",
-    icon: "Church",
-    slug: "baptism-christening-photography",
+    slug: "maternity",
     featured: true,
   },
 ] as const;
