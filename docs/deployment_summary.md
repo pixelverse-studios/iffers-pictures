@@ -19,6 +19,7 @@
 - Updated Maternity service page URL to /services/maternity (was /services/maternity-photography)
 - Replaced the homepage services section with a compact, switchable layout — toggle between Grid, Cards, and List views
 - Updated the site description and services page metadata to reflect the new 5-service offering
+- Added a portfolio section to the homepage with 3 switchable layouts: Masonry (varied-height columns), Featured Grid (large hero image + 5 editorial satellites), and Filmstrip (full-bleed horizontal snap-scroll)
 
 ## Notes for internal team
 
@@ -35,7 +36,8 @@
 - Created src/data/services/events.ts with full ServicePageData (hero, benefits, whatToExpect, gallery, testimonials, pricing, faq, cta, seo); registered in index.ts under slug "events"
 - Created src/data/services/milestones.ts with full ServicePageData for the Milestones service (slug: "milestones"); registered in index.ts; packages: Essentials $449 / Celebration $749 (popular) / Legacy $1,099
 - Services pruning: Updated constants.ts SERVICES array from 8 → 5 entries (events, family, milestones, headshots, maternity); updated serviceDataMap in index.ts; updated all layout component icon/variant maps (variation-2 ServicesScroll, variation-3 MomentsReveal, variation-4 IconGrid/HorizontalScroll/TwoColumnList); family slug: family-photography → family; maternity slug: maternity-photography → maternity
-- DEV-356: Created ServicesLayoutSwitcher with IconGrid, HorizontalScroll, TwoColumnList sub-layouts; updated variation-4/index.tsx
+- DEV-356: Created ServicesLayoutSwitcher with IconGrid, BentoCards, TwoColumnList sub-layouts; updated variation-4/index.tsx
+- DEV-357: Created PortfolioLayoutSwitcher with Masonry, FeaturedGrid, Filmstrip sub-layouts; replaced PortfolioPreview in variation-4/index.tsx
 
 ## Changed URLs
 
