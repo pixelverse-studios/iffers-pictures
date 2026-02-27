@@ -11,22 +11,11 @@ export function AboutBio() {
         <div className="container">
 
           {/* Header with extending rule */}
-          <div className="flex items-center gap-6 mb-12 md:mb-16">
+          <div className="flex items-center gap-6 mb-10">
             <p className="text-[var(--teal)] font-medium tracking-[0.3em] uppercase text-xs shrink-0">
               My Story
             </p>
             <div className="h-px flex-1 bg-gradient-to-r from-[var(--teal)]/30 to-transparent" />
-          </div>
-
-          {/* Lede — photography origin story picks up from the hero intro */}
-          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-heading italic text-[var(--foreground)] leading-[1.2] max-w-3xl mb-10">
-            I have loved photography for as long as I can remember.
-          </p>
-
-          {/* Accent divider */}
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-0.5 bg-[var(--teal)]" />
-            <div className="w-1.5 h-1.5 rounded-full bg-[var(--teal)]/40" />
           </div>
 
           {/* Two-column body — newspaper article grid */}
@@ -49,17 +38,6 @@ export function AboutBio() {
             </div>
 
             <div className="space-y-7">
-              <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
-                In addition to being a photographer, I am a middle school math
-                teacher based in Bergen County, New Jersey. I spend my days
-                witnessing growth and change, which has given me an even deeper
-                appreciation for how fleeting time can be. Working with students
-                every day has shaped my patience, attention to detail, and
-                ability to connect naturally with families and children. I
-                understand how to anticipate moments, adapt quickly, and create
-                a calm, comfortable environment where people can truly be
-                themselves.
-              </p>
               <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
                 While I have recently found myself specializing in event and
                 family photography, I welcome the opportunity to capture all of

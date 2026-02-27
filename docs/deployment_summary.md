@@ -23,6 +23,11 @@
 - Moved the portfolio section above the services section on the homepage — work-first presentation to draw visitors in before listing offerings
 - Tightened the "Where We Work" section — reduced outer padding, card padding, grid gaps, and header spacing so it feels proportional alongside other sections
 - Added a theme switcher widget (bottom-left corner) for previewing 5 color palettes centered on the brand's signature green — Sage & Champagne, Sea Glass & Rose, Mint & Peach, Jade & Sand, Celery & Blush — plus font switching; available on every page
+- Removed "Math Teacher" from the About page hero tagline — now reads "Bergen County Event Photographer"
+- Removed the math teacher bio paragraph from the About page — the page now focuses entirely on Jennifer's photography identity
+- Removed the large italic opening line ("I have loved photography for as long as I can remember") from the About bio — the story now begins directly with the body paragraphs
+- Added a layout preview widget to the About page hero — toggle between 3 different header designs (Two-Column portrait, Text-Forward with small circular photo, Editorial with oversized typography) to help choose the final look
+- Created the Portfolio page with 4 switchable gallery layouts: Masonry (organic columns), Editorial Grid (hero + satellite magazine layout), Filmstrip (horizontal scroll rows by category), and Category Split (sidebar filter + reactive grid) — includes a floating switcher widget with visual layout diagrams
 
 ## Notes for internal team
 
@@ -44,6 +49,10 @@
 - DEV-358: Swapped ServicesLayoutSwitcher and PortfolioLayoutSwitcher render order in variation-4/index.tsx
 - DEV-359: ServiceAreasDisplay — section py-10/md:py-14 (was clamp 4–6rem), mb-8 header (was mb-16), p-5 cards (was p-8), gap-4 grid (was gap-8), mb-4 card headers (was mb-6), mt-6 footer link (was mt-10)
 - DEV-360: Created ThemeSwitcher.tsx — 5 palettes (Original, Soft Sage, Sea Glass, Warm Sand, Clean Slate), 3 heading + 9 body fonts, two-tab panel (Colors/Fonts), localStorage persistence; moved from page.tsx → layout.tsx for site-wide availability; FontSwitcher removed
+- DEV-362: AboutHero.tsx — tagline "Photographer · Math Teacher" → "Bergen County Event Photographer"; AboutBio.tsx — removed math teacher paragraph from right column
+- DEV-363: AboutBio.tsx — removed lede paragraph and accent divider; tightened section header spacing (mb-12/md:mb-16 → mb-10)
+- DEV-364: Created AboutHeroSwitcher component with 3 layout options (A: Refined Two-Column, B: Text-Forward circular avatar, C: Editorial oversized type); switcher pill strip persists selection in localStorage; replaced AboutHero with AboutHeroSwitcher on /about page
+- DEV-365: Created /portfolio page (page.tsx + hero + CTA); PortfolioSwitcher with 4 layouts: Masonry (16 items, 3-col), FeaturedGrid (hero+2×2+strip+landscape rows), Filmstrip (3 category rows, snap scroll), CategorySplit (bookmark sidebar + reactive grid); portfolioData.ts shared constants; localStorage key: iffers-portfolio-layout
 
 ## Changed URLs
 
@@ -55,3 +64,4 @@
 - https://ifferspictures.com/services/family
 - https://ifferspictures.com/services/maternity
 - https://ifferspictures.com/services/headshots
+- https://ifferspictures.com/portfolio
