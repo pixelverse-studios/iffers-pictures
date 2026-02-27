@@ -13,8 +13,8 @@ export function Variation4() {
     <>
       <HeroMinimalEnhanced />
       <TrustBar />
-      <ServicesLayoutSwitcher />
       <PortfolioLayoutSwitcher />
+      <ServicesLayoutSwitcher />
       <TestimonialsBlend />
       <ServiceAreasDisplay />
       <BookingCTAEnhanced />
