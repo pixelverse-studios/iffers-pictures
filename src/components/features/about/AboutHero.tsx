@@ -39,7 +39,7 @@ export function AboutHero() {
             </h1>
 
             <p className="text-base text-[var(--text-muted)] tracking-[0.15em] uppercase mb-8 font-medium">
-              Photographer &nbsp;&middot;&nbsp; Math Teacher
+              Bergen County Event Photographer
             </p>
 
             <p className="text-xl text-[var(--text-secondary)] leading-relaxed mb-10 max-w-md font-body italic">

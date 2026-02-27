@@ -50,17 +50,6 @@ export function AboutBio() {
 
             <div className="space-y-7">
               <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
-                In addition to being a photographer, I am a middle school math
-                teacher based in Bergen County, New Jersey. I spend my days
-                witnessing growth and change, which has given me an even deeper
-                appreciation for how fleeting time can be. Working with students
-                every day has shaped my patience, attention to detail, and
-                ability to connect naturally with families and children. I
-                understand how to anticipate moments, adapt quickly, and create
-                a calm, comfortable environment where people can truly be
-                themselves.
-              </p>
-              <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
                 While I have recently found myself specializing in event and
                 family photography, I welcome the opportunity to capture all of
                 life&apos;s meaningful moments. Whether it&apos;s a milestone
