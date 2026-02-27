@@ -12,6 +12,7 @@
 - Removed Pricing and Blog pages from navigation, footer, and all site components
 - Updated homepage hero heading to "Heartfelt moments thoughtfully captured" and made the subtitle text larger for better readability
 - Moved trust stats (5-star reviews, Bergen County, 500+ events) from inside the hero to a clean anchor strip directly below it
+- Replaced the tall services section with a compact, switchable layout — toggle between Icon Grid, Horizontal Scroll, and List views
 
 ## Notes for internal team
 
@@ -25,6 +26,7 @@
 - Pricing/Blog removal: Removed from constants.ts (NAV_LINKS, NAV_LINKS_RIGHT, FOOTER_LINKS), sitemap.ts, CTASection.tsx, BookingCTA.tsx, BookingCTAEnhanced.tsx, ServicesHubCTA.tsx, contact/page.tsx
 - DEV-354: Updated H1 in HeroMinimalEnhanced.tsx; subtitle bumped text-xl → text-2xl
 - DEV-355: Removed TrustBadges from HeroMinimalEnhanced; created TrustBar.tsx; inserted after hero in variation-4/index.tsx
+- DEV-356: Replaced ServicesCompact with ServicesLayoutSwitcher; created services-layouts/IconGrid, HorizontalScroll, TwoColumnList; segmented toggle control inline with section header
 
 ## Changed URLs
 
