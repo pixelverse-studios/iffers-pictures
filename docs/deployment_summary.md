@@ -27,6 +27,7 @@
 - Removed the math teacher bio paragraph from the About page — the page now focuses entirely on Jennifer's photography identity
 - Removed the large italic opening line ("I have loved photography for as long as I can remember") from the About bio — the story now begins directly with the body paragraphs
 - Added a layout preview widget to the About page hero — toggle between 3 different header designs (Two-Column portrait, Text-Forward with small circular photo, Editorial with oversized typography) to help choose the final look
+- Created the Portfolio page with 4 switchable gallery layouts: Masonry (organic columns), Editorial Grid (hero + satellite magazine layout), Filmstrip (horizontal scroll rows by category), and Category Split (sidebar filter + reactive grid) — includes a floating switcher widget with visual layout diagrams
 
 ## Notes for internal team
 
@@ -51,6 +52,7 @@
 - DEV-362: AboutHero.tsx — tagline "Photographer · Math Teacher" → "Bergen County Event Photographer"; AboutBio.tsx — removed math teacher paragraph from right column
 - DEV-363: AboutBio.tsx — removed lede paragraph and accent divider; tightened section header spacing (mb-12/md:mb-16 → mb-10)
 - DEV-364: Created AboutHeroSwitcher component with 3 layout options (A: Refined Two-Column, B: Text-Forward circular avatar, C: Editorial oversized type); switcher pill strip persists selection in localStorage; replaced AboutHero with AboutHeroSwitcher on /about page
+- DEV-365: Created /portfolio page (page.tsx + hero + CTA); PortfolioSwitcher with 4 layouts: Masonry (16 items, 3-col), FeaturedGrid (hero+2×2+strip+landscape rows), Filmstrip (3 category rows, snap scroll), CategorySplit (bookmark sidebar + reactive grid); portfolioData.ts shared constants; localStorage key: iffers-portfolio-layout
 
 ## Changed URLs
 
@@ -62,3 +64,4 @@
 - https://ifferspictures.com/services/family
 - https://ifferspictures.com/services/maternity
 - https://ifferspictures.com/services/headshots
+- https://ifferspictures.com/portfolio
