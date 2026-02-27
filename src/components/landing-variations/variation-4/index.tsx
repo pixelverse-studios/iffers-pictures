@@ -1,6 +1,7 @@
 "use client";
 
 import { HeroMinimalEnhanced } from "./HeroMinimalEnhanced";
+import { TrustBar } from "./TrustBar";
 import { ServicesCompact } from "./ServicesCompact";
 import { PortfolioPreview } from "../variation-1/PortfolioPreview";
 import { TestimonialsBlend } from "./TestimonialsBlend";
@@ -11,6 +12,7 @@ export function Variation4() {
   return (
     <>
       <HeroMinimalEnhanced />
+      <TrustBar />
       <ServicesCompact />
       <PortfolioPreview />
       <TestimonialsBlend />
