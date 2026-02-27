@@ -17,7 +17,7 @@
 - Added a new Milestones service page covering baby showers, baptisms, first birthdays, quinceañeras, graduations, anniversary parties, and gender reveals
 - Updated Family service page URL to /services/family (was /services/family-photography)
 - Updated Maternity service page URL to /services/maternity (was /services/maternity-photography)
-- Replaced the homepage services section with a compact, switchable layout — toggle between Grid, Scroll, and List views
+- Replaced the homepage services section with a compact, switchable layout — toggle between Grid, Cards, and List views
 - Updated the site description and services page metadata to reflect the new 5-service offering
 
 ## Notes for internal team

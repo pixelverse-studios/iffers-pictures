@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { LayoutGrid, ArrowRight, AlignJustify, ScrollText } from "lucide-react";
+import { LayoutGrid, ArrowRight, AlignJustify, LayoutTemplate } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IconGrid } from "./services-layouts/IconGrid";
-import { HorizontalScroll } from "./services-layouts/HorizontalScroll";
+import { BentoCards } from "./services-layouts/BentoCards";
 import { TwoColumnList } from "./services-layouts/TwoColumnList";
 
-type Layout = "grid" | "scroll" | "list";
+type Layout = "grid" | "cards" | "list";
 
 const LAYOUTS: { key: Layout; label: string; icon: React.ElementType }[] = [
   { key: "grid", label: "Grid", icon: LayoutGrid },
-  { key: "scroll", label: "Scroll", icon: ScrollText },
+  { key: "cards", label: "Cards", icon: LayoutTemplate },
   { key: "list", label: "List", icon: AlignJustify },
 ];
 
@@ -60,7 +60,7 @@ export function ServicesLayoutSwitcher() {
 
         {/* Active layout */}
         {activeLayout === "grid" && <IconGrid />}
-        {activeLayout === "scroll" && <HorizontalScroll />}
+        {activeLayout === "cards" && <BentoCards />}
         {activeLayout === "list" && <TwoColumnList />}
 
         {/* CTA */}
