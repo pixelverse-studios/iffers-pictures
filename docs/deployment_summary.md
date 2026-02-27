@@ -22,7 +22,7 @@
 - Added a portfolio section to the homepage with 3 switchable layouts: Masonry (varied-height columns), Featured Grid (large hero image + 5 editorial satellites), and Filmstrip (full-bleed horizontal snap-scroll)
 - Moved the portfolio section above the services section on the homepage — work-first presentation to draw visitors in before listing offerings
 - Tightened the "Where We Work" section — reduced outer padding, card padding, grid gaps, and header spacing so it feels proportional alongside other sections
-- Added a theme switcher widget (bottom-left corner) for previewing 5 warm color palettes (Blush & Champagne, Peach & Cream, Ivory & Mauve, Soft Blush, Lavender Cream) and switching between heading and body fonts — available on every page of the site
+- Added a theme switcher widget (bottom-left corner) for previewing 5 color palettes centered on the brand's signature green — Sage & Champagne, Sea Glass & Rose, Mint & Peach, Jade & Sand, Celery & Blush — plus font switching; available on every page
 
 ## Notes for internal team
 
