@@ -1,0 +1,513 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { Palette, Type, Heading, AlignLeft, ChevronUp, ChevronDown } from "lucide-react";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type PaletteOption = {
+  id: string;
+  name: string;
+  description: string;
+  primaryColor: string;
+  accentColor: string;
+  bgColor: string;
+  vars: Record<string, string>;
+};
+
+type FontOption = {
+  id: string;
+  name: string;
+  family: string;
+  weights: string;
+  description: string;
+};
+
+type MainTab = "colors" | "fonts";
+type FontTab = "heading" | "body";
+
+// ─── Palette Data ─────────────────────────────────────────────────────────────
+
+const PALETTES: PaletteOption[] = [
+  {
+    id: "sage-champagne",
+    name: "Sage & Champagne",
+    description: "Warm sage green, champagne gold, beeswax cream",
+    primaryColor: "#7a9e8e",
+    accentColor: "#c8a97a",
+    bgColor: "#faf7f2",
+    vars: {
+      "--teal": "#7a9e8e",
+      "--teal-light": "#9bbdae",
+      "--teal-dark": "#5b7f6f",
+      "--coral": "#c8a97a",
+      "--gold": "#c8a97a",
+      "--background": "#faf7f2",
+      "--background-warm": "#f2ebe0",
+      "--foreground": "#2a2a1e",
+      "--text-secondary": "#6b6b5a",
+      "--text-muted": "#9e9e8a",
+      "--border": "#ddd8cc",
+    },
+  },
+  {
+    id: "sea-glass-rose",
+    name: "Sea Glass & Rose",
+    description: "Cool seafoam teal, dusty rose, bleached linen",
+    primaryColor: "#5bada0",
+    accentColor: "#d4907a",
+    bgColor: "#faf8f5",
+    vars: {
+      "--teal": "#5bada0",
+      "--teal-light": "#7dc4b9",
+      "--teal-dark": "#3d8f83",
+      "--coral": "#d4907a",
+      "--gold": "#c8a97a",
+      "--background": "#faf8f5",
+      "--background-warm": "#f3ede6",
+      "--foreground": "#2e2420",
+      "--text-secondary": "#6e6560",
+      "--text-muted": "#a09898",
+      "--border": "#e0d8d0",
+    },
+  },
+  {
+    id: "mint-peach",
+    name: "Mint & Peach",
+    description: "Fresh bright mint, warm peach, porcelain white",
+    primaryColor: "#62bdb0",
+    accentColor: "#e8a98a",
+    bgColor: "#fdfaf7",
+    vars: {
+      "--teal": "#62bdb0",
+      "--teal-light": "#86d0c6",
+      "--teal-dark": "#449b90",
+      "--coral": "#e8a98a",
+      "--gold": "#d4a870",
+      "--background": "#fdfaf7",
+      "--background-warm": "#f6ede5",
+      "--foreground": "#281f1a",
+      "--text-secondary": "#7a6e68",
+      "--text-muted": "#a8a098",
+      "--border": "#ead8d0",
+    },
+  },
+  {
+    id: "jade-sand",
+    name: "Jade & Sand",
+    description: "Sun-bleached jade, sandy terracotta, desert ivory",
+    primaryColor: "#6ba898",
+    accentColor: "#c47b5a",
+    bgColor: "#faf6ef",
+    vars: {
+      "--teal": "#6ba898",
+      "--teal-light": "#8dc2b5",
+      "--teal-dark": "#4d8c7c",
+      "--coral": "#c47b5a",
+      "--gold": "#c8a060",
+      "--background": "#faf6ef",
+      "--background-warm": "#f0e5d5",
+      "--foreground": "#2c2018",
+      "--text-secondary": "#7a6858",
+      "--text-muted": "#a89888",
+      "--border": "#ddd0c0",
+    },
+  },
+  {
+    id: "celery-blush",
+    name: "Celery & Blush",
+    description: "Yellow-green celery, soft blush, rose-kissed cream",
+    primaryColor: "#7aaf96",
+    accentColor: "#d9a0a0",
+    bgColor: "#faf9f6",
+    vars: {
+      "--teal": "#7aaf96",
+      "--teal-light": "#9dc8b3",
+      "--teal-dark": "#5a9079",
+      "--coral": "#d9a0a0",
+      "--gold": "#c8b070",
+      "--background": "#faf9f6",
+      "--background-warm": "#f5edea",
+      "--foreground": "#26211f",
+      "--text-secondary": "#7a7068",
+      "--text-muted": "#a8a098",
+      "--border": "#e0d8d4",
+    },
+  },
+];
+
+// ─── Font Data (carried over from FontSwitcher) ────────────────────────────────
+
+const headingFonts: FontOption[] = [
+  { id: "italiana",         name: "Italiana",           family: "Italiana",           weights: "400",             description: "Elegant, high-fashion serif"       },
+  { id: "cormorant-heading",name: "Cormorant Garamond", family: "Cormorant Garamond", weights: "400;500;600;700", description: "Refined, light, sophisticated"     },
+  { id: "aboreto",          name: "Aboreto",             family: "Aboreto",             weights: "400",             description: "Artistic, uppercase display"       },
+];
+
+const bodyFonts: FontOption[] = [
+  { id: "raleway",       name: "Raleway",           family: "Raleway",           weights: "300;400;500;600;700", description: "Elegant sans-serif, great readability" },
+  { id: "questrial",     name: "Questrial",         family: "Questrial",         weights: "400",               description: "Clean, geometric sans-serif"           },
+  { id: "lato",          name: "Lato",              family: "Lato",              weights: "300;400;700",        description: "Warm, friendly sans-serif"              },
+  { id: "playfair",      name: "Playfair Display",  family: "Playfair Display",  weights: "400;500;600;700",   description: "Classic high-contrast serif"            },
+  { id: "cormorant-body",name: "Cormorant Garamond",family: "Cormorant Garamond",weights: "400;500;600;700",   description: "Refined, light serif"                   },
+  { id: "lora",          name: "Lora",              family: "Lora",              weights: "400;500;600;700",   description: "Contemporary with calligraphic roots"   },
+  { id: "libre",         name: "Libre Baskerville", family: "Libre Baskerville", weights: "400;700",           description: "Traditional, highly readable"           },
+  { id: "crimson",       name: "Crimson Pro",       family: "Crimson Pro",       weights: "400;500;600;700",   description: "Old-style serif, elegant"               },
+  { id: "spectral",      name: "Spectral",          family: "Spectral",          weights: "400;500;600;700",   description: "Modern display serif"                   },
+];
+
+// ─── localStorage keys ────────────────────────────────────────────────────────
+
+const LS_PALETTE       = "iffers-palette";
+const LS_FONT_HEADING  = "iffers-font-heading";
+const LS_FONT_BODY     = "iffers-font-body";
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function applyPalette(palette: PaletteOption) {
+  Object.entries(palette.vars).forEach(([key, value]) => {
+    document.documentElement.style.setProperty(key, value);
+  });
+}
+
+function applyHeadingFont(font: FontOption) {
+  document.documentElement.style.setProperty(
+    "--font-heading-override",
+    `"${font.family}", serif`
+  );
+}
+
+function applyBodyFont(font: FontOption) {
+  document.documentElement.style.setProperty(
+    "--font-body-override",
+    `"${font.family}", sans-serif`
+  );
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export function ThemeSwitcher() {
+  const [isExpanded, setIsExpanded]     = useState(false);
+  const [mainTab, setMainTab]           = useState<MainTab>("colors");
+  const [fontTab, setFontTab]           = useState<FontTab>("heading");
+  const [activePalette, setActivePalette] = useState(PALETTES[0]);
+  const [activeHeadingFont, setActiveHeadingFont] = useState(headingFonts[0]);
+  const [activeBodyFont, setActiveBodyFont]       = useState(bodyFonts[5]); // Lora default
+  const [fontsLoaded, setFontsLoaded]   = useState(false);
+
+  // Restore from localStorage + load all Google Fonts on mount
+  useEffect(() => {
+    const savedPaletteId = localStorage.getItem(LS_PALETTE);
+    const savedHeadingId  = localStorage.getItem(LS_FONT_HEADING);
+    const savedBodyId     = localStorage.getItem(LS_FONT_BODY);
+
+    if (savedPaletteId) {
+      const palette = PALETTES.find((p) => p.id === savedPaletteId);
+      if (palette) { setActivePalette(palette); applyPalette(palette); }
+    } else {
+      // Auto-apply the default palette so the homepage shows it fully rendered
+      applyPalette(PALETTES[0]);
+    }
+    if (savedHeadingId) {
+      const font = headingFonts.find((f) => f.id === savedHeadingId);
+      if (font) { setActiveHeadingFont(font); applyHeadingFont(font); }
+    }
+    if (savedBodyId) {
+      const font = bodyFonts.find((f) => f.id === savedBodyId);
+      if (font) { setActiveBodyFont(font); applyBodyFont(font); }
+    }
+
+    // Load all Google Fonts in a single request
+    const allFonts = [...headingFonts, ...bodyFonts];
+    const uniqueFamilies = new Map<string, FontOption>();
+    allFonts.forEach((f) => {
+      if (!uniqueFamilies.has(f.family)) {
+        uniqueFamilies.set(f.family, { ...f });
+      } else {
+        const existing = uniqueFamilies.get(f.family)!;
+        const merged = new Set([...existing.weights.split(";"), ...f.weights.split(";")]);
+        existing.weights = Array.from(merged).join(";");
+      }
+    });
+
+    const families = Array.from(uniqueFamilies.values())
+      .map((f) => `family=${f.family.replace(/ /g, "+")}:wght@${f.weights}`)
+      .join("&");
+
+    const link = document.createElement("link");
+    link.href = `https://fonts.googleapis.com/css2?${families}&display=swap`;
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+    link.onload = () => setFontsLoaded(true);
+
+    return () => { if (document.head.contains(link)) document.head.removeChild(link); };
+  }, []);
+
+  function handlePaletteChange(palette: PaletteOption) {
+    setActivePalette(palette);
+    applyPalette(palette);
+    localStorage.setItem(LS_PALETTE, palette.id);
+  }
+
+  function handleHeadingFontChange(font: FontOption) {
+    setActiveHeadingFont(font);
+    applyHeadingFont(font);
+    localStorage.setItem(LS_FONT_HEADING, font.id);
+  }
+
+  function handleBodyFontChange(font: FontOption) {
+    setActiveBodyFont(font);
+    applyBodyFont(font);
+    localStorage.setItem(LS_FONT_BODY, font.id);
+  }
+
+  const activeFontList   = fontTab === "heading" ? headingFonts : bodyFonts;
+  const activeFont       = fontTab === "heading" ? activeHeadingFont : activeBodyFont;
+  const handleFontChange = fontTab === "heading" ? handleHeadingFontChange : handleBodyFontChange;
+  const fontAccent       = fontTab === "heading" ? "coral" : "teal";
+
+  return (
+    <div className="fixed bottom-6 left-6 z-50">
+
+      {/* ── Expanded panel ─────────────────────────────────────────────── */}
+      <div
+        className={cn(
+          "absolute bottom-full left-0 mb-3 w-[300px]",
+          "bg-white rounded-2xl shadow-2xl border border-[var(--border)]",
+          "transition-all duration-300 origin-bottom-left overflow-hidden",
+          isExpanded
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 translate-y-2 pointer-events-none"
+        )}
+      >
+        {/* Panel header */}
+        <div className="px-4 pt-4 pb-3 border-b border-[var(--border)]">
+          <h3 className="font-heading font-semibold text-[var(--foreground)] text-sm leading-none">
+            Theme Preview
+          </h3>
+          <p className="text-[11px] text-[var(--text-muted)] mt-1">
+            Explore colors and typography live
+          </p>
+        </div>
+
+        {/* Main tabs: Colors / Fonts */}
+        <div className="flex border-b border-[var(--border)]">
+          {(["colors", "fonts"] as MainTab[]).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setMainTab(tab)}
+              className={cn(
+                "flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium capitalize transition-colors",
+                mainTab === tab
+                  ? tab === "colors"
+                    ? "text-[var(--teal)] border-b-2 border-[var(--teal)] bg-[var(--teal)]/5"
+                    : "text-[var(--coral)] border-b-2 border-[var(--coral)] bg-[var(--coral)]/5"
+                  : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
+              )}
+            >
+              {tab === "colors" ? <Palette className="w-3.5 h-3.5" /> : <Type className="w-3.5 h-3.5" />}
+              {tab === "colors" ? "Colors" : "Fonts"}
+            </button>
+          ))}
+        </div>
+
+        {/* ── Colors tab ───────────────────────────────────────────────── */}
+        {mainTab === "colors" && (
+          <div className="p-2.5 max-h-[54vh] overflow-y-auto">
+            <div className="flex flex-col gap-1.5">
+              {PALETTES.map((palette) => {
+                const isActive = activePalette.id === palette.id;
+                return (
+                  <button
+                    key={palette.id}
+                    onClick={() => handlePaletteChange(palette)}
+                    className={cn(
+                      "w-full px-3 py-2.5 rounded-xl text-left transition-all duration-200 border",
+                      isActive
+                        ? "border-[var(--teal)] bg-[var(--teal)]/5"
+                        : "border-transparent hover:bg-[var(--background-warm)] hover:border-[var(--border)]"
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      {/* 3 color chips */}
+                      <div className="flex items-center gap-0.5 shrink-0">
+                        <div
+                          className="w-4 h-4 rounded-full shadow-sm border border-black/5"
+                          style={{ background: palette.primaryColor }}
+                        />
+                        <div
+                          className="w-4 h-4 rounded-full shadow-sm border border-black/5"
+                          style={{ background: palette.accentColor }}
+                        />
+                        <div
+                          className="w-4 h-4 rounded-full shadow-sm border border-black/10"
+                          style={{ background: palette.bgColor }}
+                        />
+                      </div>
+                      {/* Name + description */}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[11px] font-semibold text-[var(--foreground)]">
+                            {palette.name}
+                          </span>
+                          {isActive && (
+                            <span className="text-[9px] px-1.5 py-px rounded-full bg-[var(--teal)] text-white leading-none">
+                              Active
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-[var(--text-muted)] mt-0.5 truncate">
+                          {palette.description}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ── Fonts tab ────────────────────────────────────────────────── */}
+        {mainTab === "fonts" && (
+          <>
+            {/* Font sub-tabs */}
+            <div className="flex border-b border-[var(--border)]">
+              <button
+                onClick={() => setFontTab("heading")}
+                className={cn(
+                  "flex-1 flex items-center justify-center gap-1 py-2 text-[10px] font-medium transition-colors",
+                  fontTab === "heading"
+                    ? "text-[var(--coral)] border-b-2 border-[var(--coral)] bg-[var(--coral)]/5"
+                    : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
+                )}
+              >
+                <Heading className="w-3 h-3" />
+                Headings
+              </button>
+              <button
+                onClick={() => setFontTab("body")}
+                className={cn(
+                  "flex-1 flex items-center justify-center gap-1 py-2 text-[10px] font-medium transition-colors",
+                  fontTab === "body"
+                    ? "text-[var(--teal)] border-b-2 border-[var(--teal)] bg-[var(--teal)]/5"
+                    : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
+                )}
+              >
+                <AlignLeft className="w-3 h-3" />
+                Body
+              </button>
+            </div>
+
+            {/* Font list */}
+            <div className="p-2 max-h-[48vh] overflow-y-auto">
+              {activeFontList.map((font) => {
+                const isActive = activeFont.id === font.id;
+                return (
+                  <button
+                    key={font.id}
+                    onClick={() => handleFontChange(font)}
+                    className={cn(
+                      "w-full p-3 rounded-xl text-left transition-all duration-200",
+                      isActive
+                        ? `bg-[var(--${fontAccent})]/10 border-l-2 border-[var(--${fontAccent})]`
+                        : "hover:bg-[var(--background-warm)]"
+                    )}
+                  >
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex items-center justify-between">
+                        <span
+                          className={cn(
+                            "text-base font-semibold",
+                            isActive ? `text-[var(--${fontAccent})]` : "text-[var(--foreground)]"
+                          )}
+                          style={{
+                            fontFamily: fontsLoaded
+                              ? `"${font.family}", ${fontTab === "heading" ? "serif" : "sans-serif"}`
+                              : "inherit",
+                          }}
+                        >
+                          {font.name}
+                        </span>
+                        {isActive && (
+                          <span className={cn(
+                            "text-[9px] px-1.5 py-px rounded-full leading-none",
+                            `bg-[var(--${fontAccent})] text-white`
+                          )}>
+                            Active
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[10px] text-[var(--text-muted)]">{font.description}</p>
+                      {/* Preview text */}
+                      <p
+                        className={cn(
+                          "mt-1 leading-snug",
+                          fontTab === "heading" ? "text-lg" : "text-xs text-[var(--text-secondary)]"
+                        )}
+                        style={{
+                          fontFamily: fontsLoaded
+                            ? `"${font.family}", ${fontTab === "heading" ? "serif" : "sans-serif"}`
+                            : "inherit",
+                        }}
+                      >
+                        {fontTab === "heading"
+                          ? "Iffer's Pictures"
+                          : "Capturing life's beautiful moments with artistry and heart."}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {/* Footer — current selection summary */}
+        <div className="px-3 py-2.5 border-t border-[var(--border)] bg-[var(--background-warm)]/60">
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Palette dot + name */}
+            <div className="flex items-center gap-1.5">
+              <div
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ background: activePalette.primaryColor }}
+              />
+              <span className="text-[10px] font-medium text-[var(--foreground)]">
+                {activePalette.name}
+              </span>
+            </div>
+            <span className="text-[10px] text-[var(--border)]">·</span>
+            <span className="text-[10px] text-[var(--text-muted)]">
+              <strong className="text-[var(--coral)]">H:</strong> {activeHeadingFont.name}
+            </span>
+            <span className="text-[10px] text-[var(--border)]">·</span>
+            <span className="text-[10px] text-[var(--text-muted)]">
+              <strong className="text-[var(--teal)]">B:</strong> {activeBodyFont.name}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Toggle button ──────────────────────────────────────────────── */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className={cn(
+          "flex items-center gap-2.5 px-4 py-2.5 rounded-full",
+          "bg-[var(--foreground)] text-white",
+          "shadow-lg hover:opacity-90 transition-all duration-200",
+          "focus:outline-none focus:ring-2 focus:ring-[var(--foreground)] focus:ring-offset-2"
+        )}
+      >
+        {/* Live palette preview dots */}
+        <div className="flex items-center gap-0.5">
+          <div className="w-2 h-2 rounded-full" style={{ background: activePalette.primaryColor }} />
+          <div className="w-2 h-2 rounded-full" style={{ background: activePalette.accentColor }} />
+        </div>
+        <span className="text-sm font-medium">Theme</span>
+        {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+      </button>
+
+    </div>
+  );
+}

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { VariationSwitcher, VariationType } from "@/components/landing-variations/VariationSwitcher";
-import { FontSwitcher } from "@/components/FontSwitcher";
 import { Variation1 } from "@/components/landing-variations/variation-1";
 import { Variation2 } from "@/components/landing-variations/variation-2";
 import { Variation3 } from "@/components/landing-variations/variation-3";
@@ -25,8 +24,6 @@ export default function HomePage() {
         onVariationChange={setActiveVariation}
       /> */}
 
-      {/* Font switcher for client preview */}
-      <FontSwitcher />
     </>
   );
 }

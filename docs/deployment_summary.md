@@ -22,6 +22,7 @@
 - Added a portfolio section to the homepage with 3 switchable layouts: Masonry (varied-height columns), Featured Grid (large hero image + 5 editorial satellites), and Filmstrip (full-bleed horizontal snap-scroll)
 - Moved the portfolio section above the services section on the homepage — work-first presentation to draw visitors in before listing offerings
 - Tightened the "Where We Work" section — reduced outer padding, card padding, grid gaps, and header spacing so it feels proportional alongside other sections
+- Added a theme switcher widget (bottom-left corner) for previewing 5 color palettes centered on the brand's signature green — Sage & Champagne, Sea Glass & Rose, Mint & Peach, Jade & Sand, Celery & Blush — plus font switching; available on every page
 
 ## Notes for internal team
 
@@ -42,6 +43,7 @@
 - DEV-357: Created PortfolioLayoutSwitcher with Masonry, FeaturedGrid, Filmstrip sub-layouts; replaced PortfolioPreview in variation-4/index.tsx
 - DEV-358: Swapped ServicesLayoutSwitcher and PortfolioLayoutSwitcher render order in variation-4/index.tsx
 - DEV-359: ServiceAreasDisplay — section py-10/md:py-14 (was clamp 4–6rem), mb-8 header (was mb-16), p-5 cards (was p-8), gap-4 grid (was gap-8), mb-4 card headers (was mb-6), mt-6 footer link (was mt-10)
+- DEV-360: Created ThemeSwitcher.tsx — 5 palettes (Original, Soft Sage, Sea Glass, Warm Sand, Clean Slate), 3 heading + 9 body fonts, two-tab panel (Colors/Fonts), localStorage persistence; moved from page.tsx → layout.tsx for site-wide availability; FontSwitcher removed
 
 ## Changed URLs
 

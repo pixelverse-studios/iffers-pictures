@@ -4,6 +4,7 @@ import "./globals.css";
 import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 const italiana = Italiana({
   variable: "--font-italiana",
@@ -94,6 +95,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ThemeSwitcher />
       </body>
     </html>
   );
