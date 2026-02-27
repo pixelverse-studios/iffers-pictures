@@ -25,6 +25,7 @@
 - Added a theme switcher widget (bottom-left corner) for previewing 5 color palettes centered on the brand's signature green — Sage & Champagne, Sea Glass & Rose, Mint & Peach, Jade & Sand, Celery & Blush — plus font switching; available on every page
 - Removed "Math Teacher" from the About page hero tagline — now reads "Bergen County Event Photographer"
 - Removed the math teacher bio paragraph from the About page — the page now focuses entirely on Jennifer's photography identity
+- Removed the large italic opening line ("I have loved photography for as long as I can remember") from the About bio — the story now begins directly with the body paragraphs
 
 ## Notes for internal team
 
@@ -47,6 +48,7 @@
 - DEV-359: ServiceAreasDisplay — section py-10/md:py-14 (was clamp 4–6rem), mb-8 header (was mb-16), p-5 cards (was p-8), gap-4 grid (was gap-8), mb-4 card headers (was mb-6), mt-6 footer link (was mt-10)
 - DEV-360: Created ThemeSwitcher.tsx — 5 palettes (Original, Soft Sage, Sea Glass, Warm Sand, Clean Slate), 3 heading + 9 body fonts, two-tab panel (Colors/Fonts), localStorage persistence; moved from page.tsx → layout.tsx for site-wide availability; FontSwitcher removed
 - DEV-362: AboutHero.tsx — tagline "Photographer · Math Teacher" → "Bergen County Event Photographer"; AboutBio.tsx — removed math teacher paragraph from right column
+- DEV-363: AboutBio.tsx — removed lede paragraph and accent divider; tightened section header spacing (mb-12/md:mb-16 → mb-10)
 
 ## Changed URLs
 
