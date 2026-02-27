@@ -3,35 +3,26 @@
  */
 
 export * from "./types";
-export { engagementData } from "./engagement";
-export { babyShowerData } from "./baby-shower";
-export { bridalShowerData } from "./bridal-shower";
-export { partyData } from "./party";
+export { eventsData } from "./events";
 export { familyData } from "./family";
+export { milestonesData } from "./milestones";
 export { headshotsData } from "./headshots";
 export { maternityData } from "./maternity";
-export { baptismChristeningData } from "./baptism-christening";
 
 import { ServicePageData } from "./types";
-import { engagementData } from "./engagement";
-import { babyShowerData } from "./baby-shower";
-import { bridalShowerData } from "./bridal-shower";
-import { partyData } from "./party";
+import { eventsData } from "./events";
 import { familyData } from "./family";
+import { milestonesData } from "./milestones";
 import { headshotsData } from "./headshots";
 import { maternityData } from "./maternity";
-import { baptismChristeningData } from "./baptism-christening";
 
 // Map service slugs to their data
 export const serviceDataMap: Record<string, ServicePageData> = {
-  "engagement-photography": engagementData,
-  "baby-shower-photography": babyShowerData,
-  "bridal-shower-photography": bridalShowerData,
-  "party-photography": partyData,
-  "family-photography": familyData,
-  "headshots": headshotsData,
-  "maternity-photography": maternityData,
-  "baptism-christening-photography": baptismChristeningData,
+  events: eventsData,
+  family: familyData,
+  milestones: milestonesData,
+  headshots: headshotsData,
+  maternity: maternityData,
 };
 
 // Get service data by slug

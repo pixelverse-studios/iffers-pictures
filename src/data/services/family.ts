@@ -6,7 +6,7 @@
 import { ServicePageData } from "./types";
 
 export const familyData: ServicePageData = {
-  slug: "family-photography",
+  slug: "family",
 
   // Hero Section
   hero: {
@@ -220,6 +220,7 @@ export const familyData: ServicePageData = {
       "family photos North Bergen NJ",
       "family portraits Palisades Park NJ",
       "outdoor family photography Northern NJ",
+      "family photographer near me Bergen County",
     ],
   },
 };

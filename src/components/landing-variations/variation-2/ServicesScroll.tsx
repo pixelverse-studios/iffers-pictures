@@ -2,22 +2,24 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Heart, Baby, Sparkles, PartyPopper, ArrowRight } from "lucide-react";
+import { Heart, Sparkles, PartyPopper, Users, User, ArrowRight } from "lucide-react";
 import { ImagePlaceholder } from "../shared/ImagePlaceholder";
 import { SERVICES } from "@/lib/constants";
 
 const iconMap: Record<string, React.ElementType> = {
   Heart,
-  Baby,
   Sparkles,
   PartyPopper,
+  Users,
+  User,
 };
 
 const variantMap: Record<string, "teal" | "coral" | "warm" | "gradient"> = {
-  "engagement-photography": "teal",
-  "baby-shower-photography": "coral",
-  "bridal-shower-photography": "warm",
-  "party-photography": "gradient",
+  events: "coral",
+  family: "teal",
+  milestones: "warm",
+  headshots: "gradient",
+  maternity: "coral",
 };
 
 export function ServicesScroll() {

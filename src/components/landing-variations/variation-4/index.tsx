@@ -1,8 +1,9 @@
 "use client";
 
 import { HeroMinimalEnhanced } from "./HeroMinimalEnhanced";
-import { ServicesCompact } from "./ServicesCompact";
-import { PortfolioPreview } from "../variation-1/PortfolioPreview";
+import { TrustBar } from "./TrustBar";
+import { ServicesLayoutSwitcher } from "./ServicesLayoutSwitcher";
+import { PortfolioLayoutSwitcher } from "./PortfolioLayoutSwitcher";
 import { TestimonialsBlend } from "./TestimonialsBlend";
 import { ServiceAreasDisplay } from "../variation-1/ServiceAreasDisplay";
 import { BookingCTAEnhanced } from "./BookingCTAEnhanced";
@@ -11,8 +12,9 @@ export function Variation4() {
   return (
     <>
       <HeroMinimalEnhanced />
-      <ServicesCompact />
-      <PortfolioPreview />
+      <TrustBar />
+      <PortfolioLayoutSwitcher />
+      <ServicesLayoutSwitcher />
       <TestimonialsBlend />
       <ServiceAreasDisplay />
       <BookingCTAEnhanced />
@@ -21,6 +23,6 @@ export function Variation4() {
 }
 
 export { HeroMinimalEnhanced } from "./HeroMinimalEnhanced";
-export { ServicesCompact } from "./ServicesCompact";
+export { ServicesLayoutSwitcher } from "./ServicesLayoutSwitcher";
 export { TestimonialsBlend } from "./TestimonialsBlend";
 export { BookingCTAEnhanced } from "./BookingCTAEnhanced";

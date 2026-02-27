@@ -11,23 +11,23 @@ import {
 } from "@/components/features/services-hub";
 
 export const metadata: Metadata = {
-  title: "Event & Portrait Photography Services | Iffer's Pictures | Bergen County NJ",
+  title: "Photography Services | Iffer's Pictures | Bergen County NJ",
   description:
-    "Professional photography services in Bergen County, NJ. Specializing in engagements, baby showers, bridal showers, family portraits, maternity, headshots & events. Serving Cliffside Park, Fort Lee & Northern NJ.",
+    "Professional photography services in Bergen County, NJ. Event photography, family portraits, milestone celebrations, professional headshots & maternity. Serving Cliffside Park, Fort Lee & Northern NJ.",
   keywords: [
     "event photographer Bergen County NJ",
-    "portrait photography Northern NJ",
-    "engagement photographer Fort Lee NJ",
-    "baby shower photographer Cliffside Park",
-    "bridal shower photography Bergen County",
     "family photographer Northern NJ",
+    "milestone photography Bergen County NJ",
     "professional headshots NJ",
     "maternity photography Bergen County",
+    "portrait photography Cliffside Park NJ",
+    "photographer Fort Lee NJ",
+    "Bergen County NJ photographer",
   ],
   openGraph: {
-    title: "Event & Portrait Photography Services | Iffer's Pictures",
+    title: "Photography Services | Iffer's Pictures",
     description:
-      "Professional photography for engagements, baby showers, bridal showers, family portraits & more in Bergen County, NJ.",
+      "Professional event photography, family portraits, milestone celebrations, headshots & maternity in Bergen County, NJ.",
     type: "website",
     url: `${SITE_CONFIG.url}/services`,
     images: [
@@ -41,9 +41,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Event & Portrait Photography Services | Iffer's Pictures",
+    title: "Photography Services | Iffer's Pictures",
     description:
-      "Professional photography for engagements, baby showers, bridal showers, family portraits & more in Bergen County, NJ.",
+      "Professional event photography, family portraits, milestone celebrations, headshots & maternity in Bergen County, NJ.",
   },
 };
 

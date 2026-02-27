@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Camera, ChevronDown, ArrowRight } from "lucide-react";
-import { TrustBadges } from "../shared/TrustBadges";
 import { BUSINESS_INFO } from "@/lib/constants";
 
 export function HeroMinimalEnhanced() {
@@ -58,11 +57,11 @@ export function HeroMinimalEnhanced() {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          Your Story,
+          Heartfelt moments
           <br />
-          <span className="text-[var(--teal)]">Beautifully Remembered</span>
+          <span className="text-[var(--teal)]">thoughtfully captured</span>
         </h1>
-        <h2 className="text-xl text-white/80 italic mt-4">because every special moment deserves to last forever</h2>
+        <h2 className="text-2xl text-white/80 italic mt-4">because every special moment deserves to last forever</h2>
 
         {/* Location */}
         <p
@@ -97,15 +96,6 @@ export function HeroMinimalEnhanced() {
           </Link>
         </div>
 
-        {/* Trust badges - fade in last */}
-        <div
-          className={cn(
-            "mt-12 transition-all duration-1000 delay-1000",
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          )}
-        >
-          <TrustBadges layout="horizontal" variant="light" />
-        </div>
       </div>
 
       {/* Scroll indicator */}

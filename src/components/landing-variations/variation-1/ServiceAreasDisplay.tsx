@@ -7,7 +7,7 @@ import { SERVICE_AREAS } from "@/lib/constants";
 
 export function ServiceAreasDisplay() {
   return (
-    <section className="section bg-[var(--foreground)] text-white overflow-hidden">
+    <section className="py-10 md:py-14 bg-[var(--foreground)] text-white overflow-hidden">
       <div className="container relative">
         {/* Decorative map-like background */}
         <div className="absolute inset-0 opacity-5">
@@ -22,11 +22,11 @@ export function ServiceAreasDisplay() {
 
         {/* Content */}
         <div className="relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-8">
             <span className="text-[var(--teal-light)] font-medium tracking-wide uppercase text-sm mb-4 block">
               Where We Work
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold leading-tight mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold leading-tight mb-4">
               Serving Bergen County & Beyond
             </h2>
             <p className="text-neutral-400 text-lg">
@@ -36,10 +36,10 @@ export function ServiceAreasDisplay() {
           </div>
 
           {/* Areas grid */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4">
             {/* Primary areas */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <div className="flex items-center gap-3 mb-6">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10">
+              <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-[var(--teal)] flex items-center justify-center">
                   <MapPin className="w-5 h-5 text-white" />
                 </div>
@@ -70,8 +70,8 @@ export function ServiceAreasDisplay() {
             </div>
 
             {/* Secondary areas */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <h3 className="text-lg font-medium text-neutral-400 mb-6">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10">
+              <h3 className="text-lg font-medium text-neutral-400 mb-4">
                 Also Serving
               </h3>
 
@@ -90,7 +90,7 @@ export function ServiceAreasDisplay() {
           </div>
 
           {/* View all locations link */}
-          <div className="text-center mt-10">
+          <div className="text-center mt-6">
             <Link
               href="/locations"
               className="inline-flex items-center gap-2 text-[var(--teal-light)] font-medium hover:gap-3 transition-all duration-300"
