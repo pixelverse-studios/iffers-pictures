@@ -3,7 +3,7 @@
 import { HeroMinimalEnhanced } from "./HeroMinimalEnhanced";
 import { TrustBar } from "./TrustBar";
 import { ServicesLayoutSwitcher } from "./ServicesLayoutSwitcher";
-import { PortfolioPreview } from "../variation-1/PortfolioPreview";
+import { PortfolioLayoutSwitcher } from "./PortfolioLayoutSwitcher";
 import { TestimonialsBlend } from "./TestimonialsBlend";
 import { ServiceAreasDisplay } from "../variation-1/ServiceAreasDisplay";
 import { BookingCTAEnhanced } from "./BookingCTAEnhanced";
@@ -14,7 +14,7 @@ export function Variation4() {
       <HeroMinimalEnhanced />
       <TrustBar />
       <ServicesLayoutSwitcher />
-      <PortfolioPreview />
+      <PortfolioLayoutSwitcher />
       <TestimonialsBlend />
       <ServiceAreasDisplay />
       <BookingCTAEnhanced />
