@@ -2,7 +2,7 @@
 
 import { HeroMinimalEnhanced } from "./HeroMinimalEnhanced";
 import { TrustBar } from "./TrustBar";
-import { ServicesCompact } from "./ServicesCompact";
+import { ServicesLayoutSwitcher } from "./ServicesLayoutSwitcher";
 import { PortfolioPreview } from "../variation-1/PortfolioPreview";
 import { TestimonialsBlend } from "./TestimonialsBlend";
 import { ServiceAreasDisplay } from "../variation-1/ServiceAreasDisplay";
@@ -13,7 +13,7 @@ export function Variation4() {
     <>
       <HeroMinimalEnhanced />
       <TrustBar />
-      <ServicesCompact />
+      <ServicesLayoutSwitcher />
       <PortfolioPreview />
       <TestimonialsBlend />
       <ServiceAreasDisplay />
@@ -23,6 +23,6 @@ export function Variation4() {
 }
 
 export { HeroMinimalEnhanced } from "./HeroMinimalEnhanced";
-export { ServicesCompact } from "./ServicesCompact";
+export { ServicesLayoutSwitcher } from "./ServicesLayoutSwitcher";
 export { TestimonialsBlend } from "./TestimonialsBlend";
 export { BookingCTAEnhanced } from "./BookingCTAEnhanced";
