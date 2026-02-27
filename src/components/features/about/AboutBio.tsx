@@ -11,22 +11,11 @@ export function AboutBio() {
         <div className="container">
 
           {/* Header with extending rule */}
-          <div className="flex items-center gap-6 mb-12 md:mb-16">
+          <div className="flex items-center gap-6 mb-10">
             <p className="text-[var(--teal)] font-medium tracking-[0.3em] uppercase text-xs shrink-0">
               My Story
             </p>
             <div className="h-px flex-1 bg-gradient-to-r from-[var(--teal)]/30 to-transparent" />
-          </div>
-
-          {/* Lede — photography origin story picks up from the hero intro */}
-          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-heading italic text-[var(--foreground)] leading-[1.2] max-w-3xl mb-10">
-            I have loved photography for as long as I can remember.
-          </p>
-
-          {/* Accent divider */}
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-0.5 bg-[var(--teal)]" />
-            <div className="w-1.5 h-1.5 rounded-full bg-[var(--teal)]/40" />
           </div>
 
           {/* Two-column body — newspaper article grid */}
