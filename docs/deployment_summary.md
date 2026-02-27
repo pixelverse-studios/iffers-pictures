@@ -26,6 +26,7 @@
 - Removed "Math Teacher" from the About page hero tagline — now reads "Bergen County Event Photographer"
 - Removed the math teacher bio paragraph from the About page — the page now focuses entirely on Jennifer's photography identity
 - Removed the large italic opening line ("I have loved photography for as long as I can remember") from the About bio — the story now begins directly with the body paragraphs
+- Added a layout preview widget to the About page hero — toggle between 3 different header designs (Two-Column portrait, Text-Forward with small circular photo, Editorial with oversized typography) to help choose the final look
 
 ## Notes for internal team
 
@@ -49,6 +50,7 @@
 - DEV-360: Created ThemeSwitcher.tsx — 5 palettes (Original, Soft Sage, Sea Glass, Warm Sand, Clean Slate), 3 heading + 9 body fonts, two-tab panel (Colors/Fonts), localStorage persistence; moved from page.tsx → layout.tsx for site-wide availability; FontSwitcher removed
 - DEV-362: AboutHero.tsx — tagline "Photographer · Math Teacher" → "Bergen County Event Photographer"; AboutBio.tsx — removed math teacher paragraph from right column
 - DEV-363: AboutBio.tsx — removed lede paragraph and accent divider; tightened section header spacing (mb-12/md:mb-16 → mb-10)
+- DEV-364: Created AboutHeroSwitcher component with 3 layout options (A: Refined Two-Column, B: Text-Forward circular avatar, C: Editorial oversized type); switcher pill strip persists selection in localStorage; replaced AboutHero with AboutHeroSwitcher on /about page
 
 ## Changed URLs
 
