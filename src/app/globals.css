@@ -126,6 +126,14 @@
   /* Borders */
   --border: #e5e7eb;
 
+  /* Footer */
+  --footer-bg: #6b6b5a;
+
+  /* Hero Gradient */
+  --hero-from: #e6d1b8;
+  --hero-via: #bfd6c6;
+  --hero-to: #bcc3cc;
+
   /* Header Height */
   --header-height: 6rem;
   --header-height-scrolled: 5rem;
@@ -140,8 +148,8 @@ html {
 }
 
 .hero {
-  background: #e6d1b8;
-background: linear-gradient(45deg, rgba(230, 209, 184, 1) 0%, rgba(191, 214, 198, 1) 50%, rgba(188, 195, 204, 1) 100%);
+  background: var(--hero-from);
+  background: linear-gradient(45deg, var(--hero-from) 0%, var(--hero-via) 50%, var(--hero-to) 100%);
 }
 
 body {
@@ -435,9 +443,11 @@ h1, h2, h3, h4, h5, h6,
    Link Styles
    ============================================ */
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .link-teal {

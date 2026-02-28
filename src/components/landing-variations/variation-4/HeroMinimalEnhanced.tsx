@@ -30,7 +30,12 @@ export function HeroMinimalEnhanced() {
       {/* <div className="absolute inset-0 bg-black/50" /> */}
 
       {/* Ambient gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-[rgba(230,209,184,1)] via-[rgba(191,214,198,1)] to-[rgba(188,195,204,1)]">
+      <div
+        className="absolute inset-0 transition-[background] duration-700 ease-in-out"
+        style={{
+          background: `linear-gradient(to top right, var(--hero-from), var(--hero-via), var(--hero-to))`,
+        }}
+      >
         {/* <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[var(--teal)]/10 rounded-full blur-[100px] animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[var(--coral)]/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "-2s" }} /> */}
       </div>

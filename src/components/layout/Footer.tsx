@@ -20,7 +20,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--sand)] text-white">
+    <footer className="bg-[var(--footer-bg)] text-white">
       {/* Main Footer Content */}
       <div className="container py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
@@ -31,7 +31,7 @@ export function Footer() {
                 <span className="text-[var(--teal-light)]">Iffer&apos;s</span> Pictures
               </span>
             </Link>
-            <p className="text-neutral-400 text-sm leading-relaxed mb-6">
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
               {SITE_CONFIG.tagline}. Professional event photography serving{" "}
               {BUSINESS_INFO.address.city} and Bergen County, NJ.
             </p>
@@ -73,7 +73,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-white transition-colors duration-200 text-sm"
+                    className="text-white/60 hover:text-white transition-colors duration-200 text-sm"
                   >
                     {link.label}
                   </Link>
@@ -92,7 +92,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-white transition-colors duration-200 text-sm"
+                    className="text-white/60 hover:text-white transition-colors duration-200 text-sm"
                   >
                     {link.label}
                   </Link>
@@ -110,7 +110,7 @@ export function Footer() {
               <li>
                 <a
                   href={formatPhoneLink(BUSINESS_INFO.phone)}
-                  className="flex items-center gap-3 text-neutral-400 hover:text-white transition-colors duration-200 text-sm"
+                  className="flex items-center gap-3 text-white/60 hover:text-white transition-colors duration-200 text-sm"
                 >
                   <Phone className="w-4 h-4 text-[var(--teal-light)]" />
                   {formatPhoneNumber(BUSINESS_INFO.phone)}
@@ -119,14 +119,14 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${BUSINESS_INFO.email}`}
-                  className="flex items-center gap-3 text-neutral-400 hover:text-white transition-colors duration-200 text-sm"
+                  className="flex items-center gap-3 text-white/60 hover:text-white transition-colors duration-200 text-sm"
                 >
                   <Mail className="w-4 h-4 text-[var(--teal-light)]" />
                   {BUSINESS_INFO.email}
                 </a>
               </li>
               <li>
-                <div className="flex items-start gap-3 text-neutral-400 text-sm">
+                <div className="flex items-start gap-3 text-white/60 text-sm">
                   <MapPin className="w-4 h-4 text-[var(--teal-light)] mt-0.5" />
                   <span>
                     {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
@@ -137,10 +137,10 @@ export function Footer() {
 
             {/* Service Areas */}
             <div className="mt-6">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-3">
                 Service Areas
               </h4>
-              <p className="text-neutral-500 text-xs leading-relaxed">
+              <p className="text-white/40 text-xs leading-relaxed">
                 {SERVICE_AREAS.primary.map((area) => area.name).join(" · ")}
               </p>
             </div>
@@ -152,10 +152,10 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-neutral-500 text-sm">
+            <p className="text-white/40 text-sm">
               &copy; {currentYear} {SITE_CONFIG.name}. All rights reserved.
             </p>
-            <p className="text-neutral-500 text-sm flex items-center gap-1">
+            <p className="text-white/40 text-sm flex items-center gap-1">
               Made with <Heart className="w-4 h-4 text-[var(--coral)]" /> in{" "}
               {BUSINESS_INFO.address.city}, NJ
             </p>

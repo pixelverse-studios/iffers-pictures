@@ -64,8 +64,8 @@ export function BookingCTAEnhanced() {
                 className={cn(
                   "inline-flex items-center justify-center gap-3 font-medium",
                   "rounded-full transition-all duration-300",
-                  "bg-white text-[var(--teal)]",
-                  "hover:bg-neutral-100 hover:gap-4",
+                  "bg-white text-[var(--foreground)]",
+                  "hover:bg-white/90 hover:gap-4",
                   "shadow-xl hover:shadow-2xl",
                   "px-8 py-4 text-lg"
                 )}
