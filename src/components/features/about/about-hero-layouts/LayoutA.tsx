@@ -1,5 +1,5 @@
 import { Instagram, Mail, ChevronDown } from "lucide-react";
-import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
+import Image from "next/image";
 import { BUSINESS_INFO } from "@/lib/constants";
 
 /**
@@ -16,13 +16,13 @@ export function LayoutA() {
         <div className="absolute top-4 left-4 w-[13rem] h-full bg-[var(--teal)]/8 rounded-2xl -z-10" />
         {/* Image */}
         <div className="relative w-[13rem]">
-          <ImagePlaceholder
-            aspectRatio="portrait"
-            variant="teal"
-            showIcon={true}
-            iconSize="md"
-            label="Photo coming soon"
-            className="shadow-md"
+          <Image
+            src="/headshot.jpg"
+            alt="Jennifer Matone — Bergen County Event Photographer"
+            width={208}
+            height={312}
+            className="rounded-2xl object-cover w-full h-auto shadow-md"
+            priority
           />
           {/* Corner accent frame */}
           <div className="absolute -bottom-3 -right-3 w-14 h-14 border-2 border-[var(--teal)]/25 rounded-xl -z-10" />

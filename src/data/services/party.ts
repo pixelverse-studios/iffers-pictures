@@ -12,7 +12,7 @@ export const partyData: ServicePageData = {
   hero: {
     headline: "Capture Every Celebration",
     subheadline: "Professional event photography for birthdays, anniversaries, and special occasions",
-    description: "Life's milestones deserve to be celebrated—and remembered. Whether it's a milestone birthday, anniversary party, graduation, or any special gathering, I'll capture the joy, the connections, and all the moments that make your celebration unique.",
+    description: "From baby showers and bridal showers to baptisms/christenings and intimate celebrations, these days are filled with fleeting moments you'll want to remember forever.\n\nMy approach to event photography is natural and unobtrusive. I focus on capturing genuine interactions, thoughtful details, and the joy that unfolds organically throughout the day. From décor and candid laughter to heartfelt embraces, I document your celebration as it truly felt — so you can relive it for years to come.\n\nBecause once the day passes, the memories deserve to remain.",
   },
 
   // Benefits Section

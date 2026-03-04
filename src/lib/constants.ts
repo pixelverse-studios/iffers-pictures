@@ -48,7 +48,7 @@ export const SERVICES = [
     name: "Event Photography",
     shortName: "Events",
     description:
-      "From engagement parties and bridal showers to birthdays and corporate gatherings — every celebration captured with energy and heart.",
+      "From baby showers and bridal showers to baptisms/christenings and intimate celebrations — natural, unobtrusive photography that captures genuine moments so you can relive them for years to come.",
     icon: "PartyPopper",
     slug: "events",
     featured: true,
@@ -58,7 +58,7 @@ export const SERVICES = [
     name: "Family Photography",
     shortName: "Family",
     description:
-      "Authentic family portraits that capture real connections, genuine laughter, and the bonds that make your family uniquely yours.",
+      "Relaxed, authentic family sessions focused on real connection — the laughter, the closeness, and the in-between moments that make your family uniquely yours.",
     icon: "Users",
     slug: "family",
     featured: true,
@@ -68,7 +68,7 @@ export const SERVICES = [
     name: "Milestone Photography",
     shortName: "Milestones",
     description:
-      "Baby showers, baptisms, first birthdays, quinceañeras, and life's most precious chapters — beautifully documented.",
+      "Birthdays, graduations, anniversaries, proposals, and gender reveals — preserving the pride, joy, and love of life's meaningful milestones.",
     icon: "Sparkles",
     slug: "milestones",
     featured: true,
@@ -78,7 +78,7 @@ export const SERVICES = [
     name: "Professional Headshots",
     shortName: "Headshots",
     description:
-      "Polished headshots for LinkedIn, corporate profiles, and performers that make a lasting first impression.",
+      "More than just a photograph — polished, confident, and authentic portraits that reflect who you are and how you want to be seen.",
     icon: "User",
     slug: "headshots",
     featured: true,
@@ -88,7 +88,7 @@ export const SERVICES = [
     name: "Maternity Photography",
     shortName: "Maternity",
     description:
-      "Timeless, empowering portraits that celebrate the beauty and joy of pregnancy — a chapter worth remembering.",
+      "A celebration of the quiet anticipation of new life — capturing the beauty of motherhood with softness, intention, and elegance.",
     icon: "Heart",
     slug: "maternity",
     featured: true,

@@ -2,19 +2,36 @@
 
 ## Latest deploy summary
 
-- Hero gradient now changes to match each color theme instead of staying the same across all palettes
-- Added 5 new color themes designed for event photography: Golden Hour, Rosewater & Fern, Dusty Plum, Coastal Dusk, and Petal & Stone (15 total themes now available)
-- Footer background now adapts to each theme with proper contrast for readability
-- Fixed "Get in Touch" button in the booking section that was showing invisible white text on white background
-- Footer text colors now properly respond to theme changes
+- Updated event photography service description with new copy emphasizing natural, unobtrusive approach and focus on genuine moments
+- Updated family photography service description with new copy focusing on connection, comfort, and preserving authentic family moments
+- Updated milestone celebrations service description with new copy highlighting pride, joy, and preserving life's meaningful milestones
+- Updated professional headshots service description with new copy emphasizing authenticity, comfort, and creating timeless portraits
+- Updated maternity photography service description with new copy focusing on quiet anticipation, softness, and the beauty of motherhood
+- Added real headshot photo to the About page across all three hero layout options
+- Added a friendly message below services for custom photography inquiries
+- Added 7 new font options to the theme picker (4 heading, 3 body) with a light, airy aesthetic
 
 ## Notes for internal team
 
-- Added CSS custom properties --hero-from, --hero-via, --hero-to for per-palette hero gradients
-- Added --footer-bg custom property for per-palette footer backgrounds
-- Fixed Tailwind v4 CSS cascade issue: moved `a { color: inherit }` into @layer base so utility classes properly override it
-- Replaced hardcoded text-neutral-400/500 in Footer with theme-aware text-white/60 and text-white/40
+- Updated description in 3 files: src/data/services/events.ts (hero), src/data/services/party.ts (hero), src/lib/constants.ts (SERVICES array short description)
+- Constants file uses a condensed version of the full copy to fit the short description format
+- Updated family photography description in 2 files: src/data/services/family.ts (hero), src/lib/constants.ts (SERVICES array short description)
+- Constants file uses a condensed version capturing the essence of the full copy
+- Updated milestone photography description in 2 files: src/data/services/milestones.ts (hero), src/lib/constants.ts (SERVICES array short description)
+- Updated headshots description in 2 files: src/data/services/headshots.ts (hero + CTA), src/lib/constants.ts (SERVICES array short description)
+- Updated maternity description in 2 files: src/data/services/maternity.ts (hero), src/lib/constants.ts (SERVICES array short description)
+- Replaced ImagePlaceholder with Next.js Image in LayoutA/B/C.tsx pointing to /headshot.jpg
+- Added custom inquiry CTA to ServicesGrid.tsx below service cards
+- New heading fonts: Gilda Display, Josefin Slab, Tenor Sans, Marcellus
+- New body fonts: Nunito, Karla, Josefin Sans
 
 ## Changed URLs
 
-- https://ifferspictures.com/
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/party-photography
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/family-photography
+- https://ifferspictures.com/services/milestones
+- https://ifferspictures.com/services/headshots
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/about

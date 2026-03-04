@@ -12,7 +12,7 @@ export const headshotsData: ServicePageData = {
   hero: {
     headline: "Professional Headshots That Open Doors",
     subheadline: "Polished portraits for LinkedIn, corporate profiles, and performers",
-    description: "Your headshot is often your first impression—whether you're landing your dream job, booking your next role, or building your personal brand. I create professional, authentic headshots that showcase the best version of you, tailored to your industry and goals.",
+    description: "A headshot is more than just a photograph — it's a reflection of who you are and how you want to be seen. Whether you're updating your professional profile, building your brand, or celebrating a new chapter, my goal is to create images that feel polished, confident, and authentic. I guide you through the process in a relaxed and supportive way, ensuring you feel comfortable and at ease in front of the camera. The result is a timeless, natural portrait that represents you at your very best.",
   },
 
   // Benefits Section
@@ -204,7 +204,7 @@ export const headshotsData: ServicePageData = {
   // CTA Section
   cta: {
     headline: "Your Next Opportunity Starts With the Right Photo",
-    description: "Whether you're job hunting, building your brand, or auditioning for your next role, a professional headshot gives you the edge. Book your session today.",
+    description: "A headshot is more than just a photograph — it's a reflection of who you are and how you want to be seen. Book your session today and let's create a timeless portrait that represents you at your very best.",
     buttonText: "Book Your Headshot Session",
     buttonLink: "/contact",
   },

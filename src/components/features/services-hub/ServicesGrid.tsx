@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SERVICES } from "@/lib/constants";
 import { ServiceCard } from "./ServiceCard";
@@ -31,6 +32,20 @@ export function ServicesGrid({ className }: ServicesGridProps) {
               icon={service.icon}
             />
           ))}
+        </div>
+
+        <div className="mt-14 text-center">
+          <p className="text-[var(--text-secondary)] font-body text-lg italic leading-relaxed max-w-xl mx-auto mb-2">
+            I am always open to capturing life&apos;s meaningful moments in all
+            forms. If you have something special in mind, I would love to hear
+            about your vision.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-block text-[var(--teal)] text-sm font-medium tracking-wide hover:underline underline-offset-4 transition-colors"
+          >
+            Get in touch &rarr;
+          </Link>
         </div>
       </div>
     </section>

@@ -12,7 +12,7 @@ export const maternityData: ServicePageData = {
   hero: {
     headline: "Celebrate Your Beautiful Journey",
     subheadline: "Timeless, empowering portraits that honor the miracle of motherhood",
-    description: "Pregnancy is fleeting, beautiful, and transformative. These precious months deserve to be celebrated and remembered. I create stunning maternity portraits that make you feel radiant, powerful, and connected to the new life you're carrying.",
+    description: "There is something incredibly special about the quiet anticipation of welcoming new life.\n\nMaternity sessions are a celebration of this meaningful season — filled with love, strength, and connection. I approach these sessions with softness and intention, capturing the beauty of motherhood in a way that feels natural and elegant.\n\nBecause this chapter, too, deserves to be remembered.",
   },
 
   // Benefits Section
