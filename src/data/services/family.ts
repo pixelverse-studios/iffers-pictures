@@ -12,7 +12,7 @@ export const familyData: ServicePageData = {
   hero: {
     headline: "Capture Your Family's Story",
     subheadline: "Authentic portraits that celebrate real connections and genuine moments",
-    description: "Your family is constantly changing—kids grow up too fast, and the moments that feel ordinary today become treasured memories tomorrow. Let's create beautiful, natural portraits that capture who your family really is, not stiff poses but real laughter, real hugs, and real love.",
+    description: "Family sessions are about connection — the laughter, the closeness, the in-between moments that make your family uniquely yours.\n\nMy goal is to create a relaxed, comfortable experience where everyone can simply be themselves. Whether we're chasing golden hour light outdoors or capturing cozy moments at home, I focus on authentic interactions and timeless imagery that reflects this season of your life.\n\nThese are the days you'll one day look back on — let's preserve them beautifully.",
   },
 
   // Benefits Section

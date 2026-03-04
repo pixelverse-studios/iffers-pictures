@@ -14,7 +14,7 @@ export const milestonesData: ServicePageData = {
   hero: {
     headline: "You Only Get to Live This Moment Once",
     subheadline: "Tender, documentary photography for life's most meaningful chapters",
-    description: "Some moments exist only briefly—a first birthday cake smash, a grandmother's embrace at a quinceañera, the tearful joy of a gender reveal. These aren't events on a calendar. They're the chapters of a life. I photograph them gently and honestly, so you can be fully present while I quietly make sure nothing is lost.",
+    description: "Birthdays, graduations, anniversaries, proposals, and gender reveals — life is full of moments worth honoring.\n\nThese sessions focus on preserving the pride, joy, and love that surround life's meaningful milestones. I document both the big highlights and the quiet, emotional details that often become the most treasured memories.\n\nBecause the moments may pass, but the memories deserve to last.",
   },
 
   // Benefits Section

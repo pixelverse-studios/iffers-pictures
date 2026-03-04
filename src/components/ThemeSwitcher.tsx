@@ -415,6 +415,10 @@ const headingFonts: FontOption[] = [
   { id: "italiana",         name: "Italiana",           family: "Italiana",           weights: "400",             description: "Elegant, high-fashion serif"       },
   { id: "cormorant-heading",name: "Cormorant Garamond", family: "Cormorant Garamond", weights: "400;500;600;700", description: "Refined, light, sophisticated"     },
   { id: "aboreto",          name: "Aboreto",             family: "Aboreto",             weights: "400",             description: "Artistic, uppercase display"       },
+  { id: "gilda-display",    name: "Gilda Display",      family: "Gilda Display",      weights: "400",             description: "Graceful, airy editorial serif"    },
+  { id: "josefin-slab",     name: "Josefin Slab",       family: "Josefin Slab",       weights: "400;600;700",     description: "Light, geometric slab serif"       },
+  { id: "tenor-sans",       name: "Tenor Sans",         family: "Tenor Sans",         weights: "400",             description: "Breezy, modern sans display"       },
+  { id: "marcellus",        name: "Marcellus",          family: "Marcellus",          weights: "400",             description: "Soft, classical Roman letterforms" },
 ];
 
 const bodyFonts: FontOption[] = [
@@ -427,6 +431,9 @@ const bodyFonts: FontOption[] = [
   { id: "libre",         name: "Libre Baskerville", family: "Libre Baskerville", weights: "400;700",           description: "Traditional, highly readable"           },
   { id: "crimson",       name: "Crimson Pro",       family: "Crimson Pro",       weights: "400;500;600;700",   description: "Old-style serif, elegant"               },
   { id: "spectral",      name: "Spectral",          family: "Spectral",          weights: "400;500;600;700",   description: "Modern display serif"                   },
+  { id: "nunito",        name: "Nunito",            family: "Nunito",            weights: "300;400;600;700",   description: "Soft, rounded sans-serif"               },
+  { id: "karla",         name: "Karla",             family: "Karla",             weights: "300;400;500;700",   description: "Airy grotesque, clean & light"          },
+  { id: "josefin-sans",  name: "Josefin Sans",      family: "Josefin Sans",      weights: "300;400;600;700",   description: "Delicate, geometric elegance"           },
 ];
 
 // ─── localStorage keys ────────────────────────────────────────────────────────

@@ -14,7 +14,7 @@ export const eventsData: ServicePageData = {
   hero: {
     headline: "Every Celebration Deserves to Be Remembered",
     subheadline: "Candid, documentary-style event photography for life's biggest moments in Bergen County, NJ",
-    description: "From engagement parties and bridal showers to birthday bashes, baby showers, holiday gatherings, and corporate milestones—if people are coming together to celebrate, I want to be there with my camera. Jennifer Matone captures the laughter, the tears, the toasts, and all the in-between moments that make your event uniquely yours.",
+    description: "From baby showers and bridal showers to baptisms/christenings and intimate celebrations, these days are filled with fleeting moments you'll want to remember forever.\n\nMy approach to event photography is natural and unobtrusive. I focus on capturing genuine interactions, thoughtful details, and the joy that unfolds organically throughout the day. From décor and candid laughter to heartfelt embraces, I document your celebration as it truly felt — so you can relive it for years to come.\n\nBecause once the day passes, the memories deserve to remain.",
   },
 
   // Benefits Section
