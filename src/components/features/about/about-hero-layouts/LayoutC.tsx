@@ -14,7 +14,7 @@ export function LayoutC() {
       {/* Left: Dark image panel */}
       <div className="relative bg-[var(--foreground)] flex items-center justify-center p-8 order-2 lg:order-1 min-h-56">
         {/* Portrait inside the dark panel */}
-        <div className="w-full max-w-[11rem] mx-auto">
+        <div className="w-full max-w-[18rem] mx-auto">
           <Image
             src="/headshot.jpg"
             alt="Jennifer Matone — Bergen County Event Photographer"
