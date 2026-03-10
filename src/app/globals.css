@@ -7,8 +7,8 @@
 
 @theme inline {
   /* Typography */
-  --font-heading: var(--font-italiana);
-  --font-body: var(--font-lora);
+  --font-heading: var(--font-josefin-slab);
+  --font-body: var(--font-nunito);
 
   /* Primary Brand Colors - Teal */
   --color-primary-50: #f0fdfa;
@@ -23,18 +23,18 @@
   --color-primary-900: #134e4a;
   --color-primary-950: #042f2e;
 
-  /* Main Brand Teal */
-  --color-teal: #1a9b8e;
-  --color-teal-light: #2dd4bf;
-  --color-teal-dark: #0f766e;
-  
+  /* Main Brand — Morning Dew */
+  --color-teal: #7898b8;
+  --color-teal-light: #98b4cc;
+  --color-teal-dark: #5a7898;
+
   /* Accent Colors */
-  --color-accent-coral: #ff8559;
-  --color-accent-coral-light: #ffab8a;
-  --color-accent-coral-dark: #e5673d;
-  --color-accent-gold: #d4af37;
-  --color-accent-gold-light: #e5c664;
-  --color-accent-rose: #dca1a1;
+  --color-accent-coral: #c4a880;
+  --color-accent-coral-light: #d4bc9c;
+  --color-accent-coral-dark: #a88c64;
+  --color-accent-gold: #c4b080;
+  --color-accent-gold-light: #d4c49c;
+  --color-accent-rose: #c4a8a8;
 
   /* Neutral Colors */
   --color-neutral-50: #fafafa;
@@ -50,19 +50,19 @@
   --color-neutral-950: #0a0a0a;
 
   /* Semantic Colors */
-  --color-background: #ffffff;
-  --color-background-warm: #f8f6f3;
-  --color-background-alt: #f5f5f4;
+  --color-background: #fafbfd;
+  --color-background-warm: #eff3f7;
+  --color-background-alt: #f0f2f5;
   --color-surface: #ffffff;
   --color-surface-elevated: #ffffff;
 
-  --color-foreground: #1f2937;
-  --color-text: #1f2937;
-  --color-text-secondary: #64748b;
-  --color-text-muted: #94a3b8;
+  --color-foreground: #1a2030;
+  --color-text: #1a2030;
+  --color-text-secondary: #607080;
+  --color-text-muted: #98a8b8;
 
-  --color-border: #e5e7eb;
-  --color-border-light: #f3f4f6;
+  --color-border: #d8e0e8;
+  --color-border-light: #e8ecf0;
 
   /* Status Colors */
   --color-success: #10b981;
@@ -103,36 +103,33 @@
    ============================================ */
 
 :root {
-  /* Brand Colors */
-  /* --teal: #1a9b8e; */
-  /* --teal: #80b2a0; */
-  --teal: #80b2a0;
-  --teal-light: #2dd4bf;
-  --teal-dark: #0f766e;
-  --coral: #ff8559;
-  --gold: #d4af37;
-  --sand:#a49177;
+  /* Brand Colors — Morning Dew */
+  --teal: #7898b8;
+  --teal-light: #98b4cc;
+  --teal-dark: #5a7898;
+  --coral: #c4a880;
+  --gold: #c4b080;
 
   /* Backgrounds */
-  --background: #ffffff;
-  --background-warm: #f8f6f3;
+  --background: #fafbfd;
+  --background-warm: #eff3f7;
   --surface: #ffffff;
 
   /* Text */
-  --foreground: #1f2937;
-  --text-secondary: #64748b;
-  --text-muted: #94a3b8;
+  --foreground: #1a2030;
+  --text-secondary: #607080;
+  --text-muted: #98a8b8;
 
   /* Borders */
-  --border: #e5e7eb;
+  --border: #d8e0e8;
 
   /* Footer */
-  --footer-bg: #6b6b5a;
+  --footer-bg: #2e3848;
 
   /* Hero Gradient */
-  --hero-from: #e6d1b8;
-  --hero-via: #bfd6c6;
-  --hero-to: #bcc3cc;
+  --hero-from: #d8ccb8;
+  --hero-via: #bcccd8;
+  --hero-to: #c8ced6;
 
   /* Header Height */
   --header-height: 6rem;
@@ -153,7 +150,7 @@ html {
 }
 
 body {
-  font-family: var(--font-body-override, var(--font-body)), system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
   background-color: var(--background);
   color: var(--foreground);
   line-height: 1.6;
@@ -161,10 +158,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Headings use serif font (with optional override for font switcher) */
 h1, h2, h3, h4, h5, h6,
 .font-heading {
-  font-family: var(--font-heading-override, var(--font-heading)), Georgia, serif;
+  font-family: var(--font-heading), Georgia, serif;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
