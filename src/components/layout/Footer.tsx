@@ -99,6 +99,23 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+
+            {/* Resources */}
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-4 mt-8">
+              Resources
+            </h3>
+            <ul className="space-y-3">
+              {FOOTER_LINKS.resources.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Contact Column */}

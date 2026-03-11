@@ -18,7 +18,7 @@ export function ServiceFAQ({ data }: ServiceFAQProps) {
   };
 
   return (
-    <section className="section bg-white">
+    <section id="faq" className="section bg-white">
       <div className="container">
         <SectionHeader
           eyebrow={data.eyebrow}

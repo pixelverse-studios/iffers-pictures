@@ -10,6 +10,14 @@
 - Added real headshot photo to the About page across all three hero layout options
 - Added a friendly message below services for custom photography inquiries
 - Added 7 new font options to the theme picker (4 heading, 3 body) with a light, airy aesthetic
+- Finalized site theme to **Morning Dew** color palette — soft periwinkle blue, warm sand tones, and cool morning white
+- Set typography to **Josefin Slab** for headings and **Nunito** for body text
+- Removed the theme/font preview widget from the bottom of the page
+- Added a new **FAQ page** with 8 general questions and links to service-specific FAQs
+- Added FAQ link to the main navigation (desktop and mobile)
+- Added Resources section to the website footer with FAQ and Service Areas links
+- Improved FAQ page accessibility with proper screen reader support on accordion
+- Service FAQ links now scroll directly to the FAQ section on each service page
 
 ## Notes for internal team
 
@@ -24,6 +32,14 @@
 - Added custom inquiry CTA to ServicesGrid.tsx below service cards
 - New heading fonts: Gilda Display, Josefin Slab, Tenor Sans, Marcellus
 - New body fonts: Nunito, Karla, Josefin Sans
+- Deleted ThemeSwitcher.tsx and FontSwitcher.tsx components entirely
+- Morning Dew palette values baked into globals.css :root and @theme
+- Font override mechanism removed — fonts now loaded directly via next/font/google
+- All 15 palette options and 19 font options removed (no longer needed)
+- DEV-461: Created /faq route with FAQPage schema, BreadcrumbList schema, SEO metadata
+- FAQ added to NAV_LINKS, NAV_LINKS_RIGHT, FOOTER_LINKS.resources rendered in Footer
+- /faq added to sitemap.ts
+- PR review fixes: split FAQ page into server + client components for performance, added id="faq" anchor to ServiceFAQ, replaced inline CTA with Button component, added ARIA attrs, typed schema, updated CLAUDE.md design system docs, removed unused Josefin Slab weight 700
 
 ## Changed URLs
 
@@ -35,3 +51,7 @@
 - https://ifferspictures.com/services/headshots
 - https://ifferspictures.com/services/maternity
 - https://ifferspictures.com/about
+- https://ifferspictures.com/
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/contact
+- https://ifferspictures.com/faq
