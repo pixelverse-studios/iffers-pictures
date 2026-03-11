@@ -9,7 +9,7 @@ const josefinSlab = Josefin_Slab({
   variable: "--font-josefin-slab",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "600", "700"],
+  weight: ["400", "600"],
 });
 
 const nunito = Nunito({
@@ -89,7 +89,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${josefinSlab.variable} ${nunito.variable} antialiased min-h-screen flex flex-col font-body`}
+        className={`${josefinSlab.variable} ${nunito.variable} antialiased min-h-screen flex flex-col`}
       >
         <Header />
         <main className="flex-1">{children}</main>

@@ -1,4 +1,9 @@
-export const generalFaqs = [
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export const generalFaqs: FAQItem[] = [
   {
     question: "How far in advance should I book my photography session?",
     answer:
