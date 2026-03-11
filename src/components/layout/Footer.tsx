@@ -23,9 +23,9 @@ export function Footer() {
     <footer className="bg-[var(--footer-bg)] text-white">
       {/* Main Footer Content */}
       <div className="container py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-6">
           {/* Brand Column */}
-          <div className="lg:col-span-1">
+          <div>
             <Link href="/" className="inline-block mb-6">
               <span className="text-2xl font-heading font-semibold">
                 <span className="text-[var(--teal-light)]">Iffer&apos;s</span> Pictures
@@ -99,9 +99,11 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
 
-            {/* Resources */}
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-4 mt-8">
+          {/* Resources Column */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
               Resources
             </h3>
             <ul className="space-y-3">
