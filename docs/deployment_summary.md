@@ -18,6 +18,7 @@
 - Added Resources section to the website footer with FAQ and Service Areas links
 - Improved FAQ page accessibility with proper screen reader support on accordion
 - Service FAQ links now scroll directly to the FAQ section on each service page
+- Promoted footer Resources links (FAQ, Service Areas) to their own column alongside Services and Company
 
 ## Notes for internal team
 
@@ -40,6 +41,7 @@
 - FAQ added to NAV_LINKS, NAV_LINKS_RIGHT, FOOTER_LINKS.resources rendered in Footer
 - /faq added to sitemap.ts
 - PR review fixes: split FAQ page into server + client components for performance, added id="faq" anchor to ServiceFAQ, replaced inline CTA with Button component, added ARIA attrs, typed schema, updated CLAUDE.md design system docs, removed unused Josefin Slab weight 700
+- DEV-462: Extracted Resources from Company column sub-section into standalone footer column, updated grid from 4-col to 5-col layout
 
 ## Changed URLs
 
