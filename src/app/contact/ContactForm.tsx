@@ -24,6 +24,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -35,11 +36,30 @@ export function ContactForm() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Form submitted:", data);
-    setIsSubmitted(true);
-    reset();
+    setSubmitError(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.status === 201) {
+        setIsSubmitted(true);
+        reset();
+        return;
+      }
+
+      const result = await response.json();
+      setSubmitError(
+        result.errors?.[0]?.msg ||
+          result.error ||
+          "Something went wrong. Please try again."
+      );
+    } catch {
+      setSubmitError("Something went wrong. Please try again.");
+    }
   };
 
   if (isSubmitted) {
@@ -66,7 +86,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} onChange={() => setSubmitError(null)} className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
         <Input
           label="Your Name"
@@ -155,6 +175,12 @@ export function ContactForm() {
         {...register("message")}
         error={errors.message?.message}
       />
+
+      {submitError && (
+        <p className="text-sm text-red-600 bg-red-500/5 border border-red-500/20 rounded-lg px-4 py-3">
+          {submitError}
+        </p>
+      )}
 
       <div className="flex items-center justify-between pt-4">
         <p className="text-sm text-[var(--text-muted)]">
