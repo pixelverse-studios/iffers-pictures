@@ -19,6 +19,7 @@
 - Improved FAQ page accessibility with proper screen reader support on accordion
 - Service FAQ links now scroll directly to the FAQ section on each service page
 - Promoted footer Resources links (FAQ, Service Areas) to their own column alongside Services and Company
+- Contact form now sends inquiries directly — submissions trigger an email notification to Iffer
 
 ## Notes for internal team
 
@@ -42,6 +43,7 @@
 - /faq added to sitemap.ts
 - PR review fixes: split FAQ page into server + client components for performance, added id="faq" anchor to ServiceFAQ, replaced inline CTA with Button component, added ARIA attrs, typed schema, updated CLAUDE.md design system docs, removed unused Josefin Slab weight 700
 - DEV-462: Extracted Resources from Company column sub-section into standalone footer column, updated grid from 4-col to 5-col layout
+- DEV-463: Created /api/contact route proxying to PVS central server contact-form API. ContactForm.tsx now POSTs to local API route which forwards to https://api.pixelversestudios.io/api/v1/contact-forms/iffers-pictures. Added PVS_CONTACT_API_URL and PVS_WEBSITE_SLUG env vars.
 
 ## Changed URLs
 
