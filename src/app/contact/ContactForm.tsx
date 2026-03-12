@@ -38,24 +38,28 @@ export function ContactForm() {
   const onSubmit = async (data: ContactFormData) => {
     setSubmitError(null);
 
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    if (response.status === 201) {
-      setIsSubmitted(true);
-      reset();
-      return;
+      if (response.status === 201) {
+        setIsSubmitted(true);
+        reset();
+        return;
+      }
+
+      const result = await response.json();
+      setSubmitError(
+        result.errors?.[0]?.msg ||
+          result.error ||
+          "Something went wrong. Please try again."
+      );
+    } catch {
+      setSubmitError("Something went wrong. Please try again.");
     }
-
-    const result = await response.json();
-    setSubmitError(
-      result.errors?.[0]?.msg ||
-        result.error ||
-        "Something went wrong. Please try again."
-    );
   };
 
   if (isSubmitted) {
@@ -82,7 +86,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} onChange={() => setSubmitError(null)} className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
         <Input
           label="Your Name"
@@ -173,7 +177,7 @@ export function ContactForm() {
       />
 
       {submitError && (
-        <p className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+        <p className="text-sm text-red-600 bg-red-500/5 border border-red-500/20 rounded-lg px-4 py-3">
           {submitError}
         </p>
       )}
