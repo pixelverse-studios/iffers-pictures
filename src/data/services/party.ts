@@ -100,56 +100,8 @@ export const partyData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Event Packages",
-    description: "Flexible options for celebrations of all sizes",
-    packages: [
-      {
-        name: "Gathering",
-        price: "$350",
-        description: "Perfect for intimate celebrations",
-        features: [
-          "2-hour coverage",
-          "1 photographer",
-          "Event highlights",
-          "35+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Celebration",
-        price: "$550",
-        description: "Our most popular event package",
-        features: [
-          "3-hour coverage",
-          "1 photographer",
-          "Full event documentation",
-          "Candid & group shots",
-          "55+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: true,
-      },
-      {
-        name: "Grand Event",
-        price: "$850",
-        description: "Complete coverage for milestone events",
-        features: [
-          "5-hour coverage",
-          "1 photographer",
-          "Pre-event setup shots",
-          "Full event documentation",
-          "Individual & group portraits",
-          "90+ edited images",
-          "Online gallery",
-          "Print release",
-          "20 4×6 prints",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Party & Event Photography",
+    description: "Flexible coverage for celebrations of all sizes — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section
@@ -175,7 +127,7 @@ export const partyData: ServicePageData = {
       },
       {
         question: "What if my event is longer than the package hours?",
-        answer: "Additional hours can be added to any package for $150/hour. Just let me know your expected timeline and we can customize coverage to fit your needs.",
+        answer: "Additional hours can always be added. Just let me know your expected timeline and we can customize coverage to fit your needs.",
       },
       {
         question: "Do you take group photos?",

@@ -87,58 +87,8 @@ export const baptismChristeningData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Baptism Packages",
-    description: "Coverage options for your celebration",
-    packages: [
-      {
-        name: "Ceremony",
-        price: "$349",
-        description: "Perfect for ceremony-only coverage",
-        features: [
-          "1-hour ceremony coverage",
-          "Pre-ceremony candids",
-          "Ceremony documentation",
-          "Immediate family portraits",
-          "30+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Celebration",
-        price: "$599",
-        description: "Our most popular baptism package",
-        features: [
-          "2.5-hour coverage",
-          "Pre-ceremony preparation",
-          "Full ceremony documentation",
-          "Extended family portraits",
-          "Reception coverage",
-          "60+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: true,
-      },
-      {
-        name: "Legacy",
-        price: "$899",
-        description: "Complete documentation of your celebration",
-        features: [
-          "4-hour coverage",
-          "Home preparation shots",
-          "Full ceremony documentation",
-          "Extended family portraits",
-          "Full reception coverage",
-          "100+ edited images",
-          "Online gallery",
-          "Print release",
-          "Custom photo book",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Baptism & Christening Photography",
+    description: "Coverage tailored to your celebration — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section

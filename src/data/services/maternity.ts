@@ -87,60 +87,8 @@ export const maternityData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Maternity Packages",
-    description: "Celebrate this beautiful chapter",
-    packages: [
-      {
-        name: "Radiant",
-        price: "$399",
-        description: "Perfect for solo maternity portraits",
-        features: [
-          "60-minute session",
-          "1 location",
-          "1-2 outfit changes",
-          "30+ edited images",
-          "Online gallery",
-          "Print release",
-          "Styling guide",
-        ],
-        popular: false,
-      },
-      {
-        name: "Goddess",
-        price: "$599",
-        description: "Our most popular maternity package",
-        features: [
-          "90-minute session",
-          "1-2 locations",
-          "Unlimited outfit changes",
-          "Partner/family included",
-          "50+ edited images",
-          "Online gallery",
-          "Print release",
-          "Styling guide",
-          "Golden hour timing",
-        ],
-        popular: true,
-      },
-      {
-        name: "Journey",
-        price: "$899",
-        description: "Document your complete story",
-        features: [
-          "2-hour session",
-          "Multiple locations",
-          "Unlimited outfit changes",
-          "Partner/family included",
-          "75+ edited images",
-          "Online gallery",
-          "Print release",
-          "Styling guide",
-          "8×10 mounted print",
-          "Baby shower add-on discount",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Maternity Photography",
+    description: "Celebrate this beautiful chapter — reach out and I'll put together a session that fits",
   },
 
   // FAQ Section
@@ -158,7 +106,7 @@ export const maternityData: ServicePageData = {
       },
       {
         question: "Can my partner be included?",
-        answer: "Absolutely! I love including partners in maternity sessions. The Goddess and Journey packages include partner or family photos. For the Radiant package, we can add partner shots for an additional $75.",
+        answer: "Absolutely! I love including partners in maternity sessions. Reach out and I'll recommend the best option for including your partner or family.",
       },
       {
         question: "What if I don't feel beautiful pregnant?",
@@ -178,7 +126,7 @@ export const maternityData: ServicePageData = {
       },
       {
         question: "Do you offer maternity + baby shower bundles?",
-        answer: "Yes! Book your maternity session with the Journey package and receive 15% off your baby shower photography booking. It's a wonderful way to document your entire pregnancy journey. Many moms also add newborn photos to complete the story.",
+        answer: "Yes! Many moms book maternity and baby shower sessions together. Reach out and I'll put together a bundle that works for your timeline and budget. It's a wonderful way to document your entire pregnancy journey.",
       },
     ],
   },

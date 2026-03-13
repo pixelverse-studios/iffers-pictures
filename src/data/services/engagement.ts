@@ -105,56 +105,8 @@ export const engagementData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Engagement Packages",
-    description: "Beautiful memories at every budget",
-    packages: [
-      {
-        name: "Essential",
-        price: "$350",
-        description: "Perfect for couples who want beautiful engagement photos",
-        features: [
-          "60-minute session",
-          "1 location",
-          "1 outfit",
-          "30+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Classic",
-        price: "$550",
-        description: "Our most popular package for the full experience",
-        features: [
-          "90-minute session",
-          "2 locations",
-          "2 outfits",
-          "50+ edited images",
-          "Online gallery",
-          "Print release",
-          "Engagement announcement design",
-        ],
-        popular: true,
-      },
-      {
-        name: "Premium",
-        price: "$850",
-        description: "The ultimate engagement experience",
-        features: [
-          "2-hour session",
-          "3 locations",
-          "Unlimited outfits",
-          "75+ edited images",
-          "Online gallery",
-          "Print release",
-          "Engagement announcement design",
-          "16×20 framed print",
-          "Save-the-date design",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Engagement Photography",
+    description: "Every session is tailored to your vision — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section

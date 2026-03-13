@@ -100,57 +100,8 @@ export const bridalShowerData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Bridal Shower Packages",
-    description: "Elegant coverage for your special celebration",
-    packages: [
-      {
-        name: "Lovely",
-        price: "$400",
-        description: "Perfect for intimate bridal showers",
-        features: [
-          "2-hour coverage",
-          "1 photographer",
-          "Venue & decor details",
-          "40+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Elegant",
-        price: "$600",
-        description: "Our most popular bridal shower package",
-        features: [
-          "3-hour coverage",
-          "1 photographer",
-          "Pre-event setup shots",
-          "Games & activities",
-          "Gift opening coverage",
-          "60+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: true,
-      },
-      {
-        name: "Luxe",
-        price: "$900",
-        description: "Complete coverage for larger celebrations",
-        features: [
-          "4-hour coverage",
-          "1 photographer",
-          "Pre-event setup shots",
-          "Full event documentation",
-          "Individual portraits",
-          "100+ edited images",
-          "Online gallery",
-          "Print release",
-          "Custom photo book",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Bridal Shower Photography",
+    description: "Elegant coverage for your special celebration — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section

@@ -89,58 +89,8 @@ export const milestonesData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Milestone Packages",
-    description: "Thoughtful coverage for life's chapters, whatever shape they take",
-    packages: [
-      {
-        name: "Essentials",
-        price: "$449",
-        description: "Perfect for intimate milestone gatherings",
-        features: [
-          "2-hour coverage",
-          "1 photographer",
-          "Pre-event arrival for setup shots",
-          "Candid and portrait coverage",
-          "50+ edited images",
-          "Online gallery",
-          "Full print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Celebration",
-        price: "$749",
-        description: "Our most loved milestone package",
-        features: [
-          "3.5-hour coverage",
-          "1 photographer",
-          "Pre-event arrival for setup and detail shots",
-          "Full event and guest coverage",
-          "Candid moments and family portraits",
-          "80+ edited images",
-          "Online gallery",
-          "Full print release",
-        ],
-        popular: true,
-      },
-      {
-        name: "Legacy",
-        price: "$1,099",
-        description: "Complete documentation for milestones that deserve the full story",
-        features: [
-          "5-hour coverage",
-          "1 photographer",
-          "Pre-event arrival and getting-ready shots",
-          "Full event, guest, and detail coverage",
-          "Extended family portraits",
-          "120+ edited images",
-          "Online gallery",
-          "Full print release",
-          "Custom photo book (20 pages)",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Milestone Photography",
+    description: "Thoughtful coverage for life's chapters — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section

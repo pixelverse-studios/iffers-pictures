@@ -87,55 +87,8 @@ export const headshotsData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Headshot Packages",
-    description: "Options for every professional need",
-    packages: [
-      {
-        name: "Essential",
-        price: "$199",
-        description: "Perfect for a quick LinkedIn update",
-        features: [
-          "30-minute session",
-          "1 outfit/look",
-          "Studio or outdoor setting",
-          "3 edited digital images",
-          "Basic retouching",
-          "Web-optimized files",
-        ],
-        popular: false,
-      },
-      {
-        name: "Professional",
-        price: "$349",
-        description: "Our most popular headshot package",
-        features: [
-          "45-minute session",
-          "2 outfits/looks",
-          "Studio or outdoor setting",
-          "8 edited digital images",
-          "Professional retouching",
-          "High-res + web files",
-          "LinkedIn banner image",
-        ],
-        popular: true,
-      },
-      {
-        name: "Executive",
-        price: "$549",
-        description: "Comprehensive coverage for leaders",
-        features: [
-          "60-minute session",
-          "3 outfits/looks",
-          "Multiple backgrounds",
-          "15 edited digital images",
-          "Premium retouching",
-          "High-res + web files",
-          "LinkedIn banner image",
-          "Rush 48-hour delivery",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Professional Headshots",
+    description: "Options for every professional need — reach out and I'll put together a session that fits",
   },
 
   // FAQ Section
@@ -157,7 +110,7 @@ export const headshotsData: ServicePageData = {
       },
       {
         question: "How long until I receive my photos?",
-        answer: "Standard delivery is 3-5 business days. The Executive package includes rush 48-hour delivery. Need photos even faster? Same-day delivery is available for an additional $100.",
+        answer: "Standard delivery is 3-5 business days. Rush and same-day delivery options are available—just ask when booking.",
       },
       {
         question: "What file formats do I receive?",
@@ -165,7 +118,7 @@ export const headshotsData: ServicePageData = {
       },
       {
         question: "Do you offer on-location sessions?",
-        answer: "Yes! I can come to your office for individual or team headshots. On-location sessions have a $75 travel fee within Bergen County. For corporate teams of 5+, I offer package discounts—contact me for a custom quote.",
+        answer: "Yes! I can come to your office for individual or team headshots. A travel fee applies within Bergen County. For corporate teams of 5+, I offer group discounts—contact me for a custom quote.",
       },
       {
         question: "Can you match our existing company headshots?",
