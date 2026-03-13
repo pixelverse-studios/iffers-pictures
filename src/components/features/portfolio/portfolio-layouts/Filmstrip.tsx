@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PORTFOLIO_ITEMS, EVENT_TYPES } from "../portfolioData";
+import { CategoryBadge, HoverOverlay } from "./shared";
 
 const ROWS = EVENT_TYPES
   .filter((t) => t !== "All")
@@ -48,23 +49,8 @@ function FilmRow({ label, items }: { label: string; items: typeof PORTFOLIO_ITEM
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   />
                 </div>
-                {/* Badge — fades on hover */}
-                <div className="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-md border border-white/10 transition-opacity duration-300 group-hover:opacity-0">
-                  <span className="text-[10px] font-medium text-white/85 uppercase tracking-[0.1em]">
-                    {item.eventType}
-                  </span>
-                </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5 pointer-events-none">
-                  <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                    <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-white/55 mb-1">
-                      {item.eventType}
-                    </p>
-                    <p className="text-sm font-heading font-semibold text-white">
-                      View Gallery
-                    </p>
-                  </div>
-                </div>
+                <CategoryBadge label={item.eventType} />
+                <HoverOverlay label={item.eventType} size="lg" />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/0 group-hover:ring-white/10 transition-all duration-300 pointer-events-none" />
               </div>
             </div>

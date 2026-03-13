@@ -84,7 +84,7 @@ export function CategorySplit() {
           className="grid grid-cols-2 md:grid-cols-3 gap-3 animate-[fadeIn_0.25s_ease-out]"
           style={{ opacity: 1 }}
         >
-          {filtered.map((item, index) => (
+          {filtered.map((item) => (
             <div key={item.id} className="group cursor-pointer">
               <div className="relative overflow-hidden rounded-sm">
                 <div className={`relative ${aspectClasses[item.aspectRatio]} w-full`}>
@@ -94,7 +94,7 @@ export function CategorySplit() {
                     fill
                     sizes="(max-width: 768px) 50vw, 33vw"
                     className="object-cover"
-                    priority={index === 0}
+
                   />
                 </div>
                 <CategoryBadge label={item.eventType} size="sm" />

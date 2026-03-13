@@ -6,7 +6,7 @@
 
 const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 
-export type PortfolioAspect = "portrait" | "landscape" | "square";
+export type PortfolioAspect = "portrait" | "landscape" | "square" | "video";
 
 export type EventCategory = Exclude<EventType, "All">;
 
