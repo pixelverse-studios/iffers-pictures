@@ -90,19 +90,9 @@ export const partyData: ServicePageData = {
     title: "What Clients Say",
     items: [
       {
-        quote: "We threw a surprise 50th for my mom and the photos captured her face when she walked in—priceless! Now those photos are displayed all over her house.",
-        author: "The Martinez Family",
-        location: "North Bergen, NJ",
-      },
-      {
-        quote: "My daughter's first birthday party was chaos in the best way. I'm so glad we had a professional there to capture it all because I barely remember to breathe!",
-        author: "Jennifer",
-        location: "Cliffside Park, NJ",
-      },
-      {
-        quote: "Our 25th anniversary party was perfect, and the photos prove it. She got shots of guests I hadn't seen in years—memories we'll cherish forever.",
-        author: "Robert & Linda",
-        location: "Hackensack, NJ",
+        quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
+        author: "Vittoria F.",
+        location: "Bergen County, NJ",
       },
     ],
   },

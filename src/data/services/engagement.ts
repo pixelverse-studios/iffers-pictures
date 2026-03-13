@@ -90,19 +90,14 @@ export const engagementData: ServicePageData = {
     title: "What Couples Say",
     items: [
       {
-        quote: "Our engagement photos exceeded every expectation. The way she captured our connection was magical. We've gotten so many compliments on our save-the-dates!",
-        author: "Sarah & Michael",
-        location: "Fort Lee, NJ",
+        quote: "Jessica was hired by my mom and fiancé to capture a surprise second engagement after our original photos and SD card were lost by the original photographer. She was so great and helped the second proposal feel just as special as the first! Would highly recommend! She also got us our gallery SO quickly!",
+        author: "Miranda S.A.",
+        location: "Bergen County, NJ",
       },
       {
-        quote: "We were so nervous about being photographed, but she made us feel completely at ease. The photos look like they belong in a magazine!",
-        author: "Jessica & David",
-        location: "Englewood, NJ",
-      },
-      {
-        quote: "Choosing the location was stressful, but she suggested the perfect spot. The golden hour shots are absolutely breathtaking.",
-        author: "Amanda & Chris",
-        location: "Edgewater, NJ",
+        quote: "Jennifer photographed our engagement and made the whole experience so comfortable and fun. We're not the most natural in front of a camera, but she knew exactly how to guide us and the photos came out absolutely beautiful. She really captured us as a couple.",
+        author: "Jolee",
+        location: "Bergen County, NJ",
       },
     ],
   },

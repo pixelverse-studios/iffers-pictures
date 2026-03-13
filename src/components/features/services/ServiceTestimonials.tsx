@@ -19,7 +19,12 @@ export function ServiceTestimonials({ data }: ServiceTestimonialsProps) {
           title={data.title}
         />
 
-        <div className="mt-16 grid md:grid-cols-3 gap-8">
+        <div className={cn(
+          "mt-16 grid gap-8",
+          data.items.length === 1 && "max-w-lg mx-auto",
+          data.items.length === 2 && "md:grid-cols-2 max-w-3xl mx-auto",
+          data.items.length >= 3 && "md:grid-cols-3"
+        )}>
           {data.items.map((testimonial, index) => (
             <Card
               key={index}

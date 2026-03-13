@@ -84,29 +84,6 @@ export const baptismChristeningData: ServicePageData = {
     ],
   },
 
-  // Testimonials Section
-  testimonials: {
-    eyebrow: "Blessed Families",
-    title: "What Families Say",
-    items: [
-      {
-        quote: "She was so respectful during the ceremony—we barely noticed she was there. But the photos captured every meaningful moment. My mother cried when she saw the picture of her holding our son after his blessing.",
-        author: "The Gonzalez Family",
-        location: "Fort Lee, NJ",
-      },
-      {
-        quote: "Our priest had strict rules about photography, but she knew exactly how to work within them. The photos are beautiful and the ceremony wasn't disrupted at all.",
-        author: "Maria & Anthony",
-        location: "North Bergen, NJ",
-      },
-      {
-        quote: "We had over 60 family members at the reception. She got photos of my grandmother with the baby—my grandmother passed away six months later. Those photos are priceless to us.",
-        author: "The Papadopoulos Family",
-        location: "Cliffside Park, NJ",
-      },
-    ],
-  },
-
   // Pricing Section
   pricing: {
     eyebrow: "Investment",

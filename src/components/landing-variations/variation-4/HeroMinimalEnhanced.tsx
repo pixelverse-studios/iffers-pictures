@@ -41,7 +41,7 @@ export function HeroMinimalEnhanced() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6">
+      <div className="relative z-10 text-center px-6" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.25)" }}>
         {/* Animated camera icon */}
         <div
           className={cn(

@@ -2,29 +2,29 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
 const testimonials = [
   {
     id: 1,
-    quote: "Iffer captured our engagement party so beautifully. Every time we look at the photos, we're transported back to that magical evening.",
-    author: "Sarah & Michael",
-    event: "Engagement Party",
-    location: "Fort Lee, NJ",
+    quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
+    author: "Vittoria F.",
+    event: "Event Photography",
+    location: "Bergen County, NJ",
   },
   {
     id: 2,
-    quote: "The baby shower photos exceeded every expectation. Iffer has this incredible ability to blend into the background while capturing every precious moment.",
-    author: "Michelle K.",
-    event: "Baby Shower",
-    location: "Cliffside Park, NJ",
+    quote: "Jessica was hired by my mom and fiancé to capture a surprise second engagement after our original photos and SD card were lost by the original photographer. She was so great and helped the second proposal feel just as special as the first! Would highly recommend! She also got us our gallery SO quickly!",
+    author: "Miranda S.A.",
+    event: "Engagement Session",
+    location: "Bergen County, NJ",
   },
   {
     id: 3,
-    quote: "From start to finish, working with Iffer was a dream. Professional, creative, and so easy to work with. Our bridal shower photos are stunning.",
-    author: "Christine L.",
+    quote: "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted during my bridal shower. Jennifer captured the entire event and made sure we were satisfied with the content. Highly recommend booking her for all events (because we sure will)!",
+    author: "Jessica U.F.",
     event: "Bridal Shower",
-    location: "Edgewater, NJ",
+    location: "Bergen County, NJ",
   },
 ];
 
@@ -43,7 +43,9 @@ export function TestimonialsBlend() {
   }, [isPaused]);
 
   const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+    );
   };
 
   const goToNext = () => {
@@ -51,103 +53,100 @@ export function TestimonialsBlend() {
   };
 
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="py-24 bg-[var(--background-warm)] overflow-hidden">
       <div className="container">
-        <div className="max-w-4xl mx-auto">
-          {/* Section header */}
-          <div className="text-center mb-12">
-            <span className="text-[var(--teal)] font-medium tracking-wide uppercase text-sm mb-3 block">
-              Client Stories
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold text-[var(--foreground)]">
-              What Our Clients Say
-            </h2>
-          </div>
+        {/* Section header */}
+        <div className="text-center mb-16">
+          <span className="text-[var(--teal)] font-medium tracking-widest uppercase text-xs mb-4 block">
+            Kind Words
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold text-[var(--foreground)]">
+            What Our Clients Say
+          </h2>
+        </div>
 
-          {/* Testimonials display */}
-          <div
-            className="relative"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
+        {/* Carousel layout: arrows | content | arrows */}
+        <div
+          className="flex items-center justify-center gap-4 md:gap-8 max-w-5xl mx-auto"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Left arrow */}
+          <button
+            onClick={goToPrevious}
+            className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-white transition-all duration-200"
+            aria-label="Previous testimonial"
           >
-            {/* Large quote background */}
-            <Quote className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 w-20 h-20 text-[var(--teal)]/8" />
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-            {/* Testimonial content */}
-            <div className="relative min-h-[320px] flex items-center justify-center">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={testimonial.id}
-                  className={cn(
-                    "absolute inset-0 flex flex-col items-center justify-center text-center px-4",
-                    "transition-all duration-500",
-                    index === currentIndex
-                      ? "opacity-100 scale-100"
-                      : "opacity-0 scale-95 pointer-events-none"
-                  )}
-                >
-                  {/* Stars */}
-                  <div className="flex gap-1.5 mb-8">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-[var(--gold)] fill-[var(--gold)]" />
-                    ))}
-                  </div>
-
-                  {/* Quote - large typography like V3 */}
-                  <blockquote className="text-xl md:text-2xl lg:text-3xl font-heading text-[var(--foreground)] leading-relaxed mb-10 max-w-3xl">
-                    &ldquo;{testimonial.quote}&rdquo;
-                  </blockquote>
-
-                  {/* Author */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[var(--teal)]/20 to-[var(--coral)]/20 mb-3" />
-                    <p className="font-heading font-semibold text-[var(--foreground)] text-lg">
-                      {testimonial.author}
-                    </p>
-                    <p className="text-[var(--text-muted)] text-sm">
-                      {testimonial.event} &bull; {testimonial.location}
-                    </p>
-                  </div>
+          {/* Testimonial content */}
+          <div className="relative min-h-[280px] md:min-h-[260px] flex-1 flex items-center justify-center">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={testimonial.id}
+                className={cn(
+                  "absolute inset-0 flex flex-col items-center justify-center text-center",
+                  "transition-all duration-500",
+                  index === currentIndex
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-3 pointer-events-none"
+                )}
+              >
+                {/* Stars */}
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-4 h-4 text-[var(--gold)] fill-[var(--gold)]"
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            {/* Navigation - V1 style with arrows */}
-            <div className="flex items-center justify-center gap-4 mt-6">
-              <button
-                onClick={goToPrevious}
-                className="w-11 h-11 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:border-[var(--teal)] hover:text-[var(--teal)] transition-all duration-200"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
+                {/* Quote */}
+                <blockquote className="text-lg md:text-xl lg:text-2xl font-heading text-[var(--foreground)] leading-relaxed mb-8 max-w-2xl">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </blockquote>
 
-              {/* Dots */}
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={cn(
-                      "w-2.5 h-2.5 rounded-full transition-all duration-300",
-                      index === currentIndex
-                        ? "w-8 bg-[var(--teal)]"
-                        : "bg-[var(--border)] hover:bg-[var(--teal)]/50"
-                    )}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                  />
-                ))}
+                {/* Divider */}
+                <div className="w-10 h-px bg-[var(--teal)]/40 mb-5" />
+
+                {/* Author */}
+                <p className="font-heading font-semibold text-[var(--foreground)] text-base">
+                  {testimonial.author}
+                </p>
+                <p className="text-[var(--text-muted)] text-sm mt-1">
+                  {testimonial.event}
+                </p>
               </div>
-
-              <button
-                onClick={goToNext}
-                className="w-11 h-11 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:border-[var(--teal)] hover:text-[var(--teal)] transition-all duration-200"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+            ))}
           </div>
+
+          {/* Right arrow */}
+          <button
+            onClick={goToNext}
+            className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-white transition-all duration-200"
+            aria-label="Next testimonial"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-8">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={cn(
+                "h-2 rounded-full transition-all duration-300",
+                index === currentIndex
+                  ? "w-8 bg-[var(--teal)]"
+                  : "w-2 bg-[var(--border)] hover:bg-[var(--teal)]/40"
+              )}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
