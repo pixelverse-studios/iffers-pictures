@@ -1,4 +1,4 @@
-import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
+import Image from "next/image";
 import { PORTFOLIO_ITEMS } from "../portfolioData";
 
 function CategoryBadge({ label }: { label: string }) {
@@ -26,6 +26,12 @@ function HoverOverlay({ label }: { label: string }) {
   );
 }
 
+const aspectClasses = {
+  portrait: "aspect-[3/4]",
+  landscape: "aspect-[4/3]",
+  square: "aspect-square",
+};
+
 /**
  * Masonry — organic varying-height column grid.
  * Editorial feel with subtle hover treatment.
@@ -36,15 +42,17 @@ export function Masonry() {
       {PORTFOLIO_ITEMS.map((item) => (
         <div key={item.id} className="break-inside-avoid group cursor-pointer">
           <div className="relative overflow-hidden rounded-sm">
-            <ImagePlaceholder
-              aspectRatio={item.aspectRatio}
-              variant={item.variant}
-              showIcon={true}
-              iconSize="md"
-              className="w-full"
-            />
-            <CategoryBadge label={item.category} />
-            <HoverOverlay label={item.category} />
+            <div className={`relative ${aspectClasses[item.aspectRatio]} w-full`}>
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover"
+              />
+            </div>
+            <CategoryBadge label={item.eventType} />
+            <HoverOverlay label={item.eventType} />
             {/* Subtle inner ring on hover */}
             <div className="absolute inset-0 ring-1 ring-inset ring-white/0 group-hover:ring-white/10 transition-all duration-300 pointer-events-none" />
           </div>

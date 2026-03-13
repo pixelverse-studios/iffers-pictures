@@ -1,8 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
-import { PORTFOLIO_ITEMS, CATEGORIES, type Category } from "../portfolioData";
+import Image from "next/image";
+import { PORTFOLIO_ITEMS, EVENT_TYPES, type EventType } from "../portfolioData";
+
+const aspectClasses = {
+  portrait: "aspect-[3/4]",
+  landscape: "aspect-[4/3]",
+  square: "aspect-square",
+};
 
 function CategoryBadge({ label }: { label: string }) {
   return (
@@ -34,12 +40,12 @@ function HoverOverlay({ label }: { label: string }) {
  * Luxury curation aesthetic: left bookmark-style nav, right responds instantly.
  */
 export function CategorySplit() {
-  const [active, setActive] = useState<Category>("All");
+  const [active, setActive] = useState<EventType>("All");
 
   const filtered =
     active === "All"
       ? PORTFOLIO_ITEMS
-      : PORTFOLIO_ITEMS.filter((i) => i.category === active);
+      : PORTFOLIO_ITEMS.filter((i) => i.eventType === active);
 
   return (
     <div className="flex gap-8 lg:gap-12">
@@ -50,7 +56,7 @@ export function CategorySplit() {
         </p>
 
         <nav className="flex flex-col gap-0">
-          {CATEGORIES.map((cat) => {
+          {EVENT_TYPES.map((cat) => {
             const isActive = active === cat;
             return (
               <button
@@ -81,7 +87,7 @@ export function CategorySplit() {
           className="flex gap-4 overflow-x-auto pb-3 border-b border-[var(--border)]"
           style={{ scrollbarWidth: "none" }}
         >
-          {CATEGORIES.map((cat) => {
+          {EVENT_TYPES.map((cat) => {
             const isActive = active === cat;
             return (
               <button
@@ -111,15 +117,17 @@ export function CategorySplit() {
           {filtered.map((item) => (
             <div key={item.id} className="group cursor-pointer">
               <div className="relative overflow-hidden rounded-sm">
-                <ImagePlaceholder
-                  aspectRatio={item.aspectRatio}
-                  variant={item.variant}
-                  showIcon={true}
-                  iconSize="sm"
-                  className="w-full"
-                />
-                <CategoryBadge label={item.category} />
-                <HoverOverlay label={item.category} />
+                <div className={`relative ${aspectClasses[item.aspectRatio]} w-full`}>
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <CategoryBadge label={item.eventType} />
+                <HoverOverlay label={item.eventType} />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/0 group-hover:ring-white/10 transition-all duration-300 pointer-events-none" />
               </div>
             </div>
