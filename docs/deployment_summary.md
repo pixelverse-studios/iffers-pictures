@@ -23,6 +23,7 @@
 - Replaced all sample testimonials with real client reviews from Facebook recommendations
 - Testimonial sections removed from service pages without real reviews (baby shower, baptism, headshots, maternity, milestones, events)
 - Homepage testimonial carousel updated with real client quotes
+- Removed all pricing amounts and package tiers from service pages — visitors are now directed to contact for a custom quote tailored to their needs
 
 ## Notes for internal team
 
@@ -48,6 +49,7 @@
 - DEV-462: Extracted Resources from Company column sub-section into standalone footer column, updated grid from 4-col to 5-col layout
 - DEV-463: Created /api/contact route proxying to PVS central server contact-form API. ContactForm.tsx now POSTs to local API route which forwards to https://api.pixelversestudios.io/api/v1/contact-forms/iffers-pictures. Added PVS_CONTACT_API_URL and PVS_WEBSITE_SLUG env vars.
 - DEV-464: Replaced fake testimonials with 5 real Facebook reviews. Made testimonials optional in ServicePageData type. Removed testimonials from 6 services without real content. Updated ServiceTestimonials grid to handle 1-2 items. Updated homepage TestimonialsBlend carousel.
+- DEV-465: Removed all pricing packages (30 packages across 10 services), dollar amounts from FAQ answers, and OfferCatalog from schema. ServicePricing component replaced with simple CTA section. PricingData type simplified (no packages). All service pricing sections now show title, description, and "Get a Custom Quote" button.
 
 ## Changed URLs
 

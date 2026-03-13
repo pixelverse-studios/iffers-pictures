@@ -89,56 +89,8 @@ export const eventsData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Event Photography Packages",
-    description: "Flexible coverage for gatherings of all sizes—from intimate showers to full-scale celebrations",
-    packages: [
-      {
-        name: "Bronze",
-        price: "$399",
-        description: "Ideal for smaller, intimate gatherings",
-        features: [
-          "2-hour coverage",
-          "1 photographer",
-          "Candid & group shots",
-          "40+ edited images",
-          "Private online gallery",
-          "Full print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Silver",
-        price: "$699",
-        description: "Our most popular package for most events",
-        features: [
-          "3-hour coverage",
-          "1 photographer",
-          "Arrival through main event coverage",
-          "Candid, detail & group shots",
-          "75+ edited images",
-          "Private online gallery",
-          "Full print release",
-        ],
-        popular: true,
-      },
-      {
-        name: "Gold",
-        price: "$999",
-        description: "Complete documentation for larger or milestone events",
-        features: [
-          "5-hour coverage",
-          "1 photographer",
-          "Pre-event setup shots",
-          "Full event documentation",
-          "Candid, detail, portrait & group shots",
-          "125+ edited images",
-          "Private online gallery",
-          "Full print release",
-          "20 4×6 prints included",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Event Photography",
+    description: "Flexible coverage for gatherings of all sizes — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section
@@ -168,7 +120,7 @@ export const eventsData: ServicePageData = {
       },
       {
         question: "What if the event runs longer than the package hours?",
-        answer: "Not a problem. Additional coverage time can be added to any package at $150 per hour. Just let me know ahead of time or ask on the day if you'd like me to stay—as long as my schedule allows, I'm happy to.",
+        answer: "Not a problem. Additional coverage time can be added—just let me know ahead of time or ask on the day if you'd like me to stay. As long as my schedule allows, I'm happy to.",
       },
       {
         question: "What do you do on the day of the event?",

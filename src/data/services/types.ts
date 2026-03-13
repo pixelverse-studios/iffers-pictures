@@ -75,15 +75,6 @@ export interface PricingData {
   eyebrow: string;
   title: string;
   description: string;
-  packages: PricingPackage[];
-}
-
-export interface PricingPackage {
-  name: string;
-  price: string;
-  description: string;
-  features: string[];
-  popular: boolean;
 }
 
 export interface FAQData {

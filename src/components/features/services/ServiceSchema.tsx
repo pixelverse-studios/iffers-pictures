@@ -27,18 +27,6 @@ export function ServiceSchema({ data, serviceName }: ServiceSchemaProps) {
         name: "Bergen County, NJ",
       },
     ],
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: `${serviceName} Packages`,
-      itemListElement: data.pricing.packages.map((pkg, index) => ({
-        "@type": "Offer",
-        name: pkg.name,
-        description: pkg.description,
-        price: pkg.price.replace("$", "").replace(",", ""),
-        priceCurrency: "USD",
-        position: index + 1,
-      })),
-    },
   };
 
   return (

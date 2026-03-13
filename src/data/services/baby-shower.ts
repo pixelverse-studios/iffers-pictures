@@ -87,57 +87,8 @@ export const babyShowerData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Baby Shower Packages",
-    description: "Flexible coverage for celebrations of all sizes",
-    packages: [
-      {
-        name: "Sweet",
-        price: "$400",
-        description: "Perfect for intimate gatherings",
-        features: [
-          "2-hour coverage",
-          "1 photographer",
-          "Venue detail shots",
-          "40+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Joyful",
-        price: "$600",
-        description: "Our most popular baby shower package",
-        features: [
-          "3-hour coverage",
-          "1 photographer",
-          "Pre-event setup shots",
-          "Games & activities",
-          "Gift opening coverage",
-          "60+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: true,
-      },
-      {
-        name: "Celebration",
-        price: "$900",
-        description: "Complete coverage for larger events",
-        features: [
-          "4-hour coverage",
-          "1 photographer",
-          "Pre-event setup shots",
-          "Full event documentation",
-          "Individual guest portraits",
-          "100+ edited images",
-          "Online gallery",
-          "Print release",
-          "20 4×6 prints",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Baby Shower Photography",
+    description: "Flexible coverage tailored to your celebration — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section

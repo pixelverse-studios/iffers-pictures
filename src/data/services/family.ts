@@ -100,54 +100,8 @@ export const familyData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Family Packages",
-    description: "Packages designed for families of all sizes",
-    packages: [
-      {
-        name: "Mini Session",
-        price: "$299",
-        description: "Perfect for annual updates or holiday cards",
-        features: [
-          "30-minute session",
-          "1 location",
-          "20+ edited images",
-          "Online gallery",
-          "Print release",
-        ],
-        popular: false,
-      },
-      {
-        name: "Classic",
-        price: "$499",
-        description: "Our most popular family package",
-        features: [
-          "60-minute session",
-          "1-2 locations",
-          "Outfit change included",
-          "40+ edited images",
-          "Online gallery",
-          "Print release",
-          "Styling guide",
-        ],
-        popular: true,
-      },
-      {
-        name: "Extended",
-        price: "$749",
-        description: "Ideal for extended family or multiple locations",
-        features: [
-          "90-minute session",
-          "Multiple locations",
-          "Unlimited outfit changes",
-          "60+ edited images",
-          "Online gallery",
-          "Print release",
-          "Styling guide",
-          "10 5×7 prints",
-        ],
-        popular: false,
-      },
-    ],
+    title: "Family Photography",
+    description: "Sessions designed for families of all sizes — reach out and I'll put together a package that fits",
   },
 
   // FAQ Section
