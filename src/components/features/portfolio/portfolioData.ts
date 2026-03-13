@@ -8,11 +8,13 @@ const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 
 export type PortfolioAspect = "portrait" | "landscape" | "square";
 
+export type EventCategory = Exclude<EventType, "All">;
+
 export interface PortfolioItem {
   id: number;
   src: string;
   alt: string;
-  eventType: string;
+  eventType: EventCategory;
   aspectRatio: PortfolioAspect;
 }
 

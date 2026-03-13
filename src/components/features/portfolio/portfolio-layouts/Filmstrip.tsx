@@ -1,20 +1,12 @@
 import Image from "next/image";
-import { PORTFOLIO_ITEMS } from "../portfolioData";
+import { PORTFOLIO_ITEMS, EVENT_TYPES } from "../portfolioData";
 
-const ROWS = [
-  {
-    label: "Engagement",
-    items: PORTFOLIO_ITEMS.filter((i) => i.eventType === "Engagement"),
-  },
-  {
-    label: "Gender Reveal",
-    items: PORTFOLIO_ITEMS.filter((i) => i.eventType === "Gender Reveal"),
-  },
-  {
-    label: "Maternity",
-    items: PORTFOLIO_ITEMS.filter((i) => i.eventType === "Maternity"),
-  },
-];
+const ROWS = EVENT_TYPES
+  .filter((t) => t !== "All")
+  .map((type) => ({
+    label: type,
+    items: PORTFOLIO_ITEMS.filter((i) => i.eventType === type),
+  }));
 
 function FilmRow({ label, items }: { label: string; items: typeof PORTFOLIO_ITEMS }) {
   return (
@@ -41,9 +33,9 @@ function FilmRow({ label, items }: { label: string; items: typeof PORTFOLIO_ITEM
           className="flex gap-3 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 md:-mx-8 md:px-8"
           style={{ scrollbarWidth: "none" }}
         >
-          {items.map((item, i) => (
+          {items.map((item) => (
             <div
-              key={`${item.id}-${i}`}
+              key={item.id}
               className="snap-start shrink-0 w-[78vw] sm:w-[52vw] md:w-[42vw] lg:w-[420px] group cursor-pointer"
             >
               <div className="relative overflow-hidden rounded-sm shadow-sm">
