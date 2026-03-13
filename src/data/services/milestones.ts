@@ -86,29 +86,6 @@ export const milestonesData: ServicePageData = {
     ],
   },
 
-  // Testimonials Section
-  testimonials: {
-    eyebrow: "Families We've Photographed",
-    title: "What Families Say",
-    items: [
-      {
-        quote: "My daughter's first birthday came and went so fast. I was so busy managing everything that I barely remember it—but the photos Jennifer took put me right back in that room. Every single laugh, every bit of frosting. I'm so grateful we have them.",
-        author: "Diana & Marco",
-        location: "Fort Lee, NJ",
-      },
-      {
-        quote: "We hired Jennifer for my mother's 50th anniversary party. My mom is very private and hates being photographed, but Jennifer was so gentle and unobtrusive that my mom forgot she was there. The photos of her and my dad are the most beautiful I've ever seen of them.",
-        author: "The Reyes Family",
-        location: "Cliffside Park, NJ",
-      },
-      {
-        quote: "Our quinceañera was a huge family production—cousins from three states, my abuela flying in from Puerto Rico. Jennifer captured everyone. There's a photo of my grandmother holding my hands right before the waltz that I've already had printed and framed. It's my favorite photograph I own.",
-        author: "Sofia & The Delgado Family",
-        location: "Palisades Park, NJ",
-      },
-    ],
-  },
-
   // Pricing Section
   pricing: {
     eyebrow: "Investment",

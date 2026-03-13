@@ -98,7 +98,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         whatToExpect={serviceData.whatToExpect}
       />
       <ServiceGallery data={serviceData.gallery} />
-      <ServiceTestimonials data={serviceData.testimonials} />
+      {serviceData.testimonials && <ServiceTestimonials data={serviceData.testimonials} />}
       <ServicePricing data={serviceData.pricing} />
       <ServiceFAQ data={serviceData.faq} />
       <ServiceCTA data={serviceData.cta} />

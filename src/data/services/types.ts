@@ -8,7 +8,7 @@ export interface ServicePageData {
   benefits: BenefitsData;
   whatToExpect: WhatToExpectData;
   gallery: GalleryData;
-  testimonials: TestimonialsData;
+  testimonials?: TestimonialsData;
   pricing: PricingData;
   faq: FAQData;
   cta: CTAData;

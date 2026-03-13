@@ -86,29 +86,6 @@ export const eventsData: ServicePageData = {
     ],
   },
 
-  // Testimonials Section
-  testimonials: {
-    eyebrow: "Happy Clients",
-    title: "What People Are Saying",
-    items: [
-      {
-        quote: "We had Jennifer at our daughter's engagement party in Fort Lee and honestly it was the best decision we made. She was invisible all night but somehow got every single moment—the champagne toast, my husband crying, the whole thing. We can't stop looking at the photos.",
-        author: "Rosa V.",
-        location: "Fort Lee, NJ",
-      },
-      {
-        quote: "I hosted a baby shower for my sister and wanted photos but didn't want it to feel like a big production. Jennifer was so low-key and fun that guests didn't even realize she was working. The gallery came back in less than two weeks and we were obsessed.",
-        author: "Melissa T.",
-        location: "Edgewater, NJ",
-      },
-      {
-        quote: "My company's holiday party had about 80 people and I wasn't sure how one photographer could cover it all. She absolutely did. Every department, every conversation, every award presentation—it's all in there. Our team loved seeing themselves actually having fun.",
-        author: "James K.",
-        location: "Hackensack, NJ",
-      },
-    ],
-  },
-
   // Pricing Section
   pricing: {
     eyebrow: "Investment",

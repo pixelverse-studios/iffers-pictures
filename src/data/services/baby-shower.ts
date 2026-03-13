@@ -84,29 +84,6 @@ export const babyShowerData: ServicePageData = {
     ],
   },
 
-  // Testimonials Section
-  testimonials: {
-    eyebrow: "Happy Parents",
-    title: "What Families Say",
-    items: [
-      {
-        quote: "I was so focused on hosting that I would have missed so many moments. Looking at the photos now, I'm so grateful every laugh and hug was captured.",
-        author: "Maria & James",
-        location: "Cliffside Park, NJ",
-      },
-      {
-        quote: "The photos are absolutely stunning. She captured the joy we all felt perfectly. My daughter will love seeing these photos someday.",
-        author: "Nicole & Ryan",
-        location: "Fort Lee, NJ",
-      },
-      {
-        quote: "Professional, friendly, and so talented. She blended right in with the guests while still getting amazing shots of everything.",
-        author: "Priya & Dev",
-        location: "Edgewater, NJ",
-      },
-    ],
-  },
-
   // Pricing Section
   pricing: {
     eyebrow: "Investment",

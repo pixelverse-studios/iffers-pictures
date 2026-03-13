@@ -84,29 +84,6 @@ export const maternityData: ServicePageData = {
     ],
   },
 
-  // Testimonials Section
-  testimonials: {
-    eyebrow: "Beautiful Journeys",
-    title: "What Moms Say",
-    items: [
-      {
-        quote: "I almost didn't book maternity photos because I felt huge and uncomfortable. But she made me feel so beautiful—I cried happy tears when I saw the images. Best decision ever.",
-        author: "Maria",
-        location: "Fort Lee, NJ",
-      },
-      {
-        quote: "Having my 3-year-old daughter included in the session was magical. The photos of her kissing my belly are my absolute favorites. She captured our growing family perfectly.",
-        author: "Rachel",
-        location: "Cliffside Park, NJ",
-      },
-      {
-        quote: "My husband was nervous about being in photos, but she made us both so comfortable. The images of us together are romantic and timeless. We display them proudly.",
-        author: "Amanda",
-        location: "Edgewater, NJ",
-      },
-    ],
-  },
-
   // Pricing Section
   pricing: {
     eyebrow: "Investment",

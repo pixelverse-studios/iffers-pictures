@@ -90,19 +90,9 @@ export const familyData: ServicePageData = {
     title: "What Families Say",
     items: [
       {
-        quote: "We were so worried about how our toddler would behave, but she made it fun for everyone. Our daughter actually had a blast, and the photos are incredible—they really look like us.",
-        author: "The Rodriguez Family",
-        location: "Fort Lee, NJ",
-      },
-      {
-        quote: "We hadn't had professional photos since our wedding 8 years ago. Now we have beautiful images of our whole family, including our dog. Worth every penny.",
-        author: "Mike & Sarah",
-        location: "Cliffside Park, NJ",
-      },
-      {
-        quote: "I was dreading getting three kids under 6 to cooperate, but she captured our chaos perfectly—and somehow made it look beautiful. These photos are everything.",
-        author: "The Patel Family",
-        location: "Edgewater, NJ",
+        quote: "Jennifer took such amazing photos of our family! She was happy to include our dog with our family pictures as well!",
+        author: "Patricia P.B.",
+        location: "Bergen County, NJ",
       },
     ],
   },

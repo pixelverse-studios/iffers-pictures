@@ -84,29 +84,6 @@ export const headshotsData: ServicePageData = {
     ],
   },
 
-  // Testimonials Section
-  testimonials: {
-    eyebrow: "Happy Clients",
-    title: "What Clients Say",
-    items: [
-      {
-        quote: "I'd been putting off getting a professional headshot for years. The session was quick and painless, and I got three interview requests within a week of updating my LinkedIn!",
-        author: "Marcus T.",
-        location: "Fort Lee, NJ",
-      },
-      {
-        quote: "As an actor, my headshot is everything. She captured different looks that show my range—I've already booked two auditions from my new shots.",
-        author: "Danielle R.",
-        location: "North Bergen, NJ",
-      },
-      {
-        quote: "Our company needed headshots for the whole executive team. She was efficient, professional, and made everyone feel comfortable. The photos look cohesive but each person's personality shines through.",
-        author: "Jennifer M., HR Director",
-        location: "Hackensack, NJ",
-      },
-    ],
-  },
-
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
