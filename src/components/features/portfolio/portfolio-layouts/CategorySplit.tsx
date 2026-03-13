@@ -3,37 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { PORTFOLIO_ITEMS, EVENT_TYPES, type EventType } from "../portfolioData";
-
-const aspectClasses = {
-  portrait: "aspect-[3/4]",
-  landscape: "aspect-[4/3]",
-  square: "aspect-square",
-};
-
-function CategoryBadge({ label }: { label: string }) {
-  return (
-    <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/25 backdrop-blur-sm border border-white/10 transition-opacity duration-300 group-hover:opacity-0 pointer-events-none">
-      <span className="text-[9px] font-medium text-white/80 uppercase tracking-[0.1em]">
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function HoverOverlay({ label }: { label: string }) {
-  return (
-    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 pointer-events-none">
-      <div className="translate-y-1.5 group-hover:translate-y-0 transition-transform duration-300 ease-out">
-        <p className="text-[9px] font-medium uppercase tracking-[0.15em] text-white/55 mb-0.5">
-          {label}
-        </p>
-        <p className="text-xs font-heading font-semibold text-white leading-tight">
-          View Gallery
-        </p>
-      </div>
-    </div>
-  );
-}
+import { CategoryBadge, HoverOverlay, aspectClasses } from "./shared";
 
 /**
  * Category Split — sidebar category filter + reactive image grid.
@@ -114,7 +84,7 @@ export function CategorySplit() {
           className="grid grid-cols-2 md:grid-cols-3 gap-3 animate-[fadeIn_0.25s_ease-out]"
           style={{ opacity: 1 }}
         >
-          {filtered.map((item) => (
+          {filtered.map((item, index) => (
             <div key={item.id} className="group cursor-pointer">
               <div className="relative overflow-hidden rounded-sm">
                 <div className={`relative ${aspectClasses[item.aspectRatio]} w-full`}>
@@ -124,9 +94,10 @@ export function CategorySplit() {
                     fill
                     sizes="(max-width: 768px) 50vw, 33vw"
                     className="object-cover"
+                    priority={index === 0}
                   />
                 </div>
-                <CategoryBadge label={item.eventType} />
+                <CategoryBadge label={item.eventType} size="sm" />
                 <HoverOverlay label={item.eventType} />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/0 group-hover:ring-white/10 transition-all duration-300 pointer-events-none" />
               </div>
