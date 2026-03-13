@@ -24,6 +24,10 @@
 - Testimonial sections removed from service pages without real reviews (baby shower, baptism, headshots, maternity, milestones, events)
 - Homepage testimonial carousel updated with real client quotes
 - Removed all pricing amounts and package tiers from service pages — visitors are now directed to contact for a custom quote tailored to their needs
+- Portfolio page now displays real client photography from 39 professional images across engagement, gender reveal, and maternity sessions
+- Portfolio images hosted on Cloudflare R2 for fast delivery with no file size restrictions
+- All four gallery layout options (Masonry, Editorial, Filmstrip, By Category) now show real photos instead of placeholder boxes
+- Event-type filtering added to the portfolio — visitors can browse by Engagement, Gender Reveal, or Maternity
 
 ## Notes for internal team
 
@@ -50,6 +54,7 @@
 - DEV-463: Created /api/contact route proxying to PVS central server contact-form API. ContactForm.tsx now POSTs to local API route which forwards to https://api.pixelversestudios.io/api/v1/contact-forms/iffers-pictures. Added PVS_CONTACT_API_URL and PVS_WEBSITE_SLUG env vars.
 - DEV-464: Replaced fake testimonials with 5 real Facebook reviews. Made testimonials optional in ServicePageData type. Removed testimonials from 6 services without real content. Updated ServiceTestimonials grid to handle 1-2 items. Updated homepage TestimonialsBlend carousel.
 - DEV-465: Removed all pricing packages (30 packages across 10 services), dollar amounts from FAQ answers, and OfferCatalog from schema. ServicePricing component replaced with simple CTA section. PricingData type simplified (no packages). All service pricing sections now show title, description, and "Get a Custom Quote" button.
+- DEV-489: Integrated Cloudflare R2 portfolio images. Added R2 remote pattern to next.config.ts. Rewrote portfolioData.ts with 39 real image entries (15 engagement, 12 gender reveal, 12 maternity) including alt text and aspect ratios. Replaced ImagePlaceholder with next/image in all 4 portfolio layout components (Masonry, FeaturedGrid, Filmstrip, CategorySplit). Updated category system from generic types to event-based types (EVENT_TYPES replaces CATEGORIES).
 
 ## Changed URLs
 
