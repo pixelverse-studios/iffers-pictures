@@ -21,7 +21,10 @@ export function ServiceGallery({ data, serviceSlug }: ServiceGalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeSub, setActiveSub] = useState<string | null>(null);
 
-  const portfolioItems = serviceSlug ? getPortfolioForService(serviceSlug) : [];
+  const portfolioItems = useMemo(
+    () => (serviceSlug ? getPortfolioForService(serviceSlug) : []),
+    [serviceSlug]
+  );
   const hasRealImages = portfolioItems.length > 0;
 
   // Derive unique sub-categories — only show filter when there are multiple
