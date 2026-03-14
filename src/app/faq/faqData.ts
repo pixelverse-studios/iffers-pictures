@@ -1,7 +1,6 @@
-export interface FAQItem {
-  question: string;
-  answer: string;
-}
+import type { FAQItem } from "@/data/services/types";
+
+export type { FAQItem };
 
 export const generalFaqs: FAQItem[] = [
   {

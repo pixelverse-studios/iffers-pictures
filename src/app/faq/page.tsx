@@ -3,12 +3,12 @@ import Link from "next/link";
 import { SITE_CONFIG, BUSINESS_INFO, SERVICES } from "@/lib/constants";
 import { BreadcrumbSchema } from "@/components/features/services/BreadcrumbSchema";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { FAQAccordion } from "./FAQAccordion";
 import { generalFaqs } from "./faqData";
-import type { FAQItem } from "./faqData";
+import { serviceDataMap } from "@/data/services";
+import type { FAQItem } from "@/data/services/types";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -20,24 +20,33 @@ export const metadata: Metadata = {
   },
 };
 
-interface FAQPageSchemaData {
-  "@context": string;
-  "@type": string;
-  mainEntity: {
-    "@type": string;
-    name: string;
-    acceptedAnswer: {
-      "@type": string;
-      text: string;
+/** Collect service FAQs paired with their display name and slug. */
+function getServiceFAQSections() {
+  return SERVICES.map((svc) => {
+    const data = serviceDataMap[svc.slug];
+    return {
+      name: svc.name,
+      slug: svc.slug,
+      faqs: data?.faq.items ?? [],
     };
-  }[];
+  }).filter((s) => s.faqs.length > 0);
+}
+
+/** Build all FAQ items for schema markup (general + all service-specific). */
+function getAllFAQItems(): FAQItem[] {
+  const serviceSections = getServiceFAQSections();
+  return [
+    ...generalFaqs,
+    ...serviceSections.flatMap((s) => s.faqs),
+  ];
 }
 
 function FAQPageSchema() {
-  const schema: FAQPageSchemaData = {
+  const allFaqs = getAllFAQItems();
+  const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: generalFaqs.map((faq: FAQItem) => ({
+    mainEntity: allFaqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: {
@@ -56,6 +65,8 @@ function FAQPageSchema() {
 }
 
 export default function FAQPage() {
+  const serviceSections = getServiceFAQSections();
+
   return (
     <>
       <FAQPageSchema />
@@ -101,47 +112,32 @@ export default function FAQPage() {
           />
 
           <div className="mt-12 max-w-3xl mx-auto">
-            <FAQAccordion faqs={generalFaqs} />
+            <FAQAccordion faqs={generalFaqs} idPrefix="general" />
           </div>
         </div>
       </section>
 
-      {/* Service-Specific FAQs */}
-      <section className="py-16 md:py-24 bg-[var(--background-warm)]">
-        <div className="container">
-          <SectionHeader
-            eyebrow="By Service"
-            title="Service-Specific Questions"
-            description="Each of our services has its own detailed FAQ section"
-          />
+      {/* Service-Specific FAQs — inline accordions */}
+      {serviceSections.map((section) => (
+        <section
+          key={section.slug}
+          className="py-16 md:py-24 odd:bg-[var(--background-warm)]"
+        >
+          <div className="container">
+            <SectionHeader
+              eyebrow={section.name}
+              title={`${section.name} Questions`}
+            />
 
-          <div className="mt-12 max-w-3xl mx-auto grid gap-4">
-            {SERVICES.map((service) => (
-              <Link
-                key={service.slug}
-                href={`/services/${service.slug}#faq`}
-                className={cn(
-                  "flex items-center justify-between p-5 rounded-xl",
-                  "bg-[var(--surface)] border border-[var(--border)]",
-                  "hover:border-[var(--teal)] hover:shadow-md",
-                  "transition-all duration-200 group"
-                )}
-              >
-                <div>
-                  <h3 className="font-heading font-semibold text-[var(--foreground)] group-hover:text-[var(--teal)] transition-colors">
-                    {service.name}
-                  </h3>
-                  <p className="text-sm text-[var(--text-muted)] mt-1">
-                    Common questions about {service.shortName.toLowerCase()}{" "}
-                    sessions
-                  </p>
-                </div>
-                <ArrowRight className="w-5 h-5 text-[var(--text-muted)] group-hover:text-[var(--teal)] group-hover:translate-x-1 transition-all" />
-              </Link>
-            ))}
+            <div className="mt-12 max-w-3xl mx-auto">
+              <FAQAccordion
+                faqs={section.faqs}
+                idPrefix={`svc-${section.slug}`}
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
       {/* CTA */}
       <section className="py-16 md:py-24">
