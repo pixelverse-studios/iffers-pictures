@@ -1,18 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
 import { HeroData } from "@/data/services/types";
+import { getServiceThumbnail } from "@/components/features/portfolio/portfolioData";
 import { ChevronRight } from "lucide-react";
 
 interface ServiceHeroProps {
   data: HeroData;
   serviceName: string;
+  serviceSlug?: string;
 }
 
-export function ServiceHero({ data, serviceName }: ServiceHeroProps) {
+export function ServiceHero({ data, serviceName, serviceSlug }: ServiceHeroProps) {
+  const heroImage = serviceSlug ? getServiceThumbnail(serviceSlug) : undefined;
   return (
     <section className="relative min-h-[70vh] flex items-center overflow-hidden">
       {/* Background gradient */}
@@ -68,23 +72,26 @@ export function ServiceHero({ data, serviceName }: ServiceHeroProps) {
           {/* Image */}
           <div className="order-1 lg:order-2 relative">
             <div className="relative">
-              {/* Main image placeholder */}
-              <ImagePlaceholder
-                aspectRatio="portrait"
-                variant="gradient"
-                className="w-full max-w-md mx-auto shadow-2xl"
-                iconSize="lg"
-              />
-
-              {/* Floating accent image */}
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 hidden md:block">
+              {heroImage ? (
+                <div className="w-full max-w-md mx-auto shadow-2xl rounded-xl overflow-hidden">
+                  <Image
+                    src={heroImage.src}
+                    alt={heroImage.alt}
+                    width={800}
+                    height={1067}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="w-full h-auto object-cover"
+                    priority
+                  />
+                </div>
+              ) : (
                 <ImagePlaceholder
-                  aspectRatio="square"
-                  variant="teal"
-                  className="shadow-xl"
-                  iconSize="sm"
+                  aspectRatio="portrait"
+                  variant="gradient"
+                  className="w-full max-w-md mx-auto shadow-2xl"
+                  iconSize="lg"
                 />
-              </div>
+              )}
 
               {/* Decorative ring */}
               <div className="absolute -top-4 -right-4 w-24 h-24 border-4 border-[var(--coral)]/20 rounded-full hidden lg:block" />

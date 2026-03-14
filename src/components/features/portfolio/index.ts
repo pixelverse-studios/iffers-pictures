@@ -1,1 +1,1 @@
-export { PortfolioSwitcher } from "./PortfolioSwitcher";
+export { CategorySplit } from "./portfolio-layouts/CategorySplit";

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants";
-import { PortfolioSwitcher } from "@/components/features/portfolio";
+import { CategorySplit } from "@/components/features/portfolio/portfolio-layouts/CategorySplit";
 
 export const metadata: Metadata = {
   title: "Portfolio | Iffer's Pictures | Bergen County Photographer",
@@ -81,7 +81,7 @@ export default function PortfolioPage() {
       {/* Gallery — switchable layouts */}
       <section className="py-12 md:py-16 bg-[var(--background)]">
         <div className="container">
-          <PortfolioSwitcher />
+          <CategorySplit />
         </div>
       </section>
 

@@ -92,12 +92,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <BreadcrumbSchema items={breadcrumbItems} />
 
       {/* Page sections */}
-      <ServiceHero data={serviceData.hero} serviceName={serviceInfo.name} />
+      <ServiceHero data={serviceData.hero} serviceName={serviceInfo.name} serviceSlug={slug} />
       <ServiceBenefits
         benefits={serviceData.benefits}
         whatToExpect={serviceData.whatToExpect}
       />
-      <ServiceGallery data={serviceData.gallery} />
+      <ServiceGallery data={serviceData.gallery} serviceSlug={slug} />
       {serviceData.testimonials && <ServiceTestimonials data={serviceData.testimonials} />}
       <ServicePricing data={serviceData.pricing} />
       <ServiceFAQ data={serviceData.faq} />

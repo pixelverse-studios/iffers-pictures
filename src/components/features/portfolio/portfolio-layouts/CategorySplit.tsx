@@ -2,20 +2,42 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { PORTFOLIO_ITEMS, EVENT_TYPES, type EventType } from "../portfolioData";
-import { CategoryBadge, HoverOverlay, aspectClasses } from "./shared";
+import {
+  PORTFOLIO_ITEMS,
+  SERVICES,
+  SUB_CATEGORIES,
+  type ServiceFilter,
+  type PortfolioItem,
+} from "../portfolioData";
+import { CategoryBadge } from "./shared";
+import { Lightbox } from "../Lightbox";
 
 /**
- * Category Split — sidebar category filter + reactive image grid.
- * Luxury curation aesthetic: left bookmark-style nav, right responds instantly.
+ * Category Split — two-tier sidebar filter + reactive masonry grid.
+ * Tier 1: Service (e.g. Milestone Celebrations, Maternity)
+ * Tier 2: Sub-category (e.g. Engagement, Gender Reveal) — shown when service has multiple
  */
 export function CategorySplit() {
-  const [active, setActive] = useState<EventType>("All");
+  const [activeService, setActiveService] = useState<ServiceFilter | "All">("All");
+  const [activeSub, setActiveSub] = useState<string | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const filtered =
-    active === "All"
-      ? PORTFOLIO_ITEMS
-      : PORTFOLIO_ITEMS.filter((i) => i.eventType === active);
+  const filtered = filterItems(activeService, activeSub);
+
+  function selectService(service: ServiceFilter | "All") {
+    setActiveService(service);
+    setActiveSub(null);
+  }
+
+  function selectSub(svc: ServiceFilter, sub: string) {
+    if (activeService === svc && activeSub === sub) {
+      // Clicking active sub deselects it, showing all of the parent service
+      setActiveSub(null);
+    } else {
+      setActiveService(svc);
+      setActiveSub(sub);
+    }
+  }
 
   return (
     <div className="flex gap-8 lg:gap-12">
@@ -26,21 +48,62 @@ export function CategorySplit() {
         </p>
 
         <nav className="flex flex-col gap-0">
-          {EVENT_TYPES.map((cat) => {
-            const isActive = active === cat;
+          {/* All */}
+          <button
+            onClick={() => selectService("All")}
+            className={[
+              "py-2.5 pl-3 text-left text-sm font-body transition-colors duration-200 border-l-2 cursor-pointer",
+              activeService === "All"
+                ? "border-[var(--teal)] text-[var(--teal)] font-medium"
+                : "border-transparent hover:border-[var(--teal-light)] text-[var(--text-secondary)] hover:text-[var(--foreground)]",
+            ].join(" ")}
+          >
+            All
+          </button>
+
+          {/* Services */}
+          {SERVICES.map((svc) => {
+            const isActive = activeService === svc;
+            const subs = SUB_CATEGORIES[svc];
+            const hasMultipleSubs = subs.length > 1;
+
             return (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={[
-                  "py-2.5 text-left text-sm font-body transition-colors duration-200 border-l-2",
-                  isActive
-                    ? "border-[var(--teal)] text-[var(--teal)] font-medium pl-3"
-                    : "border-transparent text-[var(--text-secondary)] hover:text-[var(--foreground)] pl-[14px]",
-                ].join(" ")}
-              >
-                {cat}
-              </button>
+              <div key={svc}>
+                <button
+                  onClick={() => selectService(svc)}
+                  className={[
+                    "py-2.5 pl-3 text-left text-sm font-body transition-colors duration-200 border-l-2 cursor-pointer w-full",
+                    isActive
+                      ? "border-[var(--teal)] text-[var(--teal)] font-medium"
+                      : "border-transparent hover:border-[var(--teal-light)] text-[var(--text-secondary)] hover:text-[var(--foreground)]",
+                  ].join(" ")}
+                >
+                  {svc}
+                </button>
+
+                {/* Sub-categories — always visible when service has multiple */}
+                {hasMultipleSubs && (
+                  <div className="flex flex-col">
+                    {subs.map((sub) => {
+                      const isSubActive = activeSub === sub;
+                      return (
+                        <button
+                          key={sub}
+                          onClick={() => selectSub(svc, sub)}
+                          className={[
+                            "py-1.5 pl-7 text-left text-xs font-body transition-colors duration-200 cursor-pointer",
+                            activeService === svc && isSubActive
+                              ? "text-[var(--teal)] font-medium"
+                              : "text-[var(--text-muted)] hover:text-[var(--foreground)]",
+                          ].join(" ")}
+                        >
+                          {sub}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>
@@ -53,58 +116,111 @@ export function CategorySplit() {
 
       {/* Mobile: horizontal scroll tab bar */}
       <div className="md:hidden w-full mb-6">
+        {/* Tier 1 — services */}
         <div
           className="flex gap-4 overflow-x-auto pb-3 border-b border-[var(--border)]"
           style={{ scrollbarWidth: "none" }}
         >
-          {EVENT_TYPES.map((cat) => {
-            const isActive = active === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={[
-                  "flex-shrink-0 text-sm py-1.5 transition-colors duration-200 font-body border-b-2",
-                  isActive
-                    ? "border-[var(--teal)] text-[var(--teal)] font-medium"
-                    : "border-transparent text-[var(--text-secondary)]",
-                ].join(" ")}
-              >
-                {cat}
-              </button>
-            );
-          })}
+          <button
+            onClick={() => selectService("All")}
+            className={[
+              "flex-shrink-0 text-sm py-1.5 transition-colors duration-200 font-body border-b-2",
+              activeService === "All"
+                ? "border-[var(--teal)] text-[var(--teal)] font-medium"
+                : "border-transparent text-[var(--text-secondary)]",
+            ].join(" ")}
+          >
+            All
+          </button>
+          {SERVICES.map((svc) => (
+            <button
+              key={svc}
+              onClick={() => selectService(svc)}
+              className={[
+                "flex-shrink-0 text-sm py-1.5 transition-colors duration-200 font-body border-b-2",
+                activeService === svc
+                  ? "border-[var(--teal)] text-[var(--teal)] font-medium"
+                  : "border-transparent text-[var(--text-secondary)]",
+              ].join(" ")}
+            >
+              {svc}
+            </button>
+          ))}
+        </div>
+
+        {/* Tier 2 — sub-categories (mobile pill bar, always visible) */}
+        <div
+          className="flex gap-2 overflow-x-auto pt-2 pb-1"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {SERVICES.flatMap((svc) =>
+            SUB_CATEGORIES[svc].length > 1
+              ? SUB_CATEGORIES[svc].map((sub) => (
+                  <button
+                    key={sub}
+                    onClick={() => selectSub(svc, sub)}
+                    className={[
+                      "flex-shrink-0 text-xs px-3 py-1 rounded-full border transition-colors duration-200",
+                      activeService === svc && activeSub === sub
+                        ? "border-[var(--teal)] bg-[var(--teal)]/10 text-[var(--teal)] font-medium"
+                        : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--foreground)]",
+                    ].join(" ")}
+                  >
+                    {sub}
+                  </button>
+                ))
+              : []
+          )}
         </div>
       </div>
 
-      {/* Grid — reacts to category selection */}
+      {/* Masonry grid */}
       <div className="flex-1 min-w-0">
         <div
-          key={active}
-          className="grid grid-cols-2 md:grid-cols-3 gap-3 animate-[fadeIn_0.25s_ease-out]"
-          style={{ opacity: 1 }}
+          key={`${activeService}-${activeSub}`}
+          className="columns-2 md:columns-3 gap-3 [column-gap:0.75rem] animate-[fadeIn_0.25s_ease-out]"
         >
-          {filtered.map((item) => (
-            <div key={item.id} className="group cursor-pointer">
+          {filtered.map((item, index) => (
+            <div
+              key={item.id}
+              className="break-inside-avoid mb-3 group cursor-pointer"
+              onClick={() => setLightboxIndex(index)}
+            >
               <div className="relative overflow-hidden rounded-sm">
-                <div className={`relative ${aspectClasses[item.aspectRatio]} w-full`}>
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                    className="object-cover"
-
-                  />
-                </div>
-                <CategoryBadge label={item.eventType} size="sm" />
-                <HoverOverlay label={item.eventType} />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/0 group-hover:ring-white/10 transition-all duration-300 pointer-events-none" />
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  width={800}
+                  height={item.aspectRatio === "portrait" ? 1067 : item.aspectRatio === "square" ? 800 : 600}
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                />
+                <CategoryBadge label={item.subCategory} size="sm" />
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Lightbox carousel */}
+      {lightboxIndex !== null && (
+        <Lightbox
+          items={filtered}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNavigate={setLightboxIndex}
+        />
+      )}
     </div>
   );
+}
+
+function filterItems(
+  service: ServiceFilter | "All",
+  sub: string | null
+): PortfolioItem[] {
+  if (service === "All") return PORTFOLIO_ITEMS;
+  let items = PORTFOLIO_ITEMS.filter((i) => i.service === service);
+  if (sub) items = items.filter((i) => i.subCategory === sub);
+  return items;
 }
