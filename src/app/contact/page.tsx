@@ -1,8 +1,7 @@
 import { Metadata } from "next";
-import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
+import { Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SITE_CONFIG, BUSINESS_INFO, SERVICE_AREAS } from "@/lib/constants";
-import { formatPhoneNumber, formatPhoneLink } from "@/lib/utils";
 import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -60,22 +59,6 @@ export default function ContactPage() {
                     Contact Information
                   </h3>
                   <ul className="space-y-4">
-                    <li>
-                      <a
-                        href={formatPhoneLink(BUSINESS_INFO.phone)}
-                        className="flex items-start gap-4 group"
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-[var(--teal)]/10 flex items-center justify-center group-hover:bg-[var(--teal)] transition-colors duration-200">
-                          <Phone className="w-5 h-5 text-[var(--teal)] group-hover:text-white transition-colors duration-200" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-[var(--text-muted)] mb-1">Phone</p>
-                          <p className="font-medium text-[var(--foreground)] group-hover:text-[var(--teal)] transition-colors duration-200">
-                            {formatPhoneNumber(BUSINESS_INFO.phone)}
-                          </p>
-                        </div>
-                      </a>
-                    </li>
                     <li>
                       <a
                         href={`mailto:${BUSINESS_INFO.email}`}

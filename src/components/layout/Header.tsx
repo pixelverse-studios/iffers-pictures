@@ -4,10 +4,9 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO, SERVICES } from "@/lib/constants";
-import { formatPhoneNumber, formatPhoneLink } from "@/lib/utils";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -226,7 +225,7 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <Image
-                src="/logo.png"
+                src="/logo-blue.png"
                 alt="Iffer's Pictures"
                 width={149}
                 height={80}
@@ -397,13 +396,6 @@ export function Header() {
               transitionDelay: isMobileMenuOpen ? "450ms" : "0ms",
             }}
           >
-            <a
-              href={formatPhoneLink(BUSINESS_INFO.phone)}
-              className="flex items-center gap-3 text-white/90 text-lg mb-4"
-            >
-              <Phone className="w-5 h-5" />
-              {formatPhoneNumber(BUSINESS_INFO.phone)}
-            </a>
             <p className="text-white/70">
               {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
             </p>

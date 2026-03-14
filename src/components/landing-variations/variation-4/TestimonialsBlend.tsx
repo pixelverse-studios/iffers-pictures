@@ -1,62 +1,157 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 const testimonials = [
   {
     id: 1,
-    quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
+    quote:
+      "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
     author: "Vittoria F.",
     event: "Event Photography",
-    location: "Bergen County, NJ",
   },
   {
     id: 2,
-    quote: "Jessica was hired by my mom and fiancé to capture a surprise second engagement after our original photos and SD card were lost by the original photographer. She was so great and helped the second proposal feel just as special as the first! Would highly recommend! She also got us our gallery SO quickly!",
+    quote:
+      "Jessica was hired by my mom and fiancé to capture a surprise second engagement after our original photos and SD card were lost by the original photographer. She was so great and helped the second proposal feel just as special as the first! Would highly recommend! She also got us our gallery SO quickly!",
     author: "Miranda S.A.",
     event: "Engagement Session",
-    location: "Bergen County, NJ",
   },
   {
     id: 3,
-    quote: "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted during my bridal shower. Jennifer captured the entire event and made sure we were satisfied with the content. Highly recommend booking her for all events (because we sure will)!",
+    quote:
+      "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted during my bridal shower. Jennifer captured the entire event and made sure we were satisfied with the content. Highly recommend booking her for all events (because we sure will)!",
     author: "Jessica U.F.",
     event: "Bridal Shower",
-    location: "Bergen County, NJ",
+  },
+  {
+    id: 4,
+    quote:
+      "Jennifer photographed our engagement and made the whole experience so comfortable and fun. We're not the most natural in front of a camera, but she knew exactly how to guide us and the photos came out absolutely beautiful. She really captured us as a couple.",
+    author: "Jolee",
+    event: "Engagement Session",
+  },
+  {
+    id: 5,
+    quote:
+      "Jennifer took such amazing photos of our family! She was happy to include our dog with our family pictures as well!",
+    author: "Patricia P.B.",
+    event: "Family Photography",
   },
 ];
 
+function Stars() {
+  return (
+    <div className="flex gap-0.5">
+      {[...Array(5)].map((_, i) => (
+        <Star key={i} className="w-3.5 h-3.5 text-[var(--gold)] fill-[var(--gold)]" />
+      ))}
+    </div>
+  );
+}
+
+function WhiteCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: string }) {
+  return (
+    <div
+      className={cn(
+        colSpan,
+        "rounded-2xl bg-white p-8 flex flex-col border border-[var(--border)]/60 relative overflow-hidden"
+      )}
+    >
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-light)]" />
+      <div className="mt-1">
+        <Stars />
+      </div>
+      <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
+        &ldquo;{t.quote}&rdquo;
+      </blockquote>
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-full bg-[var(--background-warm)] flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+          {t.author[0]}
+        </div>
+        <div>
+          <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{t.author}</p>
+          <p className="text-[var(--text-muted)] text-xs">{t.event}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TealCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: string }) {
+  return (
+    <div
+      className={cn(
+        colSpan,
+        "rounded-2xl p-8 flex flex-col text-white"
+      )}
+      style={{ backgroundColor: "var(--teal)" }}
+    >
+      <Stars />
+      <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+        &ldquo;{t.quote}&rdquo;
+      </blockquote>
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center font-heading font-semibold text-sm">
+          {t.author[0]}
+        </div>
+        <div>
+          <p className="font-heading font-semibold text-sm">{t.author}</p>
+          <p className="text-white/50 text-xs">{t.event}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DarkCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: string }) {
+  return (
+    <div
+      className={cn(
+        colSpan,
+        "rounded-2xl bg-[var(--foreground)] text-white p-8 flex flex-col relative overflow-hidden"
+      )}
+    >
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+          backgroundSize: "20px 20px",
+        }}
+      />
+      <div className="relative z-10 flex flex-col h-full">
+        <Stars />
+        <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+          &ldquo;{t.quote}&rdquo;
+        </blockquote>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center font-heading font-semibold text-sm">
+            {t.author[0]}
+          </div>
+          <div>
+            <p className="font-heading font-semibold text-sm">{t.author}</p>
+            <p className="text-white/50 text-xs">{t.event}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const STYLES = ["Mixed", "Uniform", "Teal", "Alternating"] as const;
+type StyleName = (typeof STYLES)[number];
+
 export function TestimonialsBlend() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    if (isPaused) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  const goToPrevious = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
+  const [style, setStyle] = useState<StyleName>("Mixed");
 
   return (
     <section className="py-24 bg-[var(--background-warm)] overflow-hidden">
       <div className="container">
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <span className="text-[var(--teal)] font-medium tracking-widest uppercase text-xs mb-4 block">
             Kind Words
           </span>
@@ -65,88 +160,190 @@ export function TestimonialsBlend() {
           </h2>
         </div>
 
-        {/* Carousel layout: arrows | content | arrows */}
-        <div
-          className="flex items-center justify-center gap-4 md:gap-8 max-w-5xl mx-auto"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Left arrow */}
-          <button
-            onClick={goToPrevious}
-            className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-white transition-all duration-200"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          {/* Testimonial content */}
-          <div className="relative min-h-[280px] md:min-h-[260px] flex-1 flex items-center justify-center">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={testimonial.id}
+        {/* Style switcher */}
+        <div className="flex justify-center mb-14">
+          <div className="inline-flex items-center bg-white rounded-full p-1 shadow-[0_1px_3px_rgba(0,0,0,0.06)] border border-[var(--border)]/60">
+            {STYLES.map((s) => (
+              <button
+                key={s}
+                onClick={() => setStyle(s)}
                 className={cn(
-                  "absolute inset-0 flex flex-col items-center justify-center text-center",
-                  "transition-all duration-500",
-                  index === currentIndex
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-3 pointer-events-none"
+                  "px-4 md:px-5 py-2 rounded-full text-sm font-medium transition-all duration-300",
+                  style === s
+                    ? "bg-[var(--teal)] text-white shadow-sm"
+                    : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
                 )}
               >
-                {/* Stars */}
-                <div className="flex gap-1 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 text-[var(--gold)] fill-[var(--gold)]"
-                    />
-                  ))}
-                </div>
-
-                {/* Quote */}
-                <blockquote className="text-lg md:text-xl lg:text-2xl font-heading text-[var(--foreground)] leading-relaxed mb-8 max-w-2xl">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </blockquote>
-
-                {/* Divider */}
-                <div className="w-10 h-px bg-[var(--teal)]/40 mb-5" />
-
-                {/* Author */}
-                <p className="font-heading font-semibold text-[var(--foreground)] text-base">
-                  {testimonial.author}
-                </p>
-                <p className="text-[var(--text-muted)] text-sm mt-1">
-                  {testimonial.event}
-                </p>
-              </div>
+                {s}
+              </button>
             ))}
           </div>
-
-          {/* Right arrow */}
-          <button
-            onClick={goToNext}
-            className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-white transition-all duration-200"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
 
-        {/* Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={cn(
-                "h-2 rounded-full transition-all duration-300",
-                index === currentIndex
-                  ? "w-8 bg-[var(--teal)]"
-                  : "w-2 bg-[var(--border)] hover:bg-[var(--teal)]/40"
-              )}
-              aria-label={`Go to testimonial ${index + 1}`}
-            />
-          ))}
+        {/* Bento grid */}
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
+          {style === "Mixed" ? (
+            <>
+              {/* Tile 1: dark accent */}
+              <div className="md:col-span-7 rounded-2xl bg-[var(--foreground)] text-white p-8 md:p-12 flex flex-col relative overflow-hidden">
+                <div
+                  className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(135deg, white 25%, transparent 25%, transparent 50%, white 50%, white 75%, transparent 75%)",
+                    backgroundSize: "20px 20px",
+                  }}
+                />
+                <div className="relative z-10 flex flex-col h-full">
+                  <Stars />
+                  <blockquote className="text-xl md:text-2xl font-heading leading-relaxed mt-6 mb-8 flex-1 text-white/90">
+                    &ldquo;{testimonials[0].quote}&rdquo;
+                  </blockquote>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center font-heading font-semibold">
+                      {testimonials[0].author[0]}
+                    </div>
+                    <div>
+                      <p className="font-heading font-semibold text-sm">{testimonials[0].author}</p>
+                      <p className="text-white/50 text-xs">{testimonials[0].event}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tile 2: teal */}
+              <div className="md:col-span-5 rounded-2xl bg-[var(--teal-dark)] text-white p-8 md:p-10 flex flex-col">
+                <Stars />
+                <blockquote className="text-[15px] font-heading leading-relaxed mt-5 mb-6 flex-1 text-white/90">
+                  &ldquo;{testimonials[1].quote}&rdquo;
+                </blockquote>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center font-heading font-semibold text-sm">
+                    {testimonials[1].author[0]}
+                  </div>
+                  <div>
+                    <p className="font-heading font-semibold text-sm">{testimonials[1].author}</p>
+                    <p className="text-white/50 text-xs">{testimonials[1].event}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom row: 3 white cards */}
+              {[testimonials[2], testimonials[3], testimonials[4]].map((t) => (
+                <WhiteCard key={t.id} t={t} colSpan="md:col-span-4" />
+              ))}
+            </>
+          ) : style === "Uniform" ? (
+            <>
+              <WhiteCard t={testimonials[0]} colSpan="md:col-span-7" />
+              <WhiteCard t={testimonials[1]} colSpan="md:col-span-5" />
+              {[testimonials[2], testimonials[3], testimonials[4]].map((t) => (
+                <WhiteCard key={t.id} t={t} colSpan="md:col-span-4" />
+              ))}
+            </>
+          ) : style === "Teal" ? (
+            <>
+              <TealCard t={testimonials[0]} colSpan="md:col-span-7" />
+              <TealCard t={testimonials[1]} colSpan="md:col-span-5" />
+              {[testimonials[2], testimonials[3], testimonials[4]].map((t) => (
+                <TealCard key={t.id} t={t} colSpan="md:col-span-4" />
+              ))}
+            </>
+          ) : (
+            <>
+              {/* Alternating: bento with left borders, inset shadows, layered depth */}
+              {/* Top left — 7 cols, dark with left teal border + inner glow */}
+              <div className="md:col-span-7 rounded-2xl bg-[var(--foreground)] text-white p-8 md:p-12 flex flex-col relative overflow-hidden border-l-4 border-[var(--teal-light)]">
+                <div
+                  className="absolute top-0 right-0 w-48 h-48 opacity-[0.04] pointer-events-none"
+                  style={{
+                    background: "radial-gradient(circle, white 0%, transparent 70%)",
+                  }}
+                />
+                <div className="relative z-10 flex flex-col h-full">
+                  <Stars />
+                  <blockquote className="text-lg md:text-xl font-heading leading-relaxed mt-6 mb-8 flex-1 text-white/90">
+                    &ldquo;{testimonials[0].quote}&rdquo;
+                  </blockquote>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[var(--teal)]/20 border border-[var(--teal)]/30 flex items-center justify-center font-heading font-semibold text-[var(--teal-light)]">
+                      {testimonials[0].author[0]}
+                    </div>
+                    <div>
+                      <p className="font-heading font-semibold text-sm">{testimonials[0].author}</p>
+                      <p className="text-white/40 text-xs">{testimonials[0].event}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Top right — 5 cols, white with left teal border + soft inset shadow */}
+              <div className="md:col-span-5 rounded-2xl bg-white p-8 md:p-10 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
+                <Stars />
+                <blockquote className="text-[15px] leading-relaxed mt-5 mb-6 flex-1 text-[var(--foreground)]">
+                  &ldquo;{testimonials[1].quote}&rdquo;
+                </blockquote>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+                    {testimonials[1].author[0]}
+                  </div>
+                  <div>
+                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{testimonials[1].author}</p>
+                    <p className="text-[var(--text-muted)] text-xs">{testimonials[1].event}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom row — 3 cards alternating white/teal/white with left borders */}
+              <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal-light)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
+                <Stars />
+                <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
+                  &ldquo;{testimonials[2].quote}&rdquo;
+                </blockquote>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+                    {testimonials[2].author[0]}
+                  </div>
+                  <div>
+                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{testimonials[2].author}</p>
+                    <p className="text-[var(--text-muted)] text-xs">{testimonials[2].event}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-4 rounded-2xl bg-[var(--teal-dark)] text-white p-7 flex flex-col border-l-4 border-[var(--teal-light)]">
+                <Stars />
+                <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+                  &ldquo;{testimonials[3].quote}&rdquo;
+                </blockquote>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-heading font-semibold text-sm">
+                    {testimonials[3].author[0]}
+                  </div>
+                  <div>
+                    <p className="font-heading font-semibold text-sm">{testimonials[3].author}</p>
+                    <p className="text-white/40 text-xs">{testimonials[3].event}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
+                <Stars />
+                <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
+                  &ldquo;{testimonials[4].quote}&rdquo;
+                </blockquote>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+                    {testimonials[4].author[0]}
+                  </div>
+                  <div>
+                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{testimonials[4].author}</p>
+                    <p className="text-[var(--text-muted)] text-xs">{testimonials[4].event}</p>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </section>

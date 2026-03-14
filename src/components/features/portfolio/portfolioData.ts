@@ -14,6 +14,7 @@ export type PortfolioAspect = "portrait" | "landscape" | "square" | "video";
 export const SERVICES = [
   "Milestone Celebrations",
   "Maternity",
+  "Family",
 ] as const;
 
 export type ServiceFilter = (typeof SERVICES)[number];
@@ -22,9 +23,10 @@ export type ServiceFilter = (typeof SERVICES)[number];
 export const SUB_CATEGORIES: Record<ServiceFilter, readonly string[]> = {
   "Milestone Celebrations": ["Engagement", "Gender Reveal"],
   "Maternity": ["Maternity"],
+  "Family": ["Family"],
 };
 
-export type SubCategory = "Engagement" | "Gender Reveal" | "Maternity";
+export type SubCategory = "Engagement" | "Gender Reveal" | "Maternity" | "Family";
 
 // ── Portfolio item ──────────────────────────────────────────────
 export interface PortfolioItem {
@@ -354,6 +356,136 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     subCategory: "Maternity",
     aspectRatio: "landscape",
   },
+
+  // ── Family > Family (16 images) ──────────────────────────────
+  {
+    id: 40,
+    src: `${R2_BASE}/family/family-01.jpg`,
+    alt: "Family of three with dog posing on white wooden bridge in autumn park",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 41,
+    src: `${R2_BASE}/family/family-02.jpg`,
+    alt: "Parents with young son holding family dog on park bridge surrounded by fall foliage",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 42,
+    src: `${R2_BASE}/family/family-03.jpg`,
+    alt: "Couple embracing on white bridge in autumn park with golden leaves",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 43,
+    src: `${R2_BASE}/family/family-04.jpg`,
+    alt: "Young boy peeking over railing of white bridge in wooded autumn park",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "landscape",
+  },
+  {
+    id: 44,
+    src: `${R2_BASE}/family/family-05.jpg`,
+    alt: "Family portrait on white bridge with dog surrounded by autumn trees and fallen leaves",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "landscape",
+  },
+  {
+    id: 45,
+    src: `${R2_BASE}/family/family-06.jpg`,
+    alt: "Boy with dog framed between parents holding hands under large tree in autumn",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 46,
+    src: `${R2_BASE}/family/family-07.jpg`,
+    alt: "Boy sitting with dog in grass framed by parents holding hands overhead",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 47,
+    src: `${R2_BASE}/family/family-08.jpg`,
+    alt: "Siblings playing with gold ornaments against pink backdrop during holiday session",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "landscape",
+  },
+  {
+    id: 48,
+    src: `${R2_BASE}/family/family-09.jpg`,
+    alt: "Brother and sister smiling together in matching cream outfits with holiday ornament",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "landscape",
+  },
+  {
+    id: 49,
+    src: `${R2_BASE}/family/family-10.jpg`,
+    alt: "Girl lying on white backdrop smiling up at hanging holiday ornaments",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "landscape",
+  },
+  {
+    id: 50,
+    src: `${R2_BASE}/family/family-11.jpg`,
+    alt: "Girl reading holiday book in front of decorated Christmas tree with warm glow",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 51,
+    src: `${R2_BASE}/family/family-12.jpg`,
+    alt: "Three siblings in matching green plaid outfits by fireplace with Christmas wreath and candles",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 52,
+    src: `${R2_BASE}/family/family-13.jpg`,
+    alt: "Brother and sister in coordinated green plaid by decorated holiday mantel",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 53,
+    src: `${R2_BASE}/family/family-14.jpg`,
+    alt: "Family of five in matching green outfits gathered by fireplace for holiday portrait",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 54,
+    src: `${R2_BASE}/family/family-15.jpg`,
+    alt: "Toddler in plaid dress sitting by wrapped presents and glowing lights playing with wooden blocks",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
+  {
+    id: 55,
+    src: `${R2_BASE}/family/family-16.jpg`,
+    alt: "Sister and brother hugging in matching green plaid outfits by holiday fireplace",
+    service: "Family",
+    subCategory: "Family",
+    aspectRatio: "portrait",
+  },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────────
@@ -369,6 +501,8 @@ const SERVICE_SLUG_MAP: Record<string, { service: ServiceFilter; subCategory?: S
   "engagement-photography": { service: "Milestone Celebrations", subCategory: "Engagement" },
   // Maternity service
   maternity: { service: "Maternity" },
+  // Family service
+  family: { service: "Family" },
 };
 
 /** Thumbnail overrides — when a service card needs a specific sub-category image. */

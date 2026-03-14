@@ -11,7 +11,7 @@ export function LocalBusinessSchema() {
     telephone: `+1${BUSINESS_INFO.phone}`,
     email: BUSINESS_INFO.email,
     image: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
-    logo: `${SITE_CONFIG.url}/logo.png`,
+    logo: `${SITE_CONFIG.url}/logo-blue.png`,
     priceRange: BUSINESS_INFO.priceRange,
     foundingDate: BUSINESS_INFO.foundingYear.toString(),
     address: {

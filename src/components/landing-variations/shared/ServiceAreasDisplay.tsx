@@ -7,9 +7,9 @@ import { SERVICE_AREAS } from "@/lib/constants";
 
 export function ServiceAreasDisplay() {
   return (
-    <section className="py-10 md:py-14 bg-[var(--foreground)] text-white overflow-hidden">
+    <section className="py-10 md:py-12 bg-[var(--foreground)] text-white overflow-hidden">
       <div className="container relative">
-        {/* Decorative map-like background */}
+        {/* Decorative dot background */}
         <div className="absolute inset-0 opacity-5">
           <div
             className="absolute inset-0"
@@ -20,84 +20,62 @@ export function ServiceAreasDisplay() {
           />
         </div>
 
-        {/* Content */}
         <div className="relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-8">
-            <span className="text-[var(--teal-light)] font-medium tracking-wide uppercase text-sm mb-4 block">
-              Where We Work
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold leading-tight mb-4">
-              Serving Bergen County & Beyond
-            </h2>
-            <p className="text-neutral-400 text-lg">
-              Based in Cliffside Park, we provide professional event photography
-              throughout Northern New Jersey. Travel is included for all local events.
-            </p>
-          </div>
-
-          {/* Areas grid */}
-          <div className="grid md:grid-cols-2 gap-4">
-            {/* Primary areas */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-[var(--teal)] flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-xl font-heading font-semibold">
-                  Primary Service Areas
-                </h3>
+          {/* Compact header — inline icon + heading + description */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-[var(--teal)] flex items-center justify-center shrink-0">
+                <MapPin className="w-4 h-4 text-white" />
               </div>
-
-              <div className="flex flex-wrap gap-3">
-                {SERVICE_AREAS.primary.map((area) => (
-                  <Link
-                    key={area.slug}
-                    href={`/locations/${area.slug}`}
-                    className={cn(
-                      "px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200",
-                      area.isHomeBase
-                        ? "bg-[var(--teal)] text-white shadow-lg shadow-[var(--teal)]/30"
-                        : "bg-white/10 text-white hover:bg-white/20"
-                    )}
-                  >
-                    {area.name}, {area.state}
-                    {area.isHomeBase && (
-                      <span className="ml-1.5 text-white/70">(Home)</span>
-                    )}
-                  </Link>
-                ))}
+              <div>
+                <h2 className="text-2xl md:text-3xl font-heading font-semibold leading-tight">
+                  Serving Bergen County & Beyond
+                </h2>
+                <p className="text-neutral-400 text-sm mt-0.5">
+                  Based in Cliffside Park — travel included for all local events
+                </p>
               </div>
             </div>
-
-            {/* Secondary areas */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10">
-              <h3 className="text-lg font-medium text-neutral-400 mb-4">
-                Also Serving
-              </h3>
-
-              <div className="flex flex-wrap gap-2.5">
-                {SERVICE_AREAS.secondary.map((area) => (
-                  <Link
-                    key={area.slug}
-                    href={`/locations/${area.slug}`}
-                    className="px-4 py-2 rounded-full bg-white/5 text-neutral-400 text-sm hover:bg-white/10 hover:text-white transition-all duration-200"
-                  >
-                    {area.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* View all locations link */}
-          <div className="text-center mt-6">
             <Link
               href="/locations"
-              className="inline-flex items-center gap-2 text-[var(--teal-light)] font-medium hover:gap-3 transition-all duration-300"
+              className="inline-flex items-center gap-2 text-[var(--teal-light)] text-sm font-medium hover:gap-3 transition-all duration-300 shrink-0"
             >
-              View All Service Areas
-              <ArrowRight className="w-4 h-4" />
+              All Service Areas
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
+          </div>
+
+          {/* Single row: primary + secondary areas */}
+          <div className="flex flex-wrap items-center gap-2">
+            {SERVICE_AREAS.primary.map((area) => (
+              <Link
+                key={area.slug}
+                href={`/locations/${area.slug}`}
+                className={cn(
+                  "px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
+                  area.isHomeBase
+                    ? "bg-[var(--teal)] text-white shadow-lg shadow-[var(--teal)]/30"
+                    : "bg-white/10 text-white hover:bg-white/20"
+                )}
+              >
+                {area.name}, {area.state}
+                {area.isHomeBase && (
+                  <span className="ml-1 text-white/70">(Home)</span>
+                )}
+              </Link>
+            ))}
+
+            <span className="text-neutral-600 text-sm mx-1">|</span>
+
+            {SERVICE_AREAS.secondary.map((area) => (
+              <Link
+                key={area.slug}
+                href={`/locations/${area.slug}`}
+                className="px-3.5 py-1.5 rounded-full bg-white/5 text-neutral-400 text-sm hover:bg-white/10 hover:text-white transition-all duration-200"
+              >
+                {area.name}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

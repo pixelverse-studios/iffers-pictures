@@ -3,7 +3,6 @@ import {
   Instagram,
   Facebook,
   MapPin,
-  Phone,
   Mail,
   Heart,
 } from "lucide-react";
@@ -13,7 +12,6 @@ import {
   FOOTER_LINKS,
   SERVICE_AREAS,
 } from "@/lib/constants";
-import { formatPhoneNumber, formatPhoneLink } from "@/lib/utils";
 import { LocalBusinessSchema } from "@/components/seo/LocalBusinessSchema";
 
 export function Footer() {
@@ -117,6 +115,16 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href="https://www.facebook.com/ifferspictures/reviews"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/60 hover:text-white transition-colors duration-200 text-sm"
+                >
+                  Leave a Review
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -126,15 +134,6 @@ export function Footer() {
               Contact
             </h3>
             <ul className="space-y-4">
-              <li>
-                <a
-                  href={formatPhoneLink(BUSINESS_INFO.phone)}
-                  className="flex items-center gap-3 text-white/60 hover:text-white transition-colors duration-200 text-sm"
-                >
-                  <Phone className="w-4 h-4 text-[var(--teal-light)]" />
-                  {formatPhoneNumber(BUSINESS_INFO.phone)}
-                </a>
-              </li>
               <li>
                 <a
                   href={`mailto:${BUSINESS_INFO.email}`}

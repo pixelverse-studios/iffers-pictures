@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Calendar, CheckCircle, Phone } from "lucide-react";
-
-const benefits = [
-  "Free consultation call",
-  "No hidden fees",
-  "Digital gallery included",
-  "Fast turnaround",
-];
+import { ArrowRight, Calendar } from "lucide-react";
 
 export function BookingCTAEnhanced() {
   return (
@@ -33,7 +26,7 @@ export function BookingCTAEnhanced() {
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium mb-6">
               <Calendar className="w-4 h-4" />
-              Now Booking 2025
+              Now Booking {new Date().getFullYear()}
             </div>
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold leading-tight mb-6">
@@ -46,16 +39,6 @@ export function BookingCTAEnhanced() {
               Every event is unique, and so is every quote. Let&apos;s chat about
               your vision and create a custom package that fits your celebration.
             </p>
-
-            {/* Benefits */}
-            <ul className="space-y-3 mb-10">
-              {benefits.map((benefit, index) => (
-                <li key={index} className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-white/70" />
-                  <span className="text-white/90">{benefit}</span>
-                </li>
-              ))}
-            </ul>
 
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -79,39 +62,24 @@ export function BookingCTAEnhanced() {
 
           {/* Right - Quick contact + testimonial */}
           <div className="space-y-8">
-            {/* Quick contact card */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <h3 className="text-xl font-heading font-semibold mb-4">
-                Prefer to Call?
-              </h3>
-              <a
-                href="tel:+12015551234"
-                className="flex items-center gap-4 text-white hover:text-white/90 transition-colors"
-              >
-                <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-2xl font-heading font-semibold">(201) 555-1234</p>
-                  <p className="text-white/60 text-sm">Response within 24 hours</p>
-                </div>
-              </a>
-            </div>
-
             {/* Mini testimonial */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <div className="text-4xl font-heading font-bold mb-4 opacity-50">
                 &ldquo;
               </div>
               <p className="text-lg leading-relaxed mb-6 opacity-90">
-                The photos from our celebration exceeded every expectation.
-                Iffer truly captured the heart of our special day.
+                Jennifer photographed our engagement and made the whole experience
+                so comfortable and fun. We&apos;re not the most natural in front of a
+                camera, but she knew exactly how to guide us and the photos came out
+                absolutely beautiful. She really captured us as a couple.
               </p>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-white/20" />
+                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center font-heading font-semibold text-lg">
+                  J
+                </div>
                 <div>
-                  <p className="font-medium">The Martinez Family</p>
-                  <p className="text-white/60 text-sm">Anniversary Party</p>
+                  <p className="font-medium">Jolee</p>
+                  <p className="text-white/60 text-sm">Engagement Session</p>
                 </div>
               </div>
             </div>

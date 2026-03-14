@@ -3,15 +3,14 @@ import Image from "next/image";
 import { BUSINESS_INFO } from "@/lib/constants";
 
 /**
- * Layout A — Refined Two-Column
- * Classic portrait-left / text-right editorial split.
- * Image is proportional and intentional, not dominant.
+ * Layout A — Centered Two-Column
+ * Portrait left, text right, centered on the page.
  */
 export function LayoutA() {
   return (
-    <div className="grid lg:grid-cols-[auto_1fr] gap-12 lg:gap-20 items-center">
+    <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
       {/* Portrait column */}
-      <div className="relative order-2 lg:order-1 flex justify-center lg:justify-start">
+      <div className="relative flex justify-center">
         {/* Warm backing card — slight offset for depth */}
         <div className="absolute top-4 left-4 w-[13rem] h-full bg-[var(--teal)]/8 rounded-2xl -z-10" />
         {/* Image */}
@@ -30,9 +29,9 @@ export function LayoutA() {
       </div>
 
       {/* Text column */}
-      <div className="order-1 lg:order-2 max-w-md">
+      <div className="max-w-md text-center lg:text-left">
         {/* Location with leading rule */}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
           <div className="h-px w-7 bg-[var(--teal)]" />
           <p className="text-[var(--teal)] font-medium tracking-[0.25em] uppercase text-xs">
             Bergen County, New Jersey
@@ -53,7 +52,7 @@ export function LayoutA() {
           Drawn to light, laughter, and the quiet moments in between.
         </p>
 
-        <div className="flex items-center gap-3 mb-10">
+        <div className="flex items-center justify-center lg:justify-start gap-3 mb-10">
           <a
             href={BUSINESS_INFO.social.instagram}
             target="_blank"
@@ -72,7 +71,7 @@ export function LayoutA() {
           </a>
         </div>
 
-        <div className="flex items-center gap-3 text-[var(--text-muted)]">
+        <div className="flex items-center justify-center lg:justify-start gap-3 text-[var(--text-muted)]">
           <div className="h-px w-8 bg-[var(--teal)]/30" />
           <span className="text-xs tracking-[0.2em] uppercase">My story</span>
           <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
