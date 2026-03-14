@@ -28,6 +28,11 @@
 - Portfolio images hosted on Cloudflare R2 for fast delivery with no file size restrictions
 - All four gallery layout options (Masonry, Editorial, Filmstrip, By Category) now show real photos instead of placeholder boxes
 - Event-type filtering added to the portfolio — visitors can browse by Engagement, Gender Reveal, or Maternity
+- Locked in final layout choices across the site based on client review
+- About page now shows the Two-Column layout permanently
+- Portfolio page now shows the Category Filter layout permanently with sidebar navigation
+- Homepage now shows the Filmstrip portfolio and Icon Grid services layouts permanently
+- Removed all layout switcher widgets from the site for a cleaner, controlled experience
 
 ## Notes for internal team
 
@@ -55,6 +60,7 @@
 - DEV-464: Replaced fake testimonials with 5 real Facebook reviews. Made testimonials optional in ServicePageData type. Removed testimonials from 6 services without real content. Updated ServiceTestimonials grid to handle 1-2 items. Updated homepage TestimonialsBlend carousel.
 - DEV-465: Removed all pricing packages (30 packages across 10 services), dollar amounts from FAQ answers, and OfferCatalog from schema. ServicePricing component replaced with simple CTA section. PricingData type simplified (no packages). All service pricing sections now show title, description, and "Get a Custom Quote" button.
 - DEV-489: Integrated Cloudflare R2 portfolio images. Added R2 remote pattern to next.config.ts. Rewrote portfolioData.ts with 39 real image entries (15 engagement, 12 gender reveal, 12 maternity) including alt text and aspect ratios. Replaced ImagePlaceholder with next/image in all 4 portfolio layout components (Masonry, FeaturedGrid, Filmstrip, CategorySplit). Updated category system from generic types to event-based types (EVENT_TYPES replaces CATEGORIES).
+- DEV-490: Locked in client layout choices. About → LayoutA (Two-Column), Portfolio → CategorySplit, Homepage → Variation4 with Filmstrip + IconGrid. Deleted AboutHeroSwitcher, PortfolioSwitcher, VariationSwitcher, PortfolioLayoutSwitcher, ServicesLayoutSwitcher. Deleted unused layouts: LayoutB, LayoutC, Masonry, FeaturedGrid, Filmstrip (portfolio), BentoCards, TwoColumnList (services), Variation1/2/3. Moved ServiceAreasDisplay to shared/. Homepage converted from client to server component.
 
 ## Changed URLs
 
