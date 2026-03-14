@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
 import {
@@ -32,6 +33,7 @@ interface ServiceCardProps {
   description: string;
   slug: string;
   icon: string;
+  image?: { src: string; alt: string };
   className?: string;
 }
 
@@ -40,6 +42,7 @@ export function ServiceCard({
   description,
   slug,
   icon,
+  image,
   className,
 }: ServiceCardProps) {
   const IconComponent = iconMap[icon] || Camera;
@@ -57,12 +60,24 @@ export function ServiceCard({
     >
       {/* Image Container */}
       <div className="relative overflow-hidden">
-        <ImagePlaceholder
-          aspectRatio="landscape"
-          variant="gradient"
-          className="transition-transform duration-500 ease-out group-hover:scale-105"
-          showIcon={false}
-        />
+        {image ? (
+          <div className="relative aspect-[4/3] w-full">
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+            />
+          </div>
+        ) : (
+          <ImagePlaceholder
+            aspectRatio="landscape"
+            variant="gradient"
+            className="transition-transform duration-500 ease-out group-hover:scale-105"
+            showIcon={false}
+          />
+        )}
 
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

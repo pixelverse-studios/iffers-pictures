@@ -5,6 +5,15 @@ import { cn } from "@/lib/utils";
 import { SERVICES } from "@/lib/constants";
 import { ServiceCard } from "./ServiceCard";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { getServiceThumbnail } from "@/components/features/portfolio/portfolioData";
+
+/** Overrides for services without portfolio images (e.g. local files). */
+const THUMBNAIL_OVERRIDES: Record<string, { src: string; alt: string }> = {
+  headshots: {
+    src: "/headshot.jpg",
+    alt: "Jennifer Matone — Bergen County Event Photographer",
+  },
+};
 
 interface ServicesGridProps {
   className?: string;
@@ -22,7 +31,7 @@ export function ServicesGrid({ className }: ServicesGridProps) {
           description="From intimate engagements to joyful celebrations, we capture the moments that matter most to your family."
         />
 
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-12 flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
           {featuredServices.map((service) => (
             <ServiceCard
               key={service.id}
@@ -30,6 +39,8 @@ export function ServicesGrid({ className }: ServicesGridProps) {
               description={service.description}
               slug={service.slug}
               icon={service.icon}
+              image={THUMBNAIL_OVERRIDES[service.slug] ?? getServiceThumbnail(service.slug)}
+              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
             />
           ))}
         </div>
