@@ -15,6 +15,9 @@
 - Added "Leave a Review" link in footer pointing to Facebook reviews page
 - Created SEO scope documentation and completed first full SEO audit (score: 52/100)
 - Capitalized homepage hero headline words per client feedback
+- Added 4 new client testimonials (Heather Harris, Jessica Uribe, Happy Client, Debby)
+- Homepage testimonials now rotate randomly from a pool of 9 reviews on each page load
+- Added new testimonials to Event, Party, and Engagement service pages
 
 ## Notes for internal team
 
@@ -24,6 +27,7 @@
 - Font fix: Tailwind v4 @theme block can't resolve Next.js runtime CSS variables — referenced font vars directly in CSS rules
 - Testimonials component has layout switcher (Mixed, Uniform, Teal, Alternating) for client review before locking in
 - Next.js image cache at .next/cache/images may need clearing after logo/image changes
+- DEV-518: 9 total testimonials in pool, Fisher-Yates shuffle picks 5 per page load via useMemo
 
 ## Changed URLs
 
@@ -32,3 +36,4 @@
 - https://ifferspictures.com/portfolio
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/events

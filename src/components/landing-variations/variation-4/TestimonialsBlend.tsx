@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 
-const testimonials = [
+interface Testimonial {
+  id: number;
+  quote: string;
+  author: string;
+  event: string;
+}
+
+const ALL_TESTIMONIALS: Testimonial[] = [
   {
     id: 1,
     quote:
@@ -40,7 +47,45 @@ const testimonials = [
     author: "Patricia P.B.",
     event: "Family Photography",
   },
+  {
+    id: 6,
+    quote:
+      "Thank you so much for sending the gallery, I am so happy with the pictures, they are just stunning!! I can't wait to share with everyone.",
+    author: "Heather Harris",
+    event: "Event Photography",
+  },
+  {
+    id: 7,
+    quote:
+      "THANK YOU so much for everything. You were absolutely amazing to work with! Thank you so much for the pictures, they are BEAUTIFUL!!! Seriously, I can't thank you enough for all the memories you captured. We will be using you for all future events.",
+    author: "Jessica Uribe",
+    event: "Event Photography",
+  },
+  {
+    id: 8,
+    quote:
+      "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
+    author: "Happy Client",
+    event: "Event Photography",
+  },
+  {
+    id: 9,
+    quote:
+      "I just wanted to take a moment to thank you for your beautiful work! Miranda and Jesse are so very happy with their photos. I will definitely mention your name to anyone that asks for a recommendation for a professional and reliable photographer.",
+    author: "Debby",
+    event: "Engagement Session",
+  },
 ];
+
+/** Shuffle array using Fisher-Yates and return first `count` items. */
+function pickRandom(arr: Testimonial[], count: number): Testimonial[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}
 
 function Stars() {
   return (
@@ -52,7 +97,7 @@ function Stars() {
   );
 }
 
-function WhiteCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: string }) {
+function WhiteCard({ t, colSpan }: { t: Testimonial; colSpan: string }) {
   return (
     <div
       className={cn(
@@ -80,7 +125,7 @@ function WhiteCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: 
   );
 }
 
-function TealCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: string }) {
+function TealCard({ t, colSpan }: { t: Testimonial; colSpan: string }) {
   return (
     <div
       className={cn(
@@ -106,7 +151,7 @@ function TealCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: s
   );
 }
 
-function DarkCard({ t, colSpan }: { t: (typeof testimonials)[number]; colSpan: string }) {
+function DarkCard({ t, colSpan }: { t: Testimonial; colSpan: string }) {
   return (
     <div
       className={cn(
@@ -146,6 +191,9 @@ type StyleName = (typeof STYLES)[number];
 
 export function TestimonialsBlend() {
   const [style, setStyle] = useState<StyleName>("Mixed");
+
+  // Pick 5 random testimonials once per mount — stable across style switches
+  const selected = useMemo(() => pickRandom(ALL_TESTIMONIALS, 5), []);
 
   return (
     <section className="py-24 bg-[var(--background-warm)] overflow-hidden">
@@ -197,15 +245,15 @@ export function TestimonialsBlend() {
                 <div className="relative z-10 flex flex-col h-full">
                   <Stars />
                   <blockquote className="text-xl md:text-2xl font-heading leading-relaxed mt-6 mb-8 flex-1 text-white/90">
-                    &ldquo;{testimonials[0].quote}&rdquo;
+                    &ldquo;{selected[0].quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center font-heading font-semibold">
-                      {testimonials[0].author[0]}
+                      {selected[0].author[0]}
                     </div>
                     <div>
-                      <p className="font-heading font-semibold text-sm">{testimonials[0].author}</p>
-                      <p className="text-white/50 text-xs">{testimonials[0].event}</p>
+                      <p className="font-heading font-semibold text-sm">{selected[0].author}</p>
+                      <p className="text-white/50 text-xs">{selected[0].event}</p>
                     </div>
                   </div>
                 </div>
@@ -215,44 +263,43 @@ export function TestimonialsBlend() {
               <div className="md:col-span-5 rounded-2xl bg-[var(--teal-dark)] text-white p-8 md:p-10 flex flex-col">
                 <Stars />
                 <blockquote className="text-[15px] font-heading leading-relaxed mt-5 mb-6 flex-1 text-white/90">
-                  &ldquo;{testimonials[1].quote}&rdquo;
+                  &ldquo;{selected[1].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center font-heading font-semibold text-sm">
-                    {testimonials[1].author[0]}
+                    {selected[1].author[0]}
                   </div>
                   <div>
-                    <p className="font-heading font-semibold text-sm">{testimonials[1].author}</p>
-                    <p className="text-white/50 text-xs">{testimonials[1].event}</p>
+                    <p className="font-heading font-semibold text-sm">{selected[1].author}</p>
+                    <p className="text-white/50 text-xs">{selected[1].event}</p>
                   </div>
                 </div>
               </div>
 
               {/* Bottom row: 3 white cards */}
-              {[testimonials[2], testimonials[3], testimonials[4]].map((t) => (
+              {[selected[2], selected[3], selected[4]].map((t) => (
                 <WhiteCard key={t.id} t={t} colSpan="md:col-span-4" />
               ))}
             </>
           ) : style === "Uniform" ? (
             <>
-              <WhiteCard t={testimonials[0]} colSpan="md:col-span-7" />
-              <WhiteCard t={testimonials[1]} colSpan="md:col-span-5" />
-              {[testimonials[2], testimonials[3], testimonials[4]].map((t) => (
+              <WhiteCard t={selected[0]} colSpan="md:col-span-7" />
+              <WhiteCard t={selected[1]} colSpan="md:col-span-5" />
+              {[selected[2], selected[3], selected[4]].map((t) => (
                 <WhiteCard key={t.id} t={t} colSpan="md:col-span-4" />
               ))}
             </>
           ) : style === "Teal" ? (
             <>
-              <TealCard t={testimonials[0]} colSpan="md:col-span-7" />
-              <TealCard t={testimonials[1]} colSpan="md:col-span-5" />
-              {[testimonials[2], testimonials[3], testimonials[4]].map((t) => (
+              <TealCard t={selected[0]} colSpan="md:col-span-7" />
+              <TealCard t={selected[1]} colSpan="md:col-span-5" />
+              {[selected[2], selected[3], selected[4]].map((t) => (
                 <TealCard key={t.id} t={t} colSpan="md:col-span-4" />
               ))}
             </>
           ) : (
             <>
               {/* Alternating: bento with left borders, inset shadows, layered depth */}
-              {/* Top left — 7 cols, dark with left teal border + inner glow */}
               <div className="md:col-span-7 rounded-2xl bg-[var(--foreground)] text-white p-8 md:p-12 flex flex-col relative overflow-hidden border-l-4 border-[var(--teal-light)]">
                 <div
                   className="absolute top-0 right-0 w-48 h-48 opacity-[0.04] pointer-events-none"
@@ -263,50 +310,48 @@ export function TestimonialsBlend() {
                 <div className="relative z-10 flex flex-col h-full">
                   <Stars />
                   <blockquote className="text-lg md:text-xl font-heading leading-relaxed mt-6 mb-8 flex-1 text-white/90">
-                    &ldquo;{testimonials[0].quote}&rdquo;
+                    &ldquo;{selected[0].quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-[var(--teal)]/20 border border-[var(--teal)]/30 flex items-center justify-center font-heading font-semibold text-[var(--teal-light)]">
-                      {testimonials[0].author[0]}
+                      {selected[0].author[0]}
                     </div>
                     <div>
-                      <p className="font-heading font-semibold text-sm">{testimonials[0].author}</p>
-                      <p className="text-white/40 text-xs">{testimonials[0].event}</p>
+                      <p className="font-heading font-semibold text-sm">{selected[0].author}</p>
+                      <p className="text-white/40 text-xs">{selected[0].event}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Top right — 5 cols, white with left teal border + soft inset shadow */}
               <div className="md:col-span-5 rounded-2xl bg-white p-8 md:p-10 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
                 <blockquote className="text-[15px] leading-relaxed mt-5 mb-6 flex-1 text-[var(--foreground)]">
-                  &ldquo;{testimonials[1].quote}&rdquo;
+                  &ldquo;{selected[1].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
-                    {testimonials[1].author[0]}
+                    {selected[1].author[0]}
                   </div>
                   <div>
-                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{testimonials[1].author}</p>
-                    <p className="text-[var(--text-muted)] text-xs">{testimonials[1].event}</p>
+                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{selected[1].author}</p>
+                    <p className="text-[var(--text-muted)] text-xs">{selected[1].event}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Bottom row — 3 cards alternating white/teal/white with left borders */}
               <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal-light)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
                 <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
-                  &ldquo;{testimonials[2].quote}&rdquo;
+                  &ldquo;{selected[2].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
-                    {testimonials[2].author[0]}
+                    {selected[2].author[0]}
                   </div>
                   <div>
-                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{testimonials[2].author}</p>
-                    <p className="text-[var(--text-muted)] text-xs">{testimonials[2].event}</p>
+                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{selected[2].author}</p>
+                    <p className="text-[var(--text-muted)] text-xs">{selected[2].event}</p>
                   </div>
                 </div>
               </div>
@@ -314,15 +359,15 @@ export function TestimonialsBlend() {
               <div className="md:col-span-4 rounded-2xl bg-[var(--teal-dark)] text-white p-7 flex flex-col border-l-4 border-[var(--teal-light)]">
                 <Stars />
                 <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
-                  &ldquo;{testimonials[3].quote}&rdquo;
+                  &ldquo;{selected[3].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-heading font-semibold text-sm">
-                    {testimonials[3].author[0]}
+                    {selected[3].author[0]}
                   </div>
                   <div>
-                    <p className="font-heading font-semibold text-sm">{testimonials[3].author}</p>
-                    <p className="text-white/40 text-xs">{testimonials[3].event}</p>
+                    <p className="font-heading font-semibold text-sm">{selected[3].author}</p>
+                    <p className="text-white/40 text-xs">{selected[3].event}</p>
                   </div>
                 </div>
               </div>
@@ -330,15 +375,15 @@ export function TestimonialsBlend() {
               <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
                 <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
-                  &ldquo;{testimonials[4].quote}&rdquo;
+                  &ldquo;{selected[4].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
-                    {testimonials[4].author[0]}
+                    {selected[4].author[0]}
                   </div>
                   <div>
-                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{testimonials[4].author}</p>
-                    <p className="text-[var(--text-muted)] text-xs">{testimonials[4].event}</p>
+                    <p className="font-heading font-semibold text-sm text-[var(--foreground)]">{selected[4].author}</p>
+                    <p className="text-[var(--text-muted)] text-xs">{selected[4].event}</p>
                   </div>
                 </div>
               </div>

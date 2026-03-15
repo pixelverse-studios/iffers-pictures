@@ -99,6 +99,11 @@ export const engagementData: ServicePageData = {
         author: "Jolee",
         location: "Bergen County, NJ",
       },
+      {
+        quote: "I just wanted to take a moment to thank you for your beautiful work! Miranda and Jesse are so very happy with their photos. I will definitely mention your name to anyone that asks for a recommendation for a professional and reliable photographer.",
+        author: "Debby",
+        location: "Bergen County, NJ",
+      },
     ],
   },
 

@@ -86,6 +86,23 @@ export const eventsData: ServicePageData = {
     ],
   },
 
+  testimonials: {
+    eyebrow: "Kind Words",
+    title: "What Clients Say",
+    items: [
+      {
+        quote: "Thank you so much for sending the gallery, I am so happy with the pictures, they are just stunning!! I can't wait to share with everyone.",
+        author: "Heather Harris",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "THANK YOU so much for everything. You were absolutely amazing to work with! Thank you so much for the pictures, they are BEAUTIFUL!!! Seriously, I can't thank you enough for all the memories you captured. We will be using you for all future events.",
+        author: "Jessica Uribe",
+        location: "Bergen County, NJ",
+      },
+    ],
+  },
+
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
