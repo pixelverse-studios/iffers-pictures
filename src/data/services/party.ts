@@ -94,6 +94,16 @@ export const partyData: ServicePageData = {
         author: "Vittoria F.",
         location: "Bergen County, NJ",
       },
+      {
+        quote: "THANK YOU so much for everything. You were absolutely amazing to work with! Thank you so much for the pictures, they are BEAUTIFUL!!! Seriously, I can't thank you enough for all the memories you captured. We will be using you for all future events.",
+        author: "Jessica Uribe",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
+        author: "Happy Client",
+        location: "Bergen County, NJ",
+      },
     ],
   },
 
