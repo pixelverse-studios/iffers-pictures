@@ -18,6 +18,10 @@
 - Added 4 new client testimonials (Heather Harris, Jessica Uribe, Happy Client, Debby)
 - Homepage testimonials now rotate randomly from a pool of 9 reviews on each page load
 - Added new testimonials to Event, Party, and Engagement service pages
+- Expanded portfolio from 55 to 116 images across 9 categories
+- Added new galleries: baby shower, bridal shower, engagement party, birthday, proposal, and baptism photography
+- Added 11 new family photos and 5 new maternity photos
+- Restructured portfolio image organization to match new service architecture
 
 ## Notes for internal team
 
@@ -28,6 +32,8 @@
 - Testimonials component has layout switcher (Mixed, Uniform, Teal, Alternating) for client review before locking in
 - Next.js image cache at .next/cache/images may need clearing after logo/image changes
 - DEV-518: 9 total testimonials in pool, Fisher-Yates shuffle picks 5 per page load via useMemo
+- DEV-519: Portfolio restructured from 3 to 9 sub-categories, 116 total images. R2 folders now use nested paths (events/baby-shower/, etc.)
+- R2 image workflow documented at docs/references/r2-image-workflow.md
 
 ## Changed URLs
 
