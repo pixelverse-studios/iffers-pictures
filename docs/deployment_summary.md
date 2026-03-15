@@ -14,6 +14,7 @@
 - Updated About page stats to 100+ Events, 5+ Years, 100% Facebook Rating
 - Added "Leave a Review" link in footer pointing to Facebook reviews page
 - Created SEO scope documentation and completed first full SEO audit (score: 52/100)
+- Capitalized homepage hero headline words per client feedback
 
 ## Notes for internal team
 
