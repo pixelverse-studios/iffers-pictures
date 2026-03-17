@@ -21,22 +21,13 @@ export const SERVICES = [
 export type ServiceFilter = (typeof SERVICES)[number];
 
 // ── Tier 2: Sub-categories per service ──────────────────────────
-export const SUB_CATEGORIES: Record<ServiceFilter, readonly string[]> = {
-  "Events": ["Baby Shower", "Bridal Shower", "Engagement", "Gender Reveal", "Birthday", "Proposal", "Baptism"],
-  "Family": ["Family"],
-  "Maternity": ["Maternity"],
-};
+export const SUB_CATEGORIES = {
+  "Events": ["Baby Shower", "Bridal Shower", "Engagement", "Gender Reveal", "Birthday", "Proposal", "Baptism"] as const,
+  "Family": ["Family"] as const,
+  "Maternity": ["Maternity"] as const,
+} satisfies Record<ServiceFilter, readonly string[]>;
 
-export type SubCategory =
-  | "Baby Shower"
-  | "Bridal Shower"
-  | "Engagement"
-  | "Gender Reveal"
-  | "Birthday"
-  | "Proposal"
-  | "Baptism"
-  | "Family"
-  | "Maternity";
+export type SubCategory = (typeof SUB_CATEGORIES)[ServiceFilter][number];
 
 // ── Portfolio item ──────────────────────────────────────────────
 export interface PortfolioItem {
@@ -217,7 +208,12 @@ const THUMBNAIL_SLUG_MAP: Record<string, { service: ServiceFilter; subCategory: 
 /** Get all portfolio items for a given service slug. */
 export function getPortfolioForService(serviceSlug: string): PortfolioItem[] {
   const mapping = SERVICE_SLUG_MAP[serviceSlug];
-  if (!mapping) return [];
+  if (!mapping) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(`[portfolioData] Unknown service slug: "${serviceSlug}"`);
+    }
+    return [];
+  }
   return PORTFOLIO_ITEMS.filter(
     (i) =>
       i.service === mapping.service &&
