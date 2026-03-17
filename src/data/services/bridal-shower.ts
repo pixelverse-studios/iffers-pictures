@@ -6,7 +6,7 @@
 import { ServicePageData } from "./types";
 
 export const bridalShowerData: ServicePageData = {
-  slug: "bridal-shower-photography",
+  slug: "bridal-shower",
 
   // Hero Section
   hero: {
