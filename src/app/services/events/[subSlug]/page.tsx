@@ -18,6 +18,9 @@ import {
   BreadcrumbSchema,
 } from "@/components/features/services";
 
+// Return 404 for slugs not in generateStaticParams
+export const dynamicParams = false;
+
 interface EventSubPageProps {
   params: Promise<{
     subSlug: string;
@@ -46,6 +49,9 @@ export async function generateMetadata({
     title: serviceData.seo.title,
     description: serviceData.seo.description,
     keywords: serviceData.seo.keywords,
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/services/events/${subSlug}`,
+    },
     openGraph: {
       title: serviceData.seo.title,
       description: serviceData.seo.description,
@@ -87,11 +93,17 @@ export default async function EventSubPage({ params }: EventSubPageProps) {
 
   return (
     <>
+      {/* Schema markup */}
       <ServiceSchema data={serviceData} serviceName={serviceInfo.name} />
       <FAQSchema data={serviceData.faq} />
       <BreadcrumbSchema items={breadcrumbItems} />
 
-      <ServiceHero data={serviceData.hero} serviceName={serviceInfo.name} serviceSlug={subSlug} />
+      {/* Page sections */}
+      <ServiceHero
+        data={serviceData.hero}
+        serviceName={serviceInfo.name}
+        serviceSlug={subSlug}
+      />
       <ServiceBenefits
         benefits={serviceData.benefits}
         whatToExpect={serviceData.whatToExpect}

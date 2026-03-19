@@ -15,6 +15,9 @@ import {
   BreadcrumbSchema,
 } from "@/components/features/services";
 
+// Return 404 for slugs not in generateStaticParams
+export const dynamicParams = false;
+
 interface ServicePageProps {
   params: Promise<{
     slug: string;
@@ -48,6 +51,9 @@ export async function generateMetadata({
     title: serviceData.seo.title,
     description: serviceData.seo.description,
     keywords: serviceData.seo.keywords,
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/services/${slug}`,
+    },
     openGraph: {
       title: serviceData.seo.title,
       description: serviceData.seo.description,
