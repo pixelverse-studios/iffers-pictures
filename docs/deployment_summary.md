@@ -22,6 +22,7 @@
 - Added new galleries: baby shower, bridal shower, engagement party, birthday, proposal, and baptism photography
 - Added 11 new family photos and 5 new maternity photos
 - Restructured portfolio image organization to match new service architecture
+- Added individual event photography pages: baby shower, bridal shower, engagement, proposal, parties, religious ceremonies, and milestones
 
 ## Notes for internal team
 
@@ -34,6 +35,7 @@
 - DEV-518: 9 total testimonials in pool, Fisher-Yates shuffle picks 5 per page load via useMemo
 - DEV-519: Portfolio restructured from 3 to 9 sub-categories, 116 total images. R2 folders now use nested paths (events/baby-shower/, etc.)
 - R2 image workflow documented at docs/references/r2-image-workflow.md
+- DEV-523: Created nested route /services/events/[subSlug] for 7 event sub-pages. Excluded "events" from top-level [slug] params to avoid route conflict.
 
 ## Changed URLs
 
@@ -43,3 +45,10 @@
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/services/family
 - https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/events/baby-shower
+- https://ifferspictures.com/services/events/bridal-shower
+- https://ifferspictures.com/services/events/engagement
+- https://ifferspictures.com/services/events/proposal
+- https://ifferspictures.com/services/events/parties
+- https://ifferspictures.com/services/events/religious-ceremonies
+- https://ifferspictures.com/services/events/milestones

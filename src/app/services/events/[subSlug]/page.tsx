@@ -1,7 +1,10 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SERVICES, SITE_CONFIG } from "@/lib/constants";
-import { getServiceData, getAllServiceSlugs } from "@/data/services";
+import { EVENT_SUB_SERVICES, SITE_CONFIG } from "@/lib/constants";
+import {
+  getServiceData,
+  getAllEventSubSlugs,
+} from "@/data/services";
 import {
   ServiceHero,
   ServiceBenefits,
@@ -15,28 +18,23 @@ import {
   BreadcrumbSchema,
 } from "@/components/features/services";
 
-interface ServicePageProps {
+interface EventSubPageProps {
   params: Promise<{
-    slug: string;
+    subSlug: string;
   }>;
 }
 
-// Generate static params for top-level services only
-// "events" is excluded — handled by /services/events/ directory
 export async function generateStaticParams() {
-  return getAllServiceSlugs()
-    .filter((slug) => slug !== "events")
-    .map((slug) => ({
-      slug,
-    }));
+  return getAllEventSubSlugs().map((subSlug) => ({
+    subSlug,
+  }));
 }
 
-// Generate metadata for each service page
 export async function generateMetadata({
   params,
-}: ServicePageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const serviceData = getServiceData(slug);
+}: EventSubPageProps): Promise<Metadata> {
+  const { subSlug } = await params;
+  const serviceData = getServiceData(subSlug);
 
   if (!serviceData) {
     return {
@@ -52,7 +50,7 @@ export async function generateMetadata({
       title: serviceData.seo.title,
       description: serviceData.seo.description,
       type: "website",
-      url: `${SITE_CONFIG.url}/services/${slug}`,
+      url: `${SITE_CONFIG.url}/services/events/${subSlug}`,
       images: [
         {
           url: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
@@ -70,12 +68,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function ServicePage({ params }: ServicePageProps) {
-  const { slug } = await params;
-  const serviceData = getServiceData(slug);
+export default async function EventSubPage({ params }: EventSubPageProps) {
+  const { subSlug } = await params;
+  const serviceData = getServiceData(subSlug);
 
-  // Find service info from constants
-  const serviceInfo = SERVICES.find((s) => s.slug === slug);
+  const serviceInfo = EVENT_SUB_SERVICES.find((s) => s.slug === subSlug);
 
   if (!serviceData || !serviceInfo) {
     notFound();
@@ -84,23 +81,22 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const breadcrumbItems = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
+    { name: "Events", href: "/services/events" },
     { name: serviceInfo.name },
   ];
 
   return (
     <>
-      {/* Schema markup */}
       <ServiceSchema data={serviceData} serviceName={serviceInfo.name} />
       <FAQSchema data={serviceData.faq} />
       <BreadcrumbSchema items={breadcrumbItems} />
 
-      {/* Page sections */}
-      <ServiceHero data={serviceData.hero} serviceName={serviceInfo.name} serviceSlug={slug} />
+      <ServiceHero data={serviceData.hero} serviceName={serviceInfo.name} serviceSlug={subSlug} />
       <ServiceBenefits
         benefits={serviceData.benefits}
         whatToExpect={serviceData.whatToExpect}
       />
-      <ServiceGallery data={serviceData.gallery} serviceSlug={slug} />
+      <ServiceGallery data={serviceData.gallery} serviceSlug={subSlug} />
       {serviceData.testimonials && <ServiceTestimonials data={serviceData.testimonials} />}
       <ServicePricing data={serviceData.pricing} />
       <ServiceFAQ data={serviceData.faq} />
