@@ -7,33 +7,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
 import { EVENT_SUB_SERVICES } from "@/lib/constants";
 import { getServiceThumbnail } from "@/components/features/portfolio/portfolioData";
-import {
-  ArrowRight,
-  Heart,
-  Baby,
-  Sparkles,
-  PartyPopper,
-  Users,
-  Camera,
-  Church,
-  Award,
-  Gem,
-  type LucideIcon,
-} from "lucide-react";
-
-const iconMap: Record<string, LucideIcon> = {
-  Heart, Baby, Sparkles, PartyPopper, Users, Camera, Church, Award, Gem,
-};
-
-const EVENT_DESCRIPTIONS: Record<string, string> = {
-  "baby-shower": "Joyful celebrations welcoming new life, with every sweet detail and genuine reaction preserved.",
-  "bridal-shower": "Pre-wedding celebrations full of laughter, love, and meaningful moments with closest friends.",
-  engagement: "The spark of a new chapter captured in authentic, romantic portraits you'll treasure forever.",
-  proposal: "Surprise moments of pure joy, documented from the hidden vantage point to the tearful yes.",
-  parties: "Birthday bashes, anniversary dinners, and every celebration that brings people together.",
-  "religious-ceremonies": "Sacred milestones like baptisms and christenings, documented with reverence and warmth.",
-  milestones: "Life's defining moments, from graduations to retirements, captured as they truly unfold.",
-};
+import { ArrowRight, Camera } from "lucide-react";
+import { iconMap, EVENT_DESCRIPTIONS, SECTION_HEADER } from "./shared";
 
 interface MagazineLayoutProps {
   className?: string;
@@ -50,9 +25,9 @@ export function MagazineLayout({ className }: MagazineLayoutProps) {
     <section className={cn("py-16 md:py-24", className)}>
       <div className="container">
         <SectionHeader
-          eyebrow="Event Photography"
-          title="Every Celebration Has a Story"
-          description="Choose your event type to explore our approach, see sample work, and learn about packages tailored to your celebration."
+          eyebrow={SECTION_HEADER.eyebrow}
+          title={SECTION_HEADER.title}
+          description={SECTION_HEADER.description}
         />
 
         {/* Featured card - large editorial style */}
@@ -70,6 +45,7 @@ export function MagazineLayout({ className }: MagazineLayoutProps) {
                       src={featuredImage.src}
                       alt={featuredImage.alt}
                       fill
+                      priority
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />

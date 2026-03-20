@@ -1,15 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import {
   LayoutSelector,
   MagazineLayout,
-  ShowcaseLayout,
-  GalleryLayout,
   EventsHubTestimonials,
   EventsHubCTA,
 } from "@/components/features/events-hub";
 import type { LayoutVariant } from "@/components/features/events-hub";
+
+const ShowcaseLayout = dynamic(() =>
+  import("@/components/features/events-hub/layouts/ShowcaseLayout").then(m => ({ default: m.ShowcaseLayout }))
+);
+const GalleryLayout = dynamic(() =>
+  import("@/components/features/events-hub/layouts/GalleryLayout").then(m => ({ default: m.GalleryLayout }))
+);
 
 export function EventsHubContent() {
   const [layout, setLayout] = useState<LayoutVariant>("magazine");

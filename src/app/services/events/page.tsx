@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { EventsHubHero } from "@/components/features/events-hub";
 import { EventsHubContent } from "@/components/features/events-hub/EventsHubContent";
+import { BreadcrumbSchema } from "@/components/features/services";
 
 export const metadata: Metadata = {
   title: "Event Photography | Iffer's Pictures | Bergen County NJ",
@@ -45,6 +46,11 @@ export const metadata: Metadata = {
 export default function EventsHubPage() {
   return (
     <>
+      <BreadcrumbSchema items={[
+        { name: "Home", href: "/" },
+        { name: "Services", href: "/services" },
+        { name: "Events" },
+      ]} />
       <EventsHubHero />
       <EventsHubContent />
     </>

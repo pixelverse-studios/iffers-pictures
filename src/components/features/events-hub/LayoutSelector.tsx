@@ -21,11 +21,13 @@ export function LayoutSelector({ current, onChange, className }: LayoutSelectorP
   return (
     <div className={cn("flex items-center justify-center gap-2", className)}>
       <span className="text-sm text-[var(--text-muted)] mr-2 hidden sm:inline">Layout:</span>
-      <div className="inline-flex rounded-full bg-[var(--background-warm)] p-1 shadow-sm border border-[var(--border-light)]">
+      <div className="inline-flex rounded-full bg-[var(--background-warm)] p-1 shadow-sm border border-[var(--border)]" role="tablist">
         {layouts.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             onClick={() => onChange(id)}
+            role="tab"
+            aria-selected={current === id}
             className={cn(
               "flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
               current === id

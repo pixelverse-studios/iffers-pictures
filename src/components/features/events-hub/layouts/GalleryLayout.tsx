@@ -7,33 +7,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
 import { EVENT_SUB_SERVICES } from "@/lib/constants";
 import { getServiceThumbnail } from "@/components/features/portfolio/portfolioData";
-import {
-  ArrowRight,
-  Heart,
-  Baby,
-  Sparkles,
-  PartyPopper,
-  Users,
-  Camera,
-  Church,
-  Award,
-  Gem,
-  type LucideIcon,
-} from "lucide-react";
-
-const iconMap: Record<string, LucideIcon> = {
-  Heart, Baby, Sparkles, PartyPopper, Users, Camera, Church, Award, Gem,
-};
-
-const EVENT_DESCRIPTIONS: Record<string, string> = {
-  "baby-shower": "Joyful celebrations welcoming new life, with every sweet detail and genuine reaction preserved.",
-  "bridal-shower": "Pre-wedding celebrations full of laughter, love, and meaningful moments with closest friends.",
-  engagement: "The spark of a new chapter captured in authentic, romantic portraits you'll treasure forever.",
-  proposal: "Surprise moments of pure joy, documented from the hidden vantage point to the tearful yes.",
-  parties: "Birthday bashes, anniversary dinners, and every celebration that brings people together.",
-  "religious-ceremonies": "Sacred milestones like baptisms and christenings, documented with reverence and warmth.",
-  milestones: "Life's defining moments, from graduations to retirements, captured as they truly unfold.",
-};
+import { ArrowRight, Camera } from "lucide-react";
+import { iconMap, EVENT_DESCRIPTIONS, SECTION_HEADER } from "./shared";
 
 // Varied aspect ratios for Pinterest-style masonry feel
 const CARD_SIZES: Record<string, string> = {
@@ -55,9 +30,9 @@ export function GalleryLayout({ className }: GalleryLayoutProps) {
     <section className={cn("py-16 md:py-24", className)}>
       <div className="container">
         <SectionHeader
-          eyebrow="Event Photography"
-          title="Every Celebration Has a Story"
-          description="Choose your event type to explore our approach, see sample work, and learn about packages tailored to your celebration."
+          eyebrow={SECTION_HEADER.eyebrow}
+          title={SECTION_HEADER.title}
+          description={SECTION_HEADER.description}
         />
 
         {/* Pinterest-style masonry grid */}
@@ -116,15 +91,15 @@ export function GalleryLayout({ className }: GalleryLayoutProps) {
                     {service.shortName}
                   </h3>
 
-                  {/* Description - slides up on hover */}
+                  {/* Description - visible on mobile, slides up on hover for desktop */}
                   <div className="overflow-hidden">
-                    <p className="text-white/80 text-sm leading-relaxed max-h-0 group-hover:max-h-24 transition-all duration-500 ease-out">
+                    <p className="text-white/80 text-sm leading-relaxed max-h-24 sm:max-h-0 sm:group-hover:max-h-24 transition-all duration-500 ease-out">
                       {EVENT_DESCRIPTIONS[service.slug]}
                     </p>
                   </div>
 
-                  {/* CTA - fades in on hover */}
-                  <div className="flex items-center gap-2 mt-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-100">
+                  {/* CTA - visible on mobile, fades in on hover for desktop */}
+                  <div className="flex items-center gap-2 mt-2 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 transition-all duration-300 delay-100">
                     <span className="text-white/90 text-sm font-medium">View Gallery</span>
                     <ArrowRight className="w-4 h-4 text-white/90 transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
