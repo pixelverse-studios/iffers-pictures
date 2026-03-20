@@ -99,40 +99,39 @@ export function ShowcaseLayout({ className }: ShowcaseLayoutProps) {
                 </div>
               </div>
 
-            {/* Content panel - takes 2 cols */}
-            <div className="md:col-span-2 p-8 md:p-10 flex flex-col justify-center">
-              <div
-                key={activeService.slug}
-                className="animate-fade-in"
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-11 h-11 rounded-full bg-[var(--teal)]/10 flex items-center justify-center">
-                    <ActiveIcon className="w-5 h-5 text-[var(--teal)]" />
-                  </div>
-                  <span className="text-xs font-medium tracking-widest uppercase text-[var(--text-muted)]">
-                    {activeIndex + 1} / {EVENT_SUB_SERVICES.length}
-                  </span>
-                </div>
-
-                <h3 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] mb-4 leading-tight">
-                  {activeService.name}
-                </h3>
-
-                <p className="text-[var(--text-secondary)] leading-relaxed mb-8">
-                  {EVENT_DESCRIPTIONS[activeService.slug]}
-                </p>
-
-                <Link
-                  href={`/services/events/${activeService.slug}`}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--teal)] text-white font-medium shadow-sm hover:bg-[var(--teal-dark)] hover:shadow-md transition-all duration-300"
+              {/* Content panel - takes 2 cols */}
+              <div className="md:col-span-2 p-8 md:p-10 flex flex-col justify-center" aria-live="polite">
+                <div
+                  key={activeService.slug}
+                  className="animate-fade-in"
                 >
-                  <span>View {activeService.shortName}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-11 h-11 rounded-full bg-[var(--teal)]/10 flex items-center justify-center">
+                      <ActiveIcon className="w-5 h-5 text-[var(--teal)]" />
+                    </div>
+                    <span className="text-xs font-medium tracking-widest uppercase text-[var(--text-muted)]">
+                      {activeIndex + 1} / {EVENT_SUB_SERVICES.length}
+                    </span>
+                  </div>
 
+                  <h3 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] mb-4 leading-tight">
+                    {activeService.name}
+                  </h3>
+
+                  <p className="text-[var(--text-secondary)] leading-relaxed mb-8">
+                    {EVENT_DESCRIPTIONS[activeService.slug]}
+                  </p>
+
+                  <Link
+                    href={`/services/events/${activeService.slug}`}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--teal)] text-white font-medium shadow-sm hover:bg-[var(--teal-dark)] hover:shadow-md transition-all duration-300"
+                  >
+                    <span>View {activeService.shortName}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
             </div>
-          </div>
           </div>
 
           {/* Right arrow - outside card */}
