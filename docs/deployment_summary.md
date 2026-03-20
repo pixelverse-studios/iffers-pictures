@@ -23,6 +23,7 @@
 - Added 11 new family photos and 5 new maternity photos
 - Restructured portfolio image organization to match new service architecture
 - Added individual event photography pages: baby shower, bridal shower, engagement, proposal, parties, religious ceremonies, and milestones
+- Created new Events hub page with 3 swappable layout options (Magazine Grid, Showcase Carousel, Interactive Gallery) and layout selector widget
 
 ## Notes for internal team
 
@@ -36,6 +37,7 @@
 - DEV-519: Portfolio restructured from 3 to 9 sub-categories, 116 total images. R2 folders now use nested paths (events/baby-shower/, etc.)
 - R2 image workflow documented at docs/references/r2-image-workflow.md
 - DEV-523: Created nested route /services/events/[subSlug] for 7 event sub-pages. Excluded "events" from top-level [slug] params to avoid route conflict.
+- DEV-524: Events hub page at /services/events with 3 layout alternatives (Magazine, Showcase, Gallery), layout selector widget, reuses homepage TestimonialsBlend component. Showcase layout has external nav arrows, pill-triggered carousel, 10s auto-advance with reset on interaction.
 
 ## Changed URLs
 
