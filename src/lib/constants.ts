@@ -48,7 +48,7 @@ export const SERVICES = [
     name: "Event Photography",
     shortName: "Events",
     description:
-      "From baby showers and bridal showers to baptisms/christenings and intimate celebrations — natural, unobtrusive photography that captures genuine moments so you can relive them for years to come.",
+      "From baby showers and bridal showers to baptisms and intimate celebrations — natural, unobtrusive photography that captures genuine moments so you can relive them for years to come.",
     icon: "PartyPopper",
     slug: "events",
     featured: true,
@@ -61,16 +61,6 @@ export const SERVICES = [
       "Relaxed, authentic family sessions focused on real connection — the laughter, the closeness, and the in-between moments that make your family uniquely yours.",
     icon: "Users",
     slug: "family",
-    featured: true,
-  },
-  {
-    id: "milestones",
-    name: "Milestone Photography",
-    shortName: "Milestones",
-    description:
-      "Birthdays, graduations, anniversaries, proposals, and gender reveals — preserving the pride, joy, and love of life's meaningful milestones.",
-    icon: "Sparkles",
-    slug: "milestones",
     featured: true,
   },
   {
@@ -92,6 +82,58 @@ export const SERVICES = [
     icon: "Heart",
     slug: "maternity",
     featured: true,
+  },
+] as const;
+
+export const EVENT_SUB_SERVICES = [
+  {
+    id: "baby-shower",
+    name: "Baby Shower Photography",
+    shortName: "Baby Showers",
+    icon: "Baby",
+    slug: "baby-shower",
+  },
+  {
+    id: "bridal-shower",
+    name: "Bridal Shower Photography",
+    shortName: "Bridal Showers",
+    icon: "Heart",
+    slug: "bridal-shower",
+  },
+  {
+    id: "engagement",
+    name: "Engagement Photography",
+    shortName: "Engagements",
+    icon: "Gem",
+    slug: "engagement",
+  },
+  {
+    id: "proposal",
+    name: "Proposal Photography",
+    shortName: "Proposals",
+    icon: "Sparkles",
+    slug: "proposal",
+  },
+  {
+    id: "parties",
+    name: "Party & Birthday Photography",
+    shortName: "Parties",
+    icon: "PartyPopper",
+    slug: "parties",
+  },
+  {
+    id: "religious-ceremonies",
+    name: "Religious Ceremony Photography",
+    shortName: "Ceremonies",
+    icon: "Church",
+    slug: "religious-ceremonies",
+  },
+  {
+    id: "milestones",
+    name: "Milestone Photography",
+    shortName: "Milestones",
+    icon: "Award",
+    slug: "milestones",
   },
 ] as const;
 
@@ -153,9 +195,15 @@ export const NAV_LINKS_RIGHT = [
 ] as const;
 
 export const FOOTER_LINKS = {
-  services: SERVICES.filter((s) => s.featured).map((s) => ({
+  services: [
+    ...SERVICES.filter((s) => s.featured).map((s) => ({
+      label: s.shortName,
+      href: `/services/${s.slug}`,
+    })),
+  ],
+  eventTypes: EVENT_SUB_SERVICES.map((s) => ({
     label: s.shortName,
-    href: `/services/${s.slug}`,
+    href: `/services/events/${s.slug}`,
   })),
   company: [
     { label: "About", href: "/about" },
@@ -166,4 +214,4 @@ export const FOOTER_LINKS = {
     { label: "Service Areas", href: "/locations" },
     { label: "FAQ", href: "/faq" },
   ],
-} as const;
+};

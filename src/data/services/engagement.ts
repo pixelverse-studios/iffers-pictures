@@ -6,7 +6,7 @@
 import { ServicePageData } from "./types";
 
 export const engagementData: ServicePageData = {
-  slug: "engagement-photography",
+  slug: "engagement",
 
   // Hero Section
   hero: {
@@ -97,6 +97,11 @@ export const engagementData: ServicePageData = {
       {
         quote: "Jennifer photographed our engagement and made the whole experience so comfortable and fun. We're not the most natural in front of a camera, but she knew exactly how to guide us and the photos came out absolutely beautiful. She really captured us as a couple.",
         author: "Jolee",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "I just wanted to take a moment to thank you for your beautiful work! Miranda and Jesse are so very happy with their photos. I will definitely mention your name to anyone that asks for a recommendation for a professional and reliable photographer.",
+        author: "Debby",
         location: "Bergen County, NJ",
       },
     ],
