@@ -6,7 +6,7 @@
 import { ServicePageData } from "./types";
 
 export const partyData: ServicePageData = {
-  slug: "party-photography",
+  slug: "parties",
 
   // Hero Section
   hero: {

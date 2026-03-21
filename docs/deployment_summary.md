@@ -22,6 +22,11 @@
 - Added new galleries: baby shower, bridal shower, engagement party, birthday, proposal, and baptism photography
 - Added 11 new family photos and 5 new maternity photos
 - Restructured portfolio image organization to match new service architecture
+- Added individual event photography pages: baby shower, bridal shower, engagement, proposal, parties, religious ceremonies, and milestones
+- Created new Events hub page with 3 swappable layout options (Magazine Grid, Showcase Carousel, Interactive Gallery) and layout selector widget
+- Improved Events hub page load performance: prioritized hero images, lazy-loaded non-default layouts, added breadcrumb navigation schema
+- Improved Events hub accessibility: layout switcher now uses proper tab navigation pattern, gallery descriptions visible on mobile without hover
+- Code cleanup: consolidated shared constants across event layout components, fixed CSS variable references
 
 ## Notes for internal team
 
@@ -34,6 +39,12 @@
 - DEV-518: 9 total testimonials in pool, Fisher-Yates shuffle picks 5 per page load via useMemo
 - DEV-519: Portfolio restructured from 3 to 9 sub-categories, 116 total images. R2 folders now use nested paths (events/baby-shower/, etc.)
 - R2 image workflow documented at docs/references/r2-image-workflow.md
+- DEV-523: Created nested route /services/events/[subSlug] for 7 event sub-pages. Excluded "events" from top-level [slug] params to avoid route conflict.
+- DEV-524: Events hub page at /services/events with 3 layout alternatives (Magazine, Showcase, Gallery), layout selector widget, reuses homepage TestimonialsBlend component. Showcase layout has external nav arrows, pill-triggered carousel, 10s auto-advance with reset on interaction.
+- Performance: Added priority prop to LCP images in MagazineLayout and ShowcaseLayout. Used next/dynamic for ShowcaseLayout and GalleryLayout (code-split). Added BreadcrumbSchema to events hub page.
+- Refactor: Extracted EVENT_DESCRIPTIONS, iconMap, and SECTION_HEADER into shared.ts. Removed duplicate Lucide imports and inline constants from all 3 layout files.
+- Fix: Replaced var(--border-light) with var(--border) in LayoutSelector.tsx. Removed unnecessary "use client" from EventsHubHero and EventsHubCTA.
+- A11y: LayoutSelector uses role="tablist"/role="tab"/aria-selected tab pattern. GalleryLayout descriptions and CTAs visible by default on mobile (sm: breakpoint for hover effects).
 
 ## Changed URLs
 
@@ -43,3 +54,10 @@
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/services/family
 - https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/events/baby-shower
+- https://ifferspictures.com/services/events/bridal-shower
+- https://ifferspictures.com/services/events/engagement
+- https://ifferspictures.com/services/events/proposal
+- https://ifferspictures.com/services/events/parties
+- https://ifferspictures.com/services/events/religious-ceremonies
+- https://ifferspictures.com/services/events/milestones

@@ -6,7 +6,7 @@
 import { ServicePageData } from "./types";
 
 export const engagementData: ServicePageData = {
-  slug: "engagement-photography",
+  slug: "engagement",
 
   // Hero Section
   hero: {
