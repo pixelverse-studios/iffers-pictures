@@ -44,6 +44,8 @@ export function Header() {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      setIsMobileServicesOpen(false);
+      setIsMobileEventsOpen(false);
     }
     return () => {
       document.body.style.overflow = "";
@@ -145,9 +147,17 @@ export function Header() {
                                   key={service.slug}
                                   onMouseEnter={() => setIsEventsOpen(true)}
                                   onMouseLeave={() => setIsEventsOpen(false)}
+                                  onFocus={() => setIsEventsOpen(true)}
+                                  onBlur={(e) => {
+                                    if (!e.currentTarget.contains(e.relatedTarget)) {
+                                      setIsEventsOpen(false);
+                                    }
+                                  }}
                                 >
                                   <Link
                                     href="/services/events"
+                                    aria-expanded={isEventsOpen}
+                                    aria-controls="desktop-events-submenu"
                                     className={cn(
                                       "flex items-center justify-between px-4 py-3 text-sm",
                                       "hover:bg-[var(--background-warm)] hover:text-[var(--teal)]",
@@ -172,15 +182,17 @@ export function Header() {
                                     </div>
                                     <ChevronDown
                                       className={cn(
-                                        "w-3.5 h-3.5 -rotate-90 text-[var(--text-muted)]",
+                                        "w-3.5 h-3.5 text-[var(--text-muted)]",
                                         "transition-transform duration-200",
-                                        isEventsOpen && "rotate-0"
+                                        isEventsOpen ? "rotate-180" : "rotate-0"
                                       )}
                                     />
                                   </Link>
 
                                   {/* Event Sub-Types */}
                                   <div
+                                    id="desktop-events-submenu"
+                                    role="menu"
                                     className={cn(
                                       "overflow-hidden transition-all duration-200",
                                       isEventsOpen ? "max-h-[500px]" : "max-h-0"
@@ -193,6 +205,7 @@ export function Header() {
                                           <Link
                                             key={sub.slug}
                                             href={`/services/events/${sub.slug}`}
+                                            role="menuitem"
                                             className={cn(
                                               "block px-3 py-2 text-sm",
                                               "hover:bg-[var(--background-warm)] hover:text-[var(--teal)]",
@@ -400,6 +413,8 @@ export function Header() {
                   <div key={link.href}>
                     <button
                       onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                      aria-expanded={isMobileServicesOpen}
+                      aria-controls="mobile-services-submenu"
                       className={cn(
                         "flex items-center justify-between w-full text-3xl font-heading font-medium text-white",
                         "opacity-0 translate-x-8 transition-all duration-500",
@@ -420,9 +435,10 @@ export function Header() {
 
                     {/* Mobile Services Sub-menu */}
                     <div
+                      id="mobile-services-submenu"
                       className={cn(
                         "overflow-hidden transition-all duration-300",
-                        isMobileServicesOpen ? "max-h-96 mt-3" : "max-h-0"
+                        isMobileServicesOpen ? "max-h-[800px] mt-3" : "max-h-0"
                       )}
                     >
                       <div className="pl-4 space-y-3 border-l-2 border-white/30">
@@ -432,6 +448,8 @@ export function Header() {
                               <div key={service.slug}>
                                 <button
                                   onClick={() => setIsMobileEventsOpen(!isMobileEventsOpen)}
+                                  aria-expanded={isMobileEventsOpen}
+                                  aria-controls="mobile-events-submenu"
                                   className="flex items-center justify-between w-full text-xl text-white/80 hover:text-white transition-colors"
                                 >
                                   {service.shortName}
@@ -443,6 +461,8 @@ export function Header() {
                                   />
                                 </button>
                                 <div
+                                  id="mobile-events-submenu"
+                                  role="menu"
                                   className={cn(
                                     "overflow-hidden transition-all duration-300",
                                     isMobileEventsOpen ? "max-h-[500px] mt-2" : "max-h-0"
