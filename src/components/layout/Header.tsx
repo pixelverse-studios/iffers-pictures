@@ -6,13 +6,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO, SERVICES } from "@/lib/constants";
+import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO, SERVICES, EVENT_SUB_SERVICES } from "@/lib/constants";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isEventsOpen, setIsEventsOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const [isMobileEventsOpen, setIsMobileEventsOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
@@ -42,6 +44,8 @@ export function Header() {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      setIsMobileServicesOpen(false);
+      setIsMobileEventsOpen(false);
     }
     return () => {
       document.body.style.overflow = "";
@@ -134,7 +138,93 @@ export function Header() {
                       >
                         <div className="bg-white rounded-xl shadow-xl border border-[var(--border)] py-2 min-w-[240px]">
                           {featuredServices.map((service) => {
-                            const isActiveService = pathname === `/services/${service.slug}`;
+                            const isActiveService = pathname === `/services/${service.slug}` ||
+                              (service.slug === "events" && pathname.startsWith("/services/events"));
+
+                            if (service.slug === "events") {
+                              return (
+                                <div
+                                  key={service.slug}
+                                  onMouseEnter={() => setIsEventsOpen(true)}
+                                  onMouseLeave={() => setIsEventsOpen(false)}
+                                  onFocus={() => setIsEventsOpen(true)}
+                                  onBlur={(e) => {
+                                    if (!e.currentTarget.contains(e.relatedTarget)) {
+                                      setIsEventsOpen(false);
+                                    }
+                                  }}
+                                >
+                                  <Link
+                                    href="/services/events"
+                                    aria-expanded={isEventsOpen}
+                                    aria-controls="desktop-events-submenu"
+                                    className={cn(
+                                      "flex items-center justify-between px-4 py-3 text-sm",
+                                      "hover:bg-[var(--background-warm)] hover:text-[var(--teal)]",
+                                      "transition-colors duration-150",
+                                      isActiveService
+                                        ? "bg-[var(--background-warm)] border-l-2 border-[var(--teal)]"
+                                        : "text-[var(--text-secondary)]"
+                                    )}
+                                  >
+                                    <div>
+                                      <span
+                                        className={cn(
+                                          "font-medium",
+                                          isActiveService ? "text-[var(--teal)]" : "text-[var(--foreground)]"
+                                        )}
+                                      >
+                                        {service.shortName}
+                                      </span>
+                                      <span className="block text-xs mt-0.5 text-[var(--text-muted)]">
+                                        {service.name}
+                                      </span>
+                                    </div>
+                                    <ChevronDown
+                                      className={cn(
+                                        "w-3.5 h-3.5 text-[var(--text-muted)]",
+                                        "transition-transform duration-200",
+                                        isEventsOpen ? "rotate-180" : "rotate-0"
+                                      )}
+                                    />
+                                  </Link>
+
+                                  {/* Event Sub-Types */}
+                                  <div
+                                    id="desktop-events-submenu"
+                                    role="menu"
+                                    className={cn(
+                                      "overflow-hidden transition-all duration-200",
+                                      isEventsOpen ? "max-h-[500px]" : "max-h-0"
+                                    )}
+                                  >
+                                    <div className="pl-4 border-l-2 border-[var(--teal-light)]/30 ml-4 py-1">
+                                      {EVENT_SUB_SERVICES.map((sub) => {
+                                        const isActiveSub = pathname === `/services/events/${sub.slug}`;
+                                        return (
+                                          <Link
+                                            key={sub.slug}
+                                            href={`/services/events/${sub.slug}`}
+                                            role="menuitem"
+                                            className={cn(
+                                              "block px-3 py-2 text-sm",
+                                              "hover:bg-[var(--background-warm)] hover:text-[var(--teal)]",
+                                              "transition-colors duration-150 rounded-md",
+                                              isActiveSub
+                                                ? "text-[var(--teal)] font-medium"
+                                                : "text-[var(--text-secondary)]"
+                                            )}
+                                          >
+                                            {sub.shortName}
+                                          </Link>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            }
+
                             return (
                               <Link
                                 key={service.slug}
@@ -323,6 +413,8 @@ export function Header() {
                   <div key={link.href}>
                     <button
                       onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                      aria-expanded={isMobileServicesOpen}
+                      aria-controls="mobile-services-submenu"
                       className={cn(
                         "flex items-center justify-between w-full text-3xl font-heading font-medium text-white",
                         "opacity-0 translate-x-8 transition-all duration-500",
@@ -343,22 +435,73 @@ export function Header() {
 
                     {/* Mobile Services Sub-menu */}
                     <div
+                      id="mobile-services-submenu"
                       className={cn(
                         "overflow-hidden transition-all duration-300",
-                        isMobileServicesOpen ? "max-h-96 mt-3" : "max-h-0"
+                        isMobileServicesOpen ? "max-h-[800px] mt-3" : "max-h-0"
                       )}
                     >
                       <div className="pl-4 space-y-3 border-l-2 border-white/30">
-                        {featuredServices.map((service) => (
-                          <Link
-                            key={service.slug}
-                            href={`/services/${service.slug}`}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="block text-xl text-white/80 hover:text-white transition-colors"
-                          >
-                            {service.shortName}
-                          </Link>
-                        ))}
+                        {featuredServices.map((service) => {
+                          if (service.slug === "events") {
+                            return (
+                              <div key={service.slug}>
+                                <button
+                                  onClick={() => setIsMobileEventsOpen(!isMobileEventsOpen)}
+                                  aria-expanded={isMobileEventsOpen}
+                                  aria-controls="mobile-events-submenu"
+                                  className="flex items-center justify-between w-full text-xl text-white/80 hover:text-white transition-colors"
+                                >
+                                  {service.shortName}
+                                  <ChevronDown
+                                    className={cn(
+                                      "w-4 h-4 transition-transform duration-200",
+                                      isMobileEventsOpen && "rotate-180"
+                                    )}
+                                  />
+                                </button>
+                                <div
+                                  id="mobile-events-submenu"
+                                  role="menu"
+                                  className={cn(
+                                    "overflow-hidden transition-all duration-300",
+                                    isMobileEventsOpen ? "max-h-[500px] mt-2" : "max-h-0"
+                                  )}
+                                >
+                                  <div className="pl-4 space-y-2 border-l-2 border-white/20">
+                                    <Link
+                                      href="/services/events"
+                                      onClick={() => setIsMobileMenuOpen(false)}
+                                      className="block text-base text-white/60 hover:text-white transition-colors"
+                                    >
+                                      All Events
+                                    </Link>
+                                    {EVENT_SUB_SERVICES.map((sub) => (
+                                      <Link
+                                        key={sub.slug}
+                                        href={`/services/events/${sub.slug}`}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="block text-base text-white/60 hover:text-white transition-colors"
+                                      >
+                                        {sub.shortName}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+                          return (
+                            <Link
+                              key={service.slug}
+                              href={`/services/${service.slug}`}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="block text-xl text-white/80 hover:text-white transition-colors"
+                            >
+                              {service.shortName}
+                            </Link>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

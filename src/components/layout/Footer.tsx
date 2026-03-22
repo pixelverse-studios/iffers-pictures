@@ -21,9 +21,9 @@ export function Footer() {
     <footer className="bg-[var(--footer-bg)] text-white">
       {/* Main Footer Content */}
       <div className="container py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12 lg:gap-6">
           {/* Brand Column */}
-          <div>
+          <div className="lg:col-span-2 xl:col-span-1">
             <Link href="/" className="inline-block mb-6">
               <span className="text-2xl font-heading font-semibold">
                 <span className="text-[var(--teal-light)]">Iffer&apos;s</span> Pictures
@@ -68,6 +68,25 @@ export function Footer() {
             </h3>
             <ul className="space-y-3">
               {FOOTER_LINKS.services.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Event Types Column */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
+              Event Types
+            </h3>
+            <ul className="space-y-3">
+              {FOOTER_LINKS.eventTypes.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
