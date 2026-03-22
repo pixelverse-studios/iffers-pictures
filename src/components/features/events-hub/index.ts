@@ -1,4 +1,5 @@
 export { EventsHubHero } from "./EventsHubHero";
+export { EventsHubSchema } from "./EventsHubSchema";
 export { EventsHubTestimonials } from "./EventsHubTestimonials";
 export { EventsHubCTA } from "./EventsHubCTA";
 export { LayoutSelector } from "./LayoutSelector";

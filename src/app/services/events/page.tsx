@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
-import { EventsHubHero } from "@/components/features/events-hub";
+import { EventsHubHero, EventsHubSchema } from "@/components/features/events-hub";
 import { EventsHubContent } from "@/components/features/events-hub/EventsHubContent";
 import { BreadcrumbSchema } from "@/components/features/services";
 
@@ -46,6 +46,7 @@ export const metadata: Metadata = {
 export default function EventsHubPage() {
   return (
     <>
+      <EventsHubSchema />
       <BreadcrumbSchema items={[
         { name: "Home", href: "/" },
         { name: "Services", href: "/services" },
