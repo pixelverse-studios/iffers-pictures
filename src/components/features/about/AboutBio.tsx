@@ -91,8 +91,37 @@ export function AboutBio() {
         </div>
       </section>
 
-      {/* Approach / Philosophy */}
+      {/* A Few Things About Me */}
       <section className="py-16 md:py-24 bg-white">
+        <div className="container">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] text-center mb-10">
+              A Few Things About Me
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                "Middle school math teacher",
+                "Based in Bergen County, NJ",
+                "Lover of golden hour & candid moments",
+                "Passionate about storytelling",
+              ].map((fact) => (
+                <div
+                  key={fact}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-[var(--background-warm)]"
+                >
+                  <div className="w-2 h-2 rounded-full bg-[var(--teal)] shrink-0" />
+                  <p className="text-[var(--text-secondary)] text-base">
+                    {fact}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Approach / Philosophy */}
+      <section className="py-16 md:py-24 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-[var(--teal)] font-medium tracking-wide uppercase text-sm mb-8">

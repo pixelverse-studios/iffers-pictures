@@ -12,11 +12,13 @@
 - New Investment page added (session details and inquiry)
 - Footer updated with Sessions column replacing Services and Event Types columns
 - Homepage completely redesigned with emotional brand flow: hero image, personal intro, portfolio preview, sessions preview, emotional divider, and inquiry CTA
+- About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
 
 ## Notes for internal team
 
 - DEV-563 completed (foundation ticket for DEV-562 epic)
 - DEV-565 completed (homepage redesign)
+- DEV-566 completed (about page refresh)
 - Constants: SERVICES → SESSIONS (5 categories), EVENT_SUB_SERVICES deprecated
 - Nav: 6 flat items, no dropdown, "Inquire" replaces "Contact", "Investment" replaces "FAQ"
 - Data: new couples-engagement.ts, portrait.ts; index.ts mapper simplified
@@ -35,3 +37,4 @@
 - https://ifferspictures.com/services/portrait
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/
+- https://ifferspictures.com/about
