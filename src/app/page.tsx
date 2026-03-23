@@ -1,5 +1,21 @@
-import { Variation4 } from "@/components/landing-variations/variation-4";
+import {
+  Hero,
+  QuickIntro,
+  PortfolioPreview,
+  SessionsPreview,
+  EmotionalDivider,
+  HomeCTA,
+} from "@/components/features/homepage";
 
 export default function HomePage() {
-  return <Variation4 />;
+  return (
+    <>
+      <Hero />
+      <QuickIntro />
+      <PortfolioPreview />
+      <SessionsPreview />
+      <EmotionalDivider />
+      <HomeCTA />
+    </>
+  );
 }
