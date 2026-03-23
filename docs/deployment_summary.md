@@ -13,12 +13,14 @@
 - Footer updated with Sessions column replacing Services and Event Types columns
 - Homepage completely redesigned with emotional brand flow: hero image, personal intro, portfolio preview, sessions preview, emotional divider, and inquiry CTA
 - About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
+- Sessions hub page redesigned with large visual category cards showing portfolio images
 
 ## Notes for internal team
 
 - DEV-563 completed (foundation ticket for DEV-562 epic)
 - DEV-565 completed (homepage redesign)
 - DEV-566 completed (about page refresh)
+- DEV-567 completed (sessions hub page)
 - Constants: SERVICES → SESSIONS (5 categories), EVENT_SUB_SERVICES deprecated
 - Nav: 6 flat items, no dropdown, "Inquire" replaces "Contact", "Investment" replaces "FAQ"
 - Data: new couples-engagement.ts, portrait.ts; index.ts mapper simplified
