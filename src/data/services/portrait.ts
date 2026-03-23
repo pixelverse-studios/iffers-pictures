@@ -11,7 +11,7 @@ export const portraitData: ServicePageData = {
 
   // Hero Section
   hero: {
-    headline: "Professional Headshots That Open Doors",
+    headline: "Portrait Sessions",
     subheadline: "Professional headshots, branding, and individual portraits",
     description: "A headshot is more than just a photograph — it's a reflection of who you are and how you want to be seen. Whether you're updating your professional profile, building your brand, or celebrating a new chapter, my goal is to create images that feel polished, confident, and authentic. I guide you through the process in a relaxed and supportive way, ensuring you feel comfortable and at ease in front of the camera. The result is a timeless, natural portrait that represents you at your very best.",
   },

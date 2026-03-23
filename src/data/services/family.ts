@@ -10,8 +10,8 @@ export const familyData: ServicePageData = {
 
   // Hero Section
   hero: {
-    headline: "Capture Your Family's Story",
-    subheadline: "Authentic portraits that celebrate real connections and genuine moments",
+    headline: "Family Sessions",
+    subheadline: "Connection, laughter, and the moments in between. Families, newborn lifestyle, and seasonal moments.",
     description: "Family sessions are about connection — the laughter, the closeness, the in-between moments that make your family uniquely yours.\n\nMy goal is to create a relaxed, comfortable experience where everyone can simply be themselves. Whether we're chasing golden hour light outdoors or capturing cozy moments at home, I focus on authentic interactions and timeless imagery that reflects this season of your life.\n\nThese are the days you'll one day look back on — let's preserve them beautifully.",
   },
 
@@ -148,13 +148,13 @@ export const familyData: ServicePageData = {
   cta: {
     headline: "Your Family's Story Deserves Beautiful Photos",
     description: "Kids grow up fast. Let's capture this chapter of your family's story before it changes. Book a session and give your future selves the gift of memories.",
-    buttonText: "Book Your Family Session",
+    buttonText: "Inquire Here",
     buttonLink: "/contact",
   },
 
   // SEO
   seo: {
-    title: "Family Photography | Iffer's Pictures | Bergen County NJ",
+    title: "Family Sessions | Iffer's Pictures | Bergen County NJ",
     description: "Professional family photography in Bergen County, NJ. Natural, authentic family portraits that capture real connections. Serving Cliffside Park, Fort Lee, Edgewater & Northern NJ.",
     keywords: [
       "family photographer Bergen County NJ",
