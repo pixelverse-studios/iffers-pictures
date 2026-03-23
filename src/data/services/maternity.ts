@@ -10,8 +10,8 @@ export const maternityData: ServicePageData = {
 
   // Hero Section
   hero: {
-    headline: "Celebrate Your Beautiful Journey",
-    subheadline: "Timeless, empowering portraits that honor the miracle of motherhood",
+    headline: "Maternity Sessions",
+    subheadline: "Celebrating the beauty of this season",
     description: "There is something incredibly special about the quiet anticipation of welcoming new life.\n\nMaternity sessions are a celebration of this meaningful season — filled with love, strength, and connection. I approach these sessions with softness and intention, capturing the beauty of motherhood in a way that feels natural and elegant.\n\nBecause this chapter, too, deserves to be remembered.",
   },
 
@@ -135,13 +135,13 @@ export const maternityData: ServicePageData = {
   cta: {
     headline: "Your Pregnancy Is Beautiful. Let's Capture It.",
     description: "This magical time deserves to be celebrated and remembered. Book your maternity session and give yourself the gift of stunning portraits you'll treasure forever.",
-    buttonText: "Book Your Maternity Session",
+    buttonText: "Inquire Here",
     buttonLink: "/contact",
   },
 
   // SEO
   seo: {
-    title: "Maternity Photography | Iffer's Pictures | Bergen County NJ",
+    title: "Maternity Sessions | Iffer's Pictures | Bergen County NJ",
     description: "Professional maternity photography in Bergen County, NJ. Timeless, empowering pregnancy portraits that celebrate your beautiful journey. Serving Fort Lee, Cliffside Park, Edgewater & Northern NJ.",
     keywords: [
       "maternity photographer Bergen County NJ",
