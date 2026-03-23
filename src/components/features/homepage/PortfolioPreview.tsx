@@ -1,29 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PORTFOLIO_ITEMS } from "@/components/features/portfolio/portfolioData";
 
-const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
+/**
+ * Pick one image per sub-category for a diverse preview,
+ * then fill remaining slots to reach 8 total.
+ */
+function getPreviewImages() {
+  const categories = ["Baby Shower", "Family", "Engagement", "Maternity", "Bridal Shower", "Baptism", "Birthday", "Proposal"] as const;
+  const picked: typeof PORTFOLIO_ITEMS = [];
 
-const PREVIEW_IMAGES = [
-  { src: `${R2_BASE}/events/baby-shower/baby-shower-02.jpg`, alt: "Baby shower celebration" },
-  { src: `${R2_BASE}/family/family-01.jpg`, alt: "Family portrait session" },
-  { src: `${R2_BASE}/events/engagement/engagement-01.jpg`, alt: "Engagement couple moment" },
-  { src: `${R2_BASE}/maternity/maternity-01.jpg`, alt: "Maternity session in golden hour" },
-  { src: `${R2_BASE}/events/bridal-shower/bridal-shower-01.jpg`, alt: "Bridal shower celebration" },
-  { src: `${R2_BASE}/family/family-02.jpg`, alt: "Candid family moment" },
-  { src: `${R2_BASE}/events/baptism/baptism-01.jpg`, alt: "Baptism ceremony" },
-  { src: `${R2_BASE}/events/birthday/birthday-01.jpg`, alt: "Birthday celebration" },
-];
+  for (const cat of categories) {
+    const match = PORTFOLIO_ITEMS.find(
+      (item) => item.subCategory === cat && !picked.includes(item)
+    );
+    if (match) picked.push(match);
+    if (picked.length >= 8) break;
+  }
+
+  return picked;
+}
+
+const PREVIEW_IMAGES = getPreviewImages();
 
 export function PortfolioPreview() {
   return (
     <section className="bg-[var(--background-warm)] py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
+        <h2 className="sr-only">Featured Work</h2>
+
         {/* Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
-          {PREVIEW_IMAGES.map((img, i) => (
+          {PREVIEW_IMAGES.map((img) => (
             <div
-              key={i}
+              key={img.id}
               className="relative aspect-[4/5] rounded-lg overflow-hidden group"
             >
               <Image
