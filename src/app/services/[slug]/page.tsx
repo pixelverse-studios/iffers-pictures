@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SERVICES, SITE_CONFIG } from "@/lib/constants";
+import { SESSIONS, SITE_CONFIG } from "@/lib/constants";
 import { getServiceData, getAllServiceSlugs } from "@/data/services";
 import {
   ServiceHero,
@@ -24,14 +24,11 @@ interface ServicePageProps {
   }>;
 }
 
-// Generate static params for top-level services only
-// "events" is excluded — handled by /services/events/ directory
+// Generate static params for all session types
 export async function generateStaticParams() {
-  return getAllServiceSlugs()
-    .filter((slug) => slug !== "events")
-    .map((slug) => ({
-      slug,
-    }));
+  return getAllServiceSlugs().map((slug) => ({
+    slug,
+  }));
 }
 
 // Generate metadata for each service page
@@ -80,8 +77,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
   const serviceData = getServiceData(slug);
 
-  // Find service info from constants
-  const serviceInfo = SERVICES.find((s) => s.slug === slug);
+  // Find session info from constants
+  const serviceInfo = SESSIONS.find((s) => s.slug === slug);
 
   if (!serviceData || !serviceInfo) {
     notFound();
