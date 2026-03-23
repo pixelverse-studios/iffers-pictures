@@ -14,6 +14,7 @@
 - Homepage completely redesigned with emotional brand flow: hero image, personal intro, portfolio preview, sessions preview, emotional divider, and inquiry CTA
 - About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
 - Sessions hub page redesigned with large visual category cards showing portfolio images
+- Event Sessions page updated with Jenn's copy, flattened event types, and "Inquire Here" CTA
 
 ## Notes for internal team
 

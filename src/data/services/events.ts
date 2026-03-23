@@ -1,8 +1,7 @@
 /**
- * Events Photography Service Data
- * Content for the broad event photography service page
- * Covers: engagement sessions, bridal showers, birthday parties, baby showers,
- * holiday parties, corporate events, anniversary parties, and all celebrations
+ * Event Sessions Data
+ * Flattened single page covering all event photography types:
+ * baby showers, bridal showers, baptisms, birthdays, family celebrations
  */
 
 import { ServicePageData } from "./types";
@@ -12,9 +11,9 @@ export const eventsData: ServicePageData = {
 
   // Hero Section
   hero: {
-    headline: "Every Celebration Deserves to Be Remembered",
-    subheadline: "Candid, documentary-style event photography for life's biggest moments in Bergen County, NJ",
-    description: "From baby showers and bridal showers to baptisms/christenings and intimate celebrations, these days are filled with fleeting moments you'll want to remember forever.\n\nMy approach to event photography is natural and unobtrusive. I focus on capturing genuine interactions, thoughtful details, and the joy that unfolds organically throughout the day. From décor and candid laughter to heartfelt embraces, I document your celebration as it truly felt — so you can relive it for years to come.\n\nBecause once the day passes, the memories deserve to remain.",
+    headline: "Event Sessions",
+    subheadline: "From baby showers and baptisms to milestone celebrations, every event holds moments worth remembering.",
+    description: "My approach to event photography is natural and unobtrusive. I focus on capturing genuine interactions, thoughtful details, and the joy that unfolds organically throughout the day. From décor and candid laughter to heartfelt embraces, I document your celebration as it truly felt — so you can relive it for years to come.\n\nBecause once the day passes, the memories deserve to remain.",
   },
 
   // Benefits Section
@@ -53,20 +52,20 @@ export const eventsData: ServicePageData = {
     description: "Relaxed, unobtrusive coverage that fits seamlessly into your event",
     items: [
       {
-        title: "A Quick Planning Chat",
-        description: "Before your event, we'll go over the timeline, any must-have shots, important guests to keep an eye on, and any surprises I should know about (like the big reveal or the flash mob).",
+        title: "Coverage Tailored to Your Event",
+        description: "Before your event, we'll go over the timeline, any must-have shots, important guests to keep an eye on, and any surprises I should know about.",
       },
       {
-        title: "Coverage That Moves With You",
-        description: "I blend into the background and follow the energy of your event—from the setup and arrivals all the way through the cake cutting, toasts, or last dance.",
+        title: "Natural, Candid Moments",
+        description: "I blend into the background and follow the energy of your event — capturing genuine interactions, laughter, and the joy that unfolds organically.",
       },
       {
-        title: "Candids Plus the Group Shots",
+        title: "Lightly Guided Group Photos",
         description: "I'll quietly document the natural moments throughout, and when the time is right, I'll round everyone up for the group photos that families always end up printing.",
       },
       {
-        title: "Your Gallery Within 2 Weeks",
-        description: "You'll receive a private online gallery of fully edited images, ready to download, share, and print—typically within two weeks of your event.",
+        title: "Online Gallery Delivery",
+        description: "You'll receive a private online gallery of fully edited images, ready to download, share, and print — typically within two weeks of your event.",
       },
     ],
   },
@@ -117,7 +116,7 @@ export const eventsData: ServicePageData = {
     items: [
       {
         question: "What kinds of events do you photograph?",
-        answer: "Pretty much any celebration—engagement parties, bridal showers, baby showers, birthday parties (kids and adults), anniversary dinners, holiday parties, corporate events, graduation parties, retirement parties, communion and confirmation parties, and more. If people are gathering to celebrate someone or something, I'm in.",
+        answer: "Baby showers, bridal showers, baptisms & christenings, birthdays, family celebrations, and more. Pretty much any celebration — if people are gathering to celebrate someone or something, I'm in.",
       },
       {
         question: "How many photos will we receive?",
@@ -152,15 +151,15 @@ export const eventsData: ServicePageData = {
 
   // CTA Section
   cta: {
-    headline: "Let's Capture Your Celebration",
-    description: "Every gathering is worth remembering. Reach out today and let's talk about how to cover your event—big or small, formal or completely chaotic.",
-    buttonText: "Get in Touch",
+    headline: "I Would Love to Capture Your Next Celebration",
+    description: "Because the moments may pass, but the memories deserve to last.",
+    buttonText: "Inquire Here",
     buttonLink: "/contact",
   },
 
   // SEO
   seo: {
-    title: "Event Photographer Bergen County NJ | Iffer's Pictures",
+    title: "Event Sessions | Iffer's Pictures | Bergen County NJ",
     description: "Professional event photography in Bergen County, NJ. Jennifer Matone photographs engagement parties, bridal showers, baby showers, birthday parties, holiday gatherings, and corporate events throughout Northern NJ. Candid, documentary-style coverage with fast turnaround.",
     keywords: [
       "event photographer Bergen County NJ",
