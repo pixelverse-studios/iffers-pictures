@@ -7,12 +7,8 @@ export function AboutCTA() {
     <section className="py-16 md:py-24 bg-[var(--background-warm)]">
       <div className="container">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-heading font-semibold text-[var(--foreground)] mb-4">
-            Ready to work together?
-          </h2>
-          <p className="text-lg text-[var(--text-secondary)] mb-8">
-            Let&apos;s create something beautiful. Reach out and let me know
-            what you&apos;re celebrating.
+          <p className="text-2xl md:text-3xl font-heading italic text-[var(--foreground)] mb-10 leading-relaxed">
+            It would be an honor to capture your story.
           </p>
           <Link
             href="/contact"
@@ -25,7 +21,7 @@ export function AboutCTA() {
               "px-10 py-5 text-lg"
             )}
           >
-            Book Your Session
+            Inquire Here
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
