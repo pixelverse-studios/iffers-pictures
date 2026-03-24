@@ -140,7 +140,7 @@ export function ContactForm() {
           htmlFor="service"
           className="block text-sm font-medium text-[var(--foreground)] mb-2"
         >
-          Type of Event <span className="text-[var(--coral)]">*</span>
+          Session Type <span className="text-[var(--coral)]">*</span>
         </label>
         <select
           id="service"
@@ -154,7 +154,7 @@ export function ContactForm() {
             errors.service && "border-red-500 focus:border-red-500 focus:ring-red-500/20"
           )}
         >
-          <option value="">Select a service...</option>
+          <option value="">Select a session type...</option>
           {SERVICES.map((service) => (
             <option key={service.id} value={service.id}>
               {service.name}
@@ -168,8 +168,8 @@ export function ContactForm() {
       </div>
 
       <Textarea
-        label="Tell Me About Your Event"
-        placeholder="Share details about your event, location preferences, number of guests, and any specific shots or moments you'd like captured..."
+        label="Message"
+        placeholder="Tell me a little about what you're envisioning..."
         required
         rows={5}
         {...register("message")}
