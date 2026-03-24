@@ -7,6 +7,7 @@ import { GalleryLayout } from "./layouts/GalleryLayout";
 import { CardsLayout } from "./layouts/CardsLayout";
 import { ShowcaseLayout } from "./layouts/ShowcaseLayout";
 import { ListLayout } from "./layouts/ListLayout";
+import { MosaicLayout } from "./layouts/MosaicLayout";
 
 export function SessionsContent() {
   const [layout, setLayout] = useState<SessionsVariant>("gallery");
@@ -19,6 +20,7 @@ export function SessionsContent() {
       {layout === "cards" && <CardsLayout />}
       {layout === "showcase" && <ShowcaseLayout />}
       {layout === "list" && <ListLayout />}
+      {layout === "mosaic" && <MosaicLayout />}
 
       {/* CTA — shared */}
       <section className="py-16 md:py-24 bg-[var(--background-warm)]">

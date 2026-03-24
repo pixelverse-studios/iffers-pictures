@@ -1,13 +1,14 @@
-import { GalleryHorizontalEnd, LayoutGrid, Rows3, Star } from "lucide-react";
+import { GalleryHorizontalEnd, LayoutGrid, Rows3, Star, Grid2X2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type SessionsVariant = "gallery" | "cards" | "showcase" | "list";
+export type SessionsVariant = "gallery" | "cards" | "showcase" | "list" | "mosaic";
 
 const VARIANTS: { id: SessionsVariant; label: string; icon: typeof LayoutGrid }[] = [
   { id: "gallery", label: "Gallery", icon: GalleryHorizontalEnd },
   { id: "cards", label: "Cards", icon: LayoutGrid },
   { id: "showcase", label: "Showcase", icon: Star },
   { id: "list", label: "List", icon: Rows3 },
+  { id: "mosaic", label: "Mosaic", icon: Grid2X2 },
 ];
 
 interface LayoutSelectorProps {
