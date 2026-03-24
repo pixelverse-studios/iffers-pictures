@@ -98,9 +98,6 @@ export const SESSIONS = [
 /** @deprecated Use SESSIONS instead. Kept as alias for backward compatibility during migration. */
 export const SERVICES = SESSIONS;
 
-/** @deprecated Event sub-pages removed. Kept as empty array for dead code compatibility until cleanup. */
-export const EVENT_SUB_SERVICES: readonly { id: string; name: string; shortName: string; icon: string; slug: string }[] = [];
-
 export const SERVICE_AREAS = {
   primary: [
     {
