@@ -3,10 +3,9 @@ import Link from "next/link";
 import { SESSIONS, getSessionImage } from "../data";
 
 /**
- * Mosaic — asymmetric grid where the first two sessions are large (spanning rows)
- * and the remaining three fill smaller tiles. Creates visual hierarchy through size.
+ * Mosaic — asymmetric grid with fixed row heights.
  *
- * Desktop grid:
+ * Desktop (3 cols, 3 rows of 200px each = 600px total):
  * ┌──────────┬──────────┬──────────┐
  * │          │          │   [3]    │
  * │   [1]    │   [2]    ├──────────┤
@@ -14,12 +13,14 @@ import { SESSIONS, getSessionImage } from "../data";
  * │          │          ├──────────┤
  * │          │          │   [5]    │
  * └──────────┴──────────┴──────────┘
+ *
+ * Mobile: stacked with explicit heights.
  */
 export function MosaicLayout() {
   return (
     <section className="pb-24 md:pb-32">
       <div className="max-w-6xl mx-auto px-6 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4 md:auto-rows-[200px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ gridAutoRows: "200px" }}>
           {SESSIONS.map((session, i) => {
             const imageSrc = getSessionImage(session.slug);
             const isLarge = i < 2;
@@ -29,7 +30,7 @@ export function MosaicLayout() {
                 key={session.slug}
                 href={`/services/${session.slug}`}
                 className={`group relative rounded-2xl overflow-hidden block ${
-                  isLarge ? "md:row-span-3 aspect-[3/4] md:aspect-auto" : "aspect-[16/9] md:aspect-auto"
+                  isLarge ? "md:row-span-3 h-[300px] md:h-auto" : "h-[200px] md:h-auto"
                 }`}
               >
                 {imageSrc && (
