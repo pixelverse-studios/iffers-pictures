@@ -11,20 +11,24 @@ const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 
 export type PortfolioAspect = "portrait" | "landscape" | "square" | "video";
 
-// ── Tier 1: Services ────────────────────────────────────────────
+// ── Tier 1: Session categories ──────────────────────────────────
 export const SERVICES = [
   "Events",
   "Family",
   "Maternity",
+  "Couples",
+  "Portrait",
 ] as const;
 
 export type ServiceFilter = (typeof SERVICES)[number];
 
-// ── Tier 2: Sub-categories per service ──────────────────────────
+// ── Tier 2: Sub-categories per session ──────────────────────────
 export const SUB_CATEGORIES = {
-  "Events": ["Baby Shower", "Bridal Shower", "Engagement", "Gender Reveal", "Birthday", "Proposal", "Baptism"] as const,
+  "Events": ["Baby Shower", "Bridal Shower", "Gender Reveal", "Birthday", "Baptism"] as const,
   "Family": ["Family"] as const,
   "Maternity": ["Maternity"] as const,
+  "Couples": ["Engagement", "Proposal"] as const,
+  "Portrait": ["Portrait"] as const,
 } satisfies Record<ServiceFilter, readonly string[]>;
 
 export type SubCategory = (typeof SUB_CATEGORIES)[ServiceFilter][number];
@@ -72,21 +76,21 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { id: 27, src: `${R2_BASE}/events/bridal-shower/bridal-shower-22.jpg`, alt: "Couple gazing at each other in front of Bride diamond sign with balloon arch", service: "Events", subCategory: "Bridal Shower", aspectRatio: "portrait" },
 
   // ── Events > Engagement (15) ──────────────────────────────────
-  { id: 28, src: `${R2_BASE}/events/engagement/engagement-01.jpg`, alt: "Three-tier white wedding cake with pink roses and custom name topper in glass conservatory", service: "Events", subCategory: "Engagement", aspectRatio: "portrait" },
-  { id: 29, src: `${R2_BASE}/events/engagement/engagement-02.jpg`, alt: "Custom gold dog illustration napkin with roses and gold frame detail", service: "Events", subCategory: "Engagement", aspectRatio: "portrait" },
-  { id: 30, src: `${R2_BASE}/events/engagement/engagement-03.jpg`, alt: "Save the Date newspaper-style announcement on Christmas tree with ornaments", service: "Events", subCategory: "Engagement", aspectRatio: "portrait" },
-  { id: 31, src: `${R2_BASE}/events/engagement/engagement-04.jpg`, alt: "Tall floral centerpiece with pink roses and candles by holiday-decorated conservatory", service: "Events", subCategory: "Engagement", aspectRatio: "portrait" },
-  { id: 32, src: `${R2_BASE}/events/engagement/engagement-05.jpg`, alt: "Custom dog napkin on ornate gold charger plate with pink place setting", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
-  { id: 33, src: `${R2_BASE}/events/engagement/engagement-06.jpg`, alt: "Custom latte art with dog portraits on engagement party cup", service: "Events", subCategory: "Engagement", aspectRatio: "portrait" },
-  { id: 34, src: `${R2_BASE}/events/engagement/engagement-07.jpg`, alt: "Couple dancing by fireplace with holiday greenery garland", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
-  { id: 35, src: `${R2_BASE}/events/engagement/engagement-08.jpg`, alt: "Wedding cake with name topper and couple seated at sweetheart table with floral arch", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
-  { id: 36, src: `${R2_BASE}/events/engagement/engagement-09.jpg`, alt: "Couple posing together behind wedding cake with pink roses in sunlit conservatory", service: "Events", subCategory: "Engagement", aspectRatio: "portrait" },
-  { id: 37, src: `${R2_BASE}/events/engagement/engagement-10.jpg`, alt: "Couple gazing at each other behind cake with floral arch and golden light", service: "Events", subCategory: "Engagement", aspectRatio: "portrait" },
-  { id: 38, src: `${R2_BASE}/events/engagement/engagement-11.jpg`, alt: "Couple cutting three-tier cake together in glass conservatory", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
-  { id: 39, src: `${R2_BASE}/events/engagement/engagement-12.jpg`, alt: "Couple toasting champagne by cake with rose petals in golden hour light", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
-  { id: 40, src: `${R2_BASE}/events/engagement/engagement-13.jpg`, alt: "Bride-to-be with friend posing at sweetheart table with floral arrangements", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
-  { id: 41, src: `${R2_BASE}/events/engagement/engagement-14.jpg`, alt: "Close-up of engagement ring held in hand with Christmas tree bokeh lights", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
-  { id: 42, src: `${R2_BASE}/events/engagement/engagement-15.jpg`, alt: "Couple reaching for each other by Christmas tree with warm vintage tone", service: "Events", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 28, src: `${R2_BASE}/events/engagement/engagement-01.jpg`, alt: "Three-tier white wedding cake with pink roses and custom name topper in glass conservatory", service: "Couples", subCategory: "Engagement", aspectRatio: "portrait" },
+  { id: 29, src: `${R2_BASE}/events/engagement/engagement-02.jpg`, alt: "Custom gold dog illustration napkin with roses and gold frame detail", service: "Couples", subCategory: "Engagement", aspectRatio: "portrait" },
+  { id: 30, src: `${R2_BASE}/events/engagement/engagement-03.jpg`, alt: "Save the Date newspaper-style announcement on Christmas tree with ornaments", service: "Couples", subCategory: "Engagement", aspectRatio: "portrait" },
+  { id: 31, src: `${R2_BASE}/events/engagement/engagement-04.jpg`, alt: "Tall floral centerpiece with pink roses and candles by holiday-decorated conservatory", service: "Couples", subCategory: "Engagement", aspectRatio: "portrait" },
+  { id: 32, src: `${R2_BASE}/events/engagement/engagement-05.jpg`, alt: "Custom dog napkin on ornate gold charger plate with pink place setting", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 33, src: `${R2_BASE}/events/engagement/engagement-06.jpg`, alt: "Custom latte art with dog portraits on engagement party cup", service: "Couples", subCategory: "Engagement", aspectRatio: "portrait" },
+  { id: 34, src: `${R2_BASE}/events/engagement/engagement-07.jpg`, alt: "Couple dancing by fireplace with holiday greenery garland", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 35, src: `${R2_BASE}/events/engagement/engagement-08.jpg`, alt: "Wedding cake with name topper and couple seated at sweetheart table with floral arch", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 36, src: `${R2_BASE}/events/engagement/engagement-09.jpg`, alt: "Couple posing together behind wedding cake with pink roses in sunlit conservatory", service: "Couples", subCategory: "Engagement", aspectRatio: "portrait" },
+  { id: 37, src: `${R2_BASE}/events/engagement/engagement-10.jpg`, alt: "Couple gazing at each other behind cake with floral arch and golden light", service: "Couples", subCategory: "Engagement", aspectRatio: "portrait" },
+  { id: 38, src: `${R2_BASE}/events/engagement/engagement-11.jpg`, alt: "Couple cutting three-tier cake together in glass conservatory", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 39, src: `${R2_BASE}/events/engagement/engagement-12.jpg`, alt: "Couple toasting champagne by cake with rose petals in golden hour light", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 40, src: `${R2_BASE}/events/engagement/engagement-13.jpg`, alt: "Bride-to-be with friend posing at sweetheart table with floral arrangements", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 41, src: `${R2_BASE}/events/engagement/engagement-14.jpg`, alt: "Close-up of engagement ring held in hand with Christmas tree bokeh lights", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
+  { id: 42, src: `${R2_BASE}/events/engagement/engagement-15.jpg`, alt: "Couple reaching for each other by Christmas tree with warm vintage tone", service: "Couples", subCategory: "Engagement", aspectRatio: "landscape" },
 
   // ── Events > Gender Reveal (12) ───────────────────────────────
   { id: 43, src: `${R2_BASE}/events/milestones/gender-reveal/gender-reveal-01.jpg`, alt: "Pink and blue cupcakes on gold tiered stand with Girl and Boy toppers", service: "Events", subCategory: "Gender Reveal", aspectRatio: "portrait" },
@@ -111,12 +115,12 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { id: 60, src: `${R2_BASE}/events/parties/birthdays/birthday-06.jpg`, alt: "Toddler sitting with smashed birthday cake and pumpkins in autumn garden", service: "Events", subCategory: "Birthday", aspectRatio: "landscape" },
 
   // ── Events > Proposal (6) ─────────────────────────────────────
-  { id: 61, src: `${R2_BASE}/events/proposal/proposal-01.jpg`, alt: "Man down on one knee proposing at tiki-themed restaurant with string lights", service: "Events", subCategory: "Proposal", aspectRatio: "landscape" },
-  { id: 62, src: `${R2_BASE}/events/proposal/proposal-02.jpg`, alt: "Black and white photo of couple kissing after proposal at restaurant with string lights", service: "Events", subCategory: "Proposal", aspectRatio: "landscape" },
-  { id: 63, src: `${R2_BASE}/events/proposal/proposal-03.jpg`, alt: "Black and white portrait of newly engaged couple laughing against stone wall", service: "Events", subCategory: "Proposal", aspectRatio: "landscape" },
-  { id: 64, src: `${R2_BASE}/events/proposal/proposal-04.jpg`, alt: "Engagement ring detail shot with hands clasped behind neck against green-lit stone wall", service: "Events", subCategory: "Proposal", aspectRatio: "landscape" },
-  { id: 65, src: `${R2_BASE}/events/proposal/proposal-05.jpg`, alt: "Newly engaged couple embracing full-length by dramatic green-lit stone wall", service: "Events", subCategory: "Proposal", aspectRatio: "portrait" },
-  { id: 66, src: `${R2_BASE}/events/proposal/proposal-06.jpg`, alt: "Engaged couple smiling at each other in close portrait by stone wall", service: "Events", subCategory: "Proposal", aspectRatio: "landscape" },
+  { id: 61, src: `${R2_BASE}/events/proposal/proposal-01.jpg`, alt: "Man down on one knee proposing at tiki-themed restaurant with string lights", service: "Couples", subCategory: "Proposal", aspectRatio: "landscape" },
+  { id: 62, src: `${R2_BASE}/events/proposal/proposal-02.jpg`, alt: "Black and white photo of couple kissing after proposal at restaurant with string lights", service: "Couples", subCategory: "Proposal", aspectRatio: "landscape" },
+  { id: 63, src: `${R2_BASE}/events/proposal/proposal-03.jpg`, alt: "Black and white portrait of newly engaged couple laughing against stone wall", service: "Couples", subCategory: "Proposal", aspectRatio: "landscape" },
+  { id: 64, src: `${R2_BASE}/events/proposal/proposal-04.jpg`, alt: "Engagement ring detail shot with hands clasped behind neck against green-lit stone wall", service: "Couples", subCategory: "Proposal", aspectRatio: "landscape" },
+  { id: 65, src: `${R2_BASE}/events/proposal/proposal-05.jpg`, alt: "Newly engaged couple embracing full-length by dramatic green-lit stone wall", service: "Couples", subCategory: "Proposal", aspectRatio: "portrait" },
+  { id: 66, src: `${R2_BASE}/events/proposal/proposal-06.jpg`, alt: "Engaged couple smiling at each other in close portrait by stone wall", service: "Couples", subCategory: "Proposal", aspectRatio: "landscape" },
 
   // ── Events > Baptism (6) ──────────────────────────────────────
   { id: 67, src: `${R2_BASE}/events/religious-ceremonies/baptism/baptism-01.jpg`, alt: "Baby girl in white christening gown sitting by church altar with red flowers", service: "Events", subCategory: "Baptism", aspectRatio: "landscape" },
@@ -187,10 +191,10 @@ const SERVICE_SLUG_MAP: Record<string, { service: ServiceFilter; subCategory?: S
   // Event sub-pages
   "baby-shower": { service: "Events", subCategory: "Baby Shower" },
   "bridal-shower": { service: "Events", subCategory: "Bridal Shower" },
-  engagement: { service: "Events", subCategory: "Engagement" },
+  engagement: { service: "Couples", subCategory: "Engagement" },
   "gender-reveal": { service: "Events", subCategory: "Gender Reveal" },
   parties: { service: "Events", subCategory: "Birthday" },
-  proposal: { service: "Events", subCategory: "Proposal" },
+  proposal: { service: "Couples", subCategory: "Proposal" },
   "religious-ceremonies": { service: "Events", subCategory: "Baptism" },
   milestones: { service: "Events" },
   // Top-level services

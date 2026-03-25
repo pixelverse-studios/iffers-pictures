@@ -1,12 +1,14 @@
 import { Metadata } from "next";
 import { Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { SITE_CONFIG, BUSINESS_INFO, SERVICE_AREAS } from "@/lib/constants";
 import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: `Get in touch with ${SITE_CONFIG.name} for professional event photography in ${BUSINESS_INFO.address.city}, NJ. Book your engagement, baby shower, or event photoshoot today.`,
+  title: "Inquire | Iffer's Pictures | Bergen County NJ",
+  description: `Get in touch with ${SITE_CONFIG.name} for photography sessions in ${BUSINESS_INFO.address.city}, NJ. Event, family, maternity, couples, and portrait sessions.`,
+  alternates: {
+    canonical: `${SITE_CONFIG.url}/contact`,
+  },
 };
 
 export default function ContactPage() {
@@ -16,17 +18,11 @@ export default function ContactPage() {
       <section className="pt-hero pb-16 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-3xl">
-            <span className="text-[var(--teal)] font-medium tracking-wide uppercase text-sm mb-3 block">
-              Get in Touch
-            </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold text-[var(--foreground)] leading-tight mb-6">
-              Let&apos;s Capture Your{" "}
-              <span className="text-gradient-teal">Special Moments</span>
+              Let&apos;s capture your story
             </h1>
             <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
-              Ready to book your photoshoot? Have questions about my services? I&apos;d
-              love to hear from you. Fill out the form below and I&apos;ll get back to
-              you within 24 hours.
+              I&apos;d love to hear about your vision and the moments you want to preserve.
             </p>
           </div>
         </div>
@@ -43,8 +39,7 @@ export default function ContactPage() {
                   Send a Message
                 </h2>
                 <p className="text-[var(--text-secondary)] mb-8">
-                  Tell me about your event and let&apos;s create something beautiful
-                  together.
+                  Tell me a little about what you&apos;re envisioning...
                 </p>
                 <ContactForm />
               </div>
@@ -159,31 +154,16 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* FAQ Teaser */}
-      <section className="section bg-[var(--background-warm)]">
+      {/* Closing */}
+      <section className="py-16 md:py-20 bg-[var(--background-warm)]">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] mb-4">
-              Have Questions?
-            </h2>
-            <p className="text-[var(--text-secondary)] mb-6">
-              Check out my frequently asked questions or feel free to reach out
-              directly. I&apos;m happy to help you plan your perfect photoshoot.
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-2xl md:text-3xl font-heading italic text-[var(--foreground)] leading-relaxed">
+              I can&apos;t wait to connect with you.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <a
-                href="/services"
-                className={cn(
-                  "inline-flex items-center justify-center gap-2 font-medium",
-                  "rounded-full transition-all duration-200",
-                  "border-2 border-[var(--foreground)]/20 text-[var(--foreground)]",
-                  "hover:border-[var(--teal)] hover:text-[var(--teal)]",
-                  "px-6 py-3 text-base"
-                )}
-              >
-                Explore Services
-              </a>
-            </div>
+            <p className="text-[var(--text-secondary)] mt-4">
+              — Jenn
+            </p>
           </div>
         </div>
       </section>

@@ -2,62 +2,42 @@
 
 ## Latest deploy summary
 
-- Added 16 new family photography images to the portfolio gallery from Cloudflare R2
-- Fixed fonts not rendering correctly (Josefin Slab headings, Nunito body text)
-- Updated site logo to new blue version across header and schema
-- Redesigned testimonials section on homepage with multiple layout options showing all 5 client reviews
-- Removed phone number from website per client request
-- Updated booking section year to display dynamically (now shows 2026)
-- Replaced placeholder testimonial with real client review from Jolee
-- Compacted the "Where We Work" service areas section for a cleaner look
-- Redesigned About page: centered hero layout, single-column bio, tighter spacing
-- Updated About page stats to 100+ Events, 5+ Years, 100% Facebook Rating
-- Added "Leave a Review" link in footer pointing to Facebook reviews page
-- Created SEO scope documentation and completed first full SEO audit (score: 52/100)
-- Capitalized homepage hero headline words per client feedback
-- Added 4 new client testimonials (Heather Harris, Jessica Uribe, Happy Client, Debby)
-- Homepage testimonials now rotate randomly from a pool of 9 reviews on each page load
-- Added new testimonials to Event, Party, and Engagement service pages
-- Expanded portfolio from 55 to 116 images across 9 categories
-- Added new galleries: baby shower, bridal shower, engagement party, birthday, proposal, and baptism photography
-- Added 11 new family photos and 5 new maternity photos
-- Restructured portfolio image organization to match new service architecture
-- Added individual event photography pages: baby shower, bridal shower, engagement, proposal, parties, religious ceremonies, and milestones
-- Created new Events hub page with 3 swappable layout options (Magazine Grid, Showcase Carousel, Interactive Gallery) and layout selector widget
-- Improved Events hub page load performance: prioritized hero images, lazy-loaded non-default layouts, added breadcrumb navigation schema
-- Improved Events hub accessibility: layout switcher now uses proper tab navigation pattern, gallery descriptions visible on mobile without hover
-- Code cleanup: consolidated shared constants across event layout components, fixed CSS variable references
+- Complete site restructure: "Services" renamed to "Sessions" throughout the site
+- Navigation simplified to 6 clean items: Home, About, Sessions, Portfolio, Investment, Inquire
+- Services dropdown removed — all navigation links are now flat (no dropdowns)
+- 5 session categories: Event Sessions, Family Sessions, Maternity Sessions, Couples & Engagement, Portrait Sessions
+- 7 individual event sub-pages consolidated into a single Event Sessions page
+- New "Couples & Engagement" category combining engagement and surprise proposal photography
+- "Headshots" rebranded to "Portrait Sessions"
+- New Investment page added (session details and inquiry)
+- Footer updated with Sessions column replacing Services and Event Types columns
+- Homepage completely redesigned with emotional brand flow: hero image, personal intro, portfolio preview, sessions preview, emotional divider, and inquiry CTA
+- About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
+- Sessions hub page redesigned with large visual category cards showing portfolio images
+- Event Sessions page updated with Jenn's copy, flattened event types, and "Inquire Here" CTA
 
 ## Notes for internal team
 
-- SEO docs created at docs/seo/ — scope, keywords, competitors, checklist, changelog
-- SEO epic DEV-491 created with 6 child tickets (DEV-508 through DEV-513)
-- Family images compressed from 3-34MB down to 255KB-1.2MB before R2 upload
-- Font fix: Tailwind v4 @theme block can't resolve Next.js runtime CSS variables — referenced font vars directly in CSS rules
-- Testimonials component has layout switcher (Mixed, Uniform, Teal, Alternating) for client review before locking in
-- Next.js image cache at .next/cache/images may need clearing after logo/image changes
-- DEV-518: 9 total testimonials in pool, Fisher-Yates shuffle picks 5 per page load via useMemo
-- DEV-519: Portfolio restructured from 3 to 9 sub-categories, 116 total images. R2 folders now use nested paths (events/baby-shower/, etc.)
-- R2 image workflow documented at docs/references/r2-image-workflow.md
-- DEV-523: Created nested route /services/events/[subSlug] for 7 event sub-pages. Excluded "events" from top-level [slug] params to avoid route conflict.
-- DEV-524: Events hub page at /services/events with 3 layout alternatives (Magazine, Showcase, Gallery), layout selector widget, reuses homepage TestimonialsBlend component. Showcase layout has external nav arrows, pill-triggered carousel, 10s auto-advance with reset on interaction.
-- Performance: Added priority prop to LCP images in MagazineLayout and ShowcaseLayout. Used next/dynamic for ShowcaseLayout and GalleryLayout (code-split). Added BreadcrumbSchema to events hub page.
-- Refactor: Extracted EVENT_DESCRIPTIONS, iconMap, and SECTION_HEADER into shared.ts. Removed duplicate Lucide imports and inline constants from all 3 layout files.
-- Fix: Replaced var(--border-light) with var(--border) in LayoutSelector.tsx. Removed unnecessary "use client" from EventsHubHero and EventsHubCTA.
-- A11y: LayoutSelector uses role="tablist"/role="tab"/aria-selected tab pattern. GalleryLayout descriptions and CTAs visible by default on mobile (sm: breakpoint for hover effects).
+- DEV-563 completed (foundation ticket for DEV-562 epic)
+- DEV-565 completed (homepage redesign)
+- DEV-566 completed (about page refresh)
+- DEV-567 completed (sessions hub page)
+- Constants: SERVICES → SESSIONS (5 categories), EVENT_SUB_SERVICES deprecated
+- Nav: 6 flat items, no dropdown, "Inquire" replaces "Contact", "Investment" replaces "FAQ"
+- Data: new couples-engagement.ts, portrait.ts; index.ts mapper simplified
+- Routes: events/[subSlug] and events/page.tsx removed; events now handled by [slug]
+- Investment route stub created at /investment
+- Header fully rewritten as flat nav (no dropdown state management)
+- Footer: Event Types column removed, Services → Sessions
 
 ## Changed URLs
 
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/couples-engagement
+- https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/investment
 - https://ifferspictures.com/
 - https://ifferspictures.com/about
-- https://ifferspictures.com/portfolio
-- https://ifferspictures.com/contact
-- https://ifferspictures.com/services/family
-- https://ifferspictures.com/services/events
-- https://ifferspictures.com/services/events/baby-shower
-- https://ifferspictures.com/services/events/bridal-shower
-- https://ifferspictures.com/services/events/engagement
-- https://ifferspictures.com/services/events/proposal
-- https://ifferspictures.com/services/events/parties
-- https://ifferspictures.com/services/events/religious-ceremonies
-- https://ifferspictures.com/services/events/milestones

@@ -62,15 +62,15 @@ export default function PortfolioPage() {
           <div className="grid md:grid-cols-2 gap-8 items-end">
             <div>
               <h1 className="text-5xl sm:text-6xl font-heading text-[var(--foreground)] leading-[1.0]">
-                A Life
+                Your Story,
                 <br />
-                <span className="text-[var(--teal)]">In Pictures</span>
+                <span className="text-[var(--teal)]">In Moments</span>
               </h1>
             </div>
             <div>
               <p className="text-lg text-[var(--text-secondary)] leading-relaxed max-w-md">
                 Every session is a story. Browse through celebrations, family
-                moments, milestone events, and the quiet portraits that become
+                moments, couples sessions, and the quiet portraits that become
                 lasting memories.
               </p>
             </div>
@@ -105,7 +105,7 @@ export default function PortfolioPage() {
               href="/contact"
               className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--teal)] text-white hover:bg-[var(--teal-dark)] hover:gap-4 shadow-lg shadow-[var(--teal)]/25 hover:shadow-xl hover:shadow-[var(--teal)]/30 px-10 py-5 text-lg"
             >
-              Book a Session
+              Inquire Here
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
