@@ -1,25 +1,26 @@
 /**
- * Professional Headshots Service Data
- * Content for the headshots service page
+ * Portrait Sessions Data
+ * Professional headshots, branding, and individual portraits
+ * Adapted from headshots data with updated terminology
  */
 
 import { ServicePageData } from "./types";
 
-export const headshotsData: ServicePageData = {
-  slug: "headshots",
+export const portraitData: ServicePageData = {
+  slug: "portrait",
 
   // Hero Section
   hero: {
-    headline: "Professional Headshots That Open Doors",
-    subheadline: "Polished portraits for LinkedIn, corporate profiles, and performers",
+    headline: "Portrait Sessions",
+    subheadline: "Professional headshots, branding, and individual portraits",
     description: "A headshot is more than just a photograph — it's a reflection of who you are and how you want to be seen. Whether you're updating your professional profile, building your brand, or celebrating a new chapter, my goal is to create images that feel polished, confident, and authentic. I guide you through the process in a relaxed and supportive way, ensuring you feel comfortable and at ease in front of the camera. The result is a timeless, natural portrait that represents you at your very best.",
   },
 
   // Benefits Section
   benefits: {
-    eyebrow: "Why Professional Headshots?",
+    eyebrow: "Why Portrait Sessions?",
     title: "First Impressions Matter",
-    description: "A quality headshot is an investment in your professional future",
+    description: "A quality portrait is an investment in your professional future",
     items: [
       {
         title: "Make a Lasting First Impression",
@@ -38,7 +39,7 @@ export const headshotsData: ServicePageData = {
       },
       {
         title: "Quick Turnaround",
-        description: "Need photos fast? Most headshot sessions are 30-60 minutes with edited images delivered within days, not weeks.",
+        description: "Need photos fast? Most sessions are 30-60 minutes with edited images delivered within days, not weeks.",
         icon: "Clock",
       },
     ],
@@ -64,7 +65,7 @@ export const headshotsData: ServicePageData = {
       },
       {
         title: "Fast Delivery",
-        description: "Receive your professionally edited headshots within 3-5 business days. Rush delivery available for an additional fee.",
+        description: "Receive your professionally edited portraits within 3-5 business days. Rush delivery available for an additional fee.",
       },
     ],
   },
@@ -72,7 +73,7 @@ export const headshotsData: ServicePageData = {
   // Gallery Section
   gallery: {
     eyebrow: "Our Work",
-    title: "Headshot Gallery",
+    title: "Portrait Gallery",
     description: "Corporate professionals, executives, and performers",
     images: [
       { alt: "Corporate executive headshot with neutral background", aspectRatio: "portrait" },
@@ -87,7 +88,7 @@ export const headshotsData: ServicePageData = {
   // Pricing Section
   pricing: {
     eyebrow: "Investment",
-    title: "Professional Headshots",
+    title: "Portrait Sessions",
     description: "Options for every professional need — reach out and I'll put together a session that fits",
   },
 
@@ -121,10 +122,6 @@ export const headshotsData: ServicePageData = {
         answer: "Yes! I can come to your office for individual or team headshots. A travel fee applies within Bergen County. For corporate teams of 5+, I offer group discounts—contact me for a custom quote.",
       },
       {
-        question: "Can you match our existing company headshots?",
-        answer: "Absolutely. Send me examples of your current headshots and I'll match the background, lighting, and style so new team members look consistent with existing photos.",
-      },
-      {
         question: "How often should I update my headshot?",
         answer: "Every 2-3 years, or whenever your appearance changes significantly (new hairstyle, glasses, weight change). Your headshot should look like you—people shouldn't be surprised when they meet you in person!",
       },
@@ -134,22 +131,22 @@ export const headshotsData: ServicePageData = {
   // CTA Section
   cta: {
     headline: "Your Next Opportunity Starts With the Right Photo",
-    description: "A headshot is more than just a photograph — it's a reflection of who you are and how you want to be seen. Book your session today and let's create a timeless portrait that represents you at your very best.",
-    buttonText: "Book Your Headshot Session",
+    description: "A portrait is more than just a photograph — it's a reflection of who you are and how you want to be seen. Book your session today.",
+    buttonText: "Inquire Here",
     buttonLink: "/contact",
   },
 
   // SEO
   seo: {
-    title: "Professional Headshots | Iffer's Pictures | Bergen County NJ",
-    description: "Professional headshots in Bergen County, NJ. LinkedIn photos, corporate headshots, and actor/performer portraits. Quick sessions with fast delivery. Serving Fort Lee, Hackensack, Edgewater & Northern NJ.",
+    title: "Portrait Sessions | Iffer's Pictures | Bergen County NJ",
+    description: "Professional portrait sessions in Bergen County, NJ. LinkedIn headshots, corporate portraits, branding photography, and performer headshots. Quick sessions with fast delivery. Serving Fort Lee, Hackensack, Edgewater & Northern NJ.",
     keywords: [
       "professional headshots Bergen County NJ",
-      "corporate headshots Fort Lee NJ",
-      "LinkedIn headshots Edgewater NJ",
-      "business portraits Fairview NJ",
+      "portrait photographer Fort Lee NJ",
+      "corporate headshots Edgewater NJ",
+      "LinkedIn headshots Northern NJ",
+      "branding photography Bergen County",
       "actor headshots Hackensack NJ",
-      "professional portraits Northern NJ",
     ],
   },
 };

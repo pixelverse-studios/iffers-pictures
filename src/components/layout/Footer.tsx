@@ -61,13 +61,13 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Services Column */}
+          {/* Sessions Column */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
-              Services
+              Sessions
             </h3>
             <ul className="space-y-3">
-              {FOOTER_LINKS.services.map((link) => (
+              {FOOTER_LINKS.sessions.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -128,10 +128,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact Column */}
+          {/* Inquire Column */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
-              Contact
+              Inquire
             </h3>
             <ul className="space-y-4">
               <li>

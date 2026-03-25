@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SERVICES, SITE_CONFIG } from "@/lib/constants";
+import { SESSIONS, SITE_CONFIG } from "@/lib/constants";
 import { getServiceData, getAllServiceSlugs } from "@/data/services";
 import {
   ServiceHero,
@@ -15,13 +15,16 @@ import {
   BreadcrumbSchema,
 } from "@/components/features/services";
 
+// Return 404 for slugs not in generateStaticParams
+export const dynamicParams = false;
+
 interface ServicePageProps {
   params: Promise<{
     slug: string;
   }>;
 }
 
-// Generate static params for all services
+// Generate static params for all session types
 export async function generateStaticParams() {
   return getAllServiceSlugs().map((slug) => ({
     slug,
@@ -45,6 +48,9 @@ export async function generateMetadata({
     title: serviceData.seo.title,
     description: serviceData.seo.description,
     keywords: serviceData.seo.keywords,
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/services/${slug}`,
+    },
     openGraph: {
       title: serviceData.seo.title,
       description: serviceData.seo.description,
@@ -71,8 +77,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
   const serviceData = getServiceData(slug);
 
-  // Find service info from constants
-  const serviceInfo = SERVICES.find((s) => s.slug === slug);
+  // Find session info from constants
+  const serviceInfo = SESSIONS.find((s) => s.slug === slug);
 
   if (!serviceData || !serviceInfo) {
     notFound();

@@ -42,58 +42,61 @@ export const BUSINESS_INFO = {
   foundingYear: 2020, // Update with actual year
 } as const;
 
-export const SERVICES = [
+export const SESSIONS = [
   {
     id: "events",
-    name: "Event Photography",
+    name: "Event Sessions",
     shortName: "Events",
     description:
-      "From baby showers and bridal showers to baptisms/christenings and intimate celebrations — natural, unobtrusive photography that captures genuine moments so you can relive them for years to come.",
+      "From baby showers and baptisms to birthdays and celebrations",
     icon: "PartyPopper",
     slug: "events",
     featured: true,
   },
   {
     id: "family",
-    name: "Family Photography",
+    name: "Family Sessions",
     shortName: "Family",
     description:
-      "Relaxed, authentic family sessions focused on real connection — the laughter, the closeness, and the in-between moments that make your family uniquely yours.",
+      "Connection, laughter, and the moments in between. Families, newborn lifestyle, and seasonal moments.",
     icon: "Users",
     slug: "family",
     featured: true,
   },
   {
-    id: "milestones",
-    name: "Milestone Photography",
-    shortName: "Milestones",
-    description:
-      "Birthdays, graduations, anniversaries, proposals, and gender reveals — preserving the pride, joy, and love of life's meaningful milestones.",
-    icon: "Sparkles",
-    slug: "milestones",
-    featured: true,
-  },
-  {
-    id: "headshots",
-    name: "Professional Headshots",
-    shortName: "Headshots",
-    description:
-      "More than just a photograph — polished, confident, and authentic portraits that reflect who you are and how you want to be seen.",
-    icon: "User",
-    slug: "headshots",
-    featured: true,
-  },
-  {
     id: "maternity",
-    name: "Maternity Photography",
+    name: "Maternity Sessions",
     shortName: "Maternity",
     description:
-      "A celebration of the quiet anticipation of new life — capturing the beauty of motherhood with softness, intention, and elegance.",
+      "Celebrating the beauty of this season",
     icon: "Heart",
     slug: "maternity",
     featured: true,
   },
+  {
+    id: "couples-engagement",
+    name: "Couples & Engagement",
+    shortName: "Couples",
+    description:
+      "Your story, just as it is — including surprise proposals",
+    icon: "Gem",
+    slug: "couples-engagement",
+    featured: true,
+  },
+  {
+    id: "portrait",
+    name: "Portrait Sessions",
+    shortName: "Portrait",
+    description:
+      "Professional headshots, branding, and individual portraits",
+    icon: "User",
+    slug: "portrait",
+    featured: true,
+  },
 ] as const;
+
+/** @deprecated Use SESSIONS instead. Kept as alias for backward compatibility during migration. */
+export const SERVICES = SESSIONS;
 
 export const SERVICE_AREAS = {
   primary: [
@@ -133,37 +136,39 @@ export const SERVICE_AREAS = {
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Portfolio", href: "/portfolio" },
   { label: "About", href: "/about" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
+  { label: "Sessions", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "Investment", href: "/investment" },
+  { label: "Inquire", href: "/contact" },
 ] as const;
 
 // Split navigation for centered logo layout
 export const NAV_LINKS_LEFT = [
-  { label: "Services", href: "/services" },
-  { label: "Portfolio", href: "/portfolio" },
   { label: "About", href: "/about" },
+  { label: "Sessions", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
 ] as const;
 
 export const NAV_LINKS_RIGHT = [
-  { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
+  { label: "Investment", href: "/investment" },
+  { label: "Inquire", href: "/contact" },
 ] as const;
 
 export const FOOTER_LINKS = {
-  services: SERVICES.filter((s) => s.featured).map((s) => ({
-    label: s.shortName,
-    href: `/services/${s.slug}`,
-  })),
+  sessions: [
+    ...SESSIONS.filter((s) => s.featured).map((s) => ({
+      label: s.shortName,
+      href: `/services/${s.slug}`,
+    })),
+  ],
   company: [
     { label: "About", href: "/about" },
     { label: "Portfolio", href: "/portfolio" },
-    { label: "Contact", href: "/contact" },
+    { label: "Investment", href: "/investment" },
   ],
   resources: [
     { label: "Service Areas", href: "/locations" },
     { label: "FAQ", href: "/faq" },
   ],
-} as const;
+};
