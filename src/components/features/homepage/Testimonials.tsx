@@ -156,7 +156,7 @@ export function Testimonials() {
                 />
                 <div className="relative z-10 flex flex-col h-full">
                   <Stars />
-                  <blockquote className="text-xl md:text-2xl font-heading leading-relaxed mt-6 mb-8 flex-1 text-white/90">
+                  <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                     &ldquo;{selected[0].quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ export function Testimonials() {
               {/* Tile 2: teal */}
               <div className="md:col-span-5 rounded-2xl bg-[var(--teal-dark)] text-white p-8 md:p-10 flex flex-col">
                 <Stars />
-                <blockquote className="text-[15px] font-heading leading-relaxed mt-5 mb-6 flex-1 text-white/90">
+                <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                   &ldquo;{selected[1].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
@@ -220,7 +220,7 @@ export function Testimonials() {
                 />
                 <div className="relative z-10 flex flex-col h-full">
                   <Stars />
-                  <blockquote className="text-lg md:text-xl font-heading leading-relaxed mt-6 mb-8 flex-1 text-white/90">
+                  <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                     &ldquo;{selected[0].quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3">
@@ -237,7 +237,7 @@ export function Testimonials() {
 
               <div className="md:col-span-5 rounded-2xl bg-white p-8 md:p-10 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
-                <blockquote className="text-[15px] leading-relaxed mt-5 mb-6 flex-1 text-[var(--foreground)]">
+                <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-[var(--foreground)]">
                   &ldquo;{selected[1].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
