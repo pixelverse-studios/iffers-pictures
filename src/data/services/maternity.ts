@@ -131,6 +131,24 @@ export const maternityData: ServicePageData = {
     ],
   },
 
+  // Testimonials Section
+  testimonials: {
+    eyebrow: "Kind Words",
+    title: "What Clients Say",
+    items: [
+      {
+        quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
+        author: "Vittoria F.",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
+        author: "Happy Client",
+        location: "Bergen County, NJ",
+      },
+    ],
+  },
+
   // CTA Section
   cta: {
     headline: "Your Pregnancy Is Beautiful. Let's Capture It.",
