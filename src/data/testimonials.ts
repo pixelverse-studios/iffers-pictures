@@ -21,7 +21,7 @@ export const ALL_TESTIMONIALS: Testimonial[] = [
   {
     id: 2,
     quote:
-      "Jessica was hired by my mom and fiancé to capture a surprise second engagement after our original photos and SD card were lost by the original photographer. She was so great and helped the second proposal feel just as special as the first! Would highly recommend! She also got us our gallery SO quickly!",
+      "Jennifer was hired by my mom and fiancé to capture a surprise second engagement after our original photos and SD card were lost by the original photographer. She was so great and helped the second proposal feel just as special as the first! Would highly recommend! She also got us our gallery SO quickly!",
     author: "Miranda S.A.",
     sessionType: "couples-engagement",
   },
