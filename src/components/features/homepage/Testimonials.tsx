@@ -59,7 +59,7 @@ function WhiteCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
       <div className="mt-1">
         <Stars />
       </div>
-      <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
+      <blockquote className="text-base text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
         &ldquo;{t.quote}&rdquo;
       </blockquote>
       <div className="flex items-center gap-3">
@@ -85,7 +85,7 @@ function TealCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
       style={{ backgroundColor: "var(--teal)" }}
     >
       <Stars />
-      <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+      <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
         &ldquo;{t.quote}&rdquo;
       </blockquote>
       <div className="flex items-center gap-3">
@@ -156,7 +156,7 @@ export function Testimonials() {
                 />
                 <div className="relative z-10 flex flex-col h-full">
                   <Stars />
-                  <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+                  <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                     &ldquo;{selected[0].quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ export function Testimonials() {
               {/* Tile 2: teal */}
               <div className="md:col-span-5 rounded-2xl bg-[var(--teal-dark)] text-white p-8 md:p-10 flex flex-col">
                 <Stars />
-                <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+                <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                   &ldquo;{selected[1].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
@@ -220,7 +220,7 @@ export function Testimonials() {
                 />
                 <div className="relative z-10 flex flex-col h-full">
                   <Stars />
-                  <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+                  <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                     &ldquo;{selected[0].quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3">
@@ -237,7 +237,7 @@ export function Testimonials() {
 
               <div className="md:col-span-5 rounded-2xl bg-white p-8 md:p-10 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
-                <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-[var(--foreground)]">
+                <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-[var(--foreground)]">
                   &ldquo;{selected[1].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
@@ -253,7 +253,7 @@ export function Testimonials() {
 
               <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal-light)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
-                <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
+                <blockquote className="text-base text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
                   &ldquo;{selected[2].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
@@ -269,7 +269,7 @@ export function Testimonials() {
 
               <div className="md:col-span-4 rounded-2xl bg-[var(--teal-dark)] text-white p-7 flex flex-col border-l-4 border-[var(--teal-light)]">
                 <Stars />
-                <blockquote className="text-sm leading-relaxed mt-4 mb-5 flex-1 text-white/90">
+                <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                   &ldquo;{selected[3].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
@@ -285,7 +285,7 @@ export function Testimonials() {
 
               <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
-                <blockquote className="text-sm text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
+                <blockquote className="text-base text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
                   &ldquo;{selected[4].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
