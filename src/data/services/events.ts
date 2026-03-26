@@ -90,6 +90,11 @@ export const eventsData: ServicePageData = {
     title: "What Clients Say",
     items: [
       {
+        quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
+        author: "Vittoria F.",
+        location: "Bergen County, NJ",
+      },
+      {
         quote: "Thank you so much for sending the gallery, I am so happy with the pictures, they are just stunning!! I can't wait to share with everyone.",
         author: "Heather Harris",
         location: "Bergen County, NJ",
@@ -97,6 +102,16 @@ export const eventsData: ServicePageData = {
       {
         quote: "THANK YOU so much for everything. You were absolutely amazing to work with! Thank you so much for the pictures, they are BEAUTIFUL!!! Seriously, I can't thank you enough for all the memories you captured. We will be using you for all future events.",
         author: "Jessica Uribe",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted during my bridal shower. Jennifer captured the entire event and made sure we were satisfied with the content. Highly recommend booking her for all events (because we sure will)!",
+        author: "Jessica U.F.",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
+        author: "Happy Client",
         location: "Bergen County, NJ",
       },
     ],

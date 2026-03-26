@@ -128,6 +128,24 @@ export const portraitData: ServicePageData = {
     ],
   },
 
+  // Testimonials Section
+  testimonials: {
+    eyebrow: "Kind Words",
+    title: "What Clients Say",
+    items: [
+      {
+        quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
+        author: "Vittoria F.",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted. Highly recommend booking her for all events (because we sure will)!",
+        author: "Jessica U.F.",
+        location: "Bergen County, NJ",
+      },
+    ],
+  },
+
   // CTA Section
   cta: {
     headline: "Your Next Opportunity Starts With the Right Photo",
