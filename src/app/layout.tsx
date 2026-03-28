@@ -4,6 +4,7 @@ import "./globals.css";
 import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TrustBadges } from "@/components/layout/TrustBadges";
 import { Providers } from "@/components/providers/Providers";
 
 const josefinSlab = Josefin_Slab({
@@ -95,6 +96,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>
+          <TrustBadges />
           <Footer />
         </Providers>
       </body>
