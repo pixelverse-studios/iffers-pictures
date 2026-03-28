@@ -4,6 +4,7 @@ import "./globals.css";
 import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Providers } from "@/components/providers/Providers";
 
 const josefinSlab = Josefin_Slab({
   variable: "--font-josefin-slab",
@@ -91,9 +92,11 @@ export default function RootLayout({
       <body
         className={`${josefinSlab.variable} ${nunito.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <Providers>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
