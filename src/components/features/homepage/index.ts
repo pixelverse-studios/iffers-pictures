@@ -4,3 +4,5 @@ export { PortfolioPreview } from "./PortfolioPreview";
 export { SessionsPreview } from "./SessionsPreview";
 export { EmotionalDivider } from "./EmotionalDivider";
 export { HomeCTA } from "./HomeCTA";
+export { ImageDivider } from "./ImageDivider";
+export { HomePageContent } from "./HomePageContent";
