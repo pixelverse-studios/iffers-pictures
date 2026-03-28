@@ -15,6 +15,7 @@
 - About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
 - Sessions hub page redesigned with large visual category cards showing portfolio images
 - Event Sessions page updated with Jenn's copy, flattened event types, and "Inquire Here" CTA
+- Added "inspired" design mode variant for the Sessions hub page with a visual store-window tile layout featuring large imagery and minimal overlay text
 
 ## Notes for internal team
 
@@ -29,6 +30,9 @@
 - Investment route stub created at /investment
 - Header fully rewritten as flat nav (no dropdown state management)
 - Footer: Event Types column removed, Services → Sessions
+- DEV-616 completed (inspired sessions hub variant)
+- New component: InspiredLayout.tsx in sessions-hub/layouts
+- SessionsContent.tsx updated to read useDesignMode() and switch between current/inspired
 
 ## Changed URLs
 
