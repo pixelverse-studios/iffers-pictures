@@ -5,3 +5,5 @@ export { SessionsPreview } from "./SessionsPreview";
 export { Testimonials } from "./Testimonials";
 export { EmotionalDivider } from "./EmotionalDivider";
 export { HomeCTA } from "./HomeCTA";
+export { ImageDivider } from "./ImageDivider";
+export { HomePageContent } from "./HomePageContent";

@@ -2,23 +2,35 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useDesignMode } from "@/context/DesignModeContext";
 import { LayoutSelector, type InvestmentVariant } from "./LayoutSelector";
 import { CardsLayout } from "./layouts/CardsLayout";
 import { EditorialLayout } from "./layouts/EditorialLayout";
 import { MenuLayout } from "./layouts/MenuLayout";
 import { MinimalLayout } from "./layouts/MinimalLayout";
+import { NarrativeLayout } from "./layouts/NarrativeLayout";
 
 export function InvestmentContent() {
   const [layout, setLayout] = useState<InvestmentVariant>("cards");
+  const { mode } = useDesignMode();
+
+  const isInspired = mode === "inspired";
 
   return (
     <>
-      <LayoutSelector current={layout} onChange={setLayout} />
+      {/* Layout selector — only visible in "current" mode */}
+      {!isInspired && <LayoutSelector current={layout} onChange={setLayout} />}
 
-      {layout === "cards" && <CardsLayout />}
-      {layout === "editorial" && <EditorialLayout />}
-      {layout === "menu" && <MenuLayout />}
-      {layout === "minimal" && <MinimalLayout />}
+      {isInspired ? (
+        <NarrativeLayout />
+      ) : (
+        <>
+          {layout === "cards" && <CardsLayout />}
+          {layout === "editorial" && <EditorialLayout />}
+          {layout === "menu" && <MenuLayout />}
+          {layout === "minimal" && <MinimalLayout />}
+        </>
+      )}
 
       {/* CTA — shared across all layouts */}
       <section className="py-20 md:py-28">
