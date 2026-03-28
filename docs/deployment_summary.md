@@ -16,6 +16,7 @@
 - Sessions hub page redesigned with large visual category cards showing portfolio images
 - Event Sessions page updated with Jenn's copy, flattened event types, and "Inquire Here" CTA
 - Homepage "inspired" design mode now features a warm cream background, alternating white and teal-tinted section backgrounds, and full-width portfolio image dividers between sections
+- Added "inspired" design mode variant for the Sessions hub page with a visual store-window tile layout featuring large imagery and minimal overlay text
 
 ## Notes for internal team
 
@@ -33,6 +34,9 @@
 - DEV-615 completed (inspired homepage visual upgrades)
 - New components: ImageDivider.tsx, HomePageContent.tsx in homepage directory
 - page.tsx delegates to HomePageContent client wrapper for design mode awareness
+- DEV-616 completed (inspired sessions hub variant)
+- New component: InspiredLayout.tsx in sessions-hub/layouts
+- SessionsContent.tsx updated to read useDesignMode() and switch between current/inspired
 
 ## Changed URLs
 
