@@ -18,6 +18,9 @@
 - Homepage "inspired" design mode now features a warm cream background, alternating white and teal-tinted section backgrounds, and full-width portfolio image dividers between sections
 - Added "inspired" design mode variant for the Sessions hub page with a visual store-window tile layout featuring large imagery and minimal overlay text
 - Added "inspired" narrative layout variant for the Investment page with alternating image/text storytelling rows and starting prices for each session type
+- Added design mode toggle so Jenn can compare "Current" vs "Inspired" site designs in real time
+- "Inspired" mode adds a "Book a Session" button to the navigation bar on all pages
+- Trust badges row (5-star Facebook reviews, 200+ events, Bergen County) appears above footer in inspired mode
 
 ## Notes for internal team
 
@@ -39,6 +42,10 @@
 - New component: InspiredLayout.tsx in sessions-hub/layouts
 - SessionsContent.tsx updated to read useDesignMode() and switch between current/inspired
 - DEV-617 completed: NarrativeLayout.tsx added to investment/layouts/, InvestmentContent.tsx updated to read design mode context
+- DEV-613: Design mode context provider + floating toggle widget
+- DEV-614: Header "Book a Session" CTA in inspired mode
+- DEV-618: Trust badge row above footer in inspired mode
+- Epic DEV-555 complete (all 6 child tickets done)
 
 ## Changed URLs
 
