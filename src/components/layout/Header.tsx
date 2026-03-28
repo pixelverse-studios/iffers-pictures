@@ -14,8 +14,9 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const { mode } = useDesignMode();
+  const { mode, mounted } = useDesignMode();
   const isInspired = mode === "inspired";
+  const showInspiredCta = isInspired && mounted;
 
   const useHeroStyling = isHomePage && !isScrolled;
 
@@ -180,21 +181,23 @@ export function Header() {
                   </Link>
                 );
               })}
-              {isInspired && (
-                <Link
-                  href="/contact"
-                  className={cn(
-                    "ml-2 px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase",
-                    "transition-all duration-300 ease-out",
-                    "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
-                    useHeroStyling
-                      ? "bg-white/90 text-[var(--teal-dark)] hover:bg-white shadow-md hover:shadow-white/25"
-                      : "bg-[var(--teal)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal)]/30"
-                  )}
-                >
-                  Book a Session
-                </Link>
-              )}
+              <Link
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={cn(
+                  "ml-2 px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase",
+                  "transition-all duration-300 ease-out",
+                  showInspiredCta
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95 pointer-events-none",
+                  "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
+                  useHeroStyling
+                    ? "bg-white/90 text-[var(--teal-dark)] hover:bg-white shadow-md hover:shadow-white/25"
+                    : "bg-[var(--teal)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal)]/30"
+                )}
+              >
+                Book a Session
+              </Link>
             </div>
 
             {/* Mobile - Empty right spacer for balance */}
@@ -244,14 +247,16 @@ export function Header() {
           </nav>
 
           {/* Mobile Book a Session CTA - Inspired mode */}
-          {isInspired && (
+          {showInspiredCta && (
             <div
               className={cn(
                 "mt-8 opacity-0 translate-y-4 transition-all duration-500",
                 isMobileMenuOpen && "opacity-100 translate-y-0"
               )}
               style={{
-                transitionDelay: isMobileMenuOpen ? "450ms" : "0ms",
+                transitionDelay: isMobileMenuOpen
+                  ? `${150 + NAV_LINKS.length * 50}ms`
+                  : "0ms",
               }}
             >
               <Link
@@ -272,7 +277,9 @@ export function Header() {
               isMobileMenuOpen && "opacity-100 translate-y-0"
             )}
             style={{
-              transitionDelay: isMobileMenuOpen ? `${isInspired ? 500 : 450}ms` : "0ms",
+              transitionDelay: isMobileMenuOpen
+                ? `${150 + NAV_LINKS.length * 50 + (showInspiredCta ? 50 : 0)}ms`
+                : "0ms",
             }}
           >
             <p className="text-white/70">

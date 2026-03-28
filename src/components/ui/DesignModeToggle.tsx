@@ -16,7 +16,7 @@ export function DesignModeToggle() {
     <div className="fixed bottom-6 right-6 z-50">
       <div
         className="inline-flex items-center gap-1 p-1 rounded-full bg-white/95 backdrop-blur-sm border border-[var(--border)] shadow-lg"
-        role="tablist"
+        role="radiogroup"
         aria-label="Design mode"
       >
         {MODES.map((m) => {
@@ -24,8 +24,9 @@ export function DesignModeToggle() {
           return (
             <button
               key={m.id}
-              role="tab"
-              aria-selected={isActive}
+              role="radio"
+              aria-checked={isActive}
+              title={`${m.label} design`}
               onClick={() => setMode(m.id)}
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
