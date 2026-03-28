@@ -15,6 +15,7 @@
 - About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
 - Sessions hub page redesigned with large visual category cards showing portfolio images
 - Event Sessions page updated with Jenn's copy, flattened event types, and "Inquire Here" CTA
+- Homepage "inspired" design mode now features a warm cream background, alternating white and teal-tinted section backgrounds, and full-width portfolio image dividers between sections
 
 ## Notes for internal team
 
@@ -29,6 +30,9 @@
 - Investment route stub created at /investment
 - Header fully rewritten as flat nav (no dropdown state management)
 - Footer: Event Types column removed, Services → Sessions
+- DEV-615 completed (inspired homepage visual upgrades)
+- New components: ImageDivider.tsx, HomePageContent.tsx in homepage directory
+- page.tsx delegates to HomePageContent client wrapper for design mode awareness
 
 ## Changed URLs
 
