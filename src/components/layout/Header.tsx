@@ -7,12 +7,15 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO } from "@/lib/constants";
+import { useDesignMode } from "@/context/DesignModeContext";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const { mode } = useDesignMode();
+  const isInspired = mode === "inspired";
 
   const useHeroStyling = isHomePage && !isScrolled;
 
@@ -177,6 +180,21 @@ export function Header() {
                   </Link>
                 );
               })}
+              {isInspired && (
+                <Link
+                  href="/contact"
+                  className={cn(
+                    "ml-2 px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase",
+                    "transition-all duration-300 ease-out",
+                    "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
+                    useHeroStyling
+                      ? "bg-white/90 text-[var(--teal-dark)] hover:bg-white shadow-md hover:shadow-white/25"
+                      : "bg-[var(--teal)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal)]/30"
+                  )}
+                >
+                  Book a Session
+                </Link>
+              )}
             </div>
 
             {/* Mobile - Empty right spacer for balance */}
@@ -225,6 +243,27 @@ export function Header() {
             ))}
           </nav>
 
+          {/* Mobile Book a Session CTA - Inspired mode */}
+          {isInspired && (
+            <div
+              className={cn(
+                "mt-8 opacity-0 translate-y-4 transition-all duration-500",
+                isMobileMenuOpen && "opacity-100 translate-y-0"
+              )}
+              style={{
+                transitionDelay: isMobileMenuOpen ? "450ms" : "0ms",
+              }}
+            >
+              <Link
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="inline-block px-8 py-3 rounded-full bg-white text-[var(--teal-dark)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                Book a Session
+              </Link>
+            </div>
+          )}
+
           {/* Mobile Contact Info */}
           <div
             className={cn(
@@ -233,7 +272,7 @@ export function Header() {
               isMobileMenuOpen && "opacity-100 translate-y-0"
             )}
             style={{
-              transitionDelay: isMobileMenuOpen ? "450ms" : "0ms",
+              transitionDelay: isMobileMenuOpen ? `${isInspired ? 500 : 450}ms` : "0ms",
             }}
           >
             <p className="text-white/70">
