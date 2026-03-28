@@ -15,6 +15,7 @@
 - About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
 - Sessions hub page redesigned with large visual category cards showing portfolio images
 - Event Sessions page updated with Jenn's copy, flattened event types, and "Inquire Here" CTA
+- Added "inspired" narrative layout variant for the Investment page with alternating image/text storytelling rows and starting prices for each session type
 
 ## Notes for internal team
 
@@ -29,6 +30,7 @@
 - Investment route stub created at /investment
 - Header fully rewritten as flat nav (no dropdown state management)
 - Footer: Event Types column removed, Services → Sessions
+- DEV-617 completed: NarrativeLayout.tsx added to investment/layouts/, InvestmentContent.tsx updated to read design mode context
 
 ## Changed URLs
 
