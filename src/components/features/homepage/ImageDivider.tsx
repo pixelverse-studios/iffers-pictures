@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { useDesignMode } from "@/context/DesignModeContext";
 
 interface ImageDividerProps {
@@ -15,15 +13,12 @@ export function ImageDivider({ src, alt }: ImageDividerProps) {
   if (!mounted || mode !== "inspired") return null;
 
   return (
-    <div className={cn("relative w-full h-[300px] overflow-hidden")}>
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-cover"
-        sizes="100vw"
-      />
-      {/* Subtle dark overlay */}
+    <div
+      className="relative w-full h-[300px] bg-fixed bg-cover bg-center"
+      style={{ backgroundImage: `url(${src})` }}
+      role="img"
+      aria-label={alt}
+    >
       <div className="absolute inset-0 bg-black/20" />
     </div>
   );
