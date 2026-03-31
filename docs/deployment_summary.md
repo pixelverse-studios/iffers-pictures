@@ -21,6 +21,15 @@
 - Added design mode toggle so Jenn can compare "Current" vs "Inspired" site designs in real time
 - "Inspired" mode adds a "Book a Session" button to the navigation bar on all pages
 - Trust badges row (5-star Facebook reviews, 200+ events, Bergen County) appears above footer in inspired mode
+- Removed "My Story" header from the About page for a cleaner layout
+- Replaced the homepage scroll indicator with a transition arrow
+- Removed text captions from portfolio image viewer — images now display cleanly without overlay text
+- Reduced vertical spacing across every page for a more condensed, polished feel
+- Added "Testimonials" to the navigation and created a dedicated Testimonials page
+- "Inquire" is now a prominent button in the navigation bar on every page
+- Homepage sessions section now has a layout selector with four options: Cards, Floating, Minimal, and Gallery
+- Brand colors are now more vivid across buttons, star ratings, accent lines, and decorative elements
+- Added a third homepage design mode ("Rockstar") — editorial layout with cinematic hero, asymmetric photo mosaic, dark testimonial section, and image-based sessions strip
 
 ## Notes for internal team
 
@@ -46,6 +55,14 @@
 - DEV-614: Header "Book a Session" CTA in inspired mode
 - DEV-618: Trust badge row above footer in inspired mode
 - Epic DEV-555 complete (all 6 child tickets done)
+- Client feedback batch: Batches A-E covering nav, testimonials, padding, sessions layouts, and brand color prominence
+- New route: /testimonials (added to sitemap, footer, nav)
+- New CSS variables: --teal-vivid (#4a8cb8), --coral-vivid (#d4956a), --gold-vivid (#c9a44e) layered over existing Morning Dew palette
+- Header no longer depends on DesignModeContext — Inquire CTA is always visible
+- SessionsPreview is now a client component with layout selector (cards, floating, minimal, gallery)
+- Padding reduction: ~35-40% less vertical space site-wide, including .section CSS utility class
+- DesignMode type extended to "current" | "inspired" | "rockstar" — new toggle option in floating widget
+- RockstarLayout.tsx: self-contained editorial homepage with Ken Burns hero animation, asymmetric mosaic grid, dark-bg testimonial section, image-tile sessions strip, stats bar
 
 ## Changed URLs
 
@@ -58,3 +75,7 @@
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/
 - https://ifferspictures.com/about
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/testimonials
+- https://ifferspictures.com/contact
+- https://ifferspictures.com/faq

@@ -41,7 +41,7 @@ export function CardsLayout() {
       </section>
 
       {/* Every Session Includes */}
-      <section className="py-16 md:py-24 bg-[var(--background-warm)]">
+      <section className="py-10 md:py-14 bg-[var(--background-warm)]">
         <div className="max-w-3xl mx-auto px-6 md:px-8">
           <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] text-center mb-12">
             Every Session Includes

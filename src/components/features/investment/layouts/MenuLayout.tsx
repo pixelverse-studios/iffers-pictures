@@ -73,7 +73,7 @@ export function MenuLayout() {
       </section>
 
       {/* Inclusions — horizontal */}
-      <section className="py-12 md:py-16 bg-[var(--background-warm)]">
+      <section className="py-8 md:py-10 bg-[var(--background-warm)]">
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <h2 className="text-lg font-heading font-semibold text-[var(--foreground)] text-center mb-8">
             Every Session Includes

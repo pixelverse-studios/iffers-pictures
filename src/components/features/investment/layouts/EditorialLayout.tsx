@@ -28,7 +28,7 @@ export function EditorialLayout() {
           return (
             <div
               key={session.slug}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center py-12 md:py-20 border-b border-[var(--border)] last:border-b-0"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center py-8 md:py-12 border-b border-[var(--border)] last:border-b-0"
             >
               {/* Image */}
               <div className={`relative aspect-[4/5] rounded-2xl overflow-hidden ${isReversed ? "md:order-2" : ""}`}>

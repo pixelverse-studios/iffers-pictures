@@ -23,7 +23,7 @@ export function ServicesGrid({ className }: ServicesGridProps) {
   const featuredServices = SERVICES.filter((s) => s.featured);
 
   return (
-    <section className={cn("py-16 md:py-24", className)}>
+    <section className={cn("py-10 md:py-14", className)}>
       <div className="container">
         <SectionHeader
           eyebrow="Our Services"

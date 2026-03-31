@@ -20,7 +20,7 @@ export function Footer() {
   return (
     <footer className="bg-[var(--footer-bg)] text-white">
       {/* Main Footer Content */}
-      <div className="container py-16 md:py-20">
+      <div className="container py-10 md:py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-6">
           {/* Brand Column */}
           <div>
@@ -63,7 +63,7 @@ export function Footer() {
 
           {/* Sessions Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
               Sessions
             </h3>
             <ul className="space-y-3">
@@ -82,7 +82,7 @@ export function Footer() {
 
           {/* Company Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
               Company
             </h3>
             <ul className="space-y-3">
@@ -101,7 +101,7 @@ export function Footer() {
 
           {/* Resources Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
               Resources
             </h3>
             <ul className="space-y-3">
@@ -130,7 +130,7 @@ export function Footer() {
 
           {/* Inquire Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
               Inquire
             </h3>
             <ul className="space-y-4">
@@ -155,7 +155,7 @@ export function Footer() {
 
             {/* Service Areas */}
             <div className="mt-6">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--teal-light)] mb-3">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-3">
                 Service Areas
               </h4>
               <p className="text-white/40 text-xs leading-relaxed">

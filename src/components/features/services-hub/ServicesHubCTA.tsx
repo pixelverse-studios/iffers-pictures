@@ -12,8 +12,8 @@ export function ServicesHubCTA({ className }: ServicesHubCTAProps) {
   return (
     <section
       className={cn(
-        "py-20 md:py-28 relative overflow-hidden",
-        "bg-gradient-to-br from-[var(--teal)] to-[var(--teal-dark)]",
+        "py-12 md:py-16 relative overflow-hidden",
+        "bg-gradient-to-br from-[var(--teal-vivid)] to-[var(--teal-dark)]",
         className
       )}
     >

@@ -1,12 +1,13 @@
 "use client";
 
-import { Eye, Sparkles } from "lucide-react";
+import { Eye, Sparkles, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDesignMode, type DesignMode } from "@/context/DesignModeContext";
 
 const MODES: { id: DesignMode; label: string; icon: typeof Eye }[] = [
   { id: "current", label: "Current", icon: Eye },
   { id: "inspired", label: "Inspired", icon: Sparkles },
+  { id: "rockstar", label: "Rockstar", icon: Flame },
 ];
 
 export function DesignModeToggle() {

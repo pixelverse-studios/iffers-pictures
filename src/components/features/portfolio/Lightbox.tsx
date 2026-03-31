@@ -105,13 +105,6 @@ export function Lightbox({ items, currentIndex, onClose, onNavigate }: LightboxP
         />
       </div>
 
-      {/* Caption */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-center max-w-lg px-4">
-        <p className="text-[10px] text-white/40 tracking-[0.15em] uppercase mb-0.5">
-          {item.subCategory}
-        </p>
-        <p className="text-sm text-white/60">{item.alt}</p>
-      </div>
     </div>
   );
 }

@@ -139,8 +139,8 @@ export const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Sessions", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Testimonials", href: "/testimonials" },
   { label: "Investment", href: "/investment" },
-  { label: "Inquire", href: "/contact" },
 ] as const;
 
 // Split navigation for centered logo layout
@@ -151,8 +151,8 @@ export const NAV_LINKS_LEFT = [
 ] as const;
 
 export const NAV_LINKS_RIGHT = [
+  { label: "Testimonials", href: "/testimonials" },
   { label: "Investment", href: "/investment" },
-  { label: "Inquire", href: "/contact" },
 ] as const;
 
 export const FOOTER_LINKS = {
@@ -165,6 +165,7 @@ export const FOOTER_LINKS = {
   company: [
     { label: "About", href: "/about" },
     { label: "Portfolio", href: "/portfolio" },
+    { label: "Testimonials", href: "/testimonials" },
     { label: "Investment", href: "/investment" },
   ],
   resources: [

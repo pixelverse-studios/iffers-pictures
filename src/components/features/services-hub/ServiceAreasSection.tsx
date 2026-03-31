@@ -12,7 +12,7 @@ interface ServiceAreasSectionProps {
 
 export function ServiceAreasSection({ className }: ServiceAreasSectionProps) {
   return (
-    <section className={cn("py-16 md:py-24 bg-white", className)}>
+    <section className={cn("py-10 md:py-14 bg-white", className)}>
       <div className="container">
         <SectionHeader
           eyebrow="Service Areas"

@@ -37,7 +37,7 @@ const benefits = [
 
 export function WhyChooseUs({ className }: WhyChooseUsProps) {
   return (
-    <section className={cn("py-16 md:py-24 bg-[var(--background-warm)]", className)}>
+    <section className={cn("py-10 md:py-14 bg-[var(--background-warm)]", className)}>
       <div className="container">
         <SectionHeader
           eyebrow="Why Iffer's Pictures"

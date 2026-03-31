@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 
-export type DesignMode = "current" | "inspired";
+export type DesignMode = "current" | "inspired" | "rockstar";
 
 const STORAGE_KEY = "design-mode";
 
@@ -21,7 +21,7 @@ export function DesignModeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "current" || stored === "inspired") {
+      if (stored === "current" || stored === "inspired" || stored === "rockstar") {
         setModeState(stored);
       }
     } catch {}

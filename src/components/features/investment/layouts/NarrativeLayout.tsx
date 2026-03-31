@@ -86,7 +86,7 @@ export function NarrativeLayout() {
                 {/* Text side */}
                 <div
                   className={cn(
-                    "flex flex-col justify-center px-8 md:px-16 lg:px-20 py-16 md:py-24",
+                    "flex flex-col justify-center px-8 md:px-16 lg:px-20 py-10 md:py-14",
                     isEven ? "md:order-1" : ""
                   )}
                 >

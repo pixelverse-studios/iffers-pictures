@@ -103,7 +103,7 @@ export default function FAQPage() {
       </section>
 
       {/* General FAQs */}
-      <section className="py-16 md:py-24">
+      <section className="py-10 md:py-14">
         <div className="container">
           <SectionHeader
             eyebrow="General"
@@ -121,7 +121,7 @@ export default function FAQPage() {
       {serviceSections.map((section) => (
         <section
           key={section.slug}
-          className="py-16 md:py-24 odd:bg-[var(--background-warm)]"
+          className="py-10 md:py-14 odd:bg-[var(--background-warm)]"
         >
           <div className="container">
             <SectionHeader
@@ -140,7 +140,7 @@ export default function FAQPage() {
       ))}
 
       {/* CTA */}
-      <section className="py-16 md:py-24">
+      <section className="py-10 md:py-14">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl font-heading font-semibold text-[var(--foreground)] mb-4">

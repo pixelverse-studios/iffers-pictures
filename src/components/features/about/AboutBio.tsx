@@ -10,15 +10,6 @@ export function AboutBio() {
       <section className="py-12 md:py-16 bg-[var(--background-warm)]">
         <div className="container">
 
-          {/* Header with divider lines on both sides */}
-          <div className="flex items-center gap-6 mb-10">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[var(--teal)]/30" />
-            <p className="text-[var(--teal)] font-medium tracking-[0.3em] uppercase text-xs shrink-0">
-              My Story
-            </p>
-            <div className="h-px flex-1 bg-gradient-to-r from-[var(--teal)]/30 to-transparent" />
-          </div>
-
           {/* Single-column body — centered */}
           <div className="max-w-3xl mx-auto space-y-6 mb-10">
             <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
@@ -92,7 +83,7 @@ export function AboutBio() {
       </section>
 
       {/* A Few Things About Me */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-10 md:py-14 bg-white">
         <div className="container">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] text-center mb-10">
@@ -121,7 +112,7 @@ export function AboutBio() {
       </section>
 
       {/* Approach / Philosophy */}
-      <section className="py-16 md:py-24 bg-[var(--background-warm)]">
+      <section className="py-10 md:py-14 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-[var(--teal)] font-medium tracking-wide uppercase text-sm mb-8">

@@ -86,7 +86,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-24 bg-[var(--background-warm)]">
+      <section className="py-10 md:py-14 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-[var(--teal)] font-medium tracking-[0.25em] uppercase text-xs mb-4">
@@ -103,7 +103,7 @@ export default function PortfolioPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--teal)] text-white hover:bg-[var(--teal-dark)] hover:gap-4 shadow-lg shadow-[var(--teal)]/25 hover:shadow-xl hover:shadow-[var(--teal)]/30 px-10 py-5 text-lg"
+              className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] hover:gap-4 shadow-lg shadow-[var(--teal-vivid)]/25 hover:shadow-xl hover:shadow-[var(--teal-vivid)]/30 px-10 py-5 text-lg"
             >
               Inquire Here
               <ArrowRight className="w-5 h-5" />

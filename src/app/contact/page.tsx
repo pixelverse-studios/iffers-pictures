@@ -155,7 +155,7 @@ export default function ContactPage() {
       </section>
 
       {/* Closing */}
-      <section className="py-16 md:py-20 bg-[var(--background-warm)]">
+      <section className="py-10 md:py-14 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-2xl md:text-3xl font-heading italic text-[var(--foreground)] leading-relaxed">

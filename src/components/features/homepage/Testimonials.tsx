@@ -41,7 +41,7 @@ function Stars() {
   return (
     <div className="flex gap-0.5">
       {[...Array(5)].map((_, i) => (
-        <Star key={i} className="w-3.5 h-3.5 text-[var(--gold)] fill-[var(--gold)]" />
+        <Star key={i} className="w-3.5 h-3.5 text-[var(--gold-vivid)] fill-[var(--gold-vivid)]" />
       ))}
     </div>
   );
@@ -55,7 +55,7 @@ function WhiteCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
         "rounded-2xl bg-white p-8 flex flex-col border border-[var(--border)]/60 relative overflow-hidden"
       )}
     >
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-light)]" />
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--teal-vivid)] to-[var(--teal)]" />
       <div className="mt-1">
         <Stars />
       </div>
@@ -109,7 +109,7 @@ export function Testimonials() {
   const selected = useMemo(() => pickRandom(DISPLAY_TESTIMONIALS, 5), []);
 
   return (
-    <section className="py-24 bg-[var(--background-warm)] overflow-hidden">
+    <section className="py-14 bg-[var(--background-warm)] overflow-hidden">
       <div className="container">
         <div className="text-center mb-12">
           <span className="text-[var(--teal)] font-medium tracking-widest uppercase text-xs mb-4 block">

@@ -26,7 +26,7 @@ const PREVIEW_IMAGES = getPreviewImages();
 
 export function PortfolioPreview() {
   return (
-    <section className="bg-[var(--background-warm)] py-16 md:py-24">
+    <section className="bg-[var(--background-warm)] py-10 md:py-14">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <h2 className="sr-only">Featured Work</h2>
 

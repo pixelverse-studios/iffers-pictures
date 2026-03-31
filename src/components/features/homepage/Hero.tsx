@@ -30,17 +30,29 @@ export function Hero() {
         </p>
         <Link
           href="/contact"
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[var(--foreground)] font-medium text-base hover:bg-white/90 transition-all duration-200 shadow-lg"
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--teal-vivid)] text-white font-medium text-base hover:bg-[var(--teal-dark)] transition-all duration-200 shadow-lg shadow-[var(--teal-vivid)]/30"
         >
           Inquire Here
         </Link>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <div className="w-6 h-10 rounded-full border-2 border-white/40 flex justify-center pt-2">
-          <div className="w-1 h-2 rounded-full bg-white/60 animate-bounce" />
-        </div>
+      {/* Transition arrow */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-white/60"
+          aria-hidden="true"
+        >
+          <path d="M12 5v14" />
+          <path d="m19 12-7 7-7-7" />
+        </svg>
       </div>
     </section>
   );
