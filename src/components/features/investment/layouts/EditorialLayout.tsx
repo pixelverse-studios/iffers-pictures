@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { SESSION_INCLUSIONS } from "../data";
 import { PORTFOLIO_ITEMS } from "@/components/features/portfolio/portfolioData";
 
@@ -28,7 +28,8 @@ export function EditorialLayout() {
           return (
             <div
               key={session.slug}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center py-8 md:py-12 border-b border-[var(--border)] last:border-b-0"
+              id={`session-${session.slug}`}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center py-8 md:py-12 border-b border-[var(--border)] last:border-b-0 scroll-mt-24"
             >
               {/* Image */}
               <div className={`relative aspect-[4/5] rounded-2xl overflow-hidden ${isReversed ? "md:order-2" : ""}`}>
@@ -59,13 +60,22 @@ export function EditorialLayout() {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href={`/services/${session.slug}`}
-                  className="inline-flex items-center gap-2 text-[var(--teal)] font-medium hover:gap-3 transition-all duration-200"
-                >
-                  Explore this session
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="flex flex-wrap items-center gap-6">
+                  <Link
+                    href={`/contact?session=${session.slug}`}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--teal-vivid)] text-white font-medium text-sm hover:bg-[var(--teal-dark)] transition-all duration-200 shadow-md shadow-[var(--teal-vivid)]/20 hover:shadow-lg"
+                  >
+                    Get Started
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link
+                    href={`/services/${session.slug}`}
+                    className="inline-flex items-center gap-2 text-[var(--teal)] font-medium hover:gap-3 transition-all duration-200 text-sm"
+                  >
+                    Learn More
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             </div>
           );

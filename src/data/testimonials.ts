@@ -61,13 +61,6 @@ export const ALL_TESTIMONIALS: Testimonial[] = [
     sessionType: "events",
   },
   {
-    id: 8,
-    quote:
-      "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
-    author: "Happy Client",
-    sessionType: "events",
-  },
-  {
     id: 9,
     quote:
       "I just wanted to take a moment to thank you for your beautiful work! Miranda and Jesse are so very happy with their photos. I will definitely mention your name to anyone that asks for a recommendation for a professional and reliable photographer.",

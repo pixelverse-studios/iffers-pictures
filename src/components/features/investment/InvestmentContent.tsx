@@ -1,36 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useDesignMode } from "@/context/DesignModeContext";
-import { LayoutSelector, type InvestmentVariant } from "./LayoutSelector";
-import { CardsLayout } from "./layouts/CardsLayout";
 import { EditorialLayout } from "./layouts/EditorialLayout";
-import { MenuLayout } from "./layouts/MenuLayout";
-import { MinimalLayout } from "./layouts/MinimalLayout";
 import { NarrativeLayout } from "./layouts/NarrativeLayout";
 
 export function InvestmentContent() {
-  const [layout, setLayout] = useState<InvestmentVariant>("cards");
   const { mode } = useDesignMode();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const isInspired = mode === "inspired";
 
+  useEffect(() => {
+    const focus = searchParams.get("focus");
+    if (!focus) return;
+
+    // Wait for page to fully render/images to load, then scroll
+    const timer = setTimeout(() => {
+      const el = document.getElementById(`session-${focus}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Clean the URL after scrolling starts
+        window.history.replaceState(null, "", "/investment");
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchParams]);
+
   return (
     <>
-      {/* Layout selector — only visible in "current" mode */}
-      {!isInspired && <LayoutSelector current={layout} onChange={setLayout} />}
-
-      {isInspired ? (
-        <NarrativeLayout />
-      ) : (
-        <>
-          {layout === "cards" && <CardsLayout />}
-          {layout === "editorial" && <EditorialLayout />}
-          {layout === "menu" && <MenuLayout />}
-          {layout === "minimal" && <MinimalLayout />}
-        </>
-      )}
+      {isInspired ? <NarrativeLayout /> : <EditorialLayout />}
 
       {/* CTA — shared across all layouts */}
       <section className="py-12 md:py-16">

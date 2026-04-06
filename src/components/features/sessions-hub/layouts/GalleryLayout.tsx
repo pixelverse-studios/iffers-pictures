@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Camera } from "lucide-react";
 import { SESSIONS, getSessionImage } from "../data";
 
 export function GalleryLayout() {
@@ -13,7 +14,7 @@ export function GalleryLayout() {
               <Link
                 key={session.slug}
                 href={`/services/${session.slug}`}
-                className="group relative rounded-2xl overflow-hidden aspect-[3/4] block"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/3.5] block"
               >
                 {imageSrc && (
                   <Image
@@ -24,18 +25,37 @@ export function GalleryLayout() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-black/35" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                  <h2 className="text-xl md:text-2xl font-heading font-semibold text-white mb-2">
+                  <h2 className="text-2xl md:text-3xl font-heading font-semibold text-white mb-2">
                     {session.name}
                   </h2>
-                  <p className="text-sm text-white/70 leading-relaxed">
+                  <p className="text-sm md:text-base text-white/70 leading-relaxed">
                     {session.description}
                   </p>
                 </div>
               </Link>
             );
           })}
+
+          {/* Custom Request card */}
+          <Link
+            href="/contact"
+            className="group relative rounded-2xl overflow-hidden aspect-[3/3.5] block bg-[var(--background-warm)] border border-[var(--border)]/60"
+          >
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+              <div className="w-14 h-14 rounded-full bg-[var(--teal)]/10 flex items-center justify-center mb-5 group-hover:bg-[var(--teal)]/20 transition-colors duration-300">
+                <Camera className="w-6 h-6 text-[var(--teal)]" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] mb-2">
+                Custom Request
+              </h2>
+              <p className="text-sm md:text-base text-[var(--text-secondary)] leading-relaxed">
+                Have something else in mind? Let&apos;s create a session tailored to you.
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
     </section>

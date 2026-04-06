@@ -2,80 +2,33 @@
 
 ## Latest deploy summary
 
-- Complete site restructure: "Services" renamed to "Sessions" throughout the site
-- Navigation simplified to 6 clean items: Home, About, Sessions, Portfolio, Investment, Inquire
-- Services dropdown removed — all navigation links are now flat (no dropdowns)
-- 5 session categories: Event Sessions, Family Sessions, Maternity Sessions, Couples & Engagement, Portrait Sessions
-- 7 individual event sub-pages consolidated into a single Event Sessions page
-- New "Couples & Engagement" category combining engagement and surprise proposal photography
-- "Headshots" rebranded to "Portrait Sessions"
-- New Investment page added (session details and inquiry)
-- Footer updated with Sessions column replacing Services and Event Types columns
-- Homepage completely redesigned with emotional brand flow: hero image, personal intro, portfolio preview, sessions preview, emotional divider, and inquiry CTA
-- About page refreshed with "A Few Things About Me" personal facts section and updated closing statement
-- Sessions hub page redesigned with large visual category cards showing portfolio images
-- Event Sessions page updated with Jenn's copy, flattened event types, and "Inquire Here" CTA
-- Homepage "inspired" design mode now features a warm cream background, alternating white and teal-tinted section backgrounds, and full-width portfolio image dividers between sections
-- Added "inspired" design mode variant for the Sessions hub page with a visual store-window tile layout featuring large imagery and minimal overlay text
-- Added "inspired" narrative layout variant for the Investment page with alternating image/text storytelling rows and starting prices for each session type
-- Added design mode toggle so Jenn can compare "Current" vs "Inspired" site designs in real time
-- "Inspired" mode adds a "Book a Session" button to the navigation bar on all pages
-- Trust badges row (5-star Facebook reviews, 200+ events, Bergen County) appears above footer in inspired mode
-- Removed "My Story" header from the About page for a cleaner layout
-- Replaced the homepage scroll indicator with a transition arrow
-- Removed text captions from portfolio image viewer — images now display cleanly without overlay text
-- Reduced vertical spacing across every page for a more condensed, polished feel
-- Added "Testimonials" to the navigation and created a dedicated Testimonials page
-- "Inquire" is now a prominent button in the navigation bar on every page
-- Homepage sessions section now has a layout selector with four options: Cards, Floating, Minimal, and Gallery
-- Brand colors are now more vivid across buttons, star ratings, accent lines, and decorative elements
-- Added a third homepage design mode ("Rockstar") — editorial layout with cinematic hero, asymmetric photo mosaic, dark testimonial section, and image-based sessions strip
+- Homepage now uses the Rockstar layout with updated headline: "Heartfelt Moments, Beautifully Captured"
+- Homepage navigation features a frosted glass floating pill that smoothly transitions to a solid bar on scroll
+- Redesigned photographer intro section with editorial portrait and overlapping name card
+- Sessions page simplified to a single gallery layout with a custom request option and image overlays
+- Investment page simplified to editorial layout with "Get Started" buttons that pre-fill the contact form
+- Service pages "Book Your Session" and "View Investments" buttons now pre-populate the contact form and scroll to the relevant investment section
+- Testimonials page redesigned with an asymmetric editorial grid layout and teal hero background
+- Removed generic "Happy Client" testimonial
+- Improved button hover effects and cursor pointers across all CTAs
+- Removed all layout selector widgets (sessions, investment, testimonials, design mode, nav style)
 
 ## Notes for internal team
 
-- DEV-563 completed (foundation ticket for DEV-562 epic)
-- DEV-565 completed (homepage redesign)
-- DEV-566 completed (about page refresh)
-- DEV-567 completed (sessions hub page)
-- Constants: SERVICES → SESSIONS (5 categories), EVENT_SUB_SERVICES deprecated
-- Nav: 6 flat items, no dropdown, "Inquire" replaces "Contact", "Investment" replaces "FAQ"
-- Data: new couples-engagement.ts, portrait.ts; index.ts mapper simplified
-- Routes: events/[subSlug] and events/page.tsx removed; events now handled by [slug]
-- Investment route stub created at /investment
-- Header fully rewritten as flat nav (no dropdown state management)
-- Footer: Event Types column removed, Services → Sessions
-- DEV-615 completed (inspired homepage visual upgrades)
-- New components: ImageDivider.tsx, HomePageContent.tsx in homepage directory
-- page.tsx delegates to HomePageContent client wrapper for design mode awareness
-- DEV-616 completed (inspired sessions hub variant)
-- New component: InspiredLayout.tsx in sessions-hub/layouts
-- SessionsContent.tsx updated to read useDesignMode() and switch between current/inspired
-- DEV-617 completed: NarrativeLayout.tsx added to investment/layouts/, InvestmentContent.tsx updated to read design mode context
-- DEV-613: Design mode context provider + floating toggle widget
-- DEV-614: Header "Book a Session" CTA in inspired mode
-- DEV-618: Trust badge row above footer in inspired mode
-- Epic DEV-555 complete (all 6 child tickets done)
-- Client feedback batch: Batches A-E covering nav, testimonials, padding, sessions layouts, and brand color prominence
-- New route: /testimonials (added to sitemap, footer, nav)
-- New CSS variables: --teal-vivid (#4a8cb8), --coral-vivid (#d4956a), --gold-vivid (#c9a44e) layered over existing Morning Dew palette
-- Header no longer depends on DesignModeContext — Inquire CTA is always visible
-- SessionsPreview is now a client component with layout selector (cards, floating, minimal, gallery)
-- Padding reduction: ~35-40% less vertical space site-wide, including .section CSS utility class
-- DesignMode type extended to "current" | "inspired" | "rockstar" — new toggle option in floating widget
-- RockstarLayout.tsx: self-contained editorial homepage with Ken Burns hero animation, asymmetric mosaic grid, dark-bg testimonial section, image-tile sessions strip, stats bar
+- Contact form reads `?session=` query param to pre-select session type dropdown
+- Investment page reads `?focus=` query param to scroll to a session section, then cleans the URL via `history.replaceState`
+- Header frosted glass uses an absolutely-positioned pill with CSS-transitioned inline styles for smooth animation
+- Unused layout files (CardsLayout, ListLayout, ShowcaseLayout, HybridLayout, MosaicLayout, ClassicLayout) still on disk but no longer imported
 
 ## Changed URLs
 
+- https://ifferspictures.com/
 - https://ifferspictures.com/services
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/testimonials
+- https://ifferspictures.com/contact
 - https://ifferspictures.com/services/events
 - https://ifferspictures.com/services/family
 - https://ifferspictures.com/services/maternity
 - https://ifferspictures.com/services/couples-engagement
 - https://ifferspictures.com/services/portrait
-- https://ifferspictures.com/investment
-- https://ifferspictures.com/
-- https://ifferspictures.com/about
-- https://ifferspictures.com/portfolio
-- https://ifferspictures.com/testimonials
-- https://ifferspictures.com/contact
-- https://ifferspictures.com/faq

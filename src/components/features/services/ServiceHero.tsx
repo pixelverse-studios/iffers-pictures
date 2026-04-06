@@ -56,14 +56,14 @@ export function ServiceHero({ data, serviceName, serviceSlug }: ServiceHeroProps
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact">
+              <Link href={`/contact${serviceSlug ? `?session=${serviceSlug}` : ""}`}>
                 <Button size="lg">
                   Book Your Session
                 </Button>
               </Link>
-              <Link href="#pricing">
+              <Link href={`/investment${serviceSlug ? `?focus=${serviceSlug}` : ""}`}>
                 <Button variant="outline" size="lg">
-                  View Packages
+                  View Investments
                 </Button>
               </Link>
             </div>

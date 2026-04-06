@@ -59,18 +59,18 @@ export function RockstarLayout() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
         <div className="relative z-10 w-full px-6 md:px-12 pb-16 md:pb-24 max-w-6xl">
-          <h1 className="font-heading leading-[0.95] tracking-tight">
-            <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light text-white/90">
-              Moments
-            </span>
-            <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-[var(--teal-vivid)]">
-              Worth Keeping
+          <h1 className="font-heading leading-[0.95] tracking-tight text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
+            <span className="font-light text-white/90">
+              Heartfelt Moments,
+            </span>{" "}
+            <span className="font-bold text-[var(--teal-vivid)]">
+              Beautifully Captured
             </span>
           </h1>
           <div className="mt-6 flex items-center gap-6">
             <div className="h-px w-12 bg-[var(--coral-vivid)]" />
-            <p className="text-white/60 text-sm md:text-base tracking-wide uppercase">
-              Bergen County Event Photographer
+            <p className="text-white/60 text-base md:text-lg tracking-wide uppercase">
+              Because every special moment deserves to last forever.
             </p>
           </div>
         </div>
@@ -87,7 +87,6 @@ export function RockstarLayout() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center">
             {/* Pull quote — left */}
             <div className="md:col-span-7">
-              <div className="h-px w-10 bg-[var(--gold-vivid)] mb-6" />
               <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-medium text-[var(--foreground)] leading-snug">
                 I don&apos;t just take photos.{" "}
                 <span className="text-[var(--teal-vivid)] italic">
@@ -98,30 +97,35 @@ export function RockstarLayout() {
             </div>
 
             {/* Photographer — right */}
-            <div className="md:col-span-5 flex items-center gap-5">
-              <div className="relative w-20 h-20 rounded-full overflow-hidden shrink-0 ring-2 ring-[var(--teal-vivid)]/30 ring-offset-2 ring-offset-[var(--background)]">
-                <Image
-                  src="/headshot.jpg"
-                  alt="Jennifer Matone"
-                  fill
-                  className="object-cover"
-                  sizes="80px"
-                />
-              </div>
-              <div>
-                <p className="font-heading font-semibold text-[var(--foreground)]">
-                  Jennifer Matone
-                </p>
-                <p className="text-sm text-[var(--text-muted)]">
-                  Cliffside Park, NJ
-                </p>
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-1.5 text-sm text-[var(--teal-vivid)] font-medium mt-1 hover:gap-2.5 transition-all duration-200"
-                >
-                  Her story
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+            <div className="md:col-span-5 flex justify-center">
+              <div className="relative">
+                {/* Rectangular portrait */}
+                <div className="relative w-[160px] aspect-[3/4] rounded-lg overflow-hidden shadow-xl">
+                  <Image
+                    src="/headshot.jpg"
+                    alt="Jennifer Matone"
+                    fill
+                    className="object-cover"
+                    sizes="160px"
+                  />
+                </div>
+
+                {/* Overlapping name card — centered */}
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-lg px-5 py-3 border border-[var(--border)]/40 whitespace-nowrap text-center">
+                  <p className="font-heading font-semibold text-[var(--foreground)] text-base leading-tight">
+                    Jennifer Matone
+                  </p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5 tracking-wide">
+                    Cliffside Park, NJ
+                  </p>
+                  <Link
+                    href="/about"
+                    className="inline-flex items-center gap-1.5 text-xs text-[var(--teal-vivid)] font-medium mt-1.5 hover:gap-2.5 transition-all duration-200"
+                  >
+                    Her story
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

@@ -8,9 +8,10 @@ import { Calendar, ArrowRight } from "lucide-react";
 
 interface ServiceCTAProps {
   data: CTAData;
+  serviceSlug?: string;
 }
 
-export function ServiceCTA({ data }: ServiceCTAProps) {
+export function ServiceCTA({ data, serviceSlug }: ServiceCTAProps) {
   return (
     <section className="section bg-gradient-to-br from-[var(--teal)] to-[var(--teal-dark)] relative overflow-hidden">
       {/* Decorative elements */}
@@ -35,7 +36,7 @@ export function ServiceCTA({ data }: ServiceCTAProps) {
           </p>
 
           {/* CTA Button */}
-          <Link href={data.buttonLink}>
+          <Link href={serviceSlug ? `/contact?session=${serviceSlug}` : data.buttonLink}>
             <Button
               size="lg"
               className="bg-white text-[var(--teal-dark)] hover:bg-white/90 shadow-xl"

@@ -1,19 +1,19 @@
-import { GalleryHorizontalEnd, Grid2X2 } from "lucide-react";
+import { Columns2, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type SessionsVariant = "gallery" | "mosaic";
+export type TestimonialsVariant = "classic" | "editorial";
 
-const VARIANTS: { id: SessionsVariant; label: string; icon: typeof GalleryHorizontalEnd }[] = [
-  { id: "gallery", label: "Gallery", icon: GalleryHorizontalEnd },
-  { id: "mosaic", label: "Mosaic", icon: Grid2X2 },
+const VARIANTS: { id: TestimonialsVariant; label: string; icon: typeof Columns2 }[] = [
+  { id: "classic", label: "Classic", icon: Columns2 },
+  { id: "editorial", label: "Editorial", icon: Newspaper },
 ];
 
-interface LayoutSelectorProps {
-  current: SessionsVariant;
-  onChange: (variant: SessionsVariant) => void;
+interface TestimonialsLayoutSelectorProps {
+  current: TestimonialsVariant;
+  onChange: (variant: TestimonialsVariant) => void;
 }
 
-export function LayoutSelector({ current, onChange }: LayoutSelectorProps) {
+export function TestimonialsLayoutSelector({ current, onChange }: TestimonialsLayoutSelectorProps) {
   return (
     <div className="flex justify-center mb-12">
       <div

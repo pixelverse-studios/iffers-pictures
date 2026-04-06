@@ -33,7 +33,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const baseStyles = cn(
       "inline-flex items-center justify-center gap-2 font-medium",
-      "rounded-full transition-all duration-200",
+      "rounded-full transition-all duration-200 cursor-pointer",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
       "disabled:opacity-50 disabled:cursor-not-allowed",
       fullWidth && "w-full"
@@ -42,9 +42,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const variants = {
       primary: cn(
         "bg-[var(--teal)] text-white",
-        "hover:bg-[var(--teal-dark)]",
+        "hover:bg-[var(--teal-dark)] hover:shadow-lg hover:shadow-[var(--teal)]/25 hover:-translate-y-0.5",
         "focus-visible:ring-[var(--teal)]",
-        "shadow-sm hover:shadow-md"
+        "shadow-sm"
       ),
       secondary: cn(
         "bg-[var(--background-warm)] text-[var(--foreground)]",

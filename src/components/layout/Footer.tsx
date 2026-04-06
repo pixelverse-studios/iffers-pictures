@@ -173,9 +173,16 @@ export function Footer() {
             <p className="text-white/40 text-sm">
               &copy; {currentYear} {SITE_CONFIG.name}. All rights reserved.
             </p>
-            <p className="text-white/40 text-sm flex items-center gap-1">
-              Made with <Heart className="w-4 h-4 text-[var(--coral)]" /> in{" "}
-              {BUSINESS_INFO.address.city}, NJ
+            <p className="text-white/40 text-sm">
+              Built by{" "}
+              <a
+                href="https://pixelversestudios.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-2"
+              >
+                PixelVerse Studios
+              </a>
             </p>
           </div>
         </div>

@@ -42,33 +42,60 @@ export function Header() {
 
   const linkStyles = cn(
     "text-[13px] font-medium uppercase tracking-wider transition-all duration-200",
-    "relative pb-1",
+    "relative pb-1 mt-1",
     "after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px]",
     "after:transition-all after:duration-300",
     "hover:after:w-full"
   );
 
-  const heroTextShadow = [
-    "0 1px 3px rgba(0,0,0,0.8)",
-    "0 2px 6px rgba(0,0,0,0.6)",
-    "0 0 20px rgba(0,0,0,0.4)",
-  ].join(", ");
+  const isFrosted = useHeroStyling;
+  const isFrostedMode = isHomePage;
+  const heroLinkColor = isFrosted ? "#1f2937" : "#ffffff";
+  const heroLinkShadow = "none";
+  const heroUnderlineClass = isFrosted ? "after:bg-[var(--foreground)]" : "after:bg-white";
 
   return (
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          useHeroStyling
-            ? "bg-transparent"
-            : "bg-white/95 backdrop-blur-md shadow-sm"
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          isFrostedMode ? "bg-transparent" : useHeroStyling ? "bg-transparent" : "bg-white/95 backdrop-blur-md shadow-sm"
         )}
       >
-        <div className="container">
+        {/*
+          Frosted pill: absolutely-positioned behind all content.
+          Uses left-0/right-0 + mx-auto + max-width to center and constrain.
+          When isFrosted: max-w-4xl, rounded, frosted glass, slight vertical inset.
+          When scrolled: max-w-none (full width), no rounding, solid white + shadow.
+          All properties animate via CSS transitions — no layout jumps.
+        */}
+        {isFrostedMode && (
+          <div
+            className="absolute z-0 transition-all duration-500 ease-out"
+            style={{
+              top: isFrosted ? "0.5rem" : "0",
+              bottom: isFrosted ? "0.25rem" : "0",
+              left: isFrosted ? "18%" : "0",
+              right: isFrosted ? "18%" : "0",
+              backgroundColor: isFrosted
+                ? "rgba(255, 255, 255, 0.3)"
+                : "rgba(255, 255, 255, 0.95)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              borderRadius: isFrosted ? "1rem" : "0",
+              boxShadow: isFrosted
+                ? "none"
+                : "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)",
+              transitionProperty: "max-width, top, bottom, left, right, background-color, border-radius, box-shadow",
+            }}
+          />
+        )}
+
+        <div className="container relative z-10">
           <nav
             className={cn(
-              "flex items-center justify-between transition-all duration-300",
-              useHeroStyling ? "h-28" : "h-24"
+              "flex items-center justify-between transition-all duration-500",
+              useHeroStyling ? "h-28" : "h-24",
             )}
           >
             {/* Left Navigation - Desktop */}
@@ -82,14 +109,14 @@ export function Header() {
                     className={cn(
                       linkStyles,
                       useHeroStyling
-                        ? "after:bg-white"
+                        ? heroUnderlineClass
                         : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
                       isActive && "after:w-full",
                       isActive && !useHeroStyling && "text-[var(--teal)]"
                     )}
                     style={
                       useHeroStyling
-                        ? { color: "#ffffff", textShadow: heroTextShadow }
+                        ? { color: heroLinkColor, textShadow: heroLinkShadow }
                         : undefined
                     }
                   >
@@ -112,9 +139,9 @@ export function Header() {
                 <Menu
                   className={cn(
                     "w-6 h-6 transition-colors duration-300",
-                    useHeroStyling ? "text-white" : "text-[var(--foreground)]"
+                    useHeroStyling && !isFrosted ? "text-white" : "text-[var(--foreground)]"
                   )}
-                  style={useHeroStyling ? { filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.8))" } : undefined}
+                  style={useHeroStyling && !isFrosted ? { filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.8))" } : undefined}
                 />
               )}
             </button>
@@ -136,7 +163,7 @@ export function Header() {
                 height={80}
                 className="transition-all duration-300 h-20 w-auto"
                 style={
-                  useHeroStyling
+                  useHeroStyling && !isFrosted
                     ? {
                         filter: [
                           "drop-shadow(0 0 8px rgba(255,255,255,0.4))",
@@ -151,7 +178,7 @@ export function Header() {
             </Link>
 
             {/* Right Navigation - Desktop */}
-            <div className="hidden lg:flex items-center justify-end gap-9 flex-1">
+            <div className="hidden lg:flex items-center gap-9 justify-end flex-1">
               {NAV_LINKS_RIGHT.map((link) => {
                 const isActive = isLinkActive(link.href);
                 return (
@@ -161,14 +188,14 @@ export function Header() {
                     className={cn(
                       linkStyles,
                       useHeroStyling
-                        ? "after:bg-white"
+                        ? heroUnderlineClass
                         : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
                       isActive && "after:w-full",
                       isActive && !useHeroStyling && "text-[var(--teal)]"
                     )}
                     style={
                       useHeroStyling
-                        ? { color: "#ffffff", textShadow: heroTextShadow }
+                        ? { color: heroLinkColor, textShadow: heroLinkShadow }
                         : undefined
                     }
                   >
@@ -184,7 +211,9 @@ export function Header() {
                   "transition-all duration-300 ease-out",
                   "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
                   useHeroStyling
-                    ? "bg-white/90 text-[var(--teal-dark)] hover:bg-white shadow-md hover:shadow-white/25"
+                    ? isFrosted
+                      ? "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
+                      : "bg-white/90 text-[var(--teal-dark)] hover:bg-white shadow-md hover:shadow-white/25"
                     : "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
                 )}
               >
