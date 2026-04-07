@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
 import { SITE_CONFIG, BUSINESS_INFO, SERVICE_AREAS } from "@/lib/constants";
 import { ContactForm } from "./ContactForm";
@@ -41,7 +42,9 @@ export default function ContactPage() {
                 <p className="text-[var(--text-secondary)] mb-8">
                   Tell me a little about what you&apos;re envisioning...
                 </p>
-                <ContactForm />
+                <Suspense fallback={<div className="h-96" aria-hidden />}>
+                  <ContactForm />
+                </Suspense>
               </div>
             </div>
 

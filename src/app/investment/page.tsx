@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { InvestmentContent } from "@/components/features/investment";
@@ -41,7 +42,9 @@ export default function InvestmentPage() {
         </div>
       </section>
 
-      <InvestmentContent />
+      <Suspense fallback={<div className="min-h-96" aria-hidden />}>
+        <InvestmentContent />
+      </Suspense>
     </>
   );
 }
