@@ -2,17 +2,24 @@
 
 ## Latest deploy summary
 
-- Added an internal image review page so Jenn can browse every photo on the site, check the ones she'd like replaced, and send the list to Phil in one click
-- Fixed a build error that was preventing the site from deploying (related to the contact and investment pages)
+- Removed 25 portfolio images per client request across Bridal Shower, Gender Reveal, Birthday, Baptism, Engagement, Proposal, Family, and Maternity categories
+- Fixed responsive bug in the homepage frosted glass navigation — links no longer overflow the pill on smaller screens
 
 ## Notes for internal team
 
-- New hidden page at `/image-review` (noindex, not linked in nav). Uses the existing `PORTFOLIO_ITEMS` manifest as the source of truth. Sticky top bar with Select All / Copy List / Send to Phil (mailto) / Clear. Selections persist in localStorage. Grouped 2-level by Service → Sub-category.
-- Suspense fix: wrapped `<ContactForm />` and `<InvestmentContent />` in `<Suspense>` boundaries on their respective pages — both components use `useSearchParams()` which Next.js requires be inside a Suspense boundary during static prerender. This was blocking the Netlify build.
-- Files: `src/app/image-review/page.tsx` (new), `src/app/image-review/ImageReviewClient.tsx` (new), `src/app/contact/page.tsx`, `src/app/investment/page.tsx`
+- Images also removed from R2 bucket by client; only portfolioData.ts referenced them
+- Updated section count comments to reflect new totals
+- Portfolio item IDs left with gaps (used only as React keys)
+- DEV-681: Refactored Header.tsx to a single morphing wrapper that grows/shrinks with content. Pill width now uses `max-width: min(1200px, 92vw)` instead of a fixed 64% viewport rule. Inner layout switched to a 3-zone grid (`[1fr_auto_1fr]` desktop, `[auto_1fr_auto]` mobile) for guaranteed centered logo. Added compact desktop tier (1024–1280px) with tighter gaps.
 
 ## Changed URLs
 
-- https://ifferspictures.com/image-review
-- https://ifferspictures.com/contact
-- https://ifferspictures.com/investment
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/sessions/bridal-shower
+- https://ifferspictures.com/sessions/gender-reveal
+- https://ifferspictures.com/sessions/parties
+- https://ifferspictures.com/sessions/religious-ceremonies
+- https://ifferspictures.com/sessions/engagement
+- https://ifferspictures.com/sessions/proposal
+- https://ifferspictures.com/sessions/family
+- https://ifferspictures.com/sessions/maternity
