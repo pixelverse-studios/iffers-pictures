@@ -15,9 +15,9 @@ export function AboutCTA() {
             className={cn(
               "inline-flex items-center justify-center gap-3 font-medium",
               "rounded-full transition-all duration-300",
-              "bg-[var(--teal-vivid)] text-white",
-              "hover:bg-[var(--teal-dark)] hover:gap-4",
-              "shadow-lg shadow-[var(--teal-vivid)]/25 hover:shadow-xl hover:shadow-[var(--teal-vivid)]/30",
+              "bg-[var(--brand-vivid)] text-white",
+              "hover:bg-[var(--brand-strong)] hover:gap-4",
+              "shadow-lg shadow-[var(--brand-vivid)]/25 hover:shadow-xl hover:shadow-[var(--brand-vivid)]/30",
               "px-10 py-5 text-lg"
             )}
           >

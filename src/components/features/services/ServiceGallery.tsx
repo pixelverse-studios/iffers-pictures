@@ -95,8 +95,8 @@ function SubCategoryFilter({
         className={cn(
           "px-4 py-1.5 rounded-full text-sm font-body transition-colors duration-200 cursor-pointer border",
           active === null
-            ? "border-[var(--teal)] bg-[var(--teal)]/10 text-[var(--teal)] font-medium"
-            : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--teal-light)]"
+            ? "border-[var(--brand)] bg-[var(--brand)]/10 text-[var(--brand)] font-medium"
+            : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--brand-soft)]"
         )}
       >
         All
@@ -108,8 +108,8 @@ function SubCategoryFilter({
           className={cn(
             "px-4 py-1.5 rounded-full text-sm font-body transition-colors duration-200 cursor-pointer border",
             active === sub
-              ? "border-[var(--teal)] bg-[var(--teal)]/10 text-[var(--teal)] font-medium"
-              : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--teal-light)]"
+              ? "border-[var(--brand)] bg-[var(--brand)]/10 text-[var(--brand)] font-medium"
+              : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--brand-soft)]"
           )}
         >
           {sub}
@@ -159,11 +159,11 @@ function RealGallery({
 function PlaceholderGallery({ data }: { data: GalleryData }) {
   const getVariant = (
     index: number
-  ): "teal" | "coral" | "warm" | "neutral" | "gradient" => {
-    const variants: ("teal" | "coral" | "warm" | "neutral" | "gradient")[] = [
+  ): "brand" | "accent" | "warm" | "neutral" | "gradient" => {
+    const variants: ("brand" | "accent" | "warm" | "neutral" | "gradient")[] = [
       "gradient",
-      "teal",
-      "coral",
+      "brand",
+      "accent",
       "warm",
       "neutral",
       "gradient",

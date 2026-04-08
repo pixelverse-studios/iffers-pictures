@@ -13,7 +13,7 @@ export function ServicesHubCTA({ className }: ServicesHubCTAProps) {
     <section
       className={cn(
         "py-12 md:py-16 relative overflow-hidden",
-        "bg-gradient-to-br from-[var(--teal-vivid)] to-[var(--teal-dark)]",
+        "bg-gradient-to-br from-[var(--brand-vivid)] to-[var(--brand-strong)]",
         className
       )}
     >
@@ -35,7 +35,7 @@ export function ServicesHubCTA({ className }: ServicesHubCTAProps) {
             <Link href="/contact">
               <Button
                 size="lg"
-                className="bg-white text-[var(--teal-dark)] hover:bg-white/90 shadow-lg"
+                className="bg-white text-[var(--brand-strong)] hover:bg-white/90 shadow-lg"
               >
                 Book a Free Consultation
               </Button>

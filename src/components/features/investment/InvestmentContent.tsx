@@ -2,17 +2,11 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useDesignMode } from "@/context/DesignModeContext";
+import { useSearchParams } from "next/navigation";
 import { EditorialLayout } from "./layouts/EditorialLayout";
-import { NarrativeLayout } from "./layouts/NarrativeLayout";
 
 export function InvestmentContent() {
-  const { mode } = useDesignMode();
   const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const isInspired = mode === "inspired";
 
   useEffect(() => {
     const focus = searchParams.get("focus");
@@ -33,7 +27,7 @@ export function InvestmentContent() {
 
   return (
     <>
-      {isInspired ? <NarrativeLayout /> : <EditorialLayout />}
+      <EditorialLayout />
 
       {/* CTA — shared across all layouts */}
       <section className="py-12 md:py-16">
@@ -46,7 +40,7 @@ export function InvestmentContent() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--teal-vivid)] text-white font-medium text-base hover:bg-[var(--teal-dark)] transition-all duration-200 shadow-md shadow-[var(--teal-vivid)]/20 hover:shadow-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--brand-vivid)] text-white font-medium text-base hover:bg-[var(--brand-strong)] transition-all duration-200 shadow-md shadow-[var(--brand-vivid)]/20 hover:shadow-lg"
           >
             Inquire Here
           </Link>

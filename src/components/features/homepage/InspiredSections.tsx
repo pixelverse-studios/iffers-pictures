@@ -29,15 +29,15 @@ export function InspiredIntro() {
           {/* Left — statement */}
           <div className="md:col-span-7">
             <div className="flex items-center gap-4 mb-5">
-              <div className="h-px w-8 bg-[var(--coral-vivid)]" />
-              <p className="text-[var(--teal-vivid)] font-medium tracking-[0.2em] uppercase text-xs">
+              <div className="h-px w-8 bg-[var(--accent-vivid)]" />
+              <p className="text-[var(--brand-vivid)] font-medium tracking-[0.2em] uppercase text-xs">
                 Bergen County Photographer
               </p>
             </div>
             <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-medium text-[var(--foreground)] leading-snug">
               Hi, I&apos;m Jennifer — capturing life&apos;s most meaningful
               moments with{" "}
-              <span className="text-[var(--teal-vivid)] italic">
+              <span className="text-[var(--brand-vivid)] italic">
                 warmth and intention
               </span>
               .
@@ -48,7 +48,7 @@ export function InspiredIntro() {
           <div className="md:col-span-5 md:text-right">
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 text-[var(--teal-vivid)] font-medium hover:gap-3 transition-all duration-200"
+              className="inline-flex items-center gap-2 text-[var(--brand-vivid)] font-medium hover:gap-3 transition-all duration-200"
             >
               Meet Jenn
               <ArrowRight className="w-4 h-4" />
@@ -68,14 +68,14 @@ export function InspiredSessions() {
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         {/* Header row */}
         <div className="flex items-center gap-4 mb-8">
-          <div className="h-px w-8 bg-[var(--teal-vivid)]" />
+          <div className="h-px w-8 bg-[var(--brand-vivid)]" />
           <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)]">
             Sessions
           </h2>
           <div className="h-px flex-1 bg-[var(--border)]" />
           <Link
             href="/services"
-            className="text-sm text-[var(--teal-vivid)] font-medium whitespace-nowrap hover:underline underline-offset-4"
+            className="text-sm text-[var(--brand-vivid)] font-medium whitespace-nowrap hover:underline underline-offset-4"
           >
             View all
           </Link>
@@ -102,11 +102,11 @@ export function InspiredSessions() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
 
-                {/* Teal accent line on hover */}
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-[var(--teal-vivid)] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                {/* Brand accent line on hover */}
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-[var(--brand-vivid)] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--coral-vivid)] mb-1 font-medium">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--accent-vivid)] mb-1 font-medium">
                     {session.shortName}
                   </p>
                   <h3 className="text-sm font-heading font-semibold text-white leading-snug">
@@ -126,7 +126,7 @@ export function InspiredSessions() {
 
 export function InspiredTestimonial() {
   return (
-    <section className="bg-[var(--teal-dark)] py-14 md:py-20">
+    <section className="bg-[var(--brand-strong)] py-14 md:py-20">
       <div className="max-w-4xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           {/* Quote */}
@@ -145,7 +145,7 @@ export function InspiredTestimonial() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className="w-3.5 h-3.5 text-[var(--gold-vivid)] fill-[var(--gold-vivid)]"
+                  className="w-3.5 h-3.5 text-[var(--highlight-vivid)] fill-[var(--highlight-vivid)]"
                 />
               ))}
             </div>
@@ -158,7 +158,7 @@ export function InspiredTestimonial() {
             </p>
             <Link
               href="/testimonials"
-              className="inline-flex items-center gap-1.5 text-[var(--teal-light)] text-xs font-medium mt-3 hover:gap-2.5 transition-all duration-200"
+              className="inline-flex items-center gap-1.5 text-[var(--brand-soft)] text-xs font-medium mt-3 hover:gap-2.5 transition-all duration-200"
             >
               More reviews
               <ArrowRight className="w-3 h-3" />
@@ -180,21 +180,21 @@ export function InspiredCTA() {
           {/* Left — text */}
           <div className="md:col-span-7">
             <div className="flex items-center gap-4 mb-5">
-              <div className="h-px w-8 bg-[var(--gold-vivid)]" />
-              <p className="text-[var(--teal-vivid)] font-medium tracking-[0.2em] uppercase text-xs">
+              <div className="h-px w-8 bg-[var(--highlight-vivid)]" />
+              <p className="text-[var(--brand-vivid)] font-medium tracking-[0.2em] uppercase text-xs">
                 Let&apos;s Work Together
               </p>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold text-[var(--foreground)] leading-tight mb-6">
               Your story deserves to be
               <br />
-              <span className="text-[var(--teal-vivid)] italic">
+              <span className="text-[var(--brand-vivid)] italic">
                 beautifully told.
               </span>
             </h2>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--teal-vivid)] text-white font-medium text-base hover:bg-[var(--teal-dark)] transition-all duration-200 shadow-md shadow-[var(--teal-vivid)]/20 hover:shadow-lg"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--brand-vivid)] text-white font-medium text-base hover:bg-[var(--brand-strong)] transition-all duration-200 shadow-md shadow-[var(--brand-vivid)]/20 hover:shadow-lg"
             >
               Inquire Here
               <ArrowRight className="w-4 h-4" />
@@ -210,7 +210,7 @@ export function InspiredCTA() {
                 { value: "100%", label: "Facebook Rating" },
               ].map((stat) => (
                 <div key={stat.label} className="flex items-baseline gap-4">
-                  <p className="text-3xl md:text-4xl font-heading font-bold text-[var(--teal-vivid)]">
+                  <p className="text-3xl md:text-4xl font-heading font-bold text-[var(--brand-vivid)]">
                     {stat.value}
                   </p>
                   <p className="text-sm text-[var(--text-muted)] tracking-wide uppercase">

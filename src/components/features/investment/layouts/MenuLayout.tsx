@@ -30,7 +30,7 @@ export function MenuLayout() {
                 <Link
                   key={session.slug}
                   href={`/services/${session.slug}`}
-                  className="group relative rounded-xl overflow-hidden bg-white border border-[var(--border)] hover:border-[var(--teal-light)] hover:shadow-lg transition-all duration-300"
+                  className="group relative rounded-xl overflow-hidden bg-white border border-[var(--border)] hover:border-[var(--brand-soft)] hover:shadow-lg transition-all duration-300"
                 >
                   {/* Thumbnail */}
                   <div className="relative aspect-[16/10] overflow-hidden">
@@ -55,12 +55,12 @@ export function MenuLayout() {
                     <ul className="space-y-1.5 mb-4">
                       {session.items.map((item) => (
                         <li key={item} className="flex items-start gap-1.5 text-xs text-[var(--text-secondary)]">
-                          <div className="w-1 h-1 rounded-full bg-[var(--teal)] mt-1.5 shrink-0" />
+                          <div className="w-1 h-1 rounded-full bg-[var(--brand)] mt-1.5 shrink-0" />
                           {item}
                         </li>
                       ))}
                     </ul>
-                    <span className="inline-flex items-center gap-1 text-xs text-[var(--teal)] font-medium group-hover:gap-2 transition-all duration-200">
+                    <span className="inline-flex items-center gap-1 text-xs text-[var(--brand)] font-medium group-hover:gap-2 transition-all duration-200">
                       View details
                       <ArrowRight className="w-3 h-3" />
                     </span>
@@ -81,7 +81,7 @@ export function MenuLayout() {
           <div className="flex flex-wrap justify-center gap-6 md:gap-10">
             {WHATS_INCLUDED.map((item) => (
               <div key={item.label} className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                <item.icon className="w-4 h-4 text-[var(--teal)]" />
+                <item.icon className="w-4 h-4 text-[var(--brand)]" />
                 {item.label}
               </div>
             ))}

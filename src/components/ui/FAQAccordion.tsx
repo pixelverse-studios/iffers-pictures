@@ -25,8 +25,8 @@ export function FAQAccordion({ faqs, idPrefix = "faq" }: FAQAccordionProps) {
             className={cn(
               "rounded-xl border transition-all duration-300 ease-out",
               isOpen
-                ? "border-[var(--teal)]/30 bg-[var(--teal)]/[0.03] shadow-sm"
-                : "border-[var(--border)] bg-transparent hover:border-[var(--teal)]/20"
+                ? "border-[var(--brand)]/30 bg-[var(--brand)]/[0.03] shadow-sm"
+                : "border-[var(--border)] bg-transparent hover:border-[var(--brand)]/20"
             )}
           >
             <button
@@ -39,8 +39,8 @@ export function FAQAccordion({ faqs, idPrefix = "faq" }: FAQAccordionProps) {
                 className={cn(
                   "text-[1.05rem] leading-snug font-medium pr-6 transition-colors duration-200",
                   isOpen
-                    ? "text-[var(--teal-dark)]"
-                    : "text-[var(--foreground)] group-hover:text-[var(--teal)]"
+                    ? "text-[var(--brand-strong)]"
+                    : "text-[var(--foreground)] group-hover:text-[var(--brand)]"
                 )}
               >
                 {faq.question}
@@ -57,7 +57,7 @@ export function FAQAccordion({ faqs, idPrefix = "faq" }: FAQAccordionProps) {
                 <ChevronDown
                   className={cn(
                     "w-4 h-4 transition-colors duration-200",
-                    isOpen ? "text-[var(--teal)]" : "text-[var(--text-muted)]"
+                    isOpen ? "text-[var(--brand)]" : "text-[var(--text-muted)]"
                   )}
                 />
               </span>
@@ -74,7 +74,7 @@ export function FAQAccordion({ faqs, idPrefix = "faq" }: FAQAccordionProps) {
             >
               <div className="overflow-hidden">
                 <div className="px-6 pb-5 pt-0">
-                  <div className="w-8 h-px bg-[var(--teal)]/20 mb-4" />
+                  <div className="w-8 h-px bg-[var(--brand)]/20 mb-4" />
                   <p className="text-[var(--text-secondary)] leading-relaxed text-[0.95rem]">
                     {faq.answer}
                   </p>

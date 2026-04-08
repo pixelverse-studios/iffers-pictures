@@ -39,7 +39,7 @@ export function NavStyleSelector({ current, onChange }: NavStyleSelectorProps) {
               className={cn(
                 "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer",
                 current === style.id
-                  ? "bg-[var(--teal)] text-white shadow-sm"
+                  ? "bg-[var(--brand)] text-white shadow-sm"
                   : "text-[var(--text-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--background-warm)]"
               )}
             >

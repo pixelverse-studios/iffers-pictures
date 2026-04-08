@@ -63,12 +63,12 @@ export function RockstarLayout() {
             <span className="font-light text-white/90">
               Heartfelt Moments,
             </span>{" "}
-            <span className="font-bold text-[var(--teal-vivid)]">
+            <span className="font-bold text-[var(--brand-vivid)]">
               Beautifully Captured
             </span>
           </h1>
           <div className="mt-6 flex items-center gap-6">
-            <div className="h-px w-12 bg-[var(--coral-vivid)]" />
+            <div className="h-px w-12 bg-[var(--accent-vivid)]" />
             <p className="text-white/60 text-base md:text-lg tracking-wide uppercase">
               Because every special moment deserves to last forever.
             </p>
@@ -89,7 +89,7 @@ export function RockstarLayout() {
             <div className="md:col-span-7">
               <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-medium text-[var(--foreground)] leading-snug">
                 I don&apos;t just take photos.{" "}
-                <span className="text-[var(--teal-vivid)] italic">
+                <span className="text-[var(--brand-vivid)] italic">
                   I preserve the feeling
                 </span>{" "}
                 of your most important day.
@@ -120,7 +120,7 @@ export function RockstarLayout() {
                   </p>
                   <Link
                     href="/about"
-                    className="inline-flex items-center gap-1.5 text-xs text-[var(--teal-vivid)] font-medium mt-1.5 hover:gap-2.5 transition-all duration-200"
+                    className="inline-flex items-center gap-1.5 text-xs text-[var(--brand-vivid)] font-medium mt-1.5 hover:gap-2.5 transition-all duration-200"
                   >
                     Her story
                     <ArrowRight className="w-3 h-3" />
@@ -219,7 +219,7 @@ export function RockstarLayout() {
           <div className="text-center mt-6">
             <Link
               href="/portfolio"
-              className="inline-flex items-center gap-2 text-[var(--teal-vivid)] font-medium text-sm tracking-wide hover:gap-3 transition-all duration-200"
+              className="inline-flex items-center gap-2 text-[var(--brand-vivid)] font-medium text-sm tracking-wide hover:gap-3 transition-all duration-200"
             >
               View Full Portfolio
               <ArrowRight className="w-4 h-4" />
@@ -232,7 +232,7 @@ export function RockstarLayout() {
       <section className="bg-[var(--foreground)] py-14 md:py-20 mt-8">
         <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
           {/* Oversized quotation mark */}
-          <span className="block text-7xl md:text-9xl font-heading text-[var(--teal-vivid)]/20 leading-none select-none">
+          <span className="block text-7xl md:text-9xl font-heading text-[var(--brand-vivid)]/20 leading-none select-none">
             &ldquo;
           </span>
 
@@ -245,7 +245,7 @@ export function RockstarLayout() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className="w-4 h-4 text-[var(--gold-vivid)] fill-[var(--gold-vivid)]"
+                  className="w-4 h-4 text-[var(--highlight-vivid)] fill-[var(--highlight-vivid)]"
                 />
               ))}
             </div>
@@ -257,7 +257,7 @@ export function RockstarLayout() {
 
           <Link
             href="/testimonials"
-            className="inline-flex items-center gap-2 text-[var(--teal-vivid)] text-sm font-medium mt-8 hover:gap-3 transition-all duration-200"
+            className="inline-flex items-center gap-2 text-[var(--brand-vivid)] text-sm font-medium mt-8 hover:gap-3 transition-all duration-200"
           >
             Read more reviews
             <ArrowRight className="w-3.5 h-3.5" />
@@ -275,7 +275,7 @@ export function RockstarLayout() {
             <div className="h-px flex-1 bg-[var(--border)]" />
             <Link
               href="/services"
-              className="text-sm text-[var(--teal-vivid)] font-medium whitespace-nowrap hover:underline underline-offset-4"
+              className="text-sm text-[var(--brand-vivid)] font-medium whitespace-nowrap hover:underline underline-offset-4"
             >
               View all
             </Link>
@@ -302,10 +302,10 @@ export function RockstarLayout() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                   {/* Accent line — visible on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-[var(--teal-vivid)] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-[var(--brand-vivid)] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--coral-vivid)] mb-1 font-medium">
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--accent-vivid)] mb-1 font-medium">
                       {session.shortName}
                     </p>
                     <h3 className="text-sm font-heading font-semibold text-white leading-snug">
@@ -329,7 +329,7 @@ export function RockstarLayout() {
           ].map((stat, i) => (
             <div key={stat.label} className="flex items-center">
               <div className="text-center px-6 md:px-10">
-                <p className="text-2xl md:text-3xl font-heading font-bold text-[var(--teal-vivid)]">
+                <p className="text-2xl md:text-3xl font-heading font-bold text-[var(--brand-vivid)]">
                   {stat.value}
                 </p>
                 <p className="text-xs text-[var(--text-muted)] tracking-wide uppercase mt-0.5">
@@ -348,19 +348,19 @@ export function RockstarLayout() {
       <section className="py-14 md:py-20">
         <div className="max-w-2xl mx-auto px-6 md:px-8 text-center">
           <div className="flex justify-center mb-5">
-            <div className="w-10 h-1 rounded-full bg-[var(--coral-vivid)]" />
+            <div className="w-10 h-1 rounded-full bg-[var(--accent-vivid)]" />
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-semibold text-[var(--foreground)] leading-tight mb-4">
             Your story deserves
             <br />
-            <span className="text-[var(--teal-vivid)]">to be told beautifully.</span>
+            <span className="text-[var(--brand-vivid)]">to be told beautifully.</span>
           </h2>
           <p className="text-[var(--text-secondary)] mb-8 text-lg">
             Let&apos;s start with a conversation.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-[var(--teal-vivid)] text-white font-medium text-base hover:bg-[var(--teal-dark)] transition-all duration-200 shadow-lg shadow-[var(--teal-vivid)]/25 hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-[var(--brand-vivid)] text-white font-medium text-base hover:bg-[var(--brand-strong)] transition-all duration-200 shadow-lg shadow-[var(--brand-vivid)]/25 hover:shadow-xl"
           >
             Inquire Here
             <ArrowRight className="w-4 h-4" />

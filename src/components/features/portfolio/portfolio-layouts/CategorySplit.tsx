@@ -54,8 +54,8 @@ export function CategorySplit() {
             className={[
               "py-2.5 pl-3 text-left text-sm font-body transition-colors duration-200 border-l-2 cursor-pointer",
               activeService === "All"
-                ? "border-[var(--teal)] text-[var(--teal)] font-medium"
-                : "border-transparent hover:border-[var(--teal-light)] text-[var(--text-secondary)] hover:text-[var(--foreground)]",
+                ? "border-[var(--brand)] text-[var(--brand)] font-medium"
+                : "border-transparent hover:border-[var(--brand-soft)] text-[var(--text-secondary)] hover:text-[var(--foreground)]",
             ].join(" ")}
           >
             All
@@ -74,8 +74,8 @@ export function CategorySplit() {
                   className={[
                     "py-2.5 pl-3 text-left text-sm font-body transition-colors duration-200 border-l-2 cursor-pointer w-full",
                     isActive
-                      ? "border-[var(--teal)] text-[var(--teal)] font-medium"
-                      : "border-transparent hover:border-[var(--teal-light)] text-[var(--text-secondary)] hover:text-[var(--foreground)]",
+                      ? "border-[var(--brand)] text-[var(--brand)] font-medium"
+                      : "border-transparent hover:border-[var(--brand-soft)] text-[var(--text-secondary)] hover:text-[var(--foreground)]",
                   ].join(" ")}
                 >
                   {svc}
@@ -93,7 +93,7 @@ export function CategorySplit() {
                           className={[
                             "py-1.5 pl-7 text-left text-xs font-body transition-colors duration-200 cursor-pointer",
                             activeService === svc && isSubActive
-                              ? "text-[var(--teal)] font-medium"
+                              ? "text-[var(--brand)] font-medium"
                               : "text-[var(--text-muted)] hover:text-[var(--foreground)]",
                           ].join(" ")}
                         >
@@ -126,7 +126,7 @@ export function CategorySplit() {
             className={[
               "flex-shrink-0 text-sm py-1.5 transition-colors duration-200 font-body border-b-2",
               activeService === "All"
-                ? "border-[var(--teal)] text-[var(--teal)] font-medium"
+                ? "border-[var(--brand)] text-[var(--brand)] font-medium"
                 : "border-transparent text-[var(--text-secondary)]",
             ].join(" ")}
           >
@@ -139,7 +139,7 @@ export function CategorySplit() {
               className={[
                 "flex-shrink-0 text-sm py-1.5 transition-colors duration-200 font-body border-b-2",
                 activeService === svc
-                  ? "border-[var(--teal)] text-[var(--teal)] font-medium"
+                  ? "border-[var(--brand)] text-[var(--brand)] font-medium"
                   : "border-transparent text-[var(--text-secondary)]",
               ].join(" ")}
             >
@@ -162,7 +162,7 @@ export function CategorySplit() {
                     className={[
                       "flex-shrink-0 text-xs px-3 py-1 rounded-full border transition-colors duration-200",
                       activeService === svc && activeSub === sub
-                        ? "border-[var(--teal)] bg-[var(--teal)]/10 text-[var(--teal)] font-medium"
+                        ? "border-[var(--brand)] bg-[var(--brand)]/10 text-[var(--brand)] font-medium"
                         : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--foreground)]",
                     ].join(" ")}
                   >

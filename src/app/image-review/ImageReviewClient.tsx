@@ -162,7 +162,7 @@ export function ImageReviewClient({ items }: Props) {
                 Image Review
               </h1>
               <p className="text-sm text-[var(--text-secondary)] mt-1">
-                <span className="font-semibold text-[var(--teal)]">
+                <span className="font-semibold text-[var(--brand)]">
                   {selectedItems.length}
                 </span>{" "}
                 of {items.length} selected
@@ -213,7 +213,7 @@ export function ImageReviewClient({ items }: Props) {
                   className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors ${
                     selectedItems.length === 0
                       ? "bg-gray-300 cursor-not-allowed pointer-events-none"
-                      : "bg-[var(--teal)] hover:bg-[var(--teal-dark)]"
+                      : "bg-[var(--brand)] hover:bg-[var(--brand-strong)]"
                   }`}
                 >
                   <Mail className="w-4 h-4" />
@@ -239,7 +239,7 @@ export function ImageReviewClient({ items }: Props) {
           const subCats = Object.keys(grouped[service]);
           return (
             <section key={service}>
-              <h2 className="text-3xl font-heading font-semibold text-[var(--foreground)] mb-6 pb-2 border-b-2 border-[var(--teal)]">
+              <h2 className="text-3xl font-heading font-semibold text-[var(--foreground)] mb-6 pb-2 border-b-2 border-[var(--brand)]">
                 {service}
               </h2>
 
@@ -258,7 +258,7 @@ export function ImageReviewClient({ items }: Props) {
                       <div className="flex items-center justify-between mb-4">
                         <button
                           onClick={() => toggleCollapsed(groupKey)}
-                          className="flex items-center gap-2 text-xl font-heading font-medium text-[var(--foreground)] hover:text-[var(--teal)] transition-colors"
+                          className="flex items-center gap-2 text-xl font-heading font-medium text-[var(--foreground)] hover:text-[var(--brand)] transition-colors"
                         >
                           <ChevronDown
                             className={`w-5 h-5 transition-transform ${
@@ -272,7 +272,7 @@ export function ImageReviewClient({ items }: Props) {
                         </button>
                         <button
                           onClick={() => toggleGroup(groupItemsList, allSelected)}
-                          className="text-sm font-medium text-[var(--teal)] hover:text-[var(--teal-dark)] transition-colors"
+                          className="text-sm font-medium text-[var(--brand)] hover:text-[var(--brand-strong)] transition-colors"
                         >
                           {allSelected ? "Deselect all" : "Select all"}
                         </button>
@@ -288,8 +288,8 @@ export function ImageReviewClient({ items }: Props) {
                                 onClick={() => toggle(item.id)}
                                 className={`group relative rounded-lg overflow-hidden bg-white border-2 transition-all text-left ${
                                   isSelected
-                                    ? "border-[var(--teal)] ring-2 ring-[var(--teal)]/30 shadow-lg"
-                                    : "border-[var(--border)] hover:border-[var(--teal)]/50"
+                                    ? "border-[var(--brand)] ring-2 ring-[var(--brand)]/30 shadow-lg"
+                                    : "border-[var(--border)] hover:border-[var(--brand)]/50"
                                 }`}
                               >
                                 <div className="relative aspect-square bg-gray-100">
@@ -302,8 +302,8 @@ export function ImageReviewClient({ items }: Props) {
                                     loading="lazy"
                                   />
                                   {isSelected && (
-                                    <div className="absolute inset-0 bg-[var(--teal)]/20 flex items-start justify-end p-2">
-                                      <div className="w-7 h-7 rounded-full bg-[var(--teal)] flex items-center justify-center shadow-md">
+                                    <div className="absolute inset-0 bg-[var(--brand)]/20 flex items-start justify-end p-2">
+                                      <div className="w-7 h-7 rounded-full bg-[var(--brand)] flex items-center justify-center shadow-md">
                                         <Check className="w-4 h-4 text-white" />
                                       </div>
                                     </div>

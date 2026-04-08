@@ -2,43 +2,44 @@
 
 /* ============================================
    IFFER'S PICTURES - Design System
-   Morning Dew Palette
+   Tokens use semantic flat names so any theme
+   can supply its own palette at runtime.
    ============================================ */
 
 @theme inline {
   /* Typography — actual font families set in body/heading rules below
      using Next.js runtime CSS variables (--font-josefin-slab, --font-nunito) */
 
-  /* Primary Brand Colors - Teal */
-  --color-primary-50: #f0fdfa;
-  --color-primary-100: #ccfbf1;
-  --color-primary-200: #99f6e4;
-  --color-primary-300: #5eead4;
-  --color-primary-400: #2dd4bf;
-  --color-primary-500: #14b8a6;
-  --color-primary-600: #0d9488;
-  --color-primary-700: #0f766e;
-  --color-primary-800: #115e59;
-  --color-primary-900: #134e4a;
-  --color-primary-950: #042f2e;
+  /* Brand Color Scale (Tailwind utility scale) */
+  --color-brand-50: #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-200: #99f6e4;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2dd4bf;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;
+  --color-brand-700: #0f766e;
+  --color-brand-800: #115e59;
+  --color-brand-900: #134e4a;
+  --color-brand-950: #042f2e;
 
-  /* Main Brand — Morning Dew */
-  --color-teal: #7898b8;
-  --color-teal-light: #98b4cc;
-  --color-teal-dark: #5a7898;
+  /* Main Brand */
+  --color-brand: #7898b8;
+  --color-brand-soft: #98b4cc;
+  --color-brand-strong: #5a7898;
 
   /* Accent Colors */
-  --color-accent-coral: #c4a880;
-  --color-accent-coral-light: #d4bc9c;
-  --color-accent-coral-dark: #a88c64;
-  --color-accent-gold: #c4b080;
-  --color-accent-gold-light: #d4c49c;
+  --color-accent: #c4a880;
+  --color-accent-soft: #d4bc9c;
+  --color-accent-strong: #a88c64;
+  --color-highlight: #c4b080;
+  --color-highlight-soft: #d4c49c;
   --color-accent-rose: #c4a8a8;
 
   /* Punched-Up Accents — vivid layer over the muted base */
-  --color-teal-vivid: #4a8cb8;
-  --color-coral-vivid: #d4956a;
-  --color-gold-vivid: #c9a44e;
+  --color-brand-vivid: #4a8cb8;
+  --color-accent-vivid: #d4956a;
+  --color-highlight-vivid: #c9a44e;
 
   /* Neutral Colors */
   --color-neutral-50: #fafafa;
@@ -80,8 +81,8 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-teal: 0 4px 14px 0 rgb(120 152 184 / 0.25);
-  --shadow-coral: 0 4px 14px 0 rgb(196 168 128 / 0.25);
+  --shadow-brand: 0 4px 14px 0 rgb(120 152 184 / 0.25);
+  --shadow-accent: 0 4px 14px 0 rgb(196 168 128 / 0.25);
 
   /* Border Radius */
   --radius-sm: 0.375rem;
@@ -107,17 +108,17 @@
    ============================================ */
 
 :root {
-  /* Brand Colors — Morning Dew */
-  --teal: #7898b8;
-  --teal-light: #98b4cc;
-  --teal-dark: #5a7898;
-  --coral: #c4a880;
-  --gold: #c4b080;
+  /* Brand */
+  --brand: #7898b8;
+  --brand-soft: #98b4cc;
+  --brand-strong: #5a7898;
+  --accent: #c4a880;
+  --highlight: #c4b080;
 
   /* Punched-Up Accents */
-  --teal-vivid: #4a8cb8;
-  --coral-vivid: #d4956a;
-  --gold-vivid: #c9a44e;
+  --brand-vivid: #4a8cb8;
+  --accent-vivid: #d4956a;
+  --highlight-vivid: #c9a44e;
 
   /* Backgrounds */
   --background: #fafbfd;
@@ -179,12 +180,12 @@ h1, h2, h3, h4, h5, h6,
    ============================================ */
 
 ::selection {
-  background-color: var(--teal);
+  background-color: var(--brand);
   color: white;
 }
 
 ::-moz-selection {
-  background-color: var(--teal);
+  background-color: var(--brand);
   color: white;
 }
 
@@ -193,7 +194,7 @@ h1, h2, h3, h4, h5, h6,
    ============================================ */
 
 *:focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
@@ -211,12 +212,12 @@ h1, h2, h3, h4, h5, h6,
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--teal);
+  background: var(--brand);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--teal-dark);
+  background: var(--brand-strong);
 }
 
 /* ============================================
@@ -263,28 +264,28 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* Text Gradient */
-.text-gradient-teal {
-  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+.text-gradient-brand {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-soft) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 /* Background Gradient */
-.bg-gradient-teal {
-  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+.bg-gradient-brand {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-soft) 100%);
 }
 
 .bg-gradient-warm {
   background: linear-gradient(180deg, var(--background) 0%, var(--background-warm) 100%);
 }
 
-/* Teal Overlay for Images */
-.overlay-teal {
+/* Brand Overlay for Images */
+.overlay-brand {
   position: relative;
 }
 
-.overlay-teal::after {
+.overlay-brand::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -300,21 +301,21 @@ h1, h2, h3, h4, h5, h6,
 .accent-line {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, var(--teal-vivid), var(--teal));
+  background: linear-gradient(90deg, var(--brand-vivid), var(--brand));
   border-radius: 2px;
 }
 
-.accent-line-coral {
+.accent-line-accent {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, var(--coral-vivid), var(--coral));
+  background: linear-gradient(90deg, var(--accent-vivid), var(--accent));
   border-radius: 2px;
 }
 
-.accent-line-gold {
+.accent-line-highlight {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, var(--gold-vivid), var(--gold));
+  background: linear-gradient(90deg, var(--highlight-vivid), var(--highlight));
   border-radius: 2px;
 }
 
@@ -393,7 +394,7 @@ h1, h2, h3, h4, h5, h6,
   }
 }
 
-@keyframes pulse-teal {
+@keyframes pulse-brand {
   0%, 100% {
     box-shadow: 0 0 0 0 rgba(120, 152, 184, 0.4);
   }
@@ -427,8 +428,8 @@ h1, h2, h3, h4, h5, h6,
   animation: float 6s ease-in-out infinite;
 }
 
-.animate-pulse-teal {
-  animation: pulse-teal 2s ease-in-out infinite;
+.animate-pulse-brand {
+  animation: pulse-brand 2s ease-in-out infinite;
 }
 
 /* Stagger Animation Delays */
@@ -471,15 +472,15 @@ h1, h2, h3, h4, h5, h6,
   }
 }
 
-.link-teal {
-  color: var(--teal);
+.link-brand {
+  color: var(--brand);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color var(--transition-fast);
 }
 
-.link-teal:hover {
-  color: var(--teal-dark);
+.link-brand:hover {
+  color: var(--brand-strong);
 }
 
 /* ============================================

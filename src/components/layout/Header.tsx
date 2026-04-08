@@ -39,9 +39,9 @@ function NavLink({ href, label, isActive, isPill }: NavLinkProps) {
       className={cn(
         linkStyles,
         isPill
-          ? "text-[var(--foreground)] hover:text-[var(--teal-dark)] after:bg-[var(--foreground)]"
-          : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
-        isActive && (isPill ? "after:w-full" : "text-[var(--teal)] after:w-full")
+          ? "text-[var(--foreground)] hover:text-[var(--brand-strong)] after:bg-[var(--foreground)]"
+          : "text-[var(--text-secondary)] hover:text-[var(--brand)] after:bg-[var(--brand)]",
+        isActive && (isPill ? "after:w-full" : "text-[var(--brand)] after:w-full")
       )}
     >
       {label}
@@ -56,7 +56,7 @@ export function Header() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   // Collapse the pill to solid-bar state when the mobile menu is open, so
-  // the frosted-white pill doesn't visually fight the teal menu overlay.
+  // the frosted-white pill doesn't visually fight the brand-colored menu overlay.
   const isPill = isHomePage && !isScrolled && !isMobileMenuOpen;
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -255,7 +255,7 @@ export function Header() {
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="ml-1 xl:ml-2 px-4 xl:px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase whitespace-nowrap transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg active:scale-[0.98] bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30 motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100"
+                  className="ml-1 xl:ml-2 px-4 xl:px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase whitespace-nowrap transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg active:scale-[0.98] bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] shadow-sm hover:shadow-[var(--brand-vivid)]/30 motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100"
                 >
                   Inquire
                 </Link>
@@ -279,10 +279,10 @@ export function Header() {
             : "opacity-0 pointer-events-none"
         )}
       >
-        {/* Teal Background */}
+        {/* Brand-gradient Background */}
         <div
           className={cn(
-            "absolute inset-0 bg-gradient-to-br from-[var(--teal-vivid)] to-[var(--teal-dark)]",
+            "absolute inset-0 bg-gradient-to-br from-[var(--brand-vivid)] to-[var(--brand-strong)]",
             "transition-transform duration-500 ease-out motion-reduce:transition-none",
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
@@ -333,7 +333,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="inline-block px-8 py-3 rounded-full bg-white text-[var(--teal-dark)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200 motion-reduce:transition-none"
+              className="inline-block px-8 py-3 rounded-full bg-white text-[var(--brand-strong)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200 motion-reduce:transition-none"
             >
               Inquire
             </Link>

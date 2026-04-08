@@ -36,11 +36,11 @@ export function AboutBio() {
           </div>
 
           {/* Closing pull quote */}
-          <div className="border-t border-[var(--teal)]/15 pt-8">
+          <div className="border-t border-[var(--brand)]/15 pt-8">
             <p className="text-xl md:text-2xl font-heading italic text-[var(--foreground)] text-center max-w-4xl mx-auto leading-snug">
               &ldquo;To create timeless images that bring you back not just to
               how it looked —{" "}
-              <span className="text-[var(--teal)]">but to how it felt.</span>
+              <span className="text-[var(--brand)]">but to how it felt.</span>
               &rdquo;
             </p>
           </div>
@@ -53,7 +53,7 @@ export function AboutBio() {
         <div className="container">
           <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-2xl mx-auto">
             <div className="bg-white rounded-xl p-5 md:p-6 text-center shadow-sm">
-              <div className="text-3xl md:text-4xl font-heading font-bold text-[var(--teal)] mb-1">
+              <div className="text-3xl md:text-4xl font-heading font-bold text-[var(--brand)] mb-1">
                 <AnimatedCounter value={100} suffix="+" />
               </div>
               <p className="text-[var(--text-secondary)] text-xs">
@@ -62,7 +62,7 @@ export function AboutBio() {
             </div>
 
             <div className="bg-white rounded-xl p-5 md:p-6 text-center shadow-sm">
-              <div className="text-3xl md:text-4xl font-heading font-bold text-[var(--teal)] mb-1">
+              <div className="text-3xl md:text-4xl font-heading font-bold text-[var(--brand)] mb-1">
                 <AnimatedCounter value={5} suffix="+" />
               </div>
               <p className="text-[var(--text-secondary)] text-xs">
@@ -71,7 +71,7 @@ export function AboutBio() {
             </div>
 
             <div className="bg-white rounded-xl p-5 md:p-6 text-center shadow-sm">
-              <div className="text-3xl md:text-4xl font-heading font-bold text-[var(--teal)] mb-1">
+              <div className="text-3xl md:text-4xl font-heading font-bold text-[var(--brand)] mb-1">
                 <AnimatedCounter value={100} suffix="%" />
               </div>
               <p className="text-[var(--text-secondary)] text-xs">
@@ -100,7 +100,7 @@ export function AboutBio() {
                   key={fact}
                   className="flex items-center gap-3 p-4 rounded-xl bg-[var(--background-warm)]"
                 >
-                  <div className="w-2 h-2 rounded-full bg-[var(--teal)] shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-[var(--brand)] shrink-0" />
                   <p className="text-[var(--text-secondary)] text-base">
                     {fact}
                   </p>
@@ -115,19 +115,19 @@ export function AboutBio() {
       <section className="py-10 md:py-14 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-[var(--teal)] font-medium tracking-wide uppercase text-sm mb-8">
+            <p className="text-[var(--brand)] font-medium tracking-wide uppercase text-sm mb-8">
               My Approach
             </p>
 
             <div className="relative">
-              <Quote className="w-10 h-10 text-[var(--teal)]/15 mx-auto mb-4" />
+              <Quote className="w-10 h-10 text-[var(--brand)]/15 mx-auto mb-4" />
               <blockquote className="text-2xl md:text-3xl font-heading text-[var(--foreground)] leading-snug italic">
                 I create a calm, comfortable environment where people can truly
                 be themselves — because that&apos;s when the most meaningful
                 photographs happen.
               </blockquote>
               <div className="mt-8 flex justify-center">
-                <div className="h-0.5 w-12 bg-[var(--teal)] rounded-full" />
+                <div className="h-0.5 w-12 bg-[var(--brand)] rounded-full" />
               </div>
               <p className="mt-4 text-[var(--text-muted)] text-sm">
                 — Jennifer Matone

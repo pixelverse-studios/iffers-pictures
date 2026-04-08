@@ -26,7 +26,7 @@ export function Footer() {
           <div>
             <Link href="/" className="inline-block mb-6">
               <span className="text-2xl font-heading font-semibold">
-                <span className="text-[var(--teal-light)]">Iffer&apos;s</span> Pictures
+                <span className="text-[var(--brand-soft)]">Iffer&apos;s</span> Pictures
               </span>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
@@ -41,7 +41,7 @@ export function Footer() {
                   href={BUSINESS_INFO.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--teal)] transition-colors duration-200"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--brand)] transition-colors duration-200"
                   aria-label="Follow us on Instagram"
                 >
                   <Instagram className="w-5 h-5" />
@@ -52,7 +52,7 @@ export function Footer() {
                   href={BUSINESS_INFO.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--teal)] transition-colors duration-200"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--brand)] transition-colors duration-200"
                   aria-label="Follow us on Facebook"
                 >
                   <Facebook className="w-5 h-5" />
@@ -63,7 +63,7 @@ export function Footer() {
 
           {/* Sessions Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--brand-vivid)] mb-6">
               Sessions
             </h3>
             <ul className="space-y-3">
@@ -82,7 +82,7 @@ export function Footer() {
 
           {/* Company Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--brand-vivid)] mb-6">
               Company
             </h3>
             <ul className="space-y-3">
@@ -101,7 +101,7 @@ export function Footer() {
 
           {/* Resources Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--brand-vivid)] mb-6">
               Resources
             </h3>
             <ul className="space-y-3">
@@ -130,7 +130,7 @@ export function Footer() {
 
           {/* Inquire Column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--brand-vivid)] mb-6">
               Inquire
             </h3>
             <ul className="space-y-4">
@@ -139,13 +139,13 @@ export function Footer() {
                   href={`mailto:${BUSINESS_INFO.email}`}
                   className="flex items-center gap-3 text-white/60 hover:text-white transition-colors duration-200 text-sm"
                 >
-                  <Mail className="w-4 h-4 text-[var(--teal-light)]" />
+                  <Mail className="w-4 h-4 text-[var(--brand-soft)]" />
                   {BUSINESS_INFO.email}
                 </a>
               </li>
               <li>
                 <div className="flex items-start gap-3 text-white/60 text-sm">
-                  <MapPin className="w-4 h-4 text-[var(--teal-light)] mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[var(--brand-soft)] mt-0.5" />
                   <span>
                     {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
                   </span>
@@ -155,7 +155,7 @@ export function Footer() {
 
             {/* Service Areas */}
             <div className="mt-6">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--teal-vivid)] mb-3">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[var(--brand-vivid)] mb-3">
                 Service Areas
               </h4>
               <p className="text-white/40 text-xs leading-relaxed">
