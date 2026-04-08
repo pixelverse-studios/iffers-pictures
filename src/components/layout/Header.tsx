@@ -171,14 +171,7 @@ export function Header() {
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={cn(
-                    "rounded-full font-medium tracking-wide uppercase whitespace-nowrap",
-                    "transition-all duration-300 ease-out",
-                    "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
-                    "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30",
-                    "lg:ml-1 lg:px-4 lg:py-2 lg:text-xs",
-                    "xl:ml-2 xl:px-5 xl:py-2 xl:text-sm"
-                  )}
+                  className="ml-1 xl:ml-2 px-4 xl:px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase whitespace-nowrap transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg active:scale-[0.98] bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
                 >
                   Inquire
                 </Link>
