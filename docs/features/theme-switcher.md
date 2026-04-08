@@ -97,16 +97,17 @@ multiple themes quickly.
 | # | Name | Mode | Brand hex | Mood |
 |---|---|---|---|---|
 | 1 | Morning Dew *(default)* | light | `#7898b8` | Muted blue-teal, soft seaside morning |
-| 2 | Coastal Fog | light | `#6b8e8a` | Dusty film-grain teal, hushed and romantic |
-| 3 | Verdigris | light | `#2a7f7a` | Patinated copper, Parisian rooftop elegance |
-| 4 | Midnight Harbor | light | `#1e3a52` | Vogue masthead at dusk, quietly luxurious |
-| 5 | Sage Atelier | light | `#8a9a7b` | Linen-draped studio, Magnolia meets Kinfolk |
-| 6 | Aurora Mist | light | `#8a98c7` | Soft periwinkle frost morning, cool but tender |
-| 7 | Tuscan Linen | light | `#a67c52` | Sun-warmed stone, olive groves, unhurried luxury |
-| 8 | Blush & Charcoal | light | `#3a3a3c` | Matte magazine spread, powder blush against graphite |
-| 9 | Dusk Harbor | soft-dark | `#7ba5c7` | Warm midnight navy, cream text |
-| 10 | Forest Twilight | soft-dark | `#7ab5a3` | Muted emerald on warm forest, after-hours gallery |
-| 11 | Velvet Sand | soft-dark | `#c9a880` | Warm sand on espresso, velvet-walled reading room |
+| 2 | Cove | light | `#0d9488` | Vibrant teal harbor, classic seaside with warm coral accent |
+| 3 | Coastal Fog | light | `#6b8e8a` | Dusty film-grain teal, hushed and romantic |
+| 4 | Verdigris | light | `#2a7f7a` | Patinated copper, Parisian rooftop elegance |
+| 5 | Midnight Harbor | light | `#1e3a52` | Vogue masthead at dusk, quietly luxurious |
+| 6 | Sage Atelier | light | `#8a9a7b` | Linen-draped studio, Magnolia meets Kinfolk |
+| 7 | Aurora Mist | light | `#8a98c7` | Soft periwinkle frost morning, cool but tender |
+| 8 | Tuscan Linen | light | `#a67c52` | Sun-warmed stone, olive groves, unhurried luxury |
+| 9 | Blush & Charcoal | light | `#3a3a3c` | Matte magazine spread, powder blush against graphite |
+| 10 | Dusk Harbor | soft-dark | `#7ba5c7` | Warm midnight navy, cream text |
+| 11 | Forest Twilight | soft-dark | `#7ab5a3` | Muted emerald on warm forest, after-hours gallery |
+| 12 | Velvet Sand | soft-dark | `#c9a880` | Warm sand on espresso, velvet-walled reading room |
 
 Soft-dark themes use **warm charcoal** backgrounds (e.g. `#1c2230`,
 `#1d2420`, `#241f1a`), not OLED black — easy on the eyes and still

@@ -21,6 +21,7 @@ export type ThemeMode = "light" | "soft-dark";
 
 export type ThemeId =
   | "morning-dew"
+  | "cove"
   | "coastal-fog"
   | "verdigris"
   | "midnight-harbor"
@@ -95,6 +96,35 @@ export const THEMES: Record<ThemeId, Theme> = {
       "hero-to": "#c8ced6",
     },
     preview: ["#fafbfd", "#eff3f7", "#7898b8", "#c4a880"],
+  },
+
+  cove: {
+    id: "cove",
+    name: "Cove",
+    mood: "Vibrant teal harbor, classic seaside brand with warm coral accent",
+    mode: "light",
+    tokens: {
+      brand: "#0d9488",
+      "brand-soft": "#5eead4",
+      "brand-strong": "#0f766e",
+      "brand-vivid": "#14b8a6",
+      accent: "#e8956a",
+      "accent-vivid": "#d97847",
+      highlight: "#c9a259",
+      "highlight-vivid": "#b08840",
+      background: "#fafcfb",
+      "background-warm": "#edf4f2",
+      surface: "#ffffff",
+      foreground: "#0f2420",
+      "text-secondary": "#4a6560",
+      "text-muted": "#8ba29d",
+      border: "#d4e4e0",
+      "footer-bg": "#0f2420",
+      "hero-from": "#b4d4cd",
+      "hero-via": "#9ed0c6",
+      "hero-to": "#c4dcd4",
+    },
+    preview: ["#fafcfb", "#edf4f2", "#0d9488", "#e8956a"],
   },
 
   "coastal-fog": {
@@ -388,9 +418,10 @@ export const THEMES: Record<ThemeId, Theme> = {
   },
 };
 
-/** Ordered list of themes for the switcher UI (8 light + 3 soft-dark). */
+/** Ordered list of themes for the switcher UI (9 light + 3 soft-dark). */
 export const THEME_ORDER: ThemeId[] = [
   "morning-dew",
+  "cove",
   "coastal-fog",
   "verdigris",
   "midnight-harbor",
