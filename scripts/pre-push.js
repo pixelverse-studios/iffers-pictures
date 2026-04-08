@@ -132,7 +132,9 @@ async function sendDeployment(data, env) {
     return false;
   }
 
-  const endpoint = `${apiUrl}/api/deployments`;
+  // Strip trailing slash from PVS_API_URL so we don't end up with
+  // a double-slashed endpoint like https://api.example.com//api/deployments
+  const endpoint = `${apiUrl.replace(/\/+$/, '')}/api/deployments`;
 
   logInfo('Sending deployment to API...');
   logInfo(`Endpoint: ${endpoint}`);
