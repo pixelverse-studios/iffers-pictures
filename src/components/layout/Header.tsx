@@ -8,14 +8,56 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO } from "@/lib/constants";
 
+// ─── Constants ────────────────────────────────────────────────────────
 const MOBILE_MENU_ID = "header-mobile-menu";
+const PILL_MAX_WIDTH = "min(1200px, 92vw)";
+const SCROLL_THRESHOLD = 20;
+const STAGGER_BASE_MS = 150;
+const STAGGER_STEP_MS = 50;
+const BODY_SCROLL_LOCK_CLASS = "overflow-hidden";
 
+const linkStyles = cn(
+  "text-[13px] font-medium uppercase tracking-wider transition-all duration-200 whitespace-nowrap motion-reduce:transition-none",
+  "relative pb-1 mt-1",
+  "after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px]",
+  "after:transition-all after:duration-300 motion-reduce:after:transition-none",
+  "hover:after:w-full"
+);
+
+// ─── NavLink subcomponent ─────────────────────────────────────────────
+interface NavLinkProps {
+  href: string;
+  label: string;
+  isActive: boolean;
+  isPill: boolean;
+}
+
+function NavLink({ href, label, isActive, isPill }: NavLinkProps) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        linkStyles,
+        isPill
+          ? "text-[var(--foreground)] hover:text-[var(--teal-dark)] after:bg-[var(--foreground)]"
+          : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+        isActive && (isPill ? "after:w-full" : "text-[var(--teal)] after:w-full")
+      )}
+    >
+      {label}
+    </Link>
+  );
+}
+
+// ─── Header ───────────────────────────────────────────────────────────
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const isPill = isHomePage && !isScrolled;
+  // Collapse the pill to solid-bar state when the mobile menu is open, so
+  // the frosted-white pill doesn't visually fight the teal menu overlay.
+  const isPill = isHomePage && !isScrolled && !isMobileMenuOpen;
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
@@ -27,22 +69,24 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Body scroll lock while mobile menu is open
+  // Body scroll lock while mobile menu is open. Uses a class rather than
+  // inline style so it composes safely with anything else that touches
+  // body overflow.
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.classList.add(BODY_SCROLL_LOCK_CLASS);
     } else {
-      document.body.style.overflow = "";
+      document.body.classList.remove(BODY_SCROLL_LOCK_CLASS);
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove(BODY_SCROLL_LOCK_CLASS);
     };
   }, [isMobileMenuOpen]);
 
@@ -102,24 +146,16 @@ export function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  const linkStyles = cn(
-    "text-[13px] font-medium uppercase tracking-wider transition-all duration-200 whitespace-nowrap motion-reduce:transition-none",
-    "relative pb-1 mt-1",
-    "after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px]",
-    "after:transition-all after:duration-300 motion-reduce:after:transition-none",
-    "hover:after:w-full"
-  );
-
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
         {/*
-          Single morphing wrapper. When isPill (homepage hero, not scrolled),
-          it caps at min(1200px, 92vw) and renders as a frosted rounded pill.
-          Otherwise, it's a full-bleed solid bar (white when scrolled / on
-          non-homepage). Width and visual styles animate via CSS transitions.
-          backdrop-filter is scoped to pill mode only — it's expensive to
-          composite on a full-width fixed bar during scroll.
+          Single morphing wrapper. When isPill (homepage hero, not scrolled,
+          mobile menu closed), it caps at PILL_MAX_WIDTH and renders as a
+          frosted rounded pill. Otherwise it's a full-bleed solid bar (white
+          when scrolled / on non-homepage). backdrop-filter is scoped to pill
+          mode only — it's expensive to composite on a full-width fixed bar
+          during scroll, and the scrolled state is 95% opaque white anyway.
         */}
         <div
           className={cn(
@@ -132,7 +168,7 @@ export function Header() {
               : "mt-0 rounded-none shadow-sm"
           )}
           style={{
-            maxWidth: isPill ? "min(1200px, 92vw)" : "100%",
+            maxWidth: isPill ? PILL_MAX_WIDTH : "100%",
             backgroundColor: isPill
               ? "rgba(255, 255, 255, 0.3)"
               : "rgba(255, 255, 255, 0.95)",
@@ -168,24 +204,15 @@ export function Header() {
 
               {/* Desktop left links */}
               <div className="hidden lg:flex items-center lg:gap-5 xl:gap-7 2xl:gap-9 min-w-0">
-                {NAV_LINKS_LEFT.map((link) => {
-                  const isActive = isLinkActive(link.href);
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        linkStyles,
-                        isPill
-                          ? "text-[var(--foreground)] hover:text-[var(--teal-dark)] after:bg-[var(--foreground)]"
-                          : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
-                        isActive && (isPill ? "after:w-full" : "text-[var(--teal)] after:w-full")
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  );
-                })}
+                {NAV_LINKS_LEFT.map((link) => (
+                  <NavLink
+                    key={link.href}
+                    href={link.href}
+                    label={link.label}
+                    isActive={isLinkActive(link.href)}
+                    isPill={isPill}
+                  />
+                ))}
               </div>
             </div>
 
@@ -216,24 +243,15 @@ export function Header() {
 
               {/* Desktop right links + CTA */}
               <div className="hidden lg:flex items-center lg:gap-5 xl:gap-7 2xl:gap-9 min-w-0">
-                {NAV_LINKS_RIGHT.map((link) => {
-                  const isActive = isLinkActive(link.href);
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        linkStyles,
-                        isPill
-                          ? "text-[var(--foreground)] hover:text-[var(--teal-dark)] after:bg-[var(--foreground)]"
-                          : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
-                        isActive && (isPill ? "after:w-full" : "text-[var(--teal)] after:w-full")
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  );
-                })}
+                {NAV_LINKS_RIGHT.map((link) => (
+                  <NavLink
+                    key={link.href}
+                    href={link.href}
+                    label={link.label}
+                    isActive={isLinkActive(link.href)}
+                    isPill={isPill}
+                  />
+                ))}
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -273,6 +291,12 @@ export function Header() {
         {/* Menu Content */}
         <div className="relative h-full flex flex-col justify-center px-8 overflow-y-auto py-24">
           <nav className="space-y-4">
+            {/*
+              Stagger intentionally fires only on open (positive delays), not
+              on close (delay=0 → links fade out together). The opening stagger
+              feels premium; a reverse stagger on close makes the dismissal
+              feel sluggish.
+            */}
             {NAV_LINKS.map((link, index) => (
               <Link
                 key={link.href}
@@ -284,7 +308,9 @@ export function Header() {
                   isMobileMenuOpen && "opacity-100 translate-x-0"
                 )}
                 style={{
-                  transitionDelay: isMobileMenuOpen ? `${150 + index * 50}ms` : "0ms",
+                  transitionDelay: isMobileMenuOpen
+                    ? `${STAGGER_BASE_MS + index * STAGGER_STEP_MS}ms`
+                    : "0ms",
                 }}
               >
                 {link.label}
@@ -300,7 +326,7 @@ export function Header() {
             )}
             style={{
               transitionDelay: isMobileMenuOpen
-                ? `${150 + NAV_LINKS.length * 50}ms`
+                ? `${STAGGER_BASE_MS + NAV_LINKS.length * STAGGER_STEP_MS}ms`
                 : "0ms",
             }}
           >
@@ -322,7 +348,7 @@ export function Header() {
             )}
             style={{
               transitionDelay: isMobileMenuOpen
-                ? `${150 + NAV_LINKS.length * 50 + 50}ms`
+                ? `${STAGGER_BASE_MS + (NAV_LINKS.length + 1) * STAGGER_STEP_MS}ms`
                 : "0ms",
             }}
           >
