@@ -52,7 +52,7 @@ export function PortfolioPreview() {
         <div className="text-center">
           <Link
             href="/portfolio"
-            className="inline-flex items-center gap-2 text-[var(--teal)] font-medium hover:gap-3 transition-all duration-200"
+            className="inline-flex items-center gap-2 text-[var(--brand)] font-medium hover:gap-3 transition-all duration-200"
           >
             View Full Portfolio
             <ArrowRight className="w-4 h-4" />

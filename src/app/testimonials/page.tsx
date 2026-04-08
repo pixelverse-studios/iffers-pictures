@@ -29,7 +29,7 @@ export default function TestimonialsPage() {
       />
 
       {/* Hero */}
-      <section className="pt-hero pb-10 md:pb-14 bg-[var(--teal-vivid)]">
+      <section className="pt-hero pb-10 md:pb-14 bg-[var(--brand-vivid)]">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-wider text-white/70 mb-4">
@@ -61,7 +61,7 @@ export default function TestimonialsPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] hover:gap-4 shadow-lg shadow-[var(--teal-vivid)]/25 hover:shadow-xl hover:shadow-[var(--teal-vivid)]/30 px-10 py-5 text-lg"
+              className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] hover:gap-4 shadow-lg shadow-[var(--brand-vivid)]/25 hover:shadow-xl hover:shadow-[var(--brand-vivid)]/30 px-10 py-5 text-lg"
             >
               Inquire Here
               <ArrowRight className="w-5 h-5" />

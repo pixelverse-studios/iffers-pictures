@@ -16,13 +16,13 @@ export function MinimalLayout() {
 
           {/* Inclusions */}
           <div className="space-y-8 mb-16">
-            <h2 className="text-xs tracking-[0.3em] uppercase text-[var(--teal)] font-semibold text-center">
+            <h2 className="text-xs tracking-[0.3em] uppercase text-[var(--brand)] font-semibold text-center">
               What You Receive
             </h2>
             <div className="space-y-5">
               {WHATS_INCLUDED.map((item) => (
                 <div key={item.label} className="flex items-center gap-4 justify-center">
-                  <item.icon className="w-5 h-5 text-[var(--teal)]" />
+                  <item.icon className="w-5 h-5 text-[var(--brand)]" />
                   <p className="text-[var(--foreground)]">{item.label}</p>
                 </div>
               ))}
@@ -55,7 +55,7 @@ export function MinimalLayout() {
                 </div>
                 <Link
                   href={`/services/${session.slug}`}
-                  className="inline-flex items-center gap-1.5 text-sm text-[var(--teal)] font-medium hover:gap-2.5 transition-all duration-200"
+                  className="inline-flex items-center gap-1.5 text-sm text-[var(--brand)] font-medium hover:gap-2.5 transition-all duration-200"
                 >
                   Learn more
                   <ArrowRight className="w-3.5 h-3.5" />

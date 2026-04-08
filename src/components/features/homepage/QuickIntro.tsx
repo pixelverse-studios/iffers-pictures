@@ -11,7 +11,7 @@ export function QuickIntro() {
         </p>
         <Link
           href="/about"
-          className="inline-flex items-center gap-2 text-[var(--teal)] font-medium hover:gap-3 transition-all duration-200"
+          className="inline-flex items-center gap-2 text-[var(--brand)] font-medium hover:gap-3 transition-all duration-200"
         >
           Meet Jenn
           <ArrowRight className="w-4 h-4" />

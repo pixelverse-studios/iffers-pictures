@@ -39,7 +39,7 @@ export function ServiceTestimonials({ data }: ServiceTestimonialsProps) {
             >
               {/* Quote icon */}
               <div className="absolute -top-4 left-6">
-                <div className="w-10 h-10 bg-[var(--teal)] rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-[var(--brand)] rounded-full flex items-center justify-center shadow-lg">
                   <Quote className="w-5 h-5 text-white" />
                 </div>
               </div>
@@ -50,7 +50,7 @@ export function ServiceTestimonials({ data }: ServiceTestimonialsProps) {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className="w-4 h-4 fill-[var(--gold)] text-[var(--gold)]"
+                      className="w-4 h-4 fill-[var(--highlight)] text-[var(--highlight)]"
                     />
                   ))}
                 </div>

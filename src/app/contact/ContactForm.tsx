@@ -72,8 +72,8 @@ export function ContactForm() {
   if (isSubmitted) {
     return (
       <div className="text-center py-12">
-        <div className="w-16 h-16 rounded-full bg-[var(--teal)]/10 flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-8 h-8 text-[var(--teal)]" />
+        <div className="w-16 h-16 rounded-full bg-[var(--brand)]/10 flex items-center justify-center mx-auto mb-6">
+          <CheckCircle className="w-8 h-8 text-[var(--brand)]" />
         </div>
         <h3 className="text-2xl font-heading font-semibold text-[var(--foreground)] mb-3">
           Thank You!
@@ -136,7 +136,7 @@ export function ContactForm() {
               "bg-white border border-[var(--border)]",
               "text-[var(--foreground)]",
               "transition-all duration-200",
-              "focus:outline-none focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+              "focus:outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20"
             )}
           />
         </div>
@@ -147,7 +147,7 @@ export function ContactForm() {
           htmlFor="service"
           className="block text-sm font-medium text-[var(--foreground)] mb-2"
         >
-          Session Type <span className="text-[var(--coral)]">*</span>
+          Session Type <span className="text-[var(--accent)]">*</span>
         </label>
         <select
           id="service"
@@ -157,7 +157,7 @@ export function ContactForm() {
             "bg-white border border-[var(--border)]",
             "text-[var(--foreground)]",
             "transition-all duration-200",
-            "focus:outline-none focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20",
+            "focus:outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20",
             errors.service && "border-red-500 focus:border-red-500 focus:ring-red-500/20"
           )}
         >

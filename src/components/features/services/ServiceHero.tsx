@@ -20,11 +20,11 @@ export function ServiceHero({ data, serviceName, serviceSlug }: ServiceHeroProps
   return (
     <section className="relative min-h-[70vh] flex items-center overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--teal)]/5 via-transparent to-[var(--coral)]/5" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand)]/5 via-transparent to-[var(--accent)]/5" />
 
       {/* Decorative elements */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-[var(--teal)]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-10 w-48 h-48 bg-[var(--coral)]/5 rounded-full blur-3xl" />
+      <div className="absolute top-20 right-10 w-64 h-64 bg-[var(--brand)]/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-10 w-48 h-48 bg-[var(--accent)]/5 rounded-full blur-3xl" />
 
       <div className="container relative pt-32 pb-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -32,11 +32,11 @@ export function ServiceHero({ data, serviceName, serviceSlug }: ServiceHeroProps
           <div className="order-2 lg:order-1">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-[var(--text-secondary)] mb-6">
-              <Link href="/" className="hover:text-[var(--teal)] transition-colors">
+              <Link href="/" className="hover:text-[var(--brand)] transition-colors">
                 Home
               </Link>
               <ChevronRight className="w-4 h-4" />
-              <Link href="/services" className="hover:text-[var(--teal)] transition-colors">
+              <Link href="/services" className="hover:text-[var(--brand)] transition-colors">
                 Services
               </Link>
               <ChevronRight className="w-4 h-4" />
@@ -47,7 +47,7 @@ export function ServiceHero({ data, serviceName, serviceSlug }: ServiceHeroProps
               {data.headline}
             </h1>
 
-            <p className="text-xl md:text-2xl text-[var(--teal)] font-medium mb-4">
+            <p className="text-xl md:text-2xl text-[var(--brand)] font-medium mb-4">
               {data.subheadline}
             </p>
 
@@ -94,7 +94,7 @@ export function ServiceHero({ data, serviceName, serviceSlug }: ServiceHeroProps
               )}
 
               {/* Decorative ring */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 border-4 border-[var(--coral)]/20 rounded-full hidden lg:block" />
+              <div className="absolute -top-4 -right-4 w-24 h-24 border-4 border-[var(--accent)]/20 rounded-full hidden lg:block" />
             </div>
           </div>
         </div>

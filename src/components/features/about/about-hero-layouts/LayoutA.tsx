@@ -12,7 +12,7 @@ export function LayoutA() {
       {/* Portrait column */}
       <div className="relative flex justify-center">
         {/* Warm backing card — slight offset for depth */}
-        <div className="absolute top-4 left-4 w-[13rem] h-full bg-[var(--teal)]/8 rounded-2xl -z-10" />
+        <div className="absolute top-4 left-4 w-[13rem] h-full bg-[var(--brand)]/8 rounded-2xl -z-10" />
         {/* Image */}
         <div className="relative w-[13rem]">
           <Image
@@ -24,7 +24,7 @@ export function LayoutA() {
             priority
           />
           {/* Corner accent frame */}
-          <div className="absolute -bottom-3 -right-3 w-14 h-14 border-2 border-[var(--teal)]/25 rounded-xl -z-10" />
+          <div className="absolute -bottom-3 -right-3 w-14 h-14 border-2 border-[var(--brand)]/25 rounded-xl -z-10" />
         </div>
       </div>
 
@@ -32,8 +32,8 @@ export function LayoutA() {
       <div className="max-w-md text-center lg:text-left">
         {/* Location with leading rule */}
         <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
-          <div className="h-px w-7 bg-[var(--teal)]" />
-          <p className="text-[var(--teal)] font-medium tracking-[0.25em] uppercase text-xs">
+          <div className="h-px w-7 bg-[var(--brand)]" />
+          <p className="text-[var(--brand)] font-medium tracking-[0.25em] uppercase text-xs">
             Bergen County, New Jersey
           </p>
         </div>
@@ -41,7 +41,7 @@ export function LayoutA() {
         <h1 className="text-5xl sm:text-6xl font-heading text-[var(--foreground)] leading-[1.0] mb-4">
           Jennifer
           <br />
-          <span className="text-[var(--teal)]">Matone</span>
+          <span className="text-[var(--brand)]">Matone</span>
         </h1>
 
         <p className="text-xs text-[var(--text-muted)] tracking-[0.2em] uppercase mb-6 font-medium">
@@ -57,14 +57,14 @@ export function LayoutA() {
             href={BUSINESS_INFO.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 rounded-full bg-[var(--teal)]/10 flex items-center justify-center text-[var(--teal)] hover:bg-[var(--teal)] hover:text-white transition-all duration-300"
+            className="w-10 h-10 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] hover:bg-[var(--brand)] hover:text-white transition-all duration-300"
             aria-label="Follow Jennifer on Instagram"
           >
             <Instagram className="w-4 h-4" />
           </a>
           <a
             href={`mailto:${BUSINESS_INFO.email}`}
-            className="w-10 h-10 rounded-full bg-[var(--teal)]/10 flex items-center justify-center text-[var(--teal)] hover:bg-[var(--teal)] hover:text-white transition-all duration-300"
+            className="w-10 h-10 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] hover:bg-[var(--brand)] hover:text-white transition-all duration-300"
             aria-label="Email Jennifer"
           >
             <Mail className="w-4 h-4" />
@@ -72,7 +72,7 @@ export function LayoutA() {
         </div>
 
         <div className="flex items-center justify-center lg:justify-start gap-3 text-[var(--text-muted)]">
-          <div className="h-px w-8 bg-[var(--teal)]/30" />
+          <div className="h-px w-8 bg-[var(--brand)]/30" />
           <span className="text-xs tracking-[0.2em] uppercase">My story</span>
           <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
         </div>

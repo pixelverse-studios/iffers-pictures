@@ -55,7 +55,7 @@ export function WhyChooseUs({ className }: WhyChooseUsProps) {
               >
                 {/* Icon */}
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-6 transition-all duration-300 group-hover:shadow-md group-hover:scale-105">
-                  <Icon className="w-7 h-7 text-[var(--teal)]" />
+                  <Icon className="w-7 h-7 text-[var(--brand)]" />
                 </div>
 
                 {/* Title */}

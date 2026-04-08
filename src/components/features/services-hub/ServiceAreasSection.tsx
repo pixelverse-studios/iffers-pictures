@@ -23,7 +23,7 @@ export function ServiceAreasSection({ className }: ServiceAreasSectionProps) {
         <div className="mt-12">
           {/* Primary Areas */}
           <div className="mb-8">
-            <h3 className="text-sm font-medium uppercase tracking-wider text-[var(--teal)] mb-4">
+            <h3 className="text-sm font-medium uppercase tracking-wider text-[var(--brand)] mb-4">
               Primary Service Areas
             </h3>
             <div className="flex flex-wrap gap-3">
@@ -32,14 +32,14 @@ export function ServiceAreasSection({ className }: ServiceAreasSectionProps) {
                   key={area.slug}
                   className={cn(
                     "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm",
-                    "bg-[var(--teal)]/10 text-[var(--teal-dark)]",
-                    area.isHomeBase && "ring-2 ring-[var(--teal)]/30"
+                    "bg-[var(--brand)]/10 text-[var(--brand-strong)]",
+                    area.isHomeBase && "ring-2 ring-[var(--brand)]/30"
                   )}
                 >
                   <MapPin className="w-3.5 h-3.5" />
                   {area.name}, {area.state}
                   {area.isHomeBase && (
-                    <span className="text-xs bg-[var(--teal)] text-white px-2 py-0.5 rounded-full ml-1">
+                    <span className="text-xs bg-[var(--brand)] text-white px-2 py-0.5 rounded-full ml-1">
                       Home Base
                     </span>
                   )}
@@ -70,7 +70,7 @@ export function ServiceAreasSection({ className }: ServiceAreasSectionProps) {
             Don&apos;t see your town listed?{" "}
             <Link
               href="/contact"
-              className="text-[var(--teal)] font-medium hover:underline inline-flex items-center gap-1"
+              className="text-[var(--brand)] font-medium hover:underline inline-flex items-center gap-1"
             >
               Contact us
               <ArrowRight className="w-4 h-4" />

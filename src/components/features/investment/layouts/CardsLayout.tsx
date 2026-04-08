@@ -12,9 +12,9 @@ export function CardsLayout() {
             {SESSION_INCLUSIONS.map((session) => (
               <div
                 key={session.slug}
-                className="group p-6 rounded-2xl border border-[var(--border)] bg-white hover:border-[var(--teal-light)] hover:shadow-lg transition-all duration-300"
+                className="group p-6 rounded-2xl border border-[var(--border)] bg-white hover:border-[var(--brand-soft)] hover:shadow-lg transition-all duration-300"
               >
-                <div className="h-1 w-8 bg-[var(--teal)] rounded-full mb-5" />
+                <div className="h-1 w-8 bg-[var(--brand)] rounded-full mb-5" />
                 <h2 className="text-lg font-heading font-semibold text-[var(--foreground)] mb-1">
                   {session.name}
                 </h2>
@@ -22,14 +22,14 @@ export function CardsLayout() {
                 <ul className="space-y-3 mb-6">
                   {session.items.map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-[var(--text-secondary)]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--teal)] mt-1.5 shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--brand)] mt-1.5 shrink-0" />
                       {item}
                     </li>
                   ))}
                 </ul>
                 <Link
                   href={`/services/${session.slug}`}
-                  className="inline-flex items-center gap-1.5 text-sm text-[var(--teal)] font-medium hover:gap-2.5 transition-all duration-200"
+                  className="inline-flex items-center gap-1.5 text-sm text-[var(--brand)] font-medium hover:gap-2.5 transition-all duration-200"
                 >
                   Learn more
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -49,8 +49,8 @@ export function CardsLayout() {
           <div className="space-y-6">
             {WHATS_INCLUDED.map((item) => (
               <div key={item.label} className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-[var(--teal)]/10 flex items-center justify-center shrink-0">
-                  <item.icon className="w-5 h-5 text-[var(--teal)]" />
+                <div className="w-10 h-10 rounded-full bg-[var(--brand)]/10 flex items-center justify-center shrink-0">
+                  <item.icon className="w-5 h-5 text-[var(--brand)]" />
                 </div>
                 <p className="text-[var(--text-secondary)]">{item.label}</p>
               </div>

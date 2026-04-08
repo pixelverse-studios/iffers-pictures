@@ -45,8 +45,8 @@ export function GalleryLayout() {
             className="group relative rounded-2xl overflow-hidden aspect-[3/3.5] block bg-[var(--background-warm)] border border-[var(--border)]/60"
           >
             <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-              <div className="w-14 h-14 rounded-full bg-[var(--teal)]/10 flex items-center justify-center mb-5 group-hover:bg-[var(--teal)]/20 transition-colors duration-300">
-                <Camera className="w-6 h-6 text-[var(--teal)]" />
+              <div className="w-14 h-14 rounded-full bg-[var(--brand)]/10 flex items-center justify-center mb-5 group-hover:bg-[var(--brand)]/20 transition-colors duration-300">
+                <Camera className="w-6 h-6 text-[var(--brand)]" />
               </div>
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] mb-2">
                 Custom Request

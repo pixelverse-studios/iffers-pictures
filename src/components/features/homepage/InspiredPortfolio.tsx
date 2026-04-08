@@ -40,8 +40,8 @@ export function InspiredPortfolio() {
       <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         {/* Section label */}
         <div className="flex items-center gap-4 mb-10">
-          <div className="h-px w-10 bg-[var(--teal-vivid)]" />
-          <p className="text-[var(--teal-vivid)] font-medium tracking-[0.25em] uppercase text-xs">
+          <div className="h-px w-10 bg-[var(--brand-vivid)]" />
+          <p className="text-[var(--brand-vivid)] font-medium tracking-[0.25em] uppercase text-xs">
             Featured Work
           </p>
         </div>
@@ -141,7 +141,7 @@ export function InspiredPortfolio() {
         <div className="mt-10 text-center">
           <Link
             href="/portfolio"
-            className="inline-flex items-center gap-2 text-[var(--teal-vivid)] font-medium text-sm tracking-wide hover:gap-3 transition-all duration-200"
+            className="inline-flex items-center gap-2 text-[var(--brand-vivid)] font-medium text-sm tracking-wide hover:gap-3 transition-all duration-200"
           >
             View Full Portfolio
             <ArrowRight className="w-4 h-4" />

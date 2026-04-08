@@ -53,8 +53,8 @@ export function ServiceBenefits({ benefits, whatToExpect }: ServiceBenefitsProps
                 >
                   <div className="flex gap-5">
                     <div className="flex-shrink-0">
-                      <div className="w-14 h-14 rounded-xl bg-[var(--teal)]/10 flex items-center justify-center group-hover:bg-[var(--teal)] transition-colors duration-300">
-                        <Icon className="w-7 h-7 text-[var(--teal)] group-hover:text-white transition-colors duration-300" />
+                      <div className="w-14 h-14 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center group-hover:bg-[var(--brand)] transition-colors duration-300">
+                        <Icon className="w-7 h-7 text-[var(--brand)] group-hover:text-white transition-colors duration-300" />
                       </div>
                     </div>
                     <div>
@@ -95,7 +95,7 @@ export function ServiceBenefits({ benefits, whatToExpect }: ServiceBenefitsProps
                 )}
               >
                 {/* Step number */}
-                <div className="absolute -top-3 -left-3 w-10 h-10 bg-[var(--teal)] text-white rounded-full flex items-center justify-center font-semibold text-lg shadow-lg">
+                <div className="absolute -top-3 -left-3 w-10 h-10 bg-[var(--brand)] text-white rounded-full flex items-center justify-center font-semibold text-lg shadow-lg">
                   {index + 1}
                 </div>
 

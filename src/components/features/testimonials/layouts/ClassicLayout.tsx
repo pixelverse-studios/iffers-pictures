@@ -15,7 +15,7 @@ function Stars() {
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          className="w-3.5 h-3.5 text-[var(--gold-vivid)] fill-[var(--gold-vivid)]"
+          className="w-3.5 h-3.5 text-[var(--highlight-vivid)] fill-[var(--highlight-vivid)]"
         />
       ))}
     </div>
@@ -32,7 +32,7 @@ export function ClassicLayout() {
               key={t.id}
               className="break-inside-avoid rounded-2xl bg-white p-8 border border-[var(--border)]/60 relative overflow-hidden"
             >
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--teal-vivid)] to-[var(--teal)]" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--brand-vivid)] to-[var(--brand)]" />
               <div className="mt-1">
                 <Stars />
               </div>
@@ -40,7 +40,7 @@ export function ClassicLayout() {
                 &ldquo;{t.quote}&rdquo;
               </blockquote>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-[var(--background-warm)] flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+                <div className="w-9 h-9 rounded-full bg-[var(--background-warm)] flex items-center justify-center font-heading font-semibold text-sm text-[var(--brand-strong)]">
                   {t.author[0]}
                 </div>
                 <div>

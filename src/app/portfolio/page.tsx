@@ -52,10 +52,10 @@ export default function PortfolioPage() {
         <div className="container">
           {/* Eyebrow */}
           <div className="flex items-center gap-4 mb-8">
-            <p className="text-[var(--teal)] font-medium tracking-[0.3em] uppercase text-xs shrink-0">
+            <p className="text-[var(--brand)] font-medium tracking-[0.3em] uppercase text-xs shrink-0">
               Portfolio
             </p>
-            <div className="h-px flex-1 bg-gradient-to-r from-[var(--teal)]/30 to-transparent" />
+            <div className="h-px flex-1 bg-gradient-to-r from-[var(--brand)]/30 to-transparent" />
           </div>
 
           {/* Title + intro */}
@@ -64,7 +64,7 @@ export default function PortfolioPage() {
               <h1 className="text-5xl sm:text-6xl font-heading text-[var(--foreground)] leading-[1.0]">
                 Your Story,
                 <br />
-                <span className="text-[var(--teal)]">In Moments</span>
+                <span className="text-[var(--brand)]">In Moments</span>
               </h1>
             </div>
             <div>
@@ -89,7 +89,7 @@ export default function PortfolioPage() {
       <section className="py-10 md:py-14 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-[var(--teal)] font-medium tracking-[0.25em] uppercase text-xs mb-4">
+            <p className="text-[var(--brand)] font-medium tracking-[0.25em] uppercase text-xs mb-4">
               Let&apos;s Create Together
             </p>
             <h2 className="text-3xl md:text-4xl font-heading text-[var(--foreground)] mb-4">
@@ -103,7 +103,7 @@ export default function PortfolioPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] hover:gap-4 shadow-lg shadow-[var(--teal-vivid)]/25 hover:shadow-xl hover:shadow-[var(--teal-vivid)]/30 px-10 py-5 text-lg"
+              className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] hover:gap-4 shadow-lg shadow-[var(--brand-vivid)]/25 hover:shadow-xl hover:shadow-[var(--brand-vivid)]/30 px-10 py-5 text-lg"
             >
               Inquire Here
               <ArrowRight className="w-5 h-5" />

@@ -46,8 +46,8 @@ export function MosaicLayout() {
               className="group relative rounded-2xl overflow-hidden block h-[200px] md:flex-1 bg-[var(--background-warm)] border border-[var(--border)]/60"
             >
               <div className="absolute inset-0 flex items-center justify-center gap-4 p-5">
-                <div className="w-11 h-11 rounded-full bg-[var(--teal)]/10 flex items-center justify-center shrink-0 group-hover:bg-[var(--teal)]/20 transition-colors duration-300">
-                  <Camera className="w-5 h-5 text-[var(--teal)]" />
+                <div className="w-11 h-11 rounded-full bg-[var(--brand)]/10 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand)]/20 transition-colors duration-300">
+                  <Camera className="w-5 h-5 text-[var(--brand)]" />
                 </div>
                 <div>
                   <h2 className="text-lg md:text-xl font-heading font-semibold text-[var(--foreground)] mb-0.5">

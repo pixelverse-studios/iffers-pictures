@@ -41,7 +41,7 @@ function Stars() {
   return (
     <div className="flex gap-0.5">
       {[...Array(5)].map((_, i) => (
-        <Star key={i} className="w-3.5 h-3.5 text-[var(--gold-vivid)] fill-[var(--gold-vivid)]" />
+        <Star key={i} className="w-3.5 h-3.5 text-[var(--highlight-vivid)] fill-[var(--highlight-vivid)]" />
       ))}
     </div>
   );
@@ -55,7 +55,7 @@ function WhiteCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
         "rounded-2xl bg-white p-8 flex flex-col border border-[var(--border)]/60 relative overflow-hidden"
       )}
     >
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--teal-vivid)] to-[var(--teal)]" />
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--brand-vivid)] to-[var(--brand)]" />
       <div className="mt-1">
         <Stars />
       </div>
@@ -63,7 +63,7 @@ function WhiteCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
         &ldquo;{t.quote}&rdquo;
       </blockquote>
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-[var(--background-warm)] flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+        <div className="w-9 h-9 rounded-full bg-[var(--background-warm)] flex items-center justify-center font-heading font-semibold text-sm text-[var(--brand-strong)]">
           {t.author[0]}
         </div>
         <div>
@@ -82,7 +82,7 @@ function TealCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
         colSpan,
         "rounded-2xl p-8 flex flex-col text-white"
       )}
-      style={{ backgroundColor: "var(--teal)" }}
+      style={{ backgroundColor: "var(--brand)" }}
     >
       <Stars />
       <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
@@ -112,7 +112,7 @@ export function Testimonials() {
     <section className="py-14 bg-[var(--background-warm)] overflow-hidden">
       <div className="container">
         <div className="text-center mb-12">
-          <span className="text-[var(--teal)] font-medium tracking-widest uppercase text-xs mb-4 block">
+          <span className="text-[var(--brand)] font-medium tracking-widest uppercase text-xs mb-4 block">
             Kind Words
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold text-[var(--foreground)]">
@@ -130,7 +130,7 @@ export function Testimonials() {
                 className={cn(
                   "px-4 md:px-5 py-2 rounded-full text-sm font-medium transition-all duration-300",
                   style === s
-                    ? "bg-[var(--teal)] text-white shadow-sm"
+                    ? "bg-[var(--brand)] text-white shadow-sm"
                     : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
                 )}
               >
@@ -172,7 +172,7 @@ export function Testimonials() {
               </div>
 
               {/* Tile 2: teal */}
-              <div className="md:col-span-5 rounded-2xl bg-[var(--teal-dark)] text-white p-8 md:p-10 flex flex-col">
+              <div className="md:col-span-5 rounded-2xl bg-[var(--brand-strong)] text-white p-8 md:p-10 flex flex-col">
                 <Stars />
                 <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                   &ldquo;{selected[1].quote}&rdquo;
@@ -211,7 +211,7 @@ export function Testimonials() {
             </>
           ) : (
             <>
-              <div className="md:col-span-7 rounded-2xl bg-[var(--foreground)] text-white p-8 md:p-12 flex flex-col relative overflow-hidden border-l-4 border-[var(--teal-light)]">
+              <div className="md:col-span-7 rounded-2xl bg-[var(--foreground)] text-white p-8 md:p-12 flex flex-col relative overflow-hidden border-l-4 border-[var(--brand-soft)]">
                 <div
                   className="absolute top-0 right-0 w-48 h-48 opacity-[0.04] pointer-events-none"
                   style={{
@@ -224,7 +224,7 @@ export function Testimonials() {
                     &ldquo;{selected[0].quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[var(--teal)]/20 border border-[var(--teal)]/30 flex items-center justify-center font-heading font-semibold text-[var(--teal-light)]">
+                    <div className="w-10 h-10 rounded-full bg-[var(--brand)]/20 border border-[var(--brand)]/30 flex items-center justify-center font-heading font-semibold text-[var(--brand-soft)]">
                       {selected[0].author[0]}
                     </div>
                     <div>
@@ -235,13 +235,13 @@ export function Testimonials() {
                 </div>
               </div>
 
-              <div className="md:col-span-5 rounded-2xl bg-white p-8 md:p-10 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
+              <div className="md:col-span-5 rounded-2xl bg-white p-8 md:p-10 flex flex-col border-l-4 border-[var(--brand)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
                 <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-[var(--foreground)]">
                   &ldquo;{selected[1].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+                  <div className="w-9 h-9 rounded-full bg-[var(--brand)]/10 border border-[var(--brand)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--brand-strong)]">
                     {selected[1].author[0]}
                   </div>
                   <div>
@@ -251,13 +251,13 @@ export function Testimonials() {
                 </div>
               </div>
 
-              <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal-light)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
+              <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--brand-soft)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
                 <blockquote className="text-base text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
                   &ldquo;{selected[2].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+                  <div className="w-9 h-9 rounded-full bg-[var(--brand)]/10 border border-[var(--brand)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--brand-strong)]">
                     {selected[2].author[0]}
                   </div>
                   <div>
@@ -267,7 +267,7 @@ export function Testimonials() {
                 </div>
               </div>
 
-              <div className="md:col-span-4 rounded-2xl bg-[var(--teal-dark)] text-white p-7 flex flex-col border-l-4 border-[var(--teal-light)]">
+              <div className="md:col-span-4 rounded-2xl bg-[var(--brand-strong)] text-white p-7 flex flex-col border-l-4 border-[var(--brand-soft)]">
                 <Stars />
                 <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
                   &ldquo;{selected[3].quote}&rdquo;
@@ -283,13 +283,13 @@ export function Testimonials() {
                 </div>
               </div>
 
-              <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--teal)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
+              <div className="md:col-span-4 rounded-2xl bg-white p-7 flex flex-col border-l-4 border-[var(--brand)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]">
                 <Stars />
                 <blockquote className="text-base text-[var(--foreground)] leading-relaxed mt-4 mb-5 flex-1">
                   &ldquo;{selected[4].quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[var(--teal)]/10 border border-[var(--teal)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+                  <div className="w-9 h-9 rounded-full bg-[var(--brand)]/10 border border-[var(--brand)]/20 flex items-center justify-center font-heading font-semibold text-sm text-[var(--brand-strong)]">
                     {selected[4].author[0]}
                   </div>
                   <div>

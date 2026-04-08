@@ -20,20 +20,20 @@ const variantClasses = {
   default: {
     text: "text-[var(--text-muted)]",
     divider: "bg-[var(--border)]",
-    star: "text-[var(--gold)]",
-    icon: "text-[var(--teal)]",
+    star: "text-[var(--highlight)]",
+    icon: "text-[var(--brand)]",
   },
   light: {
     text: "text-white/70",
     divider: "bg-white/20",
-    star: "text-[var(--gold)]",
-    icon: "text-[var(--teal-light)]",
+    star: "text-[var(--highlight)]",
+    icon: "text-[var(--brand-soft)]",
   },
   dark: {
     text: "text-neutral-400",
     divider: "bg-neutral-700",
-    star: "text-[var(--gold)]",
-    icon: "text-[var(--teal)]",
+    star: "text-[var(--highlight)]",
+    icon: "text-[var(--brand)]",
   },
 };
 
