@@ -168,6 +168,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Theme switcher: smooth cross-fade when tokens change at :root.
+   Scoped to composite-cheap properties only and gated by reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+}
+
 h1, h2, h3, h4, h5, h6,
 .font-heading {
   font-family: var(--font-josefin-slab), Georgia, serif;

@@ -5,6 +5,25 @@ import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Providers } from "@/components/providers/Providers";
+import { DEFAULT_THEME_ID, THEMES, THEME_STORAGE_KEY } from "@/lib/themes";
+
+// Bakes the theme token maps into an inline <script> that runs in <head>
+// before hydration, so we can apply the stored theme to :root synchronously
+// and avoid a flash of the default palette on first paint.
+const themeTokenMap = Object.fromEntries(
+  Object.entries(THEMES).map(([id, theme]) => [id, theme.tokens])
+);
+const themeInitScript = `
+(function(){try{
+var k=${JSON.stringify(THEME_STORAGE_KEY)};
+var s=localStorage.getItem(k);
+var T=${JSON.stringify(themeTokenMap)};
+var id=(s&&T[s])?s:${JSON.stringify(DEFAULT_THEME_ID)};
+var t=T[id],r=document.documentElement;
+for(var p in t){r.style.setProperty('--'+p,t[p]);}
+r.dataset.theme=id;
+}catch(e){}})();
+`.trim();
 
 const josefinSlab = Josefin_Slab({
   variable: "--font-josefin-slab",
@@ -89,6 +108,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${josefinSlab.variable} ${nunito.variable} antialiased min-h-screen flex flex-col`}
       >
