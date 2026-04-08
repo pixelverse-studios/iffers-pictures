@@ -108,6 +108,13 @@
    ============================================ */
 
 :root {
+  /* Header pill background — fallback uses hardcoded rgba (white) for
+     browsers without CSS Color Module 5 relative color syntax. The
+     @supports block below overrides with theme-aware values that track
+     --surface, re-evaluating whenever the theme changes. */
+  --pill-bg-frosted: rgba(255, 255, 255, 0.3);
+  --pill-bg-solid: rgba(255, 255, 255, 0.95);
+
   /* Brand */
   --brand: #7898b8;
   --brand-soft: #98b4cc;
@@ -146,6 +153,15 @@
   --header-height-scrolled: 5rem;
 }
 
+/* Modern browsers (Chrome 111+, Safari 16.4+, Firefox 128+) get the
+   theme-aware pill background via relative color syntax. */
+@supports (background-color: rgb(from red r g b / 0.5)) {
+  :root {
+    --pill-bg-frosted: rgb(from var(--surface) r g b / 0.3);
+    --pill-bg-solid: rgb(from var(--surface) r g b / 0.95);
+  }
+}
+
 /* ============================================
    Base Styles
    ============================================ */
@@ -166,6 +182,14 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Theme switcher: smooth cross-fade when tokens change at :root.
+   Scoped to composite-cheap properties only and gated by reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: background-color 200ms ease, color 200ms ease;
+  }
 }
 
 h1, h2, h3, h4, h5, h6,

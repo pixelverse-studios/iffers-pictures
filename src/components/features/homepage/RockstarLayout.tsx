@@ -228,7 +228,10 @@ export function RockstarLayout() {
         </div>
       </section>
 
-      {/* ── 4. DARK TESTIMONIAL BREAK ──────────────────────── */}
+      {/* ── 4. INVERTED TESTIMONIAL BREAK ──────────────────────── */}
+      {/* Uses --foreground as bg and --background as text so the
+          section flips cleanly on dark themes (where foreground is
+          light and background is dark). */}
       <section className="bg-[var(--foreground)] py-14 md:py-20 mt-8">
         <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
           {/* Oversized quotation mark */}
@@ -236,7 +239,7 @@ export function RockstarLayout() {
             &ldquo;
           </span>
 
-          <blockquote className="text-xl md:text-2xl lg:text-3xl font-heading text-white/90 leading-relaxed -mt-8 md:-mt-12">
+          <blockquote className="text-xl md:text-2xl lg:text-3xl font-heading text-[var(--background)]/90 leading-relaxed -mt-8 md:-mt-12">
             {FEATURED_TESTIMONIAL.quote}
           </blockquote>
 
@@ -249,8 +252,8 @@ export function RockstarLayout() {
                 />
               ))}
             </div>
-            <div className="h-4 w-px bg-white/20" />
-            <p className="text-white/50 text-sm font-medium">
+            <div className="h-4 w-px bg-[var(--background)]/20" />
+            <p className="text-[var(--background)]/60 text-sm font-medium">
               {FEATURED_TESTIMONIAL.author}
             </p>
           </div>

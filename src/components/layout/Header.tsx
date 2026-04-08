@@ -169,9 +169,13 @@ export function Header() {
           )}
           style={{
             maxWidth: isPill ? PILL_MAX_WIDTH : "100%",
+            // --pill-bg-frosted and --pill-bg-solid are theme-aware, defined
+            // in globals.css. Modern browsers get rgb(from var(--surface)...)
+            // which tracks the active theme; older browsers fall back to
+            // hardcoded white rgba via the base :root block.
             backgroundColor: isPill
-              ? "rgba(255, 255, 255, 0.3)"
-              : "rgba(255, 255, 255, 0.95)",
+              ? "var(--pill-bg-frosted)"
+              : "var(--pill-bg-solid)",
             backdropFilter: isPill ? "blur(12px)" : "none",
             WebkitBackdropFilter: isPill ? "blur(12px)" : "none",
             transitionProperty:
@@ -255,7 +259,7 @@ export function Header() {
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="ml-1 xl:ml-2 px-4 xl:px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase whitespace-nowrap transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg active:scale-[0.98] bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] shadow-sm hover:shadow-[var(--brand-vivid)]/30 motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100"
+                  className="ml-1 xl:ml-2 px-4 xl:px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase whitespace-nowrap transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg active:scale-[0.98] bg-[var(--brand-vivid)] text-[var(--background)] hover:bg-[var(--brand-strong)] shadow-sm hover:shadow-[var(--brand-vivid)]/30 motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100"
                 >
                   Inquire
                 </Link>
