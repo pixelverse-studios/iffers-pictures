@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SESSIONS } from "@/lib/constants";
 
-/** Clean text-only list with teal accent dots */
+/** Clean text-only list with brand accent dots */
 export function MinimalLayout() {
   return (
     <div className="max-w-2xl mx-auto divide-y divide-[var(--border)]">

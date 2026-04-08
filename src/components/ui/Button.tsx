@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "coral";
+  variant?: "primary" | "secondary" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -60,12 +60,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         "text-[var(--foreground)]",
         "hover:bg-[var(--background-warm)]",
         "focus-visible:ring-neutral-400"
-      ),
-      coral: cn(
-        "bg-[var(--accent)] text-white",
-        "hover:bg-[#e5673d]",
-        "focus-visible:ring-[var(--accent)]",
-        "shadow-sm hover:shadow-md"
       ),
     };
 

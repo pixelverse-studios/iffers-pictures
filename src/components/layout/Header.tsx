@@ -56,7 +56,7 @@ export function Header() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   // Collapse the pill to solid-bar state when the mobile menu is open, so
-  // the frosted-white pill doesn't visually fight the teal menu overlay.
+  // the frosted-white pill doesn't visually fight the brand-colored menu overlay.
   const isPill = isHomePage && !isScrolled && !isMobileMenuOpen;
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -279,7 +279,7 @@ export function Header() {
             : "opacity-0 pointer-events-none"
         )}
       >
-        {/* Teal Background */}
+        {/* Brand-gradient Background */}
         <div
           className={cn(
             "absolute inset-0 bg-gradient-to-br from-[var(--brand-vivid)] to-[var(--brand-strong)]",

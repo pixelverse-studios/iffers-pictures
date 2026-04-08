@@ -6,7 +6,7 @@ import { Camera } from "lucide-react";
 interface ImagePlaceholderProps {
   className?: string;
   aspectRatio?: "square" | "portrait" | "landscape" | "video" | "auto";
-  variant?: "teal" | "coral" | "warm" | "neutral" | "gradient";
+  variant?: "brand" | "accent" | "warm" | "neutral" | "gradient";
   showIcon?: boolean;
   iconSize?: "sm" | "md" | "lg";
   label?: string;
@@ -27,8 +27,8 @@ const iconSizes = {
 };
 
 const variants = {
-  teal: "from-[var(--brand)]/15 via-[var(--brand)]/8 to-[var(--brand)]/20",
-  coral: "from-[var(--accent)]/15 via-[var(--accent)]/8 to-[var(--accent)]/20",
+  brand: "from-[var(--brand)]/15 via-[var(--brand)]/8 to-[var(--brand)]/20",
+  accent: "from-[var(--accent)]/15 via-[var(--accent)]/8 to-[var(--accent)]/20",
   warm: "from-[var(--background-warm)] via-neutral-100 to-[var(--background-warm)]",
   neutral: "from-neutral-100 via-neutral-50 to-neutral-100",
   gradient: "from-[var(--brand)]/10 via-transparent to-[var(--accent)]/10",

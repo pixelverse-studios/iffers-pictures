@@ -23,7 +23,7 @@ function Stars() {
 }
 
 /**
- * Light card — white bg, thin teal left border, clean.
+ * Light card — white bg, thin brand left border, clean.
  */
 function LightCard({ quote, author, sessionType }: { quote: string; author: string; sessionType: string }) {
   return (

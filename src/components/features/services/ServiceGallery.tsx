@@ -159,11 +159,11 @@ function RealGallery({
 function PlaceholderGallery({ data }: { data: GalleryData }) {
   const getVariant = (
     index: number
-  ): "teal" | "coral" | "warm" | "neutral" | "gradient" => {
-    const variants: ("teal" | "coral" | "warm" | "neutral" | "gradient")[] = [
+  ): "brand" | "accent" | "warm" | "neutral" | "gradient" => {
+    const variants: ("brand" | "accent" | "warm" | "neutral" | "gradient")[] = [
       "gradient",
-      "teal",
-      "coral",
+      "brand",
+      "accent",
       "warm",
       "neutral",
       "gradient",

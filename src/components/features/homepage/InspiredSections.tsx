@@ -102,7 +102,7 @@ export function InspiredSessions() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
 
-                {/* Teal accent line on hover */}
+                {/* Brand accent line on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-[var(--brand-vivid)] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-4">

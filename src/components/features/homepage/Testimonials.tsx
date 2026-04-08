@@ -75,7 +75,7 @@ function WhiteCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
   );
 }
 
-function TealCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
+function BrandCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
   return (
     <div
       className={cn(
@@ -101,7 +101,7 @@ function TealCard({ t, colSpan }: { t: DisplayTestimonial; colSpan: string }) {
   );
 }
 
-const STYLES = ["Mixed", "Uniform", "Teal", "Alternating"] as const;
+const STYLES = ["Mixed", "Uniform", "Brand", "Alternating"] as const;
 type StyleName = (typeof STYLES)[number];
 
 export function Testimonials() {
@@ -171,7 +171,7 @@ export function Testimonials() {
                 </div>
               </div>
 
-              {/* Tile 2: teal */}
+              {/* Tile 2: brand */}
               <div className="md:col-span-5 rounded-2xl bg-[var(--brand-strong)] text-white p-8 md:p-10 flex flex-col">
                 <Stars />
                 <blockquote className="text-base leading-relaxed mt-4 mb-5 flex-1 text-white/90">
@@ -201,12 +201,12 @@ export function Testimonials() {
                 <WhiteCard key={t.id} t={t} colSpan="md:col-span-4" />
               ))}
             </>
-          ) : style === "Teal" ? (
+          ) : style === "Brand" ? (
             <>
-              <TealCard t={selected[0]} colSpan="md:col-span-7" />
-              <TealCard t={selected[1]} colSpan="md:col-span-5" />
+              <BrandCard t={selected[0]} colSpan="md:col-span-7" />
+              <BrandCard t={selected[1]} colSpan="md:col-span-5" />
               {[selected[2], selected[3], selected[4]].map((t) => (
-                <TealCard key={t.id} t={t} colSpan="md:col-span-4" />
+                <BrandCard key={t.id} t={t} colSpan="md:col-span-4" />
               ))}
             </>
           ) : (
