@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,12 +8,17 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO } from "@/lib/constants";
 
+const MOBILE_MENU_ID = "header-mobile-menu";
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const isPill = isHomePage && !isScrolled;
+
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
 
   const isLinkActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -29,6 +34,7 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Body scroll lock while mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -40,11 +46,67 @@ export function Header() {
     };
   }, [isMobileMenuOpen]);
 
+  // Mobile menu a11y: focus management, focus trap, Escape-to-close.
+  // On open: remember previously focused element, move focus to first
+  // focusable inside the overlay, install keydown handler for Escape + Tab trap.
+  // On close: restore focus to the previously focused element.
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      if (previouslyFocused.current) {
+        previouslyFocused.current.focus();
+        previouslyFocused.current = null;
+      }
+      return;
+    }
+
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+
+    const getFocusable = () => {
+      const overlay = overlayRef.current;
+      if (!overlay) return [];
+      return Array.from(
+        overlay.querySelectorAll<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])'
+        )
+      );
+    };
+
+    // Delay focus until after paint so the element is actually focusable
+    const focusTimer = requestAnimationFrame(() => {
+      getFocusable()[0]?.focus();
+    });
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      cancelAnimationFrame(focusTimer);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
   const linkStyles = cn(
-    "text-[13px] font-medium uppercase tracking-wider transition-all duration-200 whitespace-nowrap",
+    "text-[13px] font-medium uppercase tracking-wider transition-all duration-200 whitespace-nowrap motion-reduce:transition-none",
     "relative pb-1 mt-1",
     "after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px]",
-    "after:transition-all after:duration-300",
+    "after:transition-all after:duration-300 motion-reduce:after:transition-none",
     "hover:after:w-full"
   );
 
@@ -56,11 +118,13 @@ export function Header() {
           it caps at min(1200px, 92vw) and renders as a frosted rounded pill.
           Otherwise, it's a full-bleed solid bar (white when scrolled / on
           non-homepage). Width and visual styles animate via CSS transitions.
+          backdrop-filter is scoped to pill mode only — it's expensive to
+          composite on a full-width fixed bar during scroll.
         */}
         <div
           className={cn(
             "mx-auto flex items-center pointer-events-auto",
-            "transition-all duration-500 ease-out",
+            "duration-500 ease-out motion-reduce:transition-none motion-reduce:duration-0",
             "h-20 lg:h-24 xl:h-28",
             "px-5 lg:px-6 xl:px-8",
             isPill
@@ -72,10 +136,10 @@ export function Header() {
             backgroundColor: isPill
               ? "rgba(255, 255, 255, 0.3)"
               : "rgba(255, 255, 255, 0.95)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
+            backdropFilter: isPill ? "blur(12px)" : "none",
+            WebkitBackdropFilter: isPill ? "blur(12px)" : "none",
             transitionProperty:
-              "max-width, margin-top, border-radius, background-color, box-shadow, height, padding",
+              "max-width, margin-top, border-radius, background-color, box-shadow",
           }}
         >
           <nav
@@ -93,6 +157,7 @@ export function Header() {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileMenuOpen}
+                aria-controls={MOBILE_MENU_ID}
               >
                 {isMobileMenuOpen ? (
                   <X className="w-6 h-6 text-white" />
@@ -127,6 +192,7 @@ export function Header() {
             {/* === CENTER ZONE: logo === */}
             <Link
               href="/"
+              aria-label="Iffer's Pictures — Home"
               className="flex items-center justify-center justify-self-center shrink-0"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -136,7 +202,7 @@ export function Header() {
                 width={149}
                 height={80}
                 className={cn(
-                  "transition-all duration-300 w-auto",
+                  "w-auto transition-all duration-300 motion-reduce:transition-none",
                   "h-14 lg:h-16 xl:h-20"
                 )}
                 priority
@@ -171,7 +237,7 @@ export function Header() {
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="ml-1 xl:ml-2 px-4 xl:px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase whitespace-nowrap transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg active:scale-[0.98] bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
+                  className="ml-1 xl:ml-2 px-4 xl:px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase whitespace-nowrap transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg active:scale-[0.98] bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30 motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100"
                 >
                   Inquire
                 </Link>
@@ -183,8 +249,13 @@ export function Header() {
 
       {/* Mobile Menu Overlay */}
       <div
+        ref={overlayRef}
+        id={MOBILE_MENU_ID}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Main menu"
         className={cn(
-          "fixed inset-0 z-40 lg:hidden transition-all duration-500",
+          "fixed inset-0 z-40 lg:hidden transition-all duration-500 motion-reduce:transition-none",
           isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -194,7 +265,7 @@ export function Header() {
         <div
           className={cn(
             "absolute inset-0 bg-gradient-to-br from-[var(--teal-vivid)] to-[var(--teal-dark)]",
-            "transition-transform duration-500 ease-out",
+            "transition-transform duration-500 ease-out motion-reduce:transition-none",
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
         />
@@ -209,7 +280,7 @@ export function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
                   "block text-3xl font-heading font-medium text-white",
-                  "opacity-0 translate-x-8 transition-all duration-500",
+                  "opacity-0 translate-x-8 transition-all duration-500 motion-reduce:transition-none motion-reduce:translate-x-0 motion-reduce:opacity-100",
                   isMobileMenuOpen && "opacity-100 translate-x-0"
                 )}
                 style={{
@@ -224,7 +295,7 @@ export function Header() {
           {/* Mobile Inquire CTA */}
           <div
             className={cn(
-              "mt-8 opacity-0 translate-y-4 transition-all duration-500",
+              "mt-8 opacity-0 translate-y-4 transition-all duration-500 motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100",
               isMobileMenuOpen && "opacity-100 translate-y-0"
             )}
             style={{
@@ -236,7 +307,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="inline-block px-8 py-3 rounded-full bg-white text-[var(--teal-dark)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200"
+              className="inline-block px-8 py-3 rounded-full bg-white text-[var(--teal-dark)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200 motion-reduce:transition-none"
             >
               Inquire
             </Link>
@@ -246,7 +317,7 @@ export function Header() {
           <div
             className={cn(
               "mt-12 pt-8 border-t border-white/20",
-              "opacity-0 translate-y-4 transition-all duration-500",
+              "opacity-0 translate-y-4 transition-all duration-500 motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100",
               isMobileMenuOpen && "opacity-100 translate-y-0"
             )}
             style={{
