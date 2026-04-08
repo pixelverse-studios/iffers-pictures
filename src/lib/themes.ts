@@ -252,7 +252,7 @@ export const THEMES: Record<ThemeId, Theme> = {
       brand: "#8a98c7",
       "brand-soft": "#b0b9d6",
       "brand-strong": "#5e6d9a",
-      "brand-vivid": "#6e7fb4",
+      "brand-vivid": "#5f72a8",
       accent: "#d4a5c0",
       "accent-vivid": "#b889a5",
       highlight: "#e3d4a8",

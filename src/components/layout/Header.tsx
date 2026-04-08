@@ -169,13 +169,13 @@ export function Header() {
           )}
           style={{
             maxWidth: isPill ? PILL_MAX_WIDTH : "100%",
-            // Theme-aware pill/bar background. --surface is the elevated layer
-            // for the active theme (white on light themes, dark elevated on
-            // soft-dark themes). Relative-color syntax lets the alpha track
-            // the theme without per-theme rgba literals.
+            // --pill-bg-frosted and --pill-bg-solid are theme-aware, defined
+            // in globals.css. Modern browsers get rgb(from var(--surface)...)
+            // which tracks the active theme; older browsers fall back to
+            // hardcoded white rgba via the base :root block.
             backgroundColor: isPill
-              ? "rgb(from var(--surface) r g b / 0.3)"
-              : "rgb(from var(--surface) r g b / 0.95)",
+              ? "var(--pill-bg-frosted)"
+              : "var(--pill-bg-solid)",
             backdropFilter: isPill ? "blur(12px)" : "none",
             WebkitBackdropFilter: isPill ? "blur(12px)" : "none",
             transitionProperty:

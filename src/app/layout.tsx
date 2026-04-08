@@ -9,19 +9,25 @@ import { DEFAULT_THEME_ID, THEMES, THEME_STORAGE_KEY } from "@/lib/themes";
 
 // Bakes the theme token maps into an inline <script> that runs in <head>
 // before hydration, so we can apply the stored theme to :root synchronously
-// and avoid a flash of the default palette on first paint.
-const themeTokenMap = Object.fromEntries(
-  Object.entries(THEMES).map(([id, theme]) => [id, theme.tokens])
+// and avoid a flash of the default palette on first paint. Also sets
+// data-theme and data-theme-mode on <html> so CSS selectors can target
+// light/dark states from first paint.
+const themeInitMap = Object.fromEntries(
+  Object.entries(THEMES).map(([id, theme]) => [
+    id,
+    { mode: theme.mode, tokens: theme.tokens },
+  ])
 );
 const themeInitScript = `
 (function(){try{
 var k=${JSON.stringify(THEME_STORAGE_KEY)};
 var s=localStorage.getItem(k);
-var T=${JSON.stringify(themeTokenMap)};
-var id=(s&&T[s])?s:${JSON.stringify(DEFAULT_THEME_ID)};
-var t=T[id],r=document.documentElement;
+var M=${JSON.stringify(themeInitMap)};
+var id=(s&&M[s])?s:${JSON.stringify(DEFAULT_THEME_ID)};
+var e=M[id],t=e.tokens,r=document.documentElement;
 for(var p in t){r.style.setProperty('--'+p,t[p]);}
 r.dataset.theme=id;
+r.dataset.themeMode=e.mode;
 }catch(e){}})();
 `.trim();
 
