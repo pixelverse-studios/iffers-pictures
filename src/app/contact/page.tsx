@@ -62,12 +62,12 @@ export default function ContactPage() {
                         href={`mailto:${BUSINESS_INFO.email}`}
                         className="flex items-start gap-4 group"
                       >
-                        <div className="w-12 h-12 rounded-xl bg-[var(--teal)]/10 flex items-center justify-center group-hover:bg-[var(--teal)] transition-colors duration-200">
-                          <Mail className="w-5 h-5 text-[var(--teal)] group-hover:text-white transition-colors duration-200" />
+                        <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center group-hover:bg-[var(--brand)] transition-colors duration-200">
+                          <Mail className="w-5 h-5 text-[var(--brand)] group-hover:text-white transition-colors duration-200" />
                         </div>
                         <div>
                           <p className="text-sm text-[var(--text-muted)] mb-1">Email</p>
-                          <p className="font-medium text-[var(--foreground)] group-hover:text-[var(--teal)] transition-colors duration-200">
+                          <p className="font-medium text-[var(--foreground)] group-hover:text-[var(--brand)] transition-colors duration-200">
                             {BUSINESS_INFO.email}
                           </p>
                         </div>
@@ -75,8 +75,8 @@ export default function ContactPage() {
                     </li>
                     <li>
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[var(--teal)]/10 flex items-center justify-center">
-                          <MapPin className="w-5 h-5 text-[var(--teal)]" />
+                        <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center">
+                          <MapPin className="w-5 h-5 text-[var(--brand)]" />
                         </div>
                         <div>
                           <p className="text-sm text-[var(--text-muted)] mb-1">Location</p>
@@ -91,8 +91,8 @@ export default function ContactPage() {
                     </li>
                     <li>
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[var(--teal)]/10 flex items-center justify-center">
-                          <Clock className="w-5 h-5 text-[var(--teal)]" />
+                        <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center">
+                          <Clock className="w-5 h-5 text-[var(--brand)]" />
                         </div>
                         <div>
                           <p className="text-sm text-[var(--text-muted)] mb-1">
@@ -121,10 +121,10 @@ export default function ContactPage() {
                         href={BUSINESS_INFO.social.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-12 h-12 rounded-xl bg-[var(--teal)]/10 flex items-center justify-center hover:bg-[var(--teal)] transition-colors duration-200 group"
+                        className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center hover:bg-[var(--brand)] transition-colors duration-200 group"
                         aria-label="Instagram"
                       >
-                        <Instagram className="w-5 h-5 text-[var(--teal)] group-hover:text-white transition-colors duration-200" />
+                        <Instagram className="w-5 h-5 text-[var(--brand)] group-hover:text-white transition-colors duration-200" />
                       </a>
                     )}
                     {BUSINESS_INFO.social.facebook && (
@@ -132,10 +132,10 @@ export default function ContactPage() {
                         href={BUSINESS_INFO.social.facebook}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-12 h-12 rounded-xl bg-[var(--teal)]/10 flex items-center justify-center hover:bg-[var(--teal)] transition-colors duration-200 group"
+                        className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center hover:bg-[var(--brand)] transition-colors duration-200 group"
                         aria-label="Facebook"
                       >
-                        <Facebook className="w-5 h-5 text-[var(--teal)] group-hover:text-white transition-colors duration-200" />
+                        <Facebook className="w-5 h-5 text-[var(--brand)] group-hover:text-white transition-colors duration-200" />
                       </a>
                     )}
                   </div>

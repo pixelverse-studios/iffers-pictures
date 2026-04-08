@@ -41,9 +41,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary: cn(
-        "bg-[var(--teal)] text-white",
-        "hover:bg-[var(--teal-dark)] hover:shadow-lg hover:shadow-[var(--teal)]/25 hover:-translate-y-0.5",
-        "focus-visible:ring-[var(--teal)]",
+        "bg-[var(--brand)] text-white",
+        "hover:bg-[var(--brand-strong)] hover:shadow-lg hover:shadow-[var(--brand)]/25 hover:-translate-y-0.5",
+        "focus-visible:ring-[var(--brand)]",
         "shadow-sm"
       ),
       secondary: cn(
@@ -52,9 +52,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         "focus-visible:ring-neutral-400"
       ),
       outline: cn(
-        "border-2 border-[var(--teal)] text-[var(--teal)]",
-        "hover:bg-[var(--teal)] hover:text-white",
-        "focus-visible:ring-[var(--teal)]"
+        "border-2 border-[var(--brand)] text-[var(--brand)]",
+        "hover:bg-[var(--brand)] hover:text-white",
+        "focus-visible:ring-[var(--brand)]"
       ),
       ghost: cn(
         "text-[var(--foreground)]",
@@ -62,9 +62,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         "focus-visible:ring-neutral-400"
       ),
       coral: cn(
-        "bg-[var(--coral)] text-white",
+        "bg-[var(--accent)] text-white",
         "hover:bg-[#e5673d]",
-        "focus-visible:ring-[var(--coral)]",
+        "focus-visible:ring-[var(--accent)]",
         "shadow-sm hover:shadow-md"
       ),
     };

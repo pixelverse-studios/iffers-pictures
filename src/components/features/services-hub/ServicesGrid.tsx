@@ -53,7 +53,7 @@ export function ServicesGrid({ className }: ServicesGridProps) {
           </p>
           <Link
             href="/contact"
-            className="inline-block text-[var(--teal)] text-sm font-medium tracking-wide hover:underline underline-offset-4 transition-colors"
+            className="inline-block text-[var(--brand)] text-sm font-medium tracking-wide hover:underline underline-offset-4 transition-colors"
           >
             Get in touch &rarr;
           </Link>

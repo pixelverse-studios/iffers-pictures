@@ -46,7 +46,7 @@ export function EditorialLayout() {
 
               {/* Content */}
               <div className={isReversed ? "md:order-1" : ""}>
-                <p className="text-[var(--teal)] font-medium tracking-[0.2em] uppercase text-xs mb-4">
+                <p className="text-[var(--brand)] font-medium tracking-[0.2em] uppercase text-xs mb-4">
                   {session.tagline}
                 </p>
                 <h2 className="text-3xl md:text-4xl font-heading font-semibold text-[var(--foreground)] mb-6 leading-tight">
@@ -55,7 +55,7 @@ export function EditorialLayout() {
                 <ul className="space-y-4 mb-8">
                   {session.items.map((item) => (
                     <li key={item} className="flex items-start gap-3 text-[var(--text-secondary)]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--teal)] mt-2 shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--brand)] mt-2 shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -63,14 +63,14 @@ export function EditorialLayout() {
                 <div className="flex flex-wrap items-center gap-6">
                   <Link
                     href={`/contact?session=${session.slug}`}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--teal-vivid)] text-white font-medium text-sm hover:bg-[var(--teal-dark)] transition-all duration-200 shadow-md shadow-[var(--teal-vivid)]/20 hover:shadow-lg"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-vivid)] text-white font-medium text-sm hover:bg-[var(--brand-strong)] transition-all duration-200 shadow-md shadow-[var(--brand-vivid)]/20 hover:shadow-lg"
                   >
                     Get Started
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                   <Link
                     href={`/services/${session.slug}`}
-                    className="inline-flex items-center gap-2 text-[var(--teal)] font-medium hover:gap-3 transition-all duration-200 text-sm"
+                    className="inline-flex items-center gap-2 text-[var(--brand)] font-medium hover:gap-3 transition-all duration-200 text-sm"
                   >
                     Learn More
                     <ExternalLink className="w-3.5 h-3.5" />

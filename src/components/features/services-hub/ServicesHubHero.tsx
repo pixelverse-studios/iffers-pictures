@@ -14,23 +14,23 @@ export function ServicesHubHero({ className }: ServicesHubHeroProps) {
     <section
       className={cn(
         "relative min-h-[60vh] flex items-center overflow-hidden",
-        "bg-gradient-to-br from-[var(--background-warm)] via-white to-[var(--teal)]/5",
+        "bg-gradient-to-br from-[var(--background-warm)] via-white to-[var(--brand)]/5",
         className
       )}
     >
       {/* Decorative Elements */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-[var(--teal)]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 left-10 w-56 h-56 bg-[var(--coral)]/5 rounded-full blur-3xl" />
+      <div className="absolute top-20 right-10 w-72 h-72 bg-[var(--brand)]/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-10 left-10 w-56 h-56 bg-[var(--accent)]/5 rounded-full blur-3xl" />
 
       {/* Floating Icons */}
       <div className="absolute top-1/4 right-1/4 hidden lg:block opacity-20">
-        <Camera className="w-12 h-12 text-[var(--teal)]" />
+        <Camera className="w-12 h-12 text-[var(--brand)]" />
       </div>
       <div className="absolute bottom-1/3 left-1/5 hidden lg:block opacity-20">
-        <Heart className="w-10 h-10 text-[var(--coral)]" />
+        <Heart className="w-10 h-10 text-[var(--accent)]" />
       </div>
       <div className="absolute top-1/3 left-1/4 hidden lg:block opacity-20">
-        <Sparkles className="w-8 h-8 text-[var(--gold)]" />
+        <Sparkles className="w-8 h-8 text-[var(--highlight)]" />
       </div>
 
       <div className="container relative pt-32 pb-16">
@@ -39,7 +39,7 @@ export function ServicesHubHero({ className }: ServicesHubHeroProps) {
           <nav className="flex items-center justify-center gap-2 text-sm text-[var(--text-secondary)] mb-8">
             <Link
               href="/"
-              className="hover:text-[var(--teal)] transition-colors"
+              className="hover:text-[var(--brand)] transition-colors"
             >
               Home
             </Link>
@@ -50,7 +50,7 @@ export function ServicesHubHero({ className }: ServicesHubHeroProps) {
           {/* Main Heading */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold text-[var(--foreground)] leading-tight mb-6">
             Event & Portrait Photography{" "}
-            <span className="text-[var(--teal)]">Services</span>
+            <span className="text-[var(--brand)]">Services</span>
           </h1>
 
           {/* Subheading */}

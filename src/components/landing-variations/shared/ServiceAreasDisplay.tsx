@@ -24,7 +24,7 @@ export function ServiceAreasDisplay() {
           {/* Compact header — inline icon + heading + description */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[var(--teal)] flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-full bg-[var(--brand)] flex items-center justify-center shrink-0">
                 <MapPin className="w-4 h-4 text-white" />
               </div>
               <div>
@@ -38,7 +38,7 @@ export function ServiceAreasDisplay() {
             </div>
             <Link
               href="/locations"
-              className="inline-flex items-center gap-2 text-[var(--teal-light)] text-sm font-medium hover:gap-3 transition-all duration-300 shrink-0"
+              className="inline-flex items-center gap-2 text-[var(--brand-soft)] text-sm font-medium hover:gap-3 transition-all duration-300 shrink-0"
             >
               All Service Areas
               <ArrowRight className="w-3.5 h-3.5" />
@@ -54,7 +54,7 @@ export function ServiceAreasDisplay() {
                 className={cn(
                   "px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
                   area.isHomeBase
-                    ? "bg-[var(--teal)] text-white shadow-lg shadow-[var(--teal)]/30"
+                    ? "bg-[var(--brand)] text-white shadow-lg shadow-[var(--brand)]/30"
                     : "bg-white/10 text-white hover:bg-white/20"
                 )}
               >

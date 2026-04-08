@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className="block text-sm font-medium text-[var(--foreground)] mb-2"
           >
             {label}
-            {props.required && <span className="text-[var(--coral)] ml-1">*</span>}
+            {props.required && <span className="text-[var(--accent)] ml-1">*</span>}
           </label>
         )}
         <input
@@ -34,7 +34,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             "bg-white border border-[var(--border)]",
             "text-[var(--foreground)] placeholder:text-[var(--text-muted)]",
             "transition-all duration-200",
-            "focus:outline-none focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20",
+            "focus:outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20",
             "disabled:bg-neutral-100 disabled:cursor-not-allowed",
             error && "border-red-500 focus:border-red-500 focus:ring-red-500/20",
             className

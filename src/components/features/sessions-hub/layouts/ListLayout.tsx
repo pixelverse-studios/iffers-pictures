@@ -31,13 +31,13 @@ export function ListLayout() {
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-xl font-heading font-semibold text-[var(--foreground)] mb-1 group-hover:text-[var(--teal)] transition-colors">
+                  <h2 className="text-xl font-heading font-semibold text-[var(--foreground)] mb-1 group-hover:text-[var(--brand)] transition-colors">
                     {session.name}
                   </h2>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
                     {session.description}
                   </p>
-                  <span className="inline-flex items-center gap-2 text-sm text-[var(--teal)] font-medium group-hover:gap-3 transition-all duration-200">
+                  <span className="inline-flex items-center gap-2 text-sm text-[var(--brand)] font-medium group-hover:gap-3 transition-all duration-200">
                     View session
                     <ArrowRight className="w-4 h-4" />
                   </span>

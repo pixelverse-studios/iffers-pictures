@@ -27,11 +27,11 @@ const iconSizes = {
 };
 
 const variants = {
-  teal: "from-[var(--teal)]/15 via-[var(--teal)]/8 to-[var(--teal)]/20",
-  coral: "from-[var(--coral)]/15 via-[var(--coral)]/8 to-[var(--coral)]/20",
+  teal: "from-[var(--brand)]/15 via-[var(--brand)]/8 to-[var(--brand)]/20",
+  coral: "from-[var(--accent)]/15 via-[var(--accent)]/8 to-[var(--accent)]/20",
   warm: "from-[var(--background-warm)] via-neutral-100 to-[var(--background-warm)]",
   neutral: "from-neutral-100 via-neutral-50 to-neutral-100",
-  gradient: "from-[var(--teal)]/10 via-transparent to-[var(--coral)]/10",
+  gradient: "from-[var(--brand)]/10 via-transparent to-[var(--accent)]/10",
 };
 
 export function ImagePlaceholder({
@@ -62,17 +62,17 @@ export function ImagePlaceholder({
       />
 
       {/* Decorative corner elements */}
-      <div className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2 border-[var(--teal)]/20 rounded-tl-sm" />
-      <div className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2 border-[var(--teal)]/20 rounded-tr-sm" />
-      <div className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2 border-[var(--teal)]/20 rounded-bl-sm" />
-      <div className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 border-[var(--teal)]/20 rounded-br-sm" />
+      <div className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2 border-[var(--brand)]/20 rounded-tl-sm" />
+      <div className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2 border-[var(--brand)]/20 rounded-tr-sm" />
+      <div className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2 border-[var(--brand)]/20 rounded-bl-sm" />
+      <div className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 border-[var(--brand)]/20 rounded-br-sm" />
 
       {/* Center content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {showIcon && (
           <Camera
             className={cn(
-              "text-[var(--teal)]/25 transition-all duration-300",
+              "text-[var(--brand)]/25 transition-all duration-300",
               iconSizes[iconSize]
             )}
           />

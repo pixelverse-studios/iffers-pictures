@@ -30,7 +30,7 @@ export function Hero() {
         </p>
         <Link
           href="/contact"
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--teal-vivid)] text-white font-medium text-base hover:bg-[var(--teal-dark)] transition-all duration-200 shadow-lg shadow-[var(--teal-vivid)]/30"
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--brand-vivid)] text-white font-medium text-base hover:bg-[var(--brand-strong)] transition-all duration-200 shadow-lg shadow-[var(--brand-vivid)]/30"
         >
           Inquire Here
         </Link>

@@ -81,7 +81,7 @@ export default function FAQPage() {
       <section className="pt-hero pb-12 md:pb-16 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-sm font-medium uppercase tracking-wider text-[var(--teal)] mb-4">
+            <p className="text-sm font-medium uppercase tracking-wider text-[var(--brand)] mb-4">
               Questions & Answers
             </p>
             <h1 className="text-4xl md:text-5xl font-heading font-semibold text-[var(--foreground)] mb-4">
@@ -92,7 +92,7 @@ export default function FAQPage() {
               Can&apos;t find what you&apos;re looking for?{" "}
               <Link
                 href="/contact"
-                className="text-[var(--teal)] hover:text-[var(--teal-dark)] underline underline-offset-4"
+                className="text-[var(--brand)] hover:text-[var(--brand-strong)] underline underline-offset-4"
               >
                 Get in touch
               </Link>

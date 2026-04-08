@@ -110,9 +110,9 @@ export function Header() {
                       linkStyles,
                       useHeroStyling
                         ? heroUnderlineClass
-                        : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+                        : "text-[var(--text-secondary)] hover:text-[var(--brand)] after:bg-[var(--brand)]",
                       isActive && "after:w-full",
-                      isActive && !useHeroStyling && "text-[var(--teal)]"
+                      isActive && !useHeroStyling && "text-[var(--brand)]"
                     )}
                     style={
                       useHeroStyling
@@ -189,9 +189,9 @@ export function Header() {
                       linkStyles,
                       useHeroStyling
                         ? heroUnderlineClass
-                        : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+                        : "text-[var(--text-secondary)] hover:text-[var(--brand)] after:bg-[var(--brand)]",
                       isActive && "after:w-full",
-                      isActive && !useHeroStyling && "text-[var(--teal)]"
+                      isActive && !useHeroStyling && "text-[var(--brand)]"
                     )}
                     style={
                       useHeroStyling
@@ -212,9 +212,9 @@ export function Header() {
                   "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
                   useHeroStyling
                     ? isFrosted
-                      ? "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
-                      : "bg-white/90 text-[var(--teal-dark)] hover:bg-white shadow-md hover:shadow-white/25"
-                    : "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
+                      ? "bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] shadow-sm hover:shadow-[var(--brand-vivid)]/30"
+                      : "bg-white/90 text-[var(--brand-strong)] hover:bg-white shadow-md hover:shadow-white/25"
+                    : "bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] shadow-sm hover:shadow-[var(--brand-vivid)]/30"
                 )}
               >
                 Inquire
@@ -239,7 +239,7 @@ export function Header() {
         {/* Teal Background */}
         <div
           className={cn(
-            "absolute inset-0 bg-gradient-to-br from-[var(--teal-vivid)] to-[var(--teal-dark)]",
+            "absolute inset-0 bg-gradient-to-br from-[var(--brand-vivid)] to-[var(--brand-strong)]",
             "transition-transform duration-500 ease-out",
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
@@ -282,7 +282,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="inline-block px-8 py-3 rounded-full bg-white text-[var(--teal-dark)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200"
+              className="inline-block px-8 py-3 rounded-full bg-white text-[var(--brand-strong)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200"
             >
               Inquire
             </Link>

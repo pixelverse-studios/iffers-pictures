@@ -13,7 +13,7 @@ interface ServiceCTAProps {
 
 export function ServiceCTA({ data, serviceSlug }: ServiceCTAProps) {
   return (
-    <section className="section bg-gradient-to-br from-[var(--teal)] to-[var(--teal-dark)] relative overflow-hidden">
+    <section className="section bg-gradient-to-br from-[var(--brand)] to-[var(--brand-strong)] relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
@@ -39,7 +39,7 @@ export function ServiceCTA({ data, serviceSlug }: ServiceCTAProps) {
           <Link href={serviceSlug ? `/contact?session=${serviceSlug}` : data.buttonLink}>
             <Button
               size="lg"
-              className="bg-white text-[var(--teal-dark)] hover:bg-white/90 shadow-xl"
+              className="bg-white text-[var(--brand-strong)] hover:bg-white/90 shadow-xl"
               rightIcon={<ArrowRight className="w-5 h-5" />}
             >
               {data.buttonText}

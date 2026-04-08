@@ -9,9 +9,9 @@ export function CardsLayout() {
         <Link
           key={session.slug}
           href={`/services/${session.slug}`}
-          className="group text-center p-6 rounded-xl border border-[var(--border)] hover:border-[var(--teal-light)] hover:shadow-md transition-all duration-200"
+          className="group text-center p-6 rounded-xl border border-[var(--border)] hover:border-[var(--brand-soft)] hover:shadow-md transition-all duration-200"
         >
-          <h3 className="text-base font-heading font-semibold text-[var(--foreground)] mb-2 group-hover:text-[var(--teal)] transition-colors">
+          <h3 className="text-base font-heading font-semibold text-[var(--foreground)] mb-2 group-hover:text-[var(--brand)] transition-colors">
             {session.name}
           </h3>
           <p className="text-sm text-[var(--text-muted)] leading-relaxed">

@@ -15,7 +15,7 @@ function Stars() {
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          className="w-3.5 h-3.5 text-[var(--gold-vivid)] fill-[var(--gold-vivid)]"
+          className="w-3.5 h-3.5 text-[var(--highlight-vivid)] fill-[var(--highlight-vivid)]"
         />
       ))}
     </div>
@@ -28,14 +28,14 @@ function Stars() {
 function LightCard({ quote, author, sessionType }: { quote: string; author: string; sessionType: string }) {
   return (
     <div className="flex h-full rounded-2xl bg-white border border-[var(--border)]/60 overflow-hidden">
-      <div className="w-1 shrink-0 bg-[var(--teal)]" />
+      <div className="w-1 shrink-0 bg-[var(--brand)]" />
       <div className="p-7 md:p-8 flex flex-col">
         <Stars />
         <blockquote className="text-base text-[var(--foreground)] leading-relaxed mt-4 mb-auto pb-5">
           &ldquo;{quote}&rdquo;
         </blockquote>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-[var(--background-warm)] flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)]">
+          <div className="w-9 h-9 rounded-full bg-[var(--background-warm)] flex items-center justify-center font-heading font-semibold text-sm text-[var(--brand-strong)]">
             {author[0]}
           </div>
           <div>
@@ -59,14 +59,14 @@ function WarmCard({ quote, author, sessionType }: { quote: string; author: strin
   return (
     <div className="relative h-full rounded-2xl bg-[var(--background-warm)] p-7 md:p-8 flex flex-col">
       <div className="absolute top-6 right-6 md:top-7 md:right-7">
-        <Quote className="w-5 h-5 text-[var(--teal)]/25" />
+        <Quote className="w-5 h-5 text-[var(--brand)]/25" />
       </div>
       <Stars />
       <blockquote className="text-base text-[var(--foreground)] leading-relaxed mt-4 mb-auto pb-5 pr-6">
         &ldquo;{quote}&rdquo;
       </blockquote>
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-heading font-semibold text-sm text-[var(--teal-dark)] shadow-sm">
+        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-heading font-semibold text-sm text-[var(--brand-strong)] shadow-sm">
           {author[0]}
         </div>
         <div>
