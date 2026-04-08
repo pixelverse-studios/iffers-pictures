@@ -13,7 +13,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const useHeroStyling = isHomePage && !isScrolled;
+  const isPill = isHomePage && !isScrolled;
 
   const isLinkActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -41,119 +41,93 @@ export function Header() {
   }, [isMobileMenuOpen]);
 
   const linkStyles = cn(
-    "text-[13px] font-medium uppercase tracking-wider transition-all duration-200",
+    "text-[13px] font-medium uppercase tracking-wider transition-all duration-200 whitespace-nowrap",
     "relative pb-1 mt-1",
     "after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px]",
     "after:transition-all after:duration-300",
     "hover:after:w-full"
   );
 
-  const isFrosted = useHeroStyling;
-  const isFrostedMode = isHomePage;
-  const heroLinkColor = isFrosted ? "#1f2937" : "#ffffff";
-  const heroLinkShadow = "none";
-  const heroUnderlineClass = isFrosted ? "after:bg-[var(--foreground)]" : "after:bg-white";
-
   return (
     <>
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-          isFrostedMode ? "bg-transparent" : useHeroStyling ? "bg-transparent" : "bg-white/95 backdrop-blur-md shadow-sm"
-        )}
-      >
+      <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
         {/*
-          Frosted pill: absolutely-positioned behind all content.
-          Uses left-0/right-0 + mx-auto + max-width to center and constrain.
-          When isFrosted: max-w-4xl, rounded, frosted glass, slight vertical inset.
-          When scrolled: max-w-none (full width), no rounding, solid white + shadow.
-          All properties animate via CSS transitions — no layout jumps.
+          Single morphing wrapper. When isPill (homepage hero, not scrolled),
+          it caps at min(1200px, 92vw) and renders as a frosted rounded pill.
+          Otherwise, it's a full-bleed solid bar (white when scrolled / on
+          non-homepage). Width and visual styles animate via CSS transitions.
         */}
-        {isFrostedMode && (
-          <div
-            className="absolute z-0 transition-all duration-500 ease-out"
-            style={{
-              top: isFrosted ? "0.5rem" : "0",
-              bottom: isFrosted ? "0.25rem" : "0",
-              left: isFrosted ? "18%" : "0",
-              right: isFrosted ? "18%" : "0",
-              backgroundColor: isFrosted
-                ? "rgba(255, 255, 255, 0.3)"
-                : "rgba(255, 255, 255, 0.95)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              borderRadius: isFrosted ? "1rem" : "0",
-              boxShadow: isFrosted
-                ? "none"
-                : "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)",
-              transitionProperty: "max-width, top, bottom, left, right, background-color, border-radius, box-shadow",
-            }}
-          />
-        )}
-
-        <div className="container relative z-10">
+        <div
+          className={cn(
+            "mx-auto flex items-center pointer-events-auto",
+            "transition-all duration-500 ease-out",
+            "h-20 lg:h-24 xl:h-28",
+            "px-5 lg:px-6 xl:px-8",
+            isPill
+              ? "mt-3 rounded-2xl"
+              : "mt-0 rounded-none shadow-sm"
+          )}
+          style={{
+            maxWidth: isPill ? "min(1200px, 92vw)" : "100%",
+            backgroundColor: isPill
+              ? "rgba(255, 255, 255, 0.3)"
+              : "rgba(255, 255, 255, 0.95)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            transitionProperty:
+              "max-width, margin-top, border-radius, background-color, box-shadow, height, padding",
+          }}
+        >
           <nav
             className={cn(
-              "flex items-center justify-between transition-all duration-500",
-              useHeroStyling ? "h-28" : "h-24",
+              "w-full grid items-center",
+              "grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto_1fr]",
+              "gap-3 lg:gap-5 xl:gap-8 2xl:gap-12"
             )}
           >
-            {/* Left Navigation - Desktop */}
-            <div className="hidden lg:flex items-center gap-9 flex-1">
-              {NAV_LINKS_LEFT.map((link) => {
-                const isActive = isLinkActive(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      linkStyles,
-                      useHeroStyling
-                        ? heroUnderlineClass
-                        : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
-                      isActive && "after:w-full",
-                      isActive && !useHeroStyling && "text-[var(--teal)]"
-                    )}
-                    style={
-                      useHeroStyling
-                        ? { color: heroLinkColor, textShadow: heroLinkShadow }
-                        : undefined
-                    }
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
+            {/* === LEFT ZONE: hamburger (mobile) / nav links (desktop) === */}
+            <div className="flex items-center justify-start min-w-0">
+              {/* Mobile menu button */}
+              <button
+                className="lg:hidden p-2 -ml-2"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMobileMenuOpen}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6 text-white" />
+                ) : (
+                  <Menu className="w-6 h-6 text-[var(--foreground)]" />
+                )}
+              </button>
+
+              {/* Desktop left links */}
+              <div className="hidden lg:flex items-center lg:gap-5 xl:gap-7 2xl:gap-9 min-w-0">
+                {NAV_LINKS_LEFT.map((link) => {
+                  const isActive = isLinkActive(link.href);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        linkStyles,
+                        isPill
+                          ? "text-[var(--foreground)] hover:text-[var(--teal-dark)] after:bg-[var(--foreground)]"
+                          : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+                        isActive && (isPill ? "after:w-full" : "text-[var(--teal)] after:w-full")
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Mobile Menu Button - Left */}
-            <button
-              className="lg:hidden relative z-10 p-2 -ml-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6 text-white" />
-              ) : (
-                <Menu
-                  className={cn(
-                    "w-6 h-6 transition-colors duration-300",
-                    useHeroStyling && !isFrosted ? "text-white" : "text-[var(--foreground)]"
-                  )}
-                  style={useHeroStyling && !isFrosted ? { filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.8))" } : undefined}
-                />
-              )}
-            </button>
-
-            {/* Centered Logo */}
+            {/* === CENTER ZONE: logo === */}
             <Link
               href="/"
-              className={cn(
-                "relative z-10 flex items-center justify-center",
-                "transition-all duration-300",
-                "lg:absolute lg:left-1/2 lg:-translate-x-1/2"
-              )}
+              className="flex items-center justify-center justify-self-center shrink-0"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <Image
@@ -161,68 +135,55 @@ export function Header() {
                 alt="Iffer's Pictures"
                 width={149}
                 height={80}
-                className="transition-all duration-300 h-20 w-auto"
-                style={
-                  useHeroStyling && !isFrosted
-                    ? {
-                        filter: [
-                          "drop-shadow(0 0 8px rgba(255,255,255,0.4))",
-                          "drop-shadow(0 0 20px rgba(255,255,255,0.2))",
-                          "drop-shadow(0 2px 4px rgba(0,0,0,0.3))",
-                        ].join(" "),
-                      }
-                    : undefined
-                }
+                className={cn(
+                  "transition-all duration-300 w-auto",
+                  "h-14 lg:h-16 xl:h-20"
+                )}
                 priority
               />
             </Link>
 
-            {/* Right Navigation - Desktop */}
-            <div className="hidden lg:flex items-center gap-9 justify-end flex-1">
-              {NAV_LINKS_RIGHT.map((link) => {
-                const isActive = isLinkActive(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      linkStyles,
-                      useHeroStyling
-                        ? heroUnderlineClass
-                        : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
-                      isActive && "after:w-full",
-                      isActive && !useHeroStyling && "text-[var(--teal)]"
-                    )}
-                    style={
-                      useHeroStyling
-                        ? { color: heroLinkColor, textShadow: heroLinkShadow }
-                        : undefined
-                    }
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-              <Link
-                href="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={cn(
-                  "ml-2 px-5 py-2 rounded-full text-sm font-medium tracking-wide uppercase",
-                  "transition-all duration-300 ease-out",
-                  "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
-                  useHeroStyling
-                    ? isFrosted
-                      ? "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
-                      : "bg-white/90 text-[var(--teal-dark)] hover:bg-white shadow-md hover:shadow-white/25"
-                    : "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30"
-                )}
-              >
-                Inquire
-              </Link>
-            </div>
+            {/* === RIGHT ZONE: spacer (mobile) / links + CTA (desktop) === */}
+            <div className="flex items-center justify-end min-w-0">
+              {/* Mobile spacer (matches hamburger button width for visual balance) */}
+              <div className="lg:hidden w-10" />
 
-            {/* Mobile - Empty right spacer for balance */}
-            <div className="lg:hidden w-10" />
+              {/* Desktop right links + CTA */}
+              <div className="hidden lg:flex items-center lg:gap-5 xl:gap-7 2xl:gap-9 min-w-0">
+                {NAV_LINKS_RIGHT.map((link) => {
+                  const isActive = isLinkActive(link.href);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        linkStyles,
+                        isPill
+                          ? "text-[var(--foreground)] hover:text-[var(--teal-dark)] after:bg-[var(--foreground)]"
+                          : "text-[var(--text-secondary)] hover:text-[var(--teal)] after:bg-[var(--teal)]",
+                        isActive && (isPill ? "after:w-full" : "text-[var(--teal)] after:w-full")
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+                <Link
+                  href="/contact"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={cn(
+                    "rounded-full font-medium tracking-wide uppercase whitespace-nowrap",
+                    "transition-all duration-300 ease-out",
+                    "hover:scale-105 hover:shadow-lg active:scale-[0.98]",
+                    "bg-[var(--teal-vivid)] text-white hover:bg-[var(--teal-dark)] shadow-sm hover:shadow-[var(--teal-vivid)]/30",
+                    "lg:ml-1 lg:px-4 lg:py-2 lg:text-xs",
+                    "xl:ml-2 xl:px-5 xl:py-2 xl:text-sm"
+                  )}
+                >
+                  Inquire
+                </Link>
+              </div>
+            </div>
           </nav>
         </div>
       </header>
