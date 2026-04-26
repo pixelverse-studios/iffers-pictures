@@ -6,6 +6,9 @@
 - Fixed responsive bug in the homepage frosted glass navigation — links no longer overflow the pill on smaller screens
 - Internal cleanup: renamed color tokens to support upcoming theme switcher and removed unused design-mode preview widget
 - Added a theme preview tool: Jen can now click a floating palette pill in the bottom-left corner of any page to preview the site across 12 curated color themes (9 light + 3 soft-dark), including a new "Cove" vibrant-teal theme. Her choice is remembered per-device.
+- Added project agent instructions so future AI-assisted work follows the site workflow, documentation process, and SEO standards.
+- Updated the Portfolio page intro to use the new "Memories, Beautifully Captured" messaging.
+- Refreshed the Testimonials page hero with the aligned blue treatment and new "Kind Words" copy.
 
 ## Notes for internal team
 
@@ -15,6 +18,8 @@
 - DEV-681: Refactored Header.tsx to a single morphing wrapper that grows/shrinks with content. Pill width now uses `max-width: min(1200px, 92vw)` instead of a fixed 64% viewport rule. Inner layout switched to a 3-zone grid (`[1fr_auto_1fr]` desktop, `[auto_1fr_auto]` mobile) for guaranteed centered logo. Added compact desktop tier (1024–1280px) with tighter gaps.
 - DEV-679: Renamed color tokens `--teal*` → `--brand*`, `--coral*` → `--accent*`, `--gold*` → `--highlight*` across globals.css and 64 component files (~276 touchpoints). Removed orphaned DesignModeToggle, DesignModeContext, ImageDivider, layout TrustBadges, sessions InspiredLayout, investment NarrativeLayout — all dead code paths since rockstar homepage was locked in. No visual regression.
 - DEV-680: Added floating theme switcher with 12 curated themes (9 light + 3 soft-dark with warm charcoal backgrounds). Added "Cove" vibrant-teal theme (Tailwind teal-600 primary with warm coral accent). Single source of truth in `src/lib/themes.ts`. Runtime theme switching via `document.documentElement.style.setProperty` on 19 tokens per theme. FOUC-prevention inline script in layout.tsx head runs pre-hydration, bakes both `data-theme` and `data-theme-mode` for CSS selectors. 200ms body color transition gated by `prefers-reduced-motion`. Full a11y (radiogroup, arrow-key nav, focus restore, motion-reduce). Header pill uses `rgb(from var(--surface) r g b / 0.3)` relative color syntax with rgba fallback. Feature doc in `docs/features/theme-switcher.md`. Strip or lock to client's choice before go-live.
+- Created `AGENTS.md` from the existing `claude.md` guidance and translated Claude-specific tool notes into Codex-compatible instructions.
+- Completed DEV-762 and DEV-767. Targeted ESLint passed for `src/app/portfolio/page.tsx` and `src/app/testimonials/page.tsx`; production build passed after allowing network access for Google Fonts. Full repo lint is still blocked by existing unrelated lint errors.
 
 ## Changed URLs
 
@@ -27,3 +32,4 @@
 - https://ifferspictures.com/sessions/proposal
 - https://ifferspictures.com/sessions/family
 - https://ifferspictures.com/sessions/maternity
+- https://ifferspictures.com/testimonials
