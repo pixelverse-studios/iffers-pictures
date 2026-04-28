@@ -64,7 +64,7 @@ export const familyData: ServicePageData = {
       },
       {
         title: "Quick Turnaround",
-        description: "Your gallery will be ready within 2 weeks. You'll receive a mix of portraits, candids, and detail shots—the full story of your session.",
+        description: "Your gallery will be ready within four weeks. You'll receive a mix of portraits, candids, and detail shots—the full story of your session.",
       },
     ],
   },
@@ -131,7 +131,7 @@ export const familyData: ServicePageData = {
       },
       {
         question: "How long until we receive our photos?",
-        answer: "Your online gallery will be ready within 2 weeks of your session. Each image is individually edited for color, exposure, and light retouching. You'll receive a mix of portraits, candids, and detail shots.",
+        answer: "Your online gallery will be ready within four weeks of your session. Each image is individually edited for color, exposure, and light retouching. You'll receive a mix of portraits, candids, and detail shots.",
       },
       {
         question: "Do you photograph newborns?",

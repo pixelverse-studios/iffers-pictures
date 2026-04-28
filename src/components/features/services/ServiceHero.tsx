@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { ImagePlaceholder } from "@/components/landing-variations/shared/ImagePlaceholder";
 import { HeroData } from "@/data/services/types";
@@ -37,7 +36,7 @@ export function ServiceHero({ data, serviceName, serviceSlug }: ServiceHeroProps
               </Link>
               <ChevronRight className="w-4 h-4" />
               <Link href="/services" className="hover:text-[var(--brand)] transition-colors">
-                Services
+                Sessions
               </Link>
               <ChevronRight className="w-4 h-4" />
               <span className="text-[var(--foreground)]">{serviceName}</span>

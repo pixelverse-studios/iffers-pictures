@@ -24,10 +24,6 @@ export function ServicePricing({ data, serviceSlug }: ServicePricingProps) {
               Get a Custom Quote
             </Button>
           </Link>
-          <p className="mt-6 text-[var(--text-secondary)]">
-            Every session is tailored to your needs — reach out and
-            I&apos;ll put together a package that fits.
-          </p>
         </div>
       </div>
     </section>

@@ -65,7 +65,7 @@ export const portraitData: ServicePageData = {
       },
       {
         title: "Fast Delivery",
-        description: "Receive your professionally edited portraits within 3-5 business days. Rush delivery available for an additional fee.",
+        description: "Receive your professionally edited portraits within one week. Rush delivery available for an additional fee.",
       },
     ],
   },
@@ -111,7 +111,7 @@ export const portraitData: ServicePageData = {
       },
       {
         question: "How long until I receive my photos?",
-        answer: "Standard delivery is 3-5 business days. Rush and same-day delivery options are available—just ask when booking.",
+        answer: "Standard delivery is within one week. Rush and same-day delivery options are available—just ask when booking.",
       },
       {
         question: "What file formats do I receive?",

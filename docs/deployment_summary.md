@@ -9,6 +9,9 @@
 - Added project agent instructions so future AI-assisted work follows the site workflow, documentation process, and SEO standards.
 - Updated the Portfolio page intro to use the new "Memories, Beautifully Captured" messaging.
 - Refreshed the Testimonials page hero with the aligned blue treatment and new "Kind Words" copy.
+- Updated session pages so breadcrumbs say "Sessions" and removed the extra trust badges from the bottom call-to-action.
+- Tightened session benefits and testimonial cards for a lighter, more compact presentation.
+- Updated session delivery timing copy across Events, Family, Maternity, Couples & Engagement, and Portrait pages.
 
 ## Notes for internal team
 
@@ -20,6 +23,7 @@
 - DEV-680: Added floating theme switcher with 12 curated themes (9 light + 3 soft-dark with warm charcoal backgrounds). Added "Cove" vibrant-teal theme (Tailwind teal-600 primary with warm coral accent). Single source of truth in `src/lib/themes.ts`. Runtime theme switching via `document.documentElement.style.setProperty` on 19 tokens per theme. FOUC-prevention inline script in layout.tsx head runs pre-hydration, bakes both `data-theme` and `data-theme-mode` for CSS selectors. 200ms body color transition gated by `prefers-reduced-motion`. Full a11y (radiogroup, arrow-key nav, focus restore, motion-reduce). Header pill uses `rgb(from var(--surface) r g b / 0.3)` relative color syntax with rgba fallback. Feature doc in `docs/features/theme-switcher.md`. Strip or lock to client's choice before go-live.
 - Created `AGENTS.md` from the existing `claude.md` guidance and translated Claude-specific tool notes into Codex-compatible instructions.
 - Completed DEV-762 and DEV-767. Targeted ESLint passed for `src/app/portfolio/page.tsx` and `src/app/testimonials/page.tsx`; production build passed after allowing network access for Google Fonts. Full repo lint is still blocked by existing unrelated lint errors.
+- Completed DEV-763, DEV-765, and DEV-766. Event FAQ copy stays as-is beyond the approved delivery timing fix, and the Family gallery headline remains unchanged for now.
 
 ## Changed URLs
 
@@ -33,3 +37,8 @@
 - https://ifferspictures.com/sessions/family
 - https://ifferspictures.com/sessions/maternity
 - https://ifferspictures.com/testimonials
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/couples-engagement
+- https://ifferspictures.com/services/portrait
