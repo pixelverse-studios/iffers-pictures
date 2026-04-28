@@ -81,52 +81,58 @@ export function RockstarLayout() {
         </div>
       </section>
 
-      {/* ── 2. EDITORIAL INTRO ─────────────────────────────── */}
-      <section className="py-10 md:py-14">
+      {/* ── 2. MEET JENN ──────────────────────────────────── */}
+      <section className="py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center">
-            {/* Pull quote — left */}
-            <div className="md:col-span-7">
-              <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-medium text-[var(--foreground)] leading-snug">
-                I don&apos;t just take photos.{" "}
-                <span className="text-[var(--brand-vivid)] italic">
-                  I preserve the feeling
-                </span>{" "}
-                of your most important day.
-              </p>
-            </div>
-
-            {/* Photographer — right */}
-            <div className="md:col-span-5 flex justify-center">
-              <div className="relative">
-                {/* Rectangular portrait */}
-                <div className="relative w-[160px] aspect-[3/4] rounded-lg overflow-hidden shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center">
+            <div className="md:col-span-5">
+              <div className="relative mx-auto w-full max-w-[360px]">
+                <div className="absolute -left-4 -top-4 hidden h-full w-full rounded-lg border border-[var(--brand-vivid)]/25 md:block" />
+                <div className="relative aspect-[4/5] overflow-hidden rounded-lg shadow-xl">
                   <Image
                     src="/headshot.jpg"
-                    alt="Jennifer Matone"
+                    alt="Jennifer Matone, photographer behind Iffer's Pictures"
                     fill
                     className="object-cover"
-                    sizes="160px"
+                    sizes="(max-width: 768px) 90vw, 360px"
                   />
                 </div>
-
-                {/* Overlapping name card — centered */}
-                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-lg px-5 py-3 border border-[var(--border)]/40 whitespace-nowrap text-center">
-                  <p className="font-heading font-semibold text-[var(--foreground)] text-base leading-tight">
-                    Jennifer Matone
-                  </p>
-                  <p className="text-xs text-[var(--text-muted)] mt-0.5 tracking-wide">
-                    Cliffside Park, NJ
-                  </p>
-                  <Link
-                    href="/about"
-                    className="inline-flex items-center gap-1.5 text-xs text-[var(--brand-vivid)] font-medium mt-1.5 hover:gap-2.5 transition-all duration-200"
-                  >
-                    Her story
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
               </div>
+            </div>
+
+            <div className="md:col-span-7">
+              <div className="mb-5 flex items-center gap-4">
+                <div className="h-px w-10 bg-[var(--accent-vivid)]" />
+                <p className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--brand-vivid)]">
+                  Meet Jenn
+                </p>
+              </div>
+
+              <h2 className="max-w-2xl font-heading text-3xl font-semibold leading-tight text-[var(--foreground)] md:text-4xl">
+                Hi, I&apos;m Jennifer — a Bergen County photographer preserving
+                life&apos;s most meaningful moments.
+              </h2>
+
+              <div className="mt-5 max-w-2xl space-y-4 text-base leading-8 text-[var(--text-secondary)] md:text-lg">
+                <p>
+                  Photography has always felt natural to me: the laughter, the
+                  light, and the quiet in-between moments that become the
+                  memories we hold onto.
+                </p>
+                <p>
+                  Whether I&apos;m photographing a milestone celebration, a
+                  growing family, or a season worth remembering, my goal is to
+                  create timeless images that bring you back to how it felt.
+                </p>
+              </div>
+
+              <Link
+                href="/about"
+                className="mt-7 inline-flex items-center gap-2 rounded-full bg-[var(--brand-vivid)] px-7 py-3 text-sm font-medium text-white shadow-md shadow-[var(--brand-vivid)]/20 transition-all duration-200 hover:gap-3 hover:bg-[var(--brand-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-vivid)]"
+              >
+                Meet Jenn
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>
