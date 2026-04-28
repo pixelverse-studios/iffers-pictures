@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
-import { SITE_CONFIG, BUSINESS_INFO, SERVICE_AREAS } from "@/lib/constants";
+import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-hero pb-16 bg-[var(--background-warm)]">
+      <section className="pt-hero pb-10 md:pb-12 bg-[var(--background-warm)]">
         <div className="container">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold text-[var(--foreground)] leading-tight mb-6">
@@ -40,7 +40,7 @@ export default function ContactPage() {
                   Send a Message
                 </h2>
                 <p className="text-[var(--text-secondary)] mb-8">
-                  Tell me a little about what you&apos;re envisioning...
+                  Share as much or as little as you&apos;d like.
                 </p>
                 <Suspense fallback={<div className="h-96" aria-hidden />}>
                   <ContactForm />
@@ -144,11 +144,11 @@ export default function ContactPage() {
                 {/* Service Areas */}
                 <div className="p-6 rounded-xl bg-[var(--background-warm)]">
                   <h3 className="text-sm font-semibold text-[var(--foreground)] mb-3">
-                    Service Areas
+                    Sessions Across Northern NJ
                   </h3>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                    {SERVICE_AREAS.primary.map((a) => a.name).join(", ")}, and
-                    surrounding areas in Bergen County, NJ.
+                    Jenn photographs events, families, and milestone sessions
+                    throughout Northern New Jersey and the surrounding area.
                   </p>
                 </div>
               </div>
@@ -162,7 +162,7 @@ export default function ContactPage() {
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-2xl md:text-3xl font-heading italic text-[var(--foreground)] leading-relaxed">
-              I can&apos;t wait to connect with you.
+              I can&apos;t wait to hear what you&apos;re planning!
             </p>
             <p className="text-[var(--text-secondary)] mt-4">
               — Jenn

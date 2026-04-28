@@ -13,11 +13,16 @@ import { Button } from "@/components/ui/Button";
 import { SERVICES } from "@/lib/constants";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().optional(),
   service: z.string().min(1, "Please select a service"),
   eventDate: z.string().optional(),
+  eventTime: z.string().optional(),
+  eventLocation: z.string().optional(),
+  socialHandle: z.string().optional(),
+  referralSource: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -76,12 +81,20 @@ export function ContactForm() {
           <CheckCircle className="w-8 h-8 text-[var(--brand)]" />
         </div>
         <h3 className="text-2xl font-heading font-semibold text-[var(--foreground)] mb-3">
-          Thank You!
+          Thank you so much for reaching out — I&apos;m so excited to hear from you!
         </h3>
-        <p className="text-[var(--text-secondary)] mb-6">
-          Your message has been sent successfully. I&apos;ll get back to you within
-          24 hours.
-        </p>
+        <div className="space-y-4 text-[var(--text-secondary)] mb-6 max-w-md mx-auto">
+          <p>
+            I&apos;ll be in touch within 24–48 hours to learn more about your
+            vision and next steps.
+          </p>
+          <p>
+            In the meantime, feel free to explore more of my work or connect
+            with me on Instagram.
+          </p>
+          <p>I can&apos;t wait to connect with you 🤍</p>
+          <p className="font-heading text-[var(--foreground)]">— Jenn</p>
+        </div>
         <Button
           variant="outline"
           onClick={() => setIsSubmitted(false)}
@@ -96,12 +109,22 @@ export function ContactForm() {
     <form onSubmit={handleSubmit(onSubmit)} onChange={() => setSubmitError(null)} className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
         <Input
-          label="Your Name"
-          placeholder="Jane Doe"
+          label="First Name"
+          placeholder="Jane"
           required
-          {...register("name")}
-          error={errors.name?.message}
+          {...register("firstName")}
+          error={errors.firstName?.message}
         />
+        <Input
+          label="Last Name"
+          placeholder="Doe"
+          required
+          {...register("lastName")}
+          error={errors.lastName?.message}
+        />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
         <Input
           label="Email Address"
           type="email"
@@ -110,9 +133,6 @@ export function ContactForm() {
           {...register("email")}
           error={errors.email?.message}
         />
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-6">
         <Input
           label="Phone Number"
           type="tel"
@@ -120,6 +140,24 @@ export function ContactForm() {
           {...register("phone")}
           error={errors.phone?.message}
         />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <Input
+          label="Event Location"
+          placeholder="Venue, town, or not sure yet"
+          {...register("eventLocation")}
+          error={errors.eventLocation?.message}
+        />
+        <Input
+          label="Event Time"
+          type="time"
+          {...register("eventTime")}
+          error={errors.eventTime?.message}
+        />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
         <div className="w-full">
           <label
             htmlFor="eventDate"
@@ -140,6 +178,12 @@ export function ContactForm() {
             )}
           />
         </div>
+        <Input
+          label="I'd love to tag you in your photos!"
+          placeholder="Instagram handle or Facebook name"
+          {...register("socialHandle")}
+          error={errors.socialHandle?.message}
+        />
       </div>
 
       <div className="w-full">
@@ -174,9 +218,38 @@ export function ContactForm() {
         )}
       </div>
 
+      <div className="w-full">
+        <label
+          htmlFor="referralSource"
+          className="block text-sm font-medium text-[var(--foreground)] mb-2"
+        >
+          How did you hear about me?
+        </label>
+        <select
+          id="referralSource"
+          {...register("referralSource")}
+          className={cn(
+            "w-full px-4 py-3 rounded-lg",
+            "bg-white border border-[var(--border)]",
+            "text-[var(--foreground)]",
+            "transition-all duration-200",
+            "focus:outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20"
+          )}
+        >
+          <option value="">Select an option...</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Google">Google</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Referral">Referral</option>
+          <option value="Returning client">Returning client</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
       <Textarea
         label="Message"
-        placeholder="Tell me a little about what you're envisioning..."
+        placeholder="Tell me what you're planning..."
+        helperText="What are you celebrating? Who will be there? What moments matter most to you? Approximately how many guests? Feel free to include anything you think is important for me to know"
         required
         rows={5}
         {...register("message")}
@@ -189,10 +262,7 @@ export function ContactForm() {
         </p>
       )}
 
-      <div className="flex items-center justify-between pt-4">
-        <p className="text-sm text-[var(--text-muted)]">
-          I&apos;ll respond within 24 hours
-        </p>
+      <div className="flex justify-end pt-4">
         <Button
           type="submit"
           isLoading={isSubmitting}

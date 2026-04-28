@@ -20,12 +20,16 @@ export async function POST(request: Request) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fullname: body.name,
+          fullname: [body.firstName, body.lastName].filter(Boolean).join(" "),
           email: body.email,
           phone: body.phone || "",
           data: {
             Service: body.service,
             "Event Date": body.eventDate || "",
+            "Event Time": body.eventTime || "",
+            "Event Location": body.eventLocation || "",
+            "Social Handle / Facebook Name": body.socialHandle || "",
+            "How did you hear about me?": body.referralSource || "",
             Message: body.message,
           },
         }),

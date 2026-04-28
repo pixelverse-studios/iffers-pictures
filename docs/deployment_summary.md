@@ -12,6 +12,9 @@
 - Updated session pages so breadcrumbs say "Sessions" and removed the extra trust badges from the bottom call-to-action.
 - Tightened session benefits and testimonial cards for a lighter, more compact presentation.
 - Updated session delivery timing copy across Events, Family, Maternity, Couples & Engagement, and Portrait pages.
+- Tightened the Inquire page header spacing so the page intro feels more compact.
+- Expanded the Inquire form to collect first and last name, event details, social handle, and referral source.
+- Updated the Inquire page sidebar, closing copy, and confirmation message to better match Jenn's intake process.
 
 ## Notes for internal team
 
@@ -24,6 +27,7 @@
 - Created `AGENTS.md` from the existing `claude.md` guidance and translated Claude-specific tool notes into Codex-compatible instructions.
 - Completed DEV-762 and DEV-767. Targeted ESLint passed for `src/app/portfolio/page.tsx` and `src/app/testimonials/page.tsx`; production build passed after allowing network access for Google Fonts. Full repo lint is still blocked by existing unrelated lint errors.
 - Completed DEV-763, DEV-765, and DEV-766. Event FAQ copy stays as-is beyond the approved delivery timing fix, and the Family gallery headline remains unchanged for now.
+- Completed DEV-768 and DEV-769. Contact API payload now maps split names into `fullname` and passes new inquiry fields through in `data`.
 
 ## Changed URLs
 
@@ -42,3 +46,4 @@
 - https://ifferspictures.com/services/maternity
 - https://ifferspictures.com/services/couples-engagement
 - https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/contact
