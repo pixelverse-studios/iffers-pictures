@@ -15,6 +15,7 @@
 - Tightened the Inquire page header spacing so the page intro feels more compact.
 - Expanded the Inquire form to collect first and last name, event details, social handle, and referral source.
 - Updated the Inquire page sidebar, closing copy, and confirmation message to better match Jenn's intake process.
+- Replaced the About page bio with Jenn's new long-form personal narrative and removed the facts-card section.
 
 ## Notes for internal team
 
@@ -28,6 +29,7 @@
 - Completed DEV-762 and DEV-767. Targeted ESLint passed for `src/app/portfolio/page.tsx` and `src/app/testimonials/page.tsx`; production build passed after allowing network access for Google Fonts. Full repo lint is still blocked by existing unrelated lint errors.
 - Completed DEV-763, DEV-765, and DEV-766. Event FAQ copy stays as-is beyond the approved delivery timing fix, and the Family gallery headline remains unchanged for now.
 - Completed DEV-768 and DEV-769. Contact API payload now maps split names into `fullname` and passes new inquiry fields through in `data`.
+- Completed DEV-761. Updated `AboutBio.tsx` with the approved narrative and removed the `A Few Things About Me` block.
 
 ## Changed URLs
 
@@ -47,3 +49,4 @@
 - https://ifferspictures.com/services/couples-engagement
 - https://ifferspictures.com/services/portrait
 - https://ifferspictures.com/contact
+- https://ifferspictures.com/about

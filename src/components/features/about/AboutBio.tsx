@@ -11,37 +11,70 @@ export function AboutBio() {
         <div className="container">
 
           {/* Single-column body — centered */}
-          <div className="max-w-3xl mx-auto space-y-6 mb-10">
-            <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
-              Growing up, I was always the one holding the camera — drawn to
-              laughter among loved ones, sunlight filtering through the trees,
-              and the quiet in-between moments that didn&apos;t seem
+          <div className="max-w-4xl mx-auto space-y-8">
+            <p className="text-[var(--foreground)] text-xl md:text-2xl font-semibold leading-[1.55]">
+              Hi! I&apos;m Jennifer — but most of my friends and family call me
+              Jenn, and I&apos;m so glad you&apos;re here.
+            </p>
+            <p className="text-[var(--foreground)] text-lg md:text-xl leading-[1.75]">
+              I&apos;ve loved photography for as long as I can remember.
+              Growing up, I was always the one with a camera in hand — drawn
+              to laughter among loved ones, sunlight filtering through the
+              trees, and the quiet, in-between moments that didn&apos;t seem
               significant at the time, but somehow became the most meaningful
-              memories. Capturing those moments became second nature to me.
+              memories. Capturing those moments has always felt natural to me.
             </p>
-            <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
+            <p className="text-[var(--foreground)] text-lg md:text-xl leading-[1.75]">
               Life moves quickly. It&apos;s often the simplest, most
-              unassuming moments that become the memories we treasure most.
-              That understanding is at the heart of everything I do. Through
-              my photography, I strive to preserve those moments so they can
-              be revisited, remembered, and cherished for years to come.
+              unassuming moments that become the ones we treasure most. That
+              understanding is at the heart of everything I do. Through my
+              photography, my goal is to capture those moments in a way that
+              allows you to revisit them, feel them, and hold onto them for
+              years to come.
             </p>
-            <p className="text-[var(--text-secondary)] text-lg leading-[1.85]">
-              While I have recently found myself specializing in event and
-              family photography, I welcome the opportunity to capture all of
-              life&apos;s meaningful moments. Whether it&apos;s a milestone
-              celebration, maternity session, engagement, or a quiet season
-              worth remembering, my goal remains the same.
+            <p className="text-[var(--foreground)] text-lg md:text-xl leading-[1.75]">
+              When I&apos;m not behind the camera, I&apos;m a middle school
+              math teacher here in Bergen County, New Jersey. Spending my days
+              with students, watching them change and grow, has given me an
+              even deeper appreciation for how fleeting time really is.
+              It&apos;s also shaped my patience, attention to detail, and my
+              ability to create a calm, comfortable space where people can
+              truly be themselves.
             </p>
+            <p className="text-[var(--foreground)] text-lg md:text-xl leading-[1.75]">
+              Outside of photography and teaching, you can usually find me
+              riding my motorcycle, chasing beautiful skies and landscapes with
+              my camera, or watching the Yankees. Those moments—simple,
+              meaningful, and full of feeling—are the same ones that inspire
+              the way I photograph others.
+            </p>
+            <p className="text-[var(--foreground)] text-lg md:text-xl leading-[1.75]">
+              While I&apos;ve naturally found myself specializing in event and
+              family photography, I truly love capturing all of life&apos;s
+              meaningful moments. Whether it&apos;s a milestone celebration, a
+              growing family, an engagement, or a quiet season worth
+              remembering, my goal remains the same: to create timeless images
+              that bring you back not just to how it looked — but to how it
+              felt.
+            </p>
+            <p className="text-[var(--foreground)] text-xl md:text-2xl font-semibold leading-[1.55]">
+              Because the moments may pass, but the memories deserve to last.
+            </p>
+            <div className="space-y-3 pt-1">
+              <p className="text-[var(--foreground)] text-lg md:text-xl leading-[1.75]">
+                Looking forward to chatting with you!
+              </p>
+              <p className="text-[var(--foreground)] text-lg md:text-xl leading-[1.75]">
+                — Jenn
+              </p>
+            </div>
           </div>
 
-          {/* Closing pull quote */}
-          <div className="border-t border-[var(--brand)]/15 pt-8">
+          <div className="mt-10 border-t border-[var(--brand)]/15 pt-8">
             <p className="text-xl md:text-2xl font-heading italic text-[var(--foreground)] text-center max-w-4xl mx-auto leading-snug">
-              &ldquo;To create timeless images that bring you back not just to
-              how it looked —{" "}
-              <span className="text-[var(--brand)]">but to how it felt.</span>
-              &rdquo;
+              &ldquo;I create a calm, comfortable environment where people can
+              truly be themselves — because that&apos;s when the most
+              meaningful photographs happen.&rdquo;
             </p>
           </div>
 
@@ -77,35 +110,6 @@ export function AboutBio() {
               <p className="text-[var(--text-secondary)] text-xs">
                 Facebook Rating
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* A Few Things About Me */}
-      <section className="py-10 md:py-14 bg-white">
-        <div className="container">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] text-center mb-10">
-              A Few Things About Me
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                "Middle school math teacher",
-                "Based in Bergen County, NJ",
-                "Lover of golden hour & candid moments",
-                "Passionate about storytelling",
-              ].map((fact) => (
-                <div
-                  key={fact}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-[var(--background-warm)]"
-                >
-                  <div className="w-2 h-2 rounded-full bg-[var(--brand)] shrink-0" />
-                  <p className="text-[var(--text-secondary)] text-base">
-                    {fact}
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
