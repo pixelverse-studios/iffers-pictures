@@ -200,7 +200,7 @@ export function Header() {
                 aria-controls={MOBILE_MENU_ID}
               >
                 {isMobileMenuOpen ? (
-                  <X className="w-6 h-6 text-white" />
+                  <X className="w-6 h-6 text-[var(--foreground)]" />
                 ) : (
                   <Menu className="w-6 h-6 text-[var(--foreground)]" />
                 )}
@@ -286,7 +286,7 @@ export function Header() {
         {/* Brand-gradient Background */}
         <div
           className={cn(
-            "absolute inset-0 bg-gradient-to-br from-[var(--brand-vivid)] to-[var(--brand-strong)]",
+            "absolute inset-0 bg-gradient-to-br from-[var(--mobile-menu-overlay-from)] to-[var(--mobile-menu-overlay-to)]",
             "transition-transform duration-500 ease-out motion-reduce:transition-none",
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
@@ -307,7 +307,7 @@ export function Header() {
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
-                  "block text-3xl font-heading font-medium text-white",
+                  "block text-3xl font-heading font-medium text-[var(--mobile-menu-text)]",
                   "opacity-0 translate-x-8 transition-all duration-500 motion-reduce:transition-none motion-reduce:translate-x-0 motion-reduce:opacity-100",
                   isMobileMenuOpen && "opacity-100 translate-x-0"
                 )}
@@ -337,7 +337,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="inline-block px-8 py-3 rounded-full bg-white text-[var(--brand-strong)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200 motion-reduce:transition-none"
+              className="inline-block px-8 py-3 rounded-full bg-[var(--mobile-menu-cta-bg)] text-[var(--mobile-menu-cta-text)] font-medium text-lg tracking-wide shadow-lg hover:shadow-xl transition-all duration-200 motion-reduce:transition-none"
             >
               Inquire
             </Link>
@@ -346,7 +346,7 @@ export function Header() {
           {/* Mobile Contact Info */}
           <div
             className={cn(
-              "mt-12 pt-8 border-t border-white/20",
+              "mt-12 pt-8 border-t border-[var(--mobile-menu-border)]",
               "opacity-0 translate-y-4 transition-all duration-500 motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100",
               isMobileMenuOpen && "opacity-100 translate-y-0"
             )}
@@ -356,7 +356,7 @@ export function Header() {
                 : "0ms",
             }}
           >
-            <p className="text-white/70">
+            <p className="text-[var(--mobile-menu-muted)]">
               {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
             </p>
           </div>
