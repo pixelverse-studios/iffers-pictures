@@ -19,6 +19,7 @@
 - Removed a duplicate quote from the About page so Jenn's approach statement appears only once.
 - Reworked the homepage intro into a more personal Meet Jenn section with Jenn's photo, warmer copy, and a clear About page link.
 - Brightened the session-page gallery treatment so images feel lighter and more luminous while preserving detail.
+- Removed unused legacy homepage and service-area components that could conflict with the newer theme system if re-enabled.
 
 ## Notes for internal team
 
@@ -36,6 +37,7 @@
 - Follow-up to DEV-761: removed the duplicate approach quote introduced during the About narrative update.
 - Completed DEV-760. Replaced the old homepage quote/headshot card with a responsive personal intro section in `RockstarLayout.tsx`.
 - Completed DEV-764. Added a conservative CSS brightness/highlight treatment in `ServiceGallery.tsx` and removed the dark fallback-gallery hover overlay.
+- Completed DEV-694. Deleted orphaned `ServiceAreasDisplay.tsx` and homepage `Testimonials.tsx`, then removed the stale homepage export.
 
 ## Changed URLs
 
