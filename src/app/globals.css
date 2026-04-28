@@ -114,6 +114,13 @@
      --surface, re-evaluating whenever the theme changes. */
   --pill-bg-frosted: rgba(255, 255, 255, 0.3);
   --pill-bg-solid: rgba(255, 255, 255, 0.95);
+  --mobile-menu-overlay-from: var(--brand-strong);
+  --mobile-menu-overlay-to: var(--foreground);
+  --mobile-menu-text: #ffffff;
+  --mobile-menu-muted: rgba(255, 255, 255, 0.72);
+  --mobile-menu-border: rgba(255, 255, 255, 0.2);
+  --mobile-menu-cta-bg: #ffffff;
+  --mobile-menu-cta-text: var(--brand-strong);
 
   /* Brand */
   --brand: #7898b8;
@@ -151,6 +158,16 @@
   /* Header Height */
   --header-height: 6rem;
   --header-height-scrolled: 5rem;
+}
+
+html[data-theme-mode="soft-dark"] {
+  --mobile-menu-overlay-from: var(--brand-vivid);
+  --mobile-menu-overlay-to: var(--brand-soft);
+  --mobile-menu-text: var(--background);
+  --mobile-menu-muted: var(--background);
+  --mobile-menu-border: color-mix(in srgb, var(--background) 38%, transparent);
+  --mobile-menu-cta-bg: var(--background);
+  --mobile-menu-cta-text: var(--brand-vivid);
 }
 
 /* Modern browsers (Chrome 111+, Safari 16.4+, Firefox 128+) get the
