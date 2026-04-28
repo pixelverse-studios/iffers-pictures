@@ -62,16 +62,15 @@ export default function PortfolioPage() {
           <div className="grid md:grid-cols-2 gap-8 items-end">
             <div>
               <h1 className="text-5xl sm:text-6xl font-heading text-[var(--foreground)] leading-[1.0]">
-                Your Story,
+                Memories,
                 <br />
-                <span className="text-[var(--brand)]">In Moments</span>
+                <span className="text-[var(--brand)]">Beautifully Captured</span>
               </h1>
             </div>
             <div>
               <p className="text-lg text-[var(--text-secondary)] leading-relaxed max-w-md">
-                Every session is a story. Browse through celebrations, family
-                moments, couples sessions, and the quiet portraits that become
-                lasting memories.
+                Explore a collection of celebrations, connection, and the quiet
+                in-between moments that you&apos;ll hold onto forever
               </p>
             </div>
           </div>

@@ -29,18 +29,18 @@ export default function TestimonialsPage() {
       />
 
       {/* Hero */}
-      <section className="pt-hero pb-10 md:pb-14 bg-[var(--brand-vivid)]">
+      <section className="pt-hero pb-10 md:pb-14 bg-[var(--brand)]">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-wider text-white/70 mb-4">
-              Kind Words
+              Testimonials
             </p>
             <h1 className="text-4xl md:text-5xl font-heading font-semibold text-white mb-4">
-              What Our Clients Say
+              Kind Words
             </h1>
             <p className="text-lg text-white/80 leading-relaxed">
-              Every session starts with trust. Here&apos;s what families, couples,
-              and event hosts have shared about their experience.
+              The moments are everything — but the words that follow mean just
+              as much.
             </p>
           </div>
         </div>
