@@ -69,15 +69,6 @@ export function AboutBio() {
               </p>
             </div>
           </div>
-
-          <div className="mt-10 border-t border-[var(--brand)]/15 pt-8">
-            <p className="text-xl md:text-2xl font-heading italic text-[var(--foreground)] text-center max-w-4xl mx-auto leading-snug">
-              &ldquo;I create a calm, comfortable environment where people can
-              truly be themselves — because that&apos;s when the most
-              meaningful photographs happen.&rdquo;
-            </p>
-          </div>
-
         </div>
       </section>
 

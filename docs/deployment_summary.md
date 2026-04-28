@@ -16,6 +16,7 @@
 - Expanded the Inquire form to collect first and last name, event details, social handle, and referral source.
 - Updated the Inquire page sidebar, closing copy, and confirmation message to better match Jenn's intake process.
 - Replaced the About page bio with Jenn's new long-form personal narrative and removed the facts-card section.
+- Removed a duplicate quote from the About page so Jenn's approach statement appears only once.
 
 ## Notes for internal team
 
@@ -30,6 +31,7 @@
 - Completed DEV-763, DEV-765, and DEV-766. Event FAQ copy stays as-is beyond the approved delivery timing fix, and the Family gallery headline remains unchanged for now.
 - Completed DEV-768 and DEV-769. Contact API payload now maps split names into `fullname` and passes new inquiry fields through in `data`.
 - Completed DEV-761. Updated `AboutBio.tsx` with the approved narrative and removed the `A Few Things About Me` block.
+- Follow-up to DEV-761: removed the duplicate approach quote introduced during the About narrative update.
 
 ## Changed URLs
 
