@@ -34,14 +34,14 @@ export function ServiceBenefits({ benefits, whatToExpect }: ServiceBenefitsProps
             description={benefits.description}
           />
 
-          <div className="mt-16 grid md:grid-cols-2 gap-8">
+          <div className="mt-12 grid md:grid-cols-2 gap-5 md:gap-6">
             {benefits.items.map((item, index) => {
               const Icon = iconMap[item.icon] || Heart;
               return (
                 <Card
                   key={index}
                   variant="bordered"
-                  padding="lg"
+                  padding="md"
                   hover
                   className={cn(
                     "group",
@@ -51,17 +51,17 @@ export function ServiceBenefits({ benefits, whatToExpect }: ServiceBenefitsProps
                     index === 3 && "delay-300"
                   )}
                 >
-                  <div className="flex gap-5">
+                  <div className="flex gap-4">
                     <div className="flex-shrink-0">
-                      <div className="w-14 h-14 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center group-hover:bg-[var(--brand)] transition-colors duration-300">
-                        <Icon className="w-7 h-7 text-[var(--brand)] group-hover:text-white transition-colors duration-300" />
+                      <div className="w-11 h-11 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center group-hover:bg-[var(--brand)] transition-colors duration-300">
+                        <Icon className="w-5 h-5 text-[var(--brand)] group-hover:text-white transition-colors duration-300" />
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold text-[var(--foreground)] mb-2">
+                      <h3 className="text-lg font-semibold text-[var(--foreground)] mb-1.5">
                         {item.title}
                       </h3>
-                      <p className="text-[var(--text-secondary)] leading-relaxed">
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                         {item.description}
                       </p>
                     </div>

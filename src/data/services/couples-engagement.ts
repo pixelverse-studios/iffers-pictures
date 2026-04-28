@@ -60,11 +60,11 @@ export const couplesEngagementData: ServicePageData = {
       },
       {
         title: "Location Flexibility",
-        description: "Choose from scenic spots across Bergen County—parks, urban settings, or meaningful places in your story.",
+        description: "Choose from scenic spots across North Jersey",
       },
       {
         title: "Beautiful Gallery Delivery",
-        description: "Receive a curated online gallery of professionally edited photos within 2 weeks of your session.",
+        description: "Receive a curated online gallery of professionally edited photos within four weeks of your session.",
       },
     ],
   },
@@ -149,7 +149,7 @@ export const couplesEngagementData: ServicePageData = {
       },
       {
         question: "How long until we see our photos?",
-        answer: "Your online gallery will be ready within 2 weeks of your session. You'll receive an email with a private link to view, download, and share your images.",
+        answer: "Your online gallery will be ready within four weeks of your session. You'll receive an email with a private link to view, download, and share your images.",
       },
     ],
   },

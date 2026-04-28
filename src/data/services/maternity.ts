@@ -64,7 +64,7 @@ export const maternityData: ServicePageData = {
       },
       {
         title: "Reveal & Delivery",
-        description: "Your gallery will be ready within 2 weeks. I'll help you select images for prints, albums, or announcements if desired.",
+        description: "Your gallery will be ready within four weeks. I'll help you select images for prints, albums, or announcements if desired.",
       },
     ],
   },

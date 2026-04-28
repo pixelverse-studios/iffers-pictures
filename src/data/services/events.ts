@@ -65,7 +65,7 @@ export const eventsData: ServicePageData = {
       },
       {
         title: "Online Gallery Delivery",
-        description: "You'll receive a private online gallery of fully edited images, ready to download, share, and print — typically within two weeks of your event.",
+        description: "You'll receive a private online gallery of fully edited images, ready to download, share, and print — typically within four weeks of your event.",
       },
     ],
   },
@@ -139,7 +139,7 @@ export const eventsData: ServicePageData = {
       },
       {
         question: "How long does it take to receive the photos?",
-        answer: "Your gallery is typically delivered within two weeks of your event. For milestone occasions, I can often share a small preview set within 48 hours. I know how eager people are to share, and I don't drag my feet.",
+        answer: "Your gallery is typically delivered within four weeks of your event. For milestone occasions, I can often share a small preview set within 48 hours. I know how eager people are to share, and I don't drag my feet.",
       },
       {
         question: "Do you require a deposit to hold the date?",

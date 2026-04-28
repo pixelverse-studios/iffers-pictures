@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { CTAData } from "@/data/services/types";
 import { Calendar, ArrowRight } from "lucide-react";
@@ -45,22 +44,6 @@ export function ServiceCTA({ data, serviceSlug }: ServiceCTAProps) {
               {data.buttonText}
             </Button>
           </Link>
-
-          {/* Trust indicators */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/70 text-sm">
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-white/50 rounded-full" />
-              No pressure consultation
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-white/50 rounded-full" />
-              Flexible scheduling
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-white/50 rounded-full" />
-              Payment plans available
-            </span>
-          </div>
         </div>
       </div>
     </section>
