@@ -129,9 +129,10 @@ function RealGallery({
   return (
     <div className="columns-2 md:columns-3 gap-3 [column-gap:0.75rem]">
       {items.map((item, index) => (
-        <div
+        <button
+          type="button"
           key={item.id}
-          className="break-inside-avoid mb-3 group cursor-pointer"
+          className="group mb-3 block w-full break-inside-avoid cursor-pointer appearance-none border-0 bg-transparent p-0 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand)]"
           onClick={() => onImageClick(index)}
         >
           <div className="relative overflow-hidden rounded-sm">
@@ -147,10 +148,11 @@ function RealGallery({
                     : 600
               }
               sizes="(max-width: 768px) 50vw, 33vw"
-              className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              className="h-auto w-full object-cover brightness-[1.04] contrast-[1.02] saturate-[1.03] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
             />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.34),transparent_36%),radial-gradient(circle_at_78%_82%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_48%,rgba(255,255,255,0.12))] opacity-70 mix-blend-screen transition-opacity duration-500 group-hover:opacity-90" />
           </div>
-        </div>
+        </button>
       ))}
     </div>
   );
@@ -197,10 +199,12 @@ function PlaceholderGallery({ data }: { data: GalleryData }) {
             label={image.alt}
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div className="absolute bottom-4 left-4 right-4">
-              <p className="text-white text-sm font-medium">{image.alt}</p>
-            </div>
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.4),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.18),transparent_58%,rgba(255,255,255,0.24))] opacity-75 mix-blend-screen transition-opacity duration-300 group-hover:opacity-95" />
+
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white/90 via-white/55 to-transparent px-4 pb-4 pt-12 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <p className="text-[var(--foreground)] text-sm font-medium">
+              {image.alt}
+            </p>
           </div>
         </div>
       ))}
