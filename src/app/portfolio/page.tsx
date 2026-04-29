@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { CategorySplit } from "@/components/features/portfolio/portfolio-layouts/CategorySplit";
+import { PORTFOLIO_PAGE_COPY } from "@/data/page-copy";
 
 export const metadata: Metadata = {
   title: "Portfolio | Iffer's Pictures | Bergen County Photographer",
@@ -53,7 +54,7 @@ export default function PortfolioPage() {
           {/* Eyebrow */}
           <div className="flex items-center gap-4 mb-8">
             <p className="text-[var(--brand)] font-medium tracking-[0.3em] uppercase text-xs shrink-0">
-              Portfolio
+              {PORTFOLIO_PAGE_COPY.hero.eyebrow}
             </p>
             <div className="h-px flex-1 bg-gradient-to-r from-[var(--brand)]/30 to-transparent" />
           </div>
@@ -62,15 +63,16 @@ export default function PortfolioPage() {
           <div className="grid md:grid-cols-2 gap-8 items-end">
             <div>
               <h1 className="text-5xl sm:text-6xl font-heading text-[var(--foreground)] leading-[1.0]">
-                Memories,
+                {PORTFOLIO_PAGE_COPY.hero.titleLead}
                 <br />
-                <span className="text-[var(--brand)]">Beautifully Captured</span>
+                <span className="text-[var(--brand)]">
+                  {PORTFOLIO_PAGE_COPY.hero.titleAccent}
+                </span>
               </h1>
             </div>
             <div>
               <p className="text-lg text-[var(--text-secondary)] leading-relaxed max-w-md">
-                Explore a collection of celebrations, connection, and the quiet
-                in-between moments that you&apos;ll hold onto forever
+                {PORTFOLIO_PAGE_COPY.hero.description}
               </p>
             </div>
           </div>
@@ -89,22 +91,21 @@ export default function PortfolioPage() {
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-[var(--brand)] font-medium tracking-[0.25em] uppercase text-xs mb-4">
-              Let&apos;s Create Together
+              {PORTFOLIO_PAGE_COPY.cta.eyebrow}
             </p>
             <h2 className="text-3xl md:text-4xl font-heading text-[var(--foreground)] mb-4">
-              Ready to add your story
+              {PORTFOLIO_PAGE_COPY.cta.titleLead}
               <br />
-              to this collection?
+              {PORTFOLIO_PAGE_COPY.cta.titleSecondLine}
             </h2>
             <p className="text-lg text-[var(--text-secondary)] mb-10 max-w-md mx-auto">
-              Every photo here started with a conversation. Let&apos;s start
-              yours.
+              {PORTFOLIO_PAGE_COPY.cta.description}
             </p>
             <Link
-              href="/contact"
+              href={PORTFOLIO_PAGE_COPY.cta.href}
               className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] hover:gap-4 shadow-lg shadow-[var(--brand-vivid)]/25 hover:shadow-xl hover:shadow-[var(--brand-vivid)]/30 px-10 py-5 text-lg"
             >
-              Inquire Here
+              {PORTFOLIO_PAGE_COPY.cta.label}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

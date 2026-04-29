@@ -9,6 +9,7 @@ import { ArrowRight } from "lucide-react";
 import { generalFaqs } from "./faqData";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
+import { FAQ_PAGE_COPY } from "@/data/page-copy";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -82,19 +83,19 @@ export default function FAQPage() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-wider text-[var(--brand)] mb-4">
-              Questions & Answers
+              {FAQ_PAGE_COPY.hero.eyebrow}
             </p>
             <h1 className="text-4xl md:text-5xl font-heading font-semibold text-[var(--foreground)] mb-4">
-              Frequently Asked Questions
+              {FAQ_PAGE_COPY.hero.title}
             </h1>
             <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
-              Everything you need to know about working with {SITE_CONFIG.name}.
-              Can&apos;t find what you&apos;re looking for?{" "}
+              {FAQ_PAGE_COPY.hero.introLead} {SITE_CONFIG.name}.{" "}
+              {FAQ_PAGE_COPY.hero.contactPrompt}{" "}
               <Link
-                href="/contact"
+                href={FAQ_PAGE_COPY.hero.contactHref}
                 className="text-[var(--brand)] hover:text-[var(--brand-strong)] underline underline-offset-4"
               >
-                Get in touch
+                {FAQ_PAGE_COPY.hero.contactLabel}
               </Link>
               .
             </p>
@@ -106,9 +107,9 @@ export default function FAQPage() {
       <section className="py-10 md:py-14">
         <div className="container">
           <SectionHeader
-            eyebrow="General"
-            title="About Our Photography Sessions"
-            description="Common questions about booking, pricing, and what to expect"
+            eyebrow={FAQ_PAGE_COPY.general.eyebrow}
+            title={FAQ_PAGE_COPY.general.title}
+            description={FAQ_PAGE_COPY.general.description}
           />
 
           <div className="mt-12 max-w-3xl mx-auto">
@@ -144,15 +145,14 @@ export default function FAQPage() {
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl font-heading font-semibold text-[var(--foreground)] mb-4">
-              Still Have Questions?
+              {FAQ_PAGE_COPY.cta.title}
             </h2>
             <p className="text-[var(--text-secondary)] mb-8">
-              We&apos;re happy to help! Reach out and we&apos;ll get back to you
-              within 24 hours.
+              {FAQ_PAGE_COPY.cta.description}
             </p>
-            <Link href="/contact">
+            <Link href={FAQ_PAGE_COPY.cta.href}>
               <Button rightIcon={<ArrowRight className="w-4 h-4" />}>
-                Contact Us
+                {FAQ_PAGE_COPY.cta.label}
               </Button>
             </Link>
           </div>

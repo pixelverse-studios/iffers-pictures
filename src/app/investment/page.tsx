@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { InvestmentContent } from "@/components/features/investment";
+import { INVESTMENT_PAGE_COPY } from "@/data/page-copy";
 
 export const metadata: Metadata = {
   title: "Investment | Iffer's Pictures | Bergen County NJ",
@@ -34,10 +35,10 @@ export default function InvestmentPage() {
       <section className="pt-hero pb-8 md:pb-12">
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-heading font-semibold text-[var(--foreground)] mb-6">
-            Investment
+            {INVESTMENT_PAGE_COPY.hero.title}
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed">
-            Each session is thoughtfully tailored to your vision. Reach out and I&apos;ll put together a package that fits.
+            {INVESTMENT_PAGE_COPY.hero.description}
           </p>
         </div>
       </section>

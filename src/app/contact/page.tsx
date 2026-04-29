@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
 import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
+import { CONTACT_PAGE_COPY } from "@/data/page-copy";
 import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -20,10 +21,10 @@ export default function ContactPage() {
         <div className="container">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold text-[var(--foreground)] leading-tight mb-6">
-              Let&apos;s capture your story
+              {CONTACT_PAGE_COPY.hero.title}
             </h1>
             <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
-              I&apos;d love to hear about your vision and the moments you want to preserve.
+              {CONTACT_PAGE_COPY.hero.description}
             </p>
           </div>
         </div>
@@ -37,10 +38,10 @@ export default function ContactPage() {
             <div className="lg:col-span-3">
               <div className="bg-[var(--background-warm)] rounded-2xl p-8 md:p-10">
                 <h2 className="text-2xl font-heading font-semibold text-[var(--foreground)] mb-2">
-                  Send a Message
+                  {CONTACT_PAGE_COPY.form.title}
                 </h2>
                 <p className="text-[var(--text-secondary)] mb-8">
-                  Share as much or as little as you&apos;d like.
+                  {CONTACT_PAGE_COPY.form.description}
                 </p>
                 <Suspense fallback={<div className="h-96" aria-hidden />}>
                   <ContactForm />
@@ -54,7 +55,7 @@ export default function ContactPage() {
                 {/* Contact Details */}
                 <div>
                   <h3 className="text-lg font-heading font-semibold text-[var(--foreground)] mb-6">
-                    Contact Information
+                    {CONTACT_PAGE_COPY.sidebar.contactTitle}
                   </h3>
                   <ul className="space-y-4">
                     <li>
@@ -66,7 +67,9 @@ export default function ContactPage() {
                           <Mail className="w-5 h-5 text-[var(--brand)] group-hover:text-white transition-colors duration-200" />
                         </div>
                         <div>
-                          <p className="text-sm text-[var(--text-muted)] mb-1">Email</p>
+                          <p className="text-sm text-[var(--text-muted)] mb-1">
+                            {CONTACT_PAGE_COPY.sidebar.emailLabel}
+                          </p>
                           <p className="font-medium text-[var(--foreground)] group-hover:text-[var(--brand)] transition-colors duration-200">
                             {BUSINESS_INFO.email}
                           </p>
@@ -79,12 +82,14 @@ export default function ContactPage() {
                           <MapPin className="w-5 h-5 text-[var(--brand)]" />
                         </div>
                         <div>
-                          <p className="text-sm text-[var(--text-muted)] mb-1">Location</p>
+                          <p className="text-sm text-[var(--text-muted)] mb-1">
+                            {CONTACT_PAGE_COPY.sidebar.locationLabel}
+                          </p>
                           <p className="font-medium text-[var(--foreground)]">
                             {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
                           </p>
                           <p className="text-sm text-[var(--text-secondary)]">
-                            Serving Bergen County & Northern NJ
+                            {CONTACT_PAGE_COPY.sidebar.serviceArea}
                           </p>
                         </div>
                       </div>
@@ -96,13 +101,13 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <p className="text-sm text-[var(--text-muted)] mb-1">
-                            Availability
+                            {CONTACT_PAGE_COPY.sidebar.availabilityLabel}
                           </p>
                           <p className="font-medium text-[var(--foreground)]">
-                            By Appointment
+                            {CONTACT_PAGE_COPY.sidebar.availability}
                           </p>
                           <p className="text-sm text-[var(--text-secondary)]">
-                            Weekdays & Weekends
+                            {CONTACT_PAGE_COPY.sidebar.availabilityDetail}
                           </p>
                         </div>
                       </div>
@@ -113,7 +118,7 @@ export default function ContactPage() {
                 {/* Social Links */}
                 <div>
                   <h3 className="text-lg font-heading font-semibold text-[var(--foreground)] mb-4">
-                    Follow Along
+                    {CONTACT_PAGE_COPY.sidebar.followTitle}
                   </h3>
                   <div className="flex gap-3">
                     {BUSINESS_INFO.social.instagram && (
@@ -144,11 +149,10 @@ export default function ContactPage() {
                 {/* Service Areas */}
                 <div className="p-6 rounded-xl bg-[var(--background-warm)]">
                   <h3 className="text-sm font-semibold text-[var(--foreground)] mb-3">
-                    Sessions Across Northern NJ
+                    {CONTACT_PAGE_COPY.sidebar.serviceAreasTitle}
                   </h3>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                    Jenn photographs events, families, and milestone sessions
-                    throughout Northern New Jersey and the surrounding area.
+                    {CONTACT_PAGE_COPY.sidebar.serviceAreasDescription}
                   </p>
                 </div>
               </div>
@@ -162,10 +166,10 @@ export default function ContactPage() {
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-2xl md:text-3xl font-heading italic text-[var(--foreground)] leading-relaxed">
-              I can&apos;t wait to hear what you&apos;re planning!
+              {CONTACT_PAGE_COPY.closing.title}
             </p>
             <p className="text-[var(--text-secondary)] mt-4">
-              — Jenn
+              {CONTACT_PAGE_COPY.closing.signature}
             </p>
           </div>
         </div>

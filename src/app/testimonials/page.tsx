@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { BreadcrumbSchema } from "@/components/features/services/BreadcrumbSchema";
 import { EditorialLayout } from "@/components/features/testimonials/layouts/EditorialLayout";
+import { TESTIMONIALS_PAGE_COPY } from "@/data/page-copy";
 
 export const metadata: Metadata = {
   title: "Testimonials | Iffer's Pictures | Bergen County NJ",
@@ -33,14 +34,13 @@ export default function TestimonialsPage() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-wider text-white/70 mb-4">
-              Testimonials
+              {TESTIMONIALS_PAGE_COPY.hero.eyebrow}
             </p>
             <h1 className="text-4xl md:text-5xl font-heading font-semibold text-white mb-4">
-              Kind Words
+              {TESTIMONIALS_PAGE_COPY.hero.title}
             </h1>
             <p className="text-lg text-white/80 leading-relaxed">
-              The moments are everything — but the words that follow mean just
-              as much.
+              {TESTIMONIALS_PAGE_COPY.hero.description}
             </p>
           </div>
         </div>
@@ -54,16 +54,16 @@ export default function TestimonialsPage() {
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-heading font-semibold text-[var(--foreground)] mb-4">
-              Ready to create your own story?
+              {TESTIMONIALS_PAGE_COPY.cta.title}
             </h2>
             <p className="text-[var(--text-secondary)] mb-8">
-              Let&apos;s talk about the moments you want to remember forever.
+              {TESTIMONIALS_PAGE_COPY.cta.description}
             </p>
             <Link
-              href="/contact"
+              href={TESTIMONIALS_PAGE_COPY.cta.href}
               className="inline-flex items-center justify-center gap-3 font-medium rounded-full transition-all duration-300 bg-[var(--brand-vivid)] text-white hover:bg-[var(--brand-strong)] hover:gap-4 shadow-lg shadow-[var(--brand-vivid)]/25 hover:shadow-xl hover:shadow-[var(--brand-vivid)]/30 px-10 py-5 text-lg"
             >
-              Inquire Here
+              {TESTIMONIALS_PAGE_COPY.cta.label}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

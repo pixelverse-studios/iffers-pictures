@@ -4,6 +4,7 @@ import { ArrowRight, Star } from "lucide-react";
 import { SESSIONS } from "@/lib/constants";
 import { PORTFOLIO_ITEMS } from "@/components/features/portfolio/portfolioData";
 import { ALL_TESTIMONIALS } from "@/data/testimonials";
+import { HOME_PAGE_COPY } from "@/data/page-copy";
 import { getServiceThumbnail } from "@/components/features/portfolio/portfolioData";
 
 const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
@@ -50,7 +51,7 @@ export function RockstarLayout() {
       <section className="relative min-h-[100dvh] flex items-end overflow-hidden">
         <Image
           src={`${R2_BASE}/events/engagement/engagement-01.jpg`}
-          alt="Couple sharing a quiet moment at golden hour"
+          alt={HOME_PAGE_COPY.hero.imageAlt}
           fill
           priority
           className="object-cover scale-[1.02] animate-[kenBurns_12s_ease-in-out_infinite_alternate]"
@@ -61,16 +62,16 @@ export function RockstarLayout() {
         <div className="relative z-10 w-full px-6 md:px-12 pb-16 md:pb-24 max-w-6xl">
           <h1 className="font-heading leading-[0.95] tracking-tight text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
             <span className="font-light text-white/90">
-              Heartfelt Moments,
+              {HOME_PAGE_COPY.hero.headlineLead}
             </span>{" "}
             <span className="font-bold text-[var(--brand-vivid)]">
-              Beautifully Captured
+              {HOME_PAGE_COPY.hero.headlineAccent}
             </span>
           </h1>
           <div className="mt-6 flex items-center gap-6">
             <div className="h-px w-12 bg-[var(--accent-vivid)]" />
             <p className="text-white/60 text-base md:text-lg tracking-wide uppercase">
-              Because every special moment deserves to last forever.
+              {HOME_PAGE_COPY.hero.subheadline}
             </p>
           </div>
         </div>
@@ -91,7 +92,7 @@ export function RockstarLayout() {
                 <div className="relative aspect-[4/5] overflow-hidden rounded-lg shadow-xl">
                   <Image
                     src="/headshot.jpg"
-                    alt="Jennifer Matone, photographer behind Iffer's Pictures"
+                    alt={HOME_PAGE_COPY.meetJenn.imageAlt}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 90vw, 360px"
@@ -104,33 +105,25 @@ export function RockstarLayout() {
               <div className="mb-5 flex items-center gap-4">
                 <div className="h-px w-10 bg-[var(--accent-vivid)]" />
                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--brand-vivid)]">
-                  Meet Jenn
+                  {HOME_PAGE_COPY.meetJenn.eyebrow}
                 </p>
               </div>
 
               <h2 className="max-w-2xl font-heading text-3xl font-semibold leading-tight text-[var(--foreground)] md:text-4xl">
-                Hi, I&apos;m Jennifer — a Bergen County photographer preserving
-                life&apos;s most meaningful moments.
+                {HOME_PAGE_COPY.meetJenn.heading}
               </h2>
 
               <div className="mt-5 max-w-2xl space-y-4 text-base leading-8 text-[var(--text-secondary)] md:text-lg">
-                <p>
-                  Photography has always felt natural to me: the laughter, the
-                  light, and the quiet in-between moments that become the
-                  memories we hold onto.
-                </p>
-                <p>
-                  Whether I&apos;m photographing a milestone celebration, a
-                  growing family, or a season worth remembering, my goal is to
-                  create timeless images that bring you back to how it felt.
-                </p>
+                {HOME_PAGE_COPY.meetJenn.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
 
               <Link
-                href="/about"
+                href={HOME_PAGE_COPY.meetJenn.ctaHref}
                 className="mt-7 inline-flex items-center gap-2 rounded-full bg-[var(--brand-vivid)] px-7 py-3 text-sm font-medium text-white shadow-md shadow-[var(--brand-vivid)]/20 transition-all duration-200 hover:gap-3 hover:bg-[var(--brand-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-vivid)]"
               >
-                Meet Jenn
+                {HOME_PAGE_COPY.meetJenn.ctaLabel}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -224,10 +217,10 @@ export function RockstarLayout() {
           {/* Portfolio link */}
           <div className="text-center mt-6">
             <Link
-              href="/portfolio"
+              href={HOME_PAGE_COPY.portfolio.ctaHref}
               className="inline-flex items-center gap-2 text-[var(--brand-vivid)] font-medium text-sm tracking-wide hover:gap-3 transition-all duration-200"
             >
-              View Full Portfolio
+              {HOME_PAGE_COPY.portfolio.ctaLabel}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -265,10 +258,10 @@ export function RockstarLayout() {
           </div>
 
           <Link
-            href="/testimonials"
+            href={HOME_PAGE_COPY.testimonials.ctaHref}
             className="inline-flex items-center gap-2 text-[var(--brand-vivid)] text-sm font-medium mt-8 hover:gap-3 transition-all duration-200"
           >
-            Read more reviews
+            {HOME_PAGE_COPY.testimonials.ctaLabel}
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -279,14 +272,14 @@ export function RockstarLayout() {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex items-center gap-4 mb-8">
             <h2 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--foreground)] whitespace-nowrap">
-              Sessions
+              {HOME_PAGE_COPY.sessions.heading}
             </h2>
             <div className="h-px flex-1 bg-[var(--border)]" />
             <Link
-              href="/services"
+              href={HOME_PAGE_COPY.sessions.ctaHref}
               className="text-sm text-[var(--brand-vivid)] font-medium whitespace-nowrap hover:underline underline-offset-4"
             >
-              View all
+              {HOME_PAGE_COPY.sessions.ctaLabel}
             </Link>
           </div>
 
@@ -331,11 +324,7 @@ export function RockstarLayout() {
       {/* ── 6. STATS BAR ───────────────────────────────────── */}
       <section className="border-y border-[var(--border)] py-6">
         <div className="max-w-4xl mx-auto px-6 flex items-center justify-center flex-wrap">
-          {[
-            { value: "200+", label: "Events Captured" },
-            { value: "5+", label: "Years Experience" },
-            { value: "100%", label: "Facebook Rating" },
-          ].map((stat, i) => (
+          {HOME_PAGE_COPY.stats.map((stat, i) => (
             <div key={stat.label} className="flex items-center">
               <div className="text-center px-6 md:px-10">
                 <p className="text-2xl md:text-3xl font-heading font-bold text-[var(--brand-vivid)]">
@@ -360,18 +349,20 @@ export function RockstarLayout() {
             <div className="w-10 h-1 rounded-full bg-[var(--accent-vivid)]" />
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-semibold text-[var(--foreground)] leading-tight mb-4">
-            Your story deserves
+            {HOME_PAGE_COPY.finalCta.titleLead}
             <br />
-            <span className="text-[var(--brand-vivid)]">to be told beautifully.</span>
+            <span className="text-[var(--brand-vivid)]">
+              {HOME_PAGE_COPY.finalCta.titleAccent}
+            </span>
           </h2>
           <p className="text-[var(--text-secondary)] mb-8 text-lg">
-            Let&apos;s start with a conversation.
+            {HOME_PAGE_COPY.finalCta.description}
           </p>
           <Link
-            href="/contact"
+            href={HOME_PAGE_COPY.finalCta.ctaHref}
             className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-[var(--brand-vivid)] text-white font-medium text-base hover:bg-[var(--brand-strong)] transition-all duration-200 shadow-lg shadow-[var(--brand-vivid)]/25 hover:shadow-xl"
           >
-            Inquire Here
+            {HOME_PAGE_COPY.finalCta.ctaLabel}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
