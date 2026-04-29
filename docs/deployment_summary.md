@@ -24,6 +24,8 @@
 - Added a site-wide layout preview selector so Jenn can compare the current site direction with the upcoming new design-board direction during review.
 - Added reusable building blocks for the upcoming design-board layout preview so the new pages can stay visually consistent during review.
 - Prepared shared page copy sources for the layout comparison work so the current site and upcoming design-board layout use the same approved wording.
+- Added the new design-board layout option for the Home and About pages so Jenn can compare those pages against the current layout from the site-wide selector.
+- Updated the new About page layout option to match the design board direction more closely, including the portrait intro, trait row, personal story section, and blue quote band.
 
 ## Notes for internal team
 
@@ -46,6 +48,9 @@
 - DEV-798: Added temporary layout variant infrastructure for the client presentation phase. New `LayoutVariantContext` supports `current` and `board`, persists to `localStorage`, syncs `?layout=board` review URLs, sets `data-layout-variant` on `<html>`, and renders a keyboard-accessible bottom-right comparison widget. Current layout remains the default.
 - DEV-799: Added temporary `src/components/board/` primitives for board-mode page composition: shell, editorial header, split hero, image mosaic/grid, session strip, quote band, process steps, FAQ panel, CTA, and sidebar nav. Components are prop-driven so future tickets can reuse existing page copy/data without duplicating content. No routes are switched to these primitives yet.
 - DEV-800: Added `src/data/page-copy.ts` and wired the active Home, About, Sessions, Portfolio, Testimonials, Investment, FAQ, and Contact page surfaces to consume shared copy/data without intended wording, metadata, or schema changes.
+- DEV-801: Added board-mode Home and About page branches behind the site-wide layout selector, using shared page copy, existing session constants, portfolio image data, testimonial data, and local Jenn imagery. Current layouts remain available when the selector is set to Current. Follow-up update replaced the generic About board composition with the supplied design-board structure.
+- DEV-801 follow-up: Home and About now seed their initial layout branch from `?layout=board` search params so direct presentation links render the board page body immediately instead of flashing the current layout first.
+- DEV-801 follow-up: Adjusted the About board first screen and story anchor behavior, and added hover/active styling to board navigation links.
 
 ## Changed URLs
 

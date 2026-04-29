@@ -179,6 +179,18 @@ html[data-theme-mode="soft-dark"] {
   }
 }
 
+.board-layout-header {
+  display: none;
+}
+
+html[data-layout-variant="board"] .board-layout-header {
+  display: block;
+}
+
+html[data-layout-variant="board"] .current-layout-header {
+  display: none;
+}
+
 /* ============================================
    Base Styles
    ============================================ */

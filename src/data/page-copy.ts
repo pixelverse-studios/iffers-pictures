@@ -1,4 +1,12 @@
 export const HOME_PAGE_COPY = {
+  boardHero: {
+    title: "The feeling,\nthen the\nphotograph",
+    description: "Honest moments.\nBeautifully remembered.\nForever yours.",
+    primaryLabel: "Inquire",
+    primaryHref: "/contact",
+    secondaryLabel: "Meet Jenn",
+    secondaryHref: "/about",
+  },
   hero: {
     headlineLead: "Heartfelt Moments,",
     headlineAccent: "Beautifully Captured",
@@ -29,6 +37,13 @@ export const HOME_PAGE_COPY = {
     heading: "Sessions",
     ctaLabel: "View all",
     ctaHref: "/services",
+    boardSubtitles: {
+      events: "Celebrations",
+      family: "Togetherness",
+      maternity: "The beautiful wait",
+      "couples-engagement": "Your connection",
+      portrait: "Just because",
+    },
   },
   stats: [
     { value: "200+", label: "Events Captured" },
@@ -46,6 +61,7 @@ export const HOME_PAGE_COPY = {
 
 export const ABOUT_PAGE_COPY = {
   hero: {
+    boardTitle: "Hi, I'm Jenn.",
     imageAlt: "Jennifer Matone — Bergen County Event Photographer",
     location: "Bergen County, New Jersey",
     firstName: "Jennifer",
