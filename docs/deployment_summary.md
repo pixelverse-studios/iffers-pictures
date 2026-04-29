@@ -22,6 +22,7 @@
 - Removed unused legacy homepage and service-area components that could conflict with the newer theme system if re-enabled.
 - Fixed mobile menu contrast across the soft-dark theme previews so overlay links and contact text remain readable.
 - Added a site-wide layout preview selector so Jenn can compare the current site direction with the upcoming new design-board direction during review.
+- Added reusable building blocks for the upcoming design-board layout preview so the new pages can stay visually consistent during review.
 
 ## Notes for internal team
 
@@ -42,6 +43,7 @@
 - Completed DEV-694. Deleted orphaned `ServiceAreasDisplay.tsx` and homepage `Testimonials.tsx`, then removed the stale homepage export.
 - Completed DEV-693. Added theme-aware mobile menu color tokens and applied them to the header overlay gradient, links, CTA, border, and contact text.
 - DEV-798: Added temporary layout variant infrastructure for the client presentation phase. New `LayoutVariantContext` supports `current` and `board`, persists to `localStorage`, syncs `?layout=board` review URLs, sets `data-layout-variant` on `<html>`, and renders a keyboard-accessible bottom-right comparison widget. Current layout remains the default.
+- DEV-799: Added temporary `src/components/board/` primitives for board-mode page composition: shell, editorial header, split hero, image mosaic/grid, session strip, quote band, process steps, FAQ panel, CTA, and sidebar nav. Components are prop-driven so future tickets can reuse existing page copy/data without duplicating content. No routes are switched to these primitives yet.
 
 ## Changed URLs
 
