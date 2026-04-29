@@ -4,13 +4,15 @@
 
 ### Git
 
-- Never commit or push changes without explicit user approval.
-- Ask before running `git commit`.
-- Ask before running `git push`.
-- Only commit when the user explicitly says to commit the changes.
+- For normal ad hoc work, never commit or push changes without explicit user approval.
+- For work started through the `ticket`, `ticket-ui`, or `ticket-be` workflow, commit at the end of the completed scope after verification unless the user explicitly says not to.
+- For work started through the `ticket`, `ticket-ui`, or `ticket-be` workflow, push the ticket-scoped branch and open a PR after committing so the user can visually review the change set.
+- Ticket-scoped branches should use the ticket identifier, for example `dev-798` or `codex/dev-798`; do not use protected integration branch names for ticket work.
 - Do not batch unrelated commits.
+- Never push `dev/*`, `epic/*`, or other integration branches to the remote unless the user explicitly asks for that exact branch to be pushed.
 - Never push `main` to the remote unless the user explicitly says "push main" or "push to main remote".
 - Merging PRs into local `main` is fine, but pushing `main` to origin triggers deployment.
+- PRs created from ticket workflows must include a running, flat QA checklist describing exactly what the user should review.
 
 ### Development Server Management
 

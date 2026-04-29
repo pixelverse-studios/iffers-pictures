@@ -21,6 +21,7 @@
 - Brightened the session-page gallery treatment so images feel lighter and more luminous while preserving detail.
 - Removed unused legacy homepage and service-area components that could conflict with the newer theme system if re-enabled.
 - Fixed mobile menu contrast across the soft-dark theme previews so overlay links and contact text remain readable.
+- Added a site-wide layout preview selector so Jenn can compare the current site direction with the upcoming new design-board direction during review.
 
 ## Notes for internal team
 
@@ -40,6 +41,7 @@
 - Completed DEV-764. Added a conservative CSS brightness/highlight treatment in `ServiceGallery.tsx` and removed the dark fallback-gallery hover overlay.
 - Completed DEV-694. Deleted orphaned `ServiceAreasDisplay.tsx` and homepage `Testimonials.tsx`, then removed the stale homepage export.
 - Completed DEV-693. Added theme-aware mobile menu color tokens and applied them to the header overlay gradient, links, CTA, border, and contact text.
+- DEV-798: Added temporary layout variant infrastructure for the client presentation phase. New `LayoutVariantContext` supports `current` and `board`, persists to `localStorage`, syncs `?layout=board` review URLs, sets `data-layout-variant` on `<html>`, and renders a keyboard-accessible bottom-right comparison widget. Current layout remains the default.
 
 ## Changed URLs
 
@@ -61,3 +63,7 @@
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/about
 - https://ifferspictures.com/
+- https://ifferspictures.com/services
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/faq
+- https://ifferspictures.com/image-review
