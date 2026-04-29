@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
-import { AboutHero, AboutBio, AboutCTA } from "@/components/features/about";
+import { AboutPageContent } from "@/components/features/about";
 import { PersonSchema } from "@/components/seo/PersonSchema";
 
 export const metadata: Metadata = {
@@ -45,9 +45,7 @@ export default function AboutPage() {
   return (
     <>
       <PersonSchema />
-      <AboutHero />
-      <AboutBio />
-      <AboutCTA />
+      <AboutPageContent />
     </>
   );
 }

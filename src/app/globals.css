@@ -179,6 +179,21 @@ html[data-theme-mode="soft-dark"] {
   }
 }
 
+.board-layout-header,
+.board-layout-page {
+  display: none;
+}
+
+html[data-layout-variant="board"] .board-layout-header,
+html[data-layout-variant="board"] .board-layout-page {
+  display: block;
+}
+
+html[data-layout-variant="board"] .current-layout-header,
+html[data-layout-variant="board"] .current-layout-page {
+  display: none;
+}
+
 /* ============================================
    Base Styles
    ============================================ */
