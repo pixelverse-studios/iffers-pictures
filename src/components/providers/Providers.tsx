@@ -1,14 +1,25 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { ThemeProvider } from "@/context/ThemeContext";
+import {
+  LayoutVariantProvider,
+  LayoutVariantQuerySync,
+} from "@/context/LayoutVariantContext";
 import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
+import { LayoutVariantWidget } from "./LayoutVariantWidget";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
-      {children}
-      <ThemeSwitcher />
+      <LayoutVariantProvider>
+        <Suspense fallback={null}>
+          <LayoutVariantQuerySync />
+        </Suspense>
+        {children}
+        <ThemeSwitcher />
+        <LayoutVariantWidget />
+      </LayoutVariantProvider>
     </ThemeProvider>
   );
 }
