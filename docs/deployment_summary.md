@@ -23,6 +23,7 @@
 - Fixed mobile menu contrast across the soft-dark theme previews so overlay links and contact text remain readable.
 - Added a site-wide layout preview selector so Jenn can compare the current site direction with the upcoming new design-board direction during review.
 - Added reusable building blocks for the upcoming design-board layout preview so the new pages can stay visually consistent during review.
+- Prepared shared page copy sources for the layout comparison work so the current site and upcoming design-board layout use the same approved wording.
 
 ## Notes for internal team
 
@@ -44,6 +45,7 @@
 - Completed DEV-693. Added theme-aware mobile menu color tokens and applied them to the header overlay gradient, links, CTA, border, and contact text.
 - DEV-798: Added temporary layout variant infrastructure for the client presentation phase. New `LayoutVariantContext` supports `current` and `board`, persists to `localStorage`, syncs `?layout=board` review URLs, sets `data-layout-variant` on `<html>`, and renders a keyboard-accessible bottom-right comparison widget. Current layout remains the default.
 - DEV-799: Added temporary `src/components/board/` primitives for board-mode page composition: shell, editorial header, split hero, image mosaic/grid, session strip, quote band, process steps, FAQ panel, CTA, and sidebar nav. Components are prop-driven so future tickets can reuse existing page copy/data without duplicating content. No routes are switched to these primitives yet.
+- DEV-800: Added `src/data/page-copy.ts` and wired the active Home, About, Sessions, Portfolio, Testimonials, Investment, FAQ, and Contact page surfaces to consume shared copy/data without intended wording, metadata, or schema changes.
 
 ## Changed URLs
 

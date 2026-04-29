@@ -1,6 +1,7 @@
 import { Instagram, Mail, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { BUSINESS_INFO } from "@/lib/constants";
+import { ABOUT_PAGE_COPY } from "@/data/page-copy";
 
 /**
  * Layout A — Centered Two-Column
@@ -17,7 +18,7 @@ export function LayoutA() {
         <div className="relative w-[13rem]">
           <Image
             src="/headshot.jpg"
-            alt="Jennifer Matone — Bergen County Event Photographer"
+            alt={ABOUT_PAGE_COPY.hero.imageAlt}
             width={208}
             height={312}
             className="rounded-2xl object-cover w-full h-auto shadow-md"
@@ -34,22 +35,24 @@ export function LayoutA() {
         <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
           <div className="h-px w-7 bg-[var(--brand)]" />
           <p className="text-[var(--brand)] font-medium tracking-[0.25em] uppercase text-xs">
-            Bergen County, New Jersey
+            {ABOUT_PAGE_COPY.hero.location}
           </p>
         </div>
 
         <h1 className="text-5xl sm:text-6xl font-heading text-[var(--foreground)] leading-[1.0] mb-4">
-          Jennifer
+          {ABOUT_PAGE_COPY.hero.firstName}
           <br />
-          <span className="text-[var(--brand)]">Matone</span>
+          <span className="text-[var(--brand)]">
+            {ABOUT_PAGE_COPY.hero.lastName}
+          </span>
         </h1>
 
         <p className="text-xs text-[var(--text-muted)] tracking-[0.2em] uppercase mb-6 font-medium">
-          Bergen County Event Photographer
+          {ABOUT_PAGE_COPY.hero.role}
         </p>
 
         <p className="text-lg text-[var(--text-secondary)] leading-relaxed mb-8 font-body italic">
-          Drawn to light, laughter, and the quiet moments in between.
+          {ABOUT_PAGE_COPY.hero.intro}
         </p>
 
         <div className="flex items-center justify-center lg:justify-start gap-3 mb-10">
@@ -73,7 +76,9 @@ export function LayoutA() {
 
         <div className="flex items-center justify-center lg:justify-start gap-3 text-[var(--text-muted)]">
           <div className="h-px w-8 bg-[var(--brand)]/30" />
-          <span className="text-xs tracking-[0.2em] uppercase">My story</span>
+          <span className="text-xs tracking-[0.2em] uppercase">
+            {ABOUT_PAGE_COPY.hero.storyLabel}
+          </span>
           <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
         </div>
       </div>

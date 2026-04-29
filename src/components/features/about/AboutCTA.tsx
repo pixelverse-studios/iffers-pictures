@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import { ABOUT_PAGE_COPY } from "@/data/page-copy";
 
 export function AboutCTA() {
   return (
@@ -8,10 +9,10 @@ export function AboutCTA() {
       <div className="container">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-2xl md:text-3xl font-heading italic text-[var(--foreground)] mb-10 leading-relaxed">
-            It would be an honor to capture your story.
+            {ABOUT_PAGE_COPY.cta.title}
           </p>
           <Link
-            href="/contact"
+            href={ABOUT_PAGE_COPY.cta.href}
             className={cn(
               "inline-flex items-center justify-center gap-3 font-medium",
               "rounded-full transition-all duration-300",
@@ -21,7 +22,7 @@ export function AboutCTA() {
               "px-10 py-5 text-lg"
             )}
           >
-            Inquire Here
+            {ABOUT_PAGE_COPY.cta.label}
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

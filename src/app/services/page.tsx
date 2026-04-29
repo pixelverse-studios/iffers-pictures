@@ -3,6 +3,7 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { ServicesHubSchema } from "@/components/features/services-hub";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { SessionsContent } from "@/components/features/sessions-hub";
+import { SESSIONS_PAGE_COPY } from "@/data/page-copy";
 
 export const metadata: Metadata = {
   title: "Sessions | Iffer's Pictures | Bergen County NJ",
@@ -58,10 +59,10 @@ export default function SessionsPage() {
       <section className="pt-hero pb-8 md:pb-12">
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-heading font-semibold text-[var(--foreground)] mb-6">
-            Sessions
+            {SESSIONS_PAGE_COPY.hero.title}
           </h1>
           <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed">
-            Thoughtfully capturing life&apos;s most meaningful moments.
+            {SESSIONS_PAGE_COPY.hero.description}
           </p>
         </div>
       </section>
