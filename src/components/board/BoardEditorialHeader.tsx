@@ -6,6 +6,7 @@ interface BoardEditorialHeaderProps {
   title: ReactNode;
   description?: ReactNode;
   align?: "left" | "center";
+  titleAs?: "h1" | "h2";
   className?: string;
 }
 
@@ -14,6 +15,7 @@ export function BoardEditorialHeader({
   title,
   description,
   align = "left",
+  titleAs: Title = "h1",
   className,
 }: BoardEditorialHeaderProps) {
   const centered = align === "center";
@@ -44,9 +46,9 @@ export function BoardEditorialHeader({
         </div>
       )}
 
-      <h1 className="font-heading text-4xl font-semibold leading-[1.02] text-[var(--foreground)] md:text-5xl lg:text-6xl">
+      <Title className="font-heading text-4xl font-semibold leading-[1.02] text-[var(--foreground)] md:text-5xl lg:text-6xl">
         {title}
-      </h1>
+      </Title>
 
       {description && (
         <div className="mt-5 text-base leading-8 text-[var(--text-secondary)] md:text-lg">

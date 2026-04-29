@@ -148,7 +148,67 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+      <header className="board-layout-header fixed left-0 right-0 top-0 z-50 border-b border-[var(--border)] bg-white/95 shadow-[0_8px_28px_rgba(42,68,92,0.10)] backdrop-blur-md">
+          <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between px-5 md:h-[72px] md:px-8">
+            <Link
+              href="/"
+              aria-label="Iffer's Pictures — Home"
+              className="flex shrink-0 items-center"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <Image
+                src="/logo-blue.png"
+                alt="Iffer's Pictures"
+                width={149}
+                height={80}
+                className="h-12 w-auto md:h-14"
+                priority
+              />
+            </Link>
+
+            <button
+              className="rounded-sm border border-[var(--border)] p-2 md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls={MOBILE_MENU_ID}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5 text-[var(--foreground)]" />
+              ) : (
+                <Menu className="h-5 w-5 text-[var(--foreground)]" />
+              )}
+            </button>
+
+            <nav className="hidden items-center gap-6 md:flex lg:gap-8">
+              {[
+                { label: "Sessions", href: "/services" },
+                { label: "Portfolio", href: "/portfolio" },
+                { label: "About", href: "/about" },
+                { label: "Investment", href: "/investment" },
+                { label: "FAQ", href: "/faq" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--brand-strong)]",
+                    isLinkActive(link.href) && "text-[var(--brand-strong)]"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                href="/contact"
+                className="inline-flex min-h-10 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-5 text-[11px] font-bold uppercase tracking-[0.18em] text-white shadow-sm transition-colors duration-200 hover:bg-[var(--brand)]"
+              >
+                Inquire
+              </Link>
+            </nav>
+          </div>
+        </header>
+      <header className="current-layout-header fixed top-0 left-0 right-0 z-50 pointer-events-none">
         {/*
           Single morphing wrapper. When isPill (homepage hero, not scrolled,
           mobile menu closed), it caps at PILL_MAX_WIDTH and renders as a
