@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -20,6 +20,7 @@ const availableServices = SERVICES.filter((service) =>
   PORTFOLIO_ITEMS.some((item) => item.service === service)
 );
 const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
+const GALLERY_TRANSITION_MS = 220;
 
 function getBoardItems(
   filter: PortfolioBoardFilter,
@@ -45,6 +46,8 @@ export function BoardPortfolioLayout() {
     () => getBoardItems(activeFilter, activeSubCategory),
     [activeFilter, activeSubCategory]
   );
+  const [displayedItems, setDisplayedItems] = useState(items);
+  const [galleryPhase, setGalleryPhase] = useState<"enter" | "exit">("enter");
   const subCategories =
     activeFilter === "All"
       ? []
@@ -68,6 +71,28 @@ export function BoardPortfolioLayout() {
     );
     setLightboxIndex(null);
   }
+
+  useEffect(() => {
+    const isSameSet =
+      displayedItems.length === items.length &&
+      displayedItems.every((item, index) => item.id === items[index]?.id);
+
+    if (isSameSet) return;
+
+    const exitFrame = window.requestAnimationFrame(() => {
+      setGalleryPhase("exit");
+    });
+
+    const timer = window.setTimeout(() => {
+      setDisplayedItems(items);
+      setGalleryPhase("enter");
+    }, GALLERY_TRANSITION_MS);
+
+    return () => {
+      window.cancelAnimationFrame(exitFrame);
+      window.clearTimeout(timer);
+    };
+  }, [displayedItems, items]);
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
@@ -170,9 +195,15 @@ export function BoardPortfolioLayout() {
 
         <div
           key={`${activeFilter}-${activeSubCategory ?? "all"}`}
-          className="grid grid-cols-2 gap-px border-y border-white bg-white md:border-[var(--border)] sm:grid-cols-3"
+          className={[
+            "grid grid-cols-2 gap-px border-y border-white bg-white md:border-[var(--border)] sm:grid-cols-3",
+            "transition duration-200 ease-out motion-reduce:transition-none",
+            galleryPhase === "exit"
+              ? "translate-y-2 opacity-0"
+              : "translate-y-0 opacity-100",
+          ].join(" ")}
         >
-          {items.map((item, index) => (
+          {displayedItems.map((item, index) => (
             <button
               key={item.id}
               type="button"
@@ -181,8 +212,11 @@ export function BoardPortfolioLayout() {
                 "group relative min-h-0 overflow-hidden bg-[var(--background-warm)] text-left",
                 "aspect-[4/5] sm:aspect-[1/1]",
                 index % 13 === 4 ? "sm:row-span-2 sm:aspect-auto" : "",
+                galleryPhase === "enter"
+                  ? "animate-[portfolioTileIn_420ms_cubic-bezier(0.16,1,0.3,1)_both]"
+                  : "",
               ].join(" ")}
-              style={{ animationDelay: `${index * 55}ms` }}
+              style={{ animationDelay: `${Math.min(index, 18) * 22}ms` }}
             >
               <Image
                 src={item.src}
@@ -227,7 +261,7 @@ export function BoardPortfolioLayout() {
 
       {lightboxIndex !== null && (
         <Lightbox
-          items={items}
+          items={displayedItems}
           currentIndex={lightboxIndex}
           onClose={() => setLightboxIndex(null)}
           onNavigate={setLightboxIndex}
