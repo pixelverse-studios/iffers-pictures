@@ -58,6 +58,8 @@
 - DEV-802 follow-up: `/services` and `/services/[slug]` now seed their initial layout branch from `?layout=board` search params to prevent current-layout flashes on direct presentation links. Added portfolio slug-map coverage for `couples-engagement` and `portrait` without placeholder fallbacks.
 - DEV-802 follow-up validation: after search-param seeding, Next.js marks `/services` and `/services/[slug]` as dynamic routes, matching the existing Home/About direct-review-link behavior.
 - DEV-802 follow-up: Board service detail galleries now use up to 12 service-specific portfolio images in an asymmetric mosaic with the existing lightbox and a full-portfolio CTA.
+- DEV-803: Added board-mode `/portfolio` and `/testimonials` branches behind the site-wide layout selector. Portfolio uses existing `PORTFOLIO_ITEMS` with category tabs and lightbox; testimonials uses `ALL_TESTIMONIALS` without changing quote or author text. Current layouts remain the default.
+- DEV-803 validation: targeted ESLint passed for changed files and `npm run build` passed. Full `npm run lint` is still blocked by pre-existing unrelated errors in scripts, image-review, Footer, and ThemeContext.
 
 ## Changed URLs
 
