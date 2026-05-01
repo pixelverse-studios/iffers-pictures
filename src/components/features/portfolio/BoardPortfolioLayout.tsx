@@ -105,7 +105,7 @@ export function BoardPortfolioLayout() {
                   aria-selected={isActive}
                   onClick={() => selectFilter(label)}
                   className={[
-                    "shrink-0 border-b-2 px-0 pb-3 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
+                    "shrink-0 cursor-pointer border-b-2 px-0 pb-3 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
                     isActive
                       ? "border-[var(--brand-strong)] text-[var(--brand-strong)]"
@@ -142,7 +142,7 @@ export function BoardPortfolioLayout() {
                       aria-selected={isActive}
                       onClick={() => selectSubCategory(subCategory)}
                       className={[
-                        "shrink-0 border-b-2 px-0 pb-2 text-[10px] font-bold uppercase tracking-[0.15em] transition-all duration-300",
+                        "shrink-0 cursor-pointer border-b-2 px-0 pb-2 text-[10px] font-bold uppercase tracking-[0.15em] transition-all duration-300",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
                         isActive
                           ? "border-[var(--brand-strong)] text-[var(--brand-strong)]"
