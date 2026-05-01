@@ -87,7 +87,7 @@ export function BoardPortfolioLayout() {
       </section>
 
       <section className="mx-auto max-w-[1180px] bg-white">
-        <div className="sticky top-16 z-20 bg-[var(--background)] px-5 pt-2 shadow-[0_12px_24px_rgba(250,251,253,0.92)] md:top-[72px] md:px-8">
+        <div className="sticky top-16 z-20 bg-[var(--background)] px-5 pb-6 pt-2 shadow-[0_12px_24px_rgba(250,251,253,0.92)] md:top-[72px] md:px-8">
           <div
             className="flex gap-8 overflow-x-auto"
             role="tablist"
@@ -105,7 +105,7 @@ export function BoardPortfolioLayout() {
                   aria-selected={isActive}
                   onClick={() => selectFilter(label)}
                   className={[
-                    "shrink-0 border-b-2 px-0 pb-4 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
+                    "shrink-0 border-b-2 px-0 pb-3 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
                     isActive
                       ? "border-[var(--brand-strong)] text-[var(--brand-strong)]"
@@ -126,7 +126,7 @@ export function BoardPortfolioLayout() {
           >
             <div className="min-h-0 overflow-hidden">
               <div
-                className="flex gap-2 overflow-x-auto pb-5 pt-3"
+                className="flex gap-6 overflow-x-auto pt-4"
                 role="tablist"
                 aria-label={`${activeFilter} subcategories`}
                 style={{ scrollbarWidth: "none" }}
@@ -142,11 +142,11 @@ export function BoardPortfolioLayout() {
                       aria-selected={isActive}
                       onClick={() => selectSubCategory(subCategory)}
                       className={[
-                        "shrink-0 rounded-sm border px-3.5 py-2 text-[10px] font-bold uppercase tracking-[0.14em] transition-all duration-300",
+                        "shrink-0 border-b-2 px-0 pb-2 text-[10px] font-bold uppercase tracking-[0.15em] transition-all duration-300",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
                         isActive
-                          ? "border-[var(--brand-strong)] bg-[var(--brand-strong)] text-white"
-                          : "border-[var(--border)] bg-white/55 text-[var(--text-muted)] hover:border-[var(--brand-soft)] hover:text-[var(--foreground)]",
+                          ? "border-[var(--brand-strong)] text-[var(--brand-strong)]"
+                          : "border-transparent text-[var(--text-muted)] hover:border-[var(--brand-soft)] hover:text-[var(--foreground)]",
                       ].join(" ")}
                     >
                       {subCategory}

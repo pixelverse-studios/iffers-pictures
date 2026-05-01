@@ -64,6 +64,7 @@
 - DEV-803 follow-up: Updated the new Portfolio board layout so category tabs stay sticky through the gallery, the tab rail no longer has a separate divider line, and every tab now renders the full matching image set.
 - DEV-803 follow-up: Widened the new Portfolio board hero text area so the headline uses available desktop space and no longer wraps tightly on the left.
 - DEV-803 follow-up: Added contextual subcategory filters to the new Portfolio board layout for services with subdivisions, preserving the image-first top-tab style.
+- DEV-803 follow-up: Refined the new Portfolio board filter bar so primary and subcategory tabs feel like one cohesive sticky control with consistent underline styling and stable spacing above the gallery.
 
 ## Changed URLs
 
