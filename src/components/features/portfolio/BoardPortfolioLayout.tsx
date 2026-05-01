@@ -31,14 +31,14 @@ export function BoardPortfolioLayout() {
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <section className="mx-auto max-w-[1180px] px-5 pb-10 pt-14 md:px-8 md:pb-12 md:pt-20">
-        <div className="max-w-[640px]">
+        <div className="max-w-[920px]">
           <p className="mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[var(--brand-strong)]">
             {PORTFOLIO_PAGE_COPY.hero.eyebrow}
           </p>
-          <h1 className="font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl">
+          <h1 className="max-w-[820px] font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl">
             Stories
             <br />
-            I&apos;ve had the honor to tell
+            <span className="block md:inline">I&apos;ve had the honor to tell</span>
           </h1>
           <div
             className="mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
