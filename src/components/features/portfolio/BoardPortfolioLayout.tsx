@@ -20,7 +20,8 @@ const availableServices = SERVICES.filter((service) =>
   PORTFOLIO_ITEMS.some((item) => item.service === service)
 );
 const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
-const GALLERY_TRANSITION_MS = 220;
+const GALLERY_EXIT_MS = 390;
+const MAX_STAGGER_INDEX = 16;
 
 function getBoardItems(
   filter: PortfolioBoardFilter,
@@ -86,7 +87,7 @@ export function BoardPortfolioLayout() {
     const timer = window.setTimeout(() => {
       setDisplayedItems(items);
       setGalleryPhase("enter");
-    }, GALLERY_TRANSITION_MS);
+    }, GALLERY_EXIT_MS);
 
     return () => {
       window.cancelAnimationFrame(exitFrame);
@@ -194,14 +195,7 @@ export function BoardPortfolioLayout() {
         </div>
 
         <div
-          key={`${activeFilter}-${activeSubCategory ?? "all"}`}
-          className={[
-            "grid grid-cols-2 gap-px border-y border-white bg-white md:border-[var(--border)] sm:grid-cols-3",
-            "transition duration-200 ease-out motion-reduce:transition-none",
-            galleryPhase === "exit"
-              ? "translate-y-2 opacity-0"
-              : "translate-y-0 opacity-100",
-          ].join(" ")}
+          className="grid grid-cols-2 gap-px border-y border-white bg-white md:border-[var(--border)] sm:grid-cols-3"
         >
           {displayedItems.map((item, index) => (
             <button
@@ -214,9 +208,14 @@ export function BoardPortfolioLayout() {
                 index % 13 === 4 ? "sm:row-span-2 sm:aspect-auto" : "",
                 galleryPhase === "enter"
                   ? "animate-[portfolioTileIn_420ms_cubic-bezier(0.16,1,0.3,1)_both]"
-                  : "",
+                  : "animate-[portfolioTileOut_260ms_cubic-bezier(0.7,0,0.84,0)_both]",
               ].join(" ")}
-              style={{ animationDelay: `${Math.min(index, 18) * 22}ms` }}
+              style={{
+                animationDelay: `${
+                  Math.min(index, MAX_STAGGER_INDEX) *
+                  (galleryPhase === "enter" ? 18 : 8)
+                }ms`,
+              }}
             >
               <Image
                 src={item.src}
