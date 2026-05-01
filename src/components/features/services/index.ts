@@ -5,6 +5,7 @@ export { ServiceTestimonials } from "./ServiceTestimonials";
 export { ServicePricing } from "./ServicePricing";
 export { ServiceFAQ } from "./ServiceFAQ";
 export { ServiceCTA } from "./ServiceCTA";
+export { ServicePageContent } from "./ServicePageContent";
 export { ServiceSchema } from "./ServiceSchema";
 export { FAQSchema } from "./FAQSchema";
 export { BreadcrumbSchema } from "./BreadcrumbSchema";

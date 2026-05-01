@@ -2,8 +2,11 @@ import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { ServicesHubSchema } from "@/components/features/services-hub";
 import { BreadcrumbSchema } from "@/components/features/services";
-import { SessionsContent } from "@/components/features/sessions-hub";
-import { SESSIONS_PAGE_COPY } from "@/data/page-copy";
+import { SessionsPageContent } from "@/components/features/sessions-hub";
+import {
+  getLayoutVariantFromSearchParams,
+  type LayoutVariantSearchParams,
+} from "@/lib/layout-variants";
 
 export const metadata: Metadata = {
   title: "Sessions | Iffer's Pictures | Bergen County NJ",
@@ -44,7 +47,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SessionsPage() {
+interface SessionsPageProps {
+  searchParams?: Promise<LayoutVariantSearchParams>;
+}
+
+export default async function SessionsPage({ searchParams }: SessionsPageProps) {
+  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
+    searchParams ? await searchParams : undefined
+  );
+
   return (
     <>
       <ServicesHubSchema />
@@ -55,19 +66,7 @@ export default function SessionsPage() {
         ]}
       />
 
-      {/* Header */}
-      <section className="pt-hero pb-8 md:pb-12">
-        <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-heading font-semibold text-[var(--foreground)] mb-6">
-            {SESSIONS_PAGE_COPY.hero.title}
-          </h1>
-          <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed">
-            {SESSIONS_PAGE_COPY.hero.description}
-          </p>
-        </div>
-      </section>
-
-      <SessionsContent />
+      <SessionsPageContent initialLayoutVariantId={initialLayoutVariantId} />
     </>
   );
 }

@@ -26,6 +26,9 @@
 - Prepared shared page copy sources for the layout comparison work so the current site and upcoming design-board layout use the same approved wording.
 - Added the new design-board layout option for the Home and About pages so Jenn can compare those pages against the current layout from the site-wide selector.
 - Updated the new About page layout option to match the design board direction more closely, including the portrait intro, trait row, personal story section, and blue quote band.
+- Added the new design-board layout option for the Sessions hub and all session detail pages so Jenn can compare those pages from the site-wide selector.
+- Improved direct review links for the Sessions pages so New Design URLs open in the correct layout immediately.
+- Expanded the New Design session detail gallery previews so each offering shows more of Jenn's work and links through to the full portfolio.
 
 ## Notes for internal team
 
@@ -51,6 +54,10 @@
 - DEV-801: Added board-mode Home and About page branches behind the site-wide layout selector, using shared page copy, existing session constants, portfolio image data, testimonial data, and local Jenn imagery. Current layouts remain available when the selector is set to Current. Follow-up update replaced the generic About board composition with the supplied design-board structure.
 - DEV-801 follow-up: Home and About now seed their initial layout branch from `?layout=board` search params so direct presentation links render the board page body immediately instead of flashing the current layout first.
 - DEV-801 follow-up: Adjusted the About board first screen and story anchor behavior, and added hover/active styling to board navigation links.
+- DEV-802: Added board-mode `/services` and `/services/[slug]` layouts using existing session constants, service data, portfolio imagery, testimonials, FAQs, and CTA copy. Current service layouts remain the default until the selector is set to New Design.
+- DEV-802 follow-up: `/services` and `/services/[slug]` now seed their initial layout branch from `?layout=board` search params to prevent current-layout flashes on direct presentation links. Added portfolio slug-map coverage for `couples-engagement` and `portrait` without placeholder fallbacks.
+- DEV-802 follow-up validation: after search-param seeding, Next.js marks `/services` and `/services/[slug]` as dynamic routes, matching the existing Home/About direct-review-link behavior.
+- DEV-802 follow-up: Board service detail galleries now use up to 12 service-specific portfolio images in an asymmetric mosaic with the existing lightbox and a full-portfolio CTA.
 
 ## Changed URLs
 

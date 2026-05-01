@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, NAV_LINKS_LEFT, NAV_LINKS_RIGHT, BUSINESS_INFO } from "@/lib/constants";
+import { useLayoutVariant } from "@/context/LayoutVariantContext";
 
 // ─── Constants ────────────────────────────────────────────────────────
 const MOBILE_MENU_ID = "header-mobile-menu";
@@ -53,6 +54,7 @@ function NavLink({ href, label, isActive, isPill }: NavLinkProps) {
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isBoardLayout, mounted } = useLayoutVariant();
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   // Collapse the pill to solid-bar state when the mobile menu is open, so
@@ -210,6 +212,7 @@ export function Header() {
             </nav>
           </div>
         </header>
+      {(!mounted || !isBoardLayout) && (
       <header className="current-layout-header fixed top-0 left-0 right-0 z-50 pointer-events-none">
         {/*
           Single morphing wrapper. When isPill (homepage hero, not scrolled,
@@ -330,6 +333,7 @@ export function Header() {
           </nav>
         </div>
       </header>
+      )}
 
       {/* Mobile Menu Overlay */}
       <div
