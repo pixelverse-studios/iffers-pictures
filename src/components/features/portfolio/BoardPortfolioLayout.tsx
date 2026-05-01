@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -35,6 +41,78 @@ function getBoardItems(
   return subCategory
     ? serviceItems.filter((item) => item.subCategory === subCategory)
     : serviceItems;
+}
+
+interface PortfolioTileProps {
+  item: PortfolioItem;
+  index: number;
+  phase: "enter" | "exit";
+  onOpen: () => void;
+}
+
+function PortfolioTile({ item, index, phase, onOpen }: PortfolioTileProps) {
+  const tileRef = useRef<HTMLButtonElement | null>(null);
+  const [hasEnteredView, setHasEnteredView] = useState(false);
+  const isExiting = phase === "exit";
+  const cappedIndex = Math.min(index, MAX_STAGGER_INDEX);
+  const style: CSSProperties = isExiting
+    ? { animationDelay: `${cappedIndex * 8}ms` }
+    : { transitionDelay: `${cappedIndex * 18}ms` };
+
+  useEffect(() => {
+    if (isExiting || hasEnteredView) return;
+
+    const tile = tileRef.current;
+    if (!tile) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setHasEnteredView(true);
+        observer.disconnect();
+      },
+      { rootMargin: "180px 0px", threshold: 0.08 }
+    );
+
+    observer.observe(tile);
+
+    return () => observer.disconnect();
+  }, [hasEnteredView, isExiting]);
+
+  return (
+    <button
+      ref={tileRef}
+      type="button"
+      onClick={onOpen}
+      className={[
+        "group relative min-h-0 overflow-hidden bg-[var(--background-warm)] text-left",
+        "aspect-[4/5] sm:aspect-[1/1]",
+        index % 13 === 4 ? "sm:row-span-2 sm:aspect-auto" : "",
+        isExiting
+          ? "animate-[portfolioTileOut_260ms_cubic-bezier(0.7,0,0.84,0)_both]"
+          : "transition duration-[520ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+        !isExiting && hasEnteredView
+          ? "translate-y-0 scale-100 opacity-100"
+          : "",
+        !isExiting && !hasEnteredView
+          ? "translate-y-5 scale-[0.985] opacity-0"
+          : "",
+      ].join(" ")}
+      style={style}
+    >
+      <Image
+        src={item.src}
+        alt={item.alt}
+        fill
+        sizes="(max-width: 640px) 50vw, 33vw"
+        className="object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
+      />
+      <span className="absolute inset-0 bg-[var(--foreground)]/0 transition-colors duration-300 group-hover:bg-[var(--foreground)]/12" />
+      <span className="absolute bottom-3 left-3 rounded-sm bg-white/82 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)] opacity-0 shadow-sm backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+        {item.subCategory}
+      </span>
+    </button>
+  );
 }
 
 export function BoardPortfolioLayout() {
@@ -198,37 +276,13 @@ export function BoardPortfolioLayout() {
           className="grid grid-cols-2 gap-px border-y border-white bg-white md:border-[var(--border)] sm:grid-cols-3"
         >
           {displayedItems.map((item, index) => (
-            <button
+            <PortfolioTile
               key={item.id}
-              type="button"
-              onClick={() => setLightboxIndex(index)}
-              className={[
-                "group relative min-h-0 overflow-hidden bg-[var(--background-warm)] text-left",
-                "aspect-[4/5] sm:aspect-[1/1]",
-                index % 13 === 4 ? "sm:row-span-2 sm:aspect-auto" : "",
-                galleryPhase === "enter"
-                  ? "animate-[portfolioTileIn_420ms_cubic-bezier(0.16,1,0.3,1)_both]"
-                  : "animate-[portfolioTileOut_260ms_cubic-bezier(0.7,0,0.84,0)_both]",
-              ].join(" ")}
-              style={{
-                animationDelay: `${
-                  Math.min(index, MAX_STAGGER_INDEX) *
-                  (galleryPhase === "enter" ? 18 : 8)
-                }ms`,
-              }}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                sizes="(max-width: 640px) 50vw, 33vw"
-                className="object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
-              />
-              <span className="absolute inset-0 bg-[var(--foreground)]/0 transition-colors duration-300 group-hover:bg-[var(--foreground)]/12" />
-              <span className="absolute bottom-3 left-3 rounded-sm bg-white/82 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)] opacity-0 shadow-sm backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-                {item.subCategory}
-              </span>
-            </button>
+              item={item}
+              index={index}
+              phase={galleryPhase}
+              onOpen={() => setLightboxIndex(index)}
+            />
           ))}
         </div>
       </section>
