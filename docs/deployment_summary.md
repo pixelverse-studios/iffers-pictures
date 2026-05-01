@@ -58,6 +58,20 @@
 - DEV-802 follow-up: `/services` and `/services/[slug]` now seed their initial layout branch from `?layout=board` search params to prevent current-layout flashes on direct presentation links. Added portfolio slug-map coverage for `couples-engagement` and `portrait` without placeholder fallbacks.
 - DEV-802 follow-up validation: after search-param seeding, Next.js marks `/services` and `/services/[slug]` as dynamic routes, matching the existing Home/About direct-review-link behavior.
 - DEV-802 follow-up: Board service detail galleries now use up to 12 service-specific portfolio images in an asymmetric mosaic with the existing lightbox and a full-portfolio CTA.
+- DEV-803: Added board-mode `/portfolio` and `/testimonials` branches behind the site-wide layout selector. Portfolio uses existing `PORTFOLIO_ITEMS` with category tabs and lightbox; testimonials uses `ALL_TESTIMONIALS` without changing quote or author text. Current layouts remain the default.
+- DEV-803 validation: targeted ESLint passed for changed files and `npm run build` passed. Full `npm run lint` is still blocked by pre-existing unrelated errors in scripts, image-review, Footer, and ThemeContext.
+- DEV-803 follow-up: Added Testimonials to the new design-board desktop header navigation so reviewers can reach the Testimonials page directly in board mode.
+- DEV-803 follow-up: Updated the new Portfolio board layout so category tabs stay sticky through the gallery, the tab rail no longer has a separate divider line, and every tab now renders the full matching image set.
+- DEV-803 follow-up: Widened the new Portfolio board hero text area so the headline uses available desktop space and no longer wraps tightly on the left.
+- DEV-803 follow-up: Added contextual subcategory filters to the new Portfolio board layout for services with subdivisions, preserving the image-first top-tab style.
+- DEV-803 follow-up: Refined the new Portfolio board filter bar so primary and subcategory tabs feel like one cohesive sticky control with consistent underline styling and stable spacing above the gallery.
+- DEV-803 follow-up: Hid empty Portfolio board filter tabs and subcategory tabs when no matching images are available.
+- DEV-803 follow-up: Added CSS-based gallery transition animations to smooth Portfolio board image filter changes without Framer Motion.
+- DEV-803 follow-up: Refined Portfolio board gallery transitions from a whole-grid fade to individual trailing tile fade-out/fade-in animations.
+- DEV-803 follow-up: Added viewport-triggered tile reveals to the new Portfolio board gallery so images fade in as they approach view while preserving CSS-only motion.
+- DEV-803 follow-up: Tuned Portfolio board tile reveal timing so images trigger closer to the viewport with a more visible stagger while scrolling.
+- DEV-803 follow-up: Redesigned the new Testimonials board cards into an asymmetric review wall that displays every testimonial with cohesive mixed card treatments.
+- DEV-803 follow-up: Featured Jolee's testimonial at the top of the new Testimonials board layout without changing the underlying testimonial data order.
 
 ## Changed URLs
 

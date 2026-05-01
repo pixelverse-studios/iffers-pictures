@@ -16,6 +16,14 @@ const SCROLL_THRESHOLD = 20;
 const STAGGER_BASE_MS = 150;
 const STAGGER_STEP_MS = 50;
 const BODY_SCROLL_LOCK_CLASS = "overflow-hidden";
+const BOARD_NAV_LINKS = [
+  { label: "Sessions", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
+  { label: "Testimonials", href: "/testimonials" },
+  { label: "Investment", href: "/investment" },
+  { label: "FAQ", href: "/faq" },
+] as const;
 
 const linkStyles = cn(
   "text-[13px] font-medium uppercase tracking-wider transition-all duration-200 whitespace-nowrap motion-reduce:transition-none",
@@ -182,19 +190,13 @@ export function Header() {
               )}
             </button>
 
-            <nav className="hidden items-center gap-6 md:flex lg:gap-8">
-              {[
-                { label: "Sessions", href: "/services" },
-                { label: "Portfolio", href: "/portfolio" },
-                { label: "About", href: "/about" },
-                { label: "Investment", href: "/investment" },
-                { label: "FAQ", href: "/faq" },
-              ].map((link) => (
+            <nav className="hidden items-center gap-4 md:flex lg:gap-6">
+              {BOARD_NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "relative py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--brand-strong)]",
+                    "relative py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--brand-strong)] lg:text-[11px] lg:tracking-[0.2em]",
                     "after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[var(--brand-strong)] after:transition-all after:duration-200 hover:after:w-full",
                     isLinkActive(link.href) &&
                       "text-[var(--brand-strong)] after:w-full"
