@@ -61,6 +61,7 @@
 - DEV-803: Added board-mode `/portfolio` and `/testimonials` branches behind the site-wide layout selector. Portfolio uses existing `PORTFOLIO_ITEMS` with category tabs and lightbox; testimonials uses `ALL_TESTIMONIALS` without changing quote or author text. Current layouts remain the default.
 - DEV-803 validation: targeted ESLint passed for changed files and `npm run build` passed. Full `npm run lint` is still blocked by pre-existing unrelated errors in scripts, image-review, Footer, and ThemeContext.
 - DEV-803 follow-up: Added Testimonials to the new design-board desktop header navigation so reviewers can reach the Testimonials page directly in board mode.
+- DEV-803 follow-up: Updated the new Portfolio board layout so category tabs stay sticky through the gallery, the tab rail no longer has a separate divider line, and every tab now renders the full matching image set.
 
 ## Changed URLs
 

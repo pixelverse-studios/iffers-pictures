@@ -15,20 +15,12 @@ import { PORTFOLIO_PAGE_COPY } from "@/data/page-copy";
 
 type PortfolioBoardFilter = "All" | ServiceFilter;
 
-const featuredIds = [97, 103, 73, 106, 61, 69, 98, 35, 99];
-const fallbackItems = PORTFOLIO_ITEMS.slice(0, 9);
-
 const tabLabels: PortfolioBoardFilter[] = ["All", ...SERVICES];
 
 function getBoardItems(filter: PortfolioBoardFilter): PortfolioItem[] {
-  const source =
-    filter === "All"
-      ? featuredIds
-          .map((id) => PORTFOLIO_ITEMS.find((item) => item.id === id))
-          .filter((item): item is PortfolioItem => Boolean(item))
-      : PORTFOLIO_ITEMS.filter((item) => item.service === filter).slice(0, 9);
-
-  return source.length >= 6 ? source : fallbackItems;
+  return filter === "All"
+    ? PORTFOLIO_ITEMS
+    : PORTFOLIO_ITEMS.filter((item) => item.service === filter);
 }
 
 export function BoardPortfolioLayout() {
@@ -61,8 +53,11 @@ export function BoardPortfolioLayout() {
           </p>
         </div>
 
+      </section>
+
+      <section className="mx-auto max-w-[1180px] bg-white">
         <div
-          className="mt-12 flex gap-8 overflow-x-auto border-b border-[var(--border)] pb-1"
+          className="sticky top-16 z-20 flex gap-8 overflow-x-auto bg-[var(--background)] px-5 pb-5 pt-2 shadow-[0_12px_24px_rgba(250,251,253,0.92)] md:top-[72px] md:px-8"
           role="tablist"
           aria-label="Portfolio categories"
           style={{ scrollbarWidth: "none" }}
@@ -78,11 +73,11 @@ export function BoardPortfolioLayout() {
                 aria-selected={isActive}
                 onClick={() => setActiveFilter(label)}
                 className={[
-                  "shrink-0 border-b-2 px-0 pb-4 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
+                  "shrink-0 border-b-2 px-0 pb-4 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
                   isActive
                     ? "border-[var(--brand-strong)] text-[var(--brand-strong)]"
-                    : "border-transparent text-[var(--text-muted)] hover:text-[var(--foreground)]",
+                    : "border-transparent text-[var(--text-muted)] hover:border-[var(--brand-soft)] hover:text-[var(--foreground)]",
                 ].join(" ")}
               >
                 {label}
@@ -90,12 +85,10 @@ export function BoardPortfolioLayout() {
             );
           })}
         </div>
-      </section>
 
-      <section className="mx-auto max-w-[1180px] border-y border-white bg-white md:border-[var(--border)]">
         <div
           key={activeFilter}
-          className="grid grid-cols-2 gap-px bg-white sm:grid-cols-3"
+          className="grid grid-cols-2 gap-px border-y border-white bg-white md:border-[var(--border)] sm:grid-cols-3"
         >
           {items.map((item, index) => (
             <button
@@ -105,8 +98,7 @@ export function BoardPortfolioLayout() {
               className={[
                 "group relative min-h-0 overflow-hidden bg-[var(--background-warm)] text-left",
                 "aspect-[4/5] sm:aspect-[1/1]",
-                index === 4 ? "sm:row-span-2 sm:aspect-auto" : "",
-                index > 5 ? "hidden sm:block" : "",
+                index % 13 === 4 ? "sm:row-span-2 sm:aspect-auto" : "",
               ].join(" ")}
               style={{ animationDelay: `${index * 55}ms` }}
             >
