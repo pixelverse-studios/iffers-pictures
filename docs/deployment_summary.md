@@ -71,6 +71,7 @@
 - DEV-803 follow-up: Added viewport-triggered tile reveals to the new Portfolio board gallery so images fade in as they approach view while preserving CSS-only motion.
 - DEV-803 follow-up: Tuned Portfolio board tile reveal timing so images trigger closer to the viewport with a more visible stagger while scrolling.
 - DEV-803 follow-up: Redesigned the new Testimonials board cards into an asymmetric review wall that displays every testimonial with cohesive mixed card treatments.
+- DEV-803 follow-up: Featured Jolee's testimonial at the top of the new Testimonials board layout without changing the underlying testimonial data order.
 
 ## Changed URLs
 

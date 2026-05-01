@@ -125,8 +125,12 @@ function ReviewCard({
 }
 
 export function BoardTestimonialsLayout() {
-  const featured = ALL_TESTIMONIALS[0];
-  const reviews = ALL_TESTIMONIALS.slice(1);
+  const featured =
+    ALL_TESTIMONIALS.find((testimonial) => testimonial.author === "Jolee") ??
+    ALL_TESTIMONIALS[0];
+  const reviews = ALL_TESTIMONIALS.filter(
+    (testimonial) => testimonial.id !== featured?.id
+  );
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
