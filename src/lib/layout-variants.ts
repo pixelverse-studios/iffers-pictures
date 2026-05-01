@@ -34,9 +34,23 @@ export const LAYOUT_VARIANTS: Record<LayoutVariantId, LayoutVariant> = {
 
 export const LAYOUT_VARIANT_ORDER: LayoutVariantId[] = ["current", "board"];
 
+export type LayoutVariantSearchParams = Record<
+  string,
+  string | string[] | undefined
+>;
+
 export function isLayoutVariantId(value: unknown): value is LayoutVariantId {
   return (
     typeof value === "string" &&
     Object.prototype.hasOwnProperty.call(LAYOUT_VARIANTS, value)
   );
+}
+
+export function getLayoutVariantFromSearchParams(
+  searchParams?: LayoutVariantSearchParams
+): LayoutVariantId {
+  const value = searchParams?.[LAYOUT_VARIANT_QUERY_KEY];
+  const candidate = Array.isArray(value) ? value[0] : value;
+
+  return isLayoutVariantId(candidate) ? candidate : DEFAULT_LAYOUT_VARIANT_ID;
 }
