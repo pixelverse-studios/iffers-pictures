@@ -63,6 +63,7 @@
 - DEV-803 follow-up: Added Testimonials to the new design-board desktop header navigation so reviewers can reach the Testimonials page directly in board mode.
 - DEV-803 follow-up: Updated the new Portfolio board layout so category tabs stay sticky through the gallery, the tab rail no longer has a separate divider line, and every tab now renders the full matching image set.
 - DEV-803 follow-up: Widened the new Portfolio board hero text area so the headline uses available desktop space and no longer wraps tightly on the left.
+- DEV-803 follow-up: Added contextual subcategory filters to the new Portfolio board layout for services with subdivisions, preserving the image-first top-tab style.
 
 ## Changed URLs
 

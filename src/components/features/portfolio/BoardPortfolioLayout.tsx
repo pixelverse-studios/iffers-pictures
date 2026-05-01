@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import {
   PORTFOLIO_ITEMS,
   SERVICES,
+  SUB_CATEGORIES,
   type PortfolioItem,
   type ServiceFilter,
 } from "./portfolioData";
@@ -17,16 +18,46 @@ type PortfolioBoardFilter = "All" | ServiceFilter;
 
 const tabLabels: PortfolioBoardFilter[] = ["All", ...SERVICES];
 
-function getBoardItems(filter: PortfolioBoardFilter): PortfolioItem[] {
-  return filter === "All"
-    ? PORTFOLIO_ITEMS
-    : PORTFOLIO_ITEMS.filter((item) => item.service === filter);
+function getBoardItems(
+  filter: PortfolioBoardFilter,
+  subCategory: string | null
+): PortfolioItem[] {
+  const serviceItems =
+    filter === "All"
+      ? PORTFOLIO_ITEMS
+      : PORTFOLIO_ITEMS.filter((item) => item.service === filter);
+
+  return subCategory
+    ? serviceItems.filter((item) => item.subCategory === subCategory)
+    : serviceItems;
 }
 
 export function BoardPortfolioLayout() {
   const [activeFilter, setActiveFilter] = useState<PortfolioBoardFilter>("All");
+  const [activeSubCategory, setActiveSubCategory] = useState<string | null>(
+    null
+  );
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const items = useMemo(() => getBoardItems(activeFilter), [activeFilter]);
+  const items = useMemo(
+    () => getBoardItems(activeFilter, activeSubCategory),
+    [activeFilter, activeSubCategory]
+  );
+  const subCategories =
+    activeFilter === "All" ? [] : SUB_CATEGORIES[activeFilter];
+  const showSubCategories = subCategories.length > 1;
+
+  function selectFilter(filter: PortfolioBoardFilter) {
+    setActiveFilter(filter);
+    setActiveSubCategory(null);
+    setLightboxIndex(null);
+  }
+
+  function selectSubCategory(subCategory: string) {
+    setActiveSubCategory((current) =>
+      current === subCategory ? null : subCategory
+    );
+    setLightboxIndex(null);
+  }
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
@@ -56,38 +87,79 @@ export function BoardPortfolioLayout() {
       </section>
 
       <section className="mx-auto max-w-[1180px] bg-white">
-        <div
-          className="sticky top-16 z-20 flex gap-8 overflow-x-auto bg-[var(--background)] px-5 pb-5 pt-2 shadow-[0_12px_24px_rgba(250,251,253,0.92)] md:top-[72px] md:px-8"
-          role="tablist"
-          aria-label="Portfolio categories"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {tabLabels.map((label) => {
-            const isActive = activeFilter === label;
+        <div className="sticky top-16 z-20 bg-[var(--background)] px-5 pt-2 shadow-[0_12px_24px_rgba(250,251,253,0.92)] md:top-[72px] md:px-8">
+          <div
+            className="flex gap-8 overflow-x-auto"
+            role="tablist"
+            aria-label="Portfolio categories"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {tabLabels.map((label) => {
+              const isActive = activeFilter === label;
 
-            return (
-              <button
-                key={label}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActiveFilter(label)}
-                className={[
-                  "shrink-0 border-b-2 px-0 pb-4 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
-                  isActive
-                    ? "border-[var(--brand-strong)] text-[var(--brand-strong)]"
-                    : "border-transparent text-[var(--text-muted)] hover:border-[var(--brand-soft)] hover:text-[var(--foreground)]",
-                ].join(" ")}
+              return (
+                <button
+                  key={label}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => selectFilter(label)}
+                  className={[
+                    "shrink-0 border-b-2 px-0 pb-4 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
+                    isActive
+                      ? "border-[var(--brand-strong)] text-[var(--brand-strong)]"
+                      : "border-transparent text-[var(--text-muted)] hover:border-[var(--brand-soft)] hover:text-[var(--foreground)]",
+                  ].join(" ")}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            className={[
+              "grid transition-[grid-template-rows] duration-300 motion-reduce:transition-none",
+              showSubCategories ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+            ].join(" ")}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <div
+                className="flex gap-2 overflow-x-auto pb-5 pt-3"
+                role="tablist"
+                aria-label={`${activeFilter} subcategories`}
+                style={{ scrollbarWidth: "none" }}
               >
-                {label}
-              </button>
-            );
-          })}
+                {subCategories.map((subCategory) => {
+                  const isActive = activeSubCategory === subCategory;
+
+                  return (
+                    <button
+                      key={subCategory}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      onClick={() => selectSubCategory(subCategory)}
+                      className={[
+                        "shrink-0 rounded-sm border px-3.5 py-2 text-[10px] font-bold uppercase tracking-[0.14em] transition-all duration-300",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-4",
+                        isActive
+                          ? "border-[var(--brand-strong)] bg-[var(--brand-strong)] text-white"
+                          : "border-[var(--border)] bg-white/55 text-[var(--text-muted)] hover:border-[var(--brand-soft)] hover:text-[var(--foreground)]",
+                      ].join(" ")}
+                    >
+                      {subCategory}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div
-          key={activeFilter}
+          key={`${activeFilter}-${activeSubCategory ?? "all"}`}
           className="grid grid-cols-2 gap-px border-y border-white bg-white md:border-[var(--border)] sm:grid-cols-3"
         >
           {items.map((item, index) => (
