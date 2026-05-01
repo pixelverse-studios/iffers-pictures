@@ -175,6 +175,8 @@ const SERVICE_SLUG_MAP: Record<string, { service: ServiceFilter; subCategory?: S
   // Top-level services
   family: { service: "Family" },
   maternity: { service: "Maternity" },
+  "couples-engagement": { service: "Couples" },
+  portrait: { service: "Portrait" },
 };
 
 /** Thumbnail overrides — when a service card needs a specific sub-category image. */

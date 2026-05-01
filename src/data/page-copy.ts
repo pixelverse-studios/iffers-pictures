@@ -101,6 +101,11 @@ export const ABOUT_PAGE_COPY = {
 } as const;
 
 export const SESSIONS_PAGE_COPY = {
+  boardHero: {
+    title: "Find the session\nthat fits your story",
+    description:
+      "Each session is designed to capture\nyour moments with intention and heart.",
+  },
   hero: {
     title: "Sessions",
     description: "Thoughtfully capturing life's most meaningful moments.",
