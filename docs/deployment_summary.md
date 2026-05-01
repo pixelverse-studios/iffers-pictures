@@ -65,6 +65,7 @@
 - DEV-803 follow-up: Widened the new Portfolio board hero text area so the headline uses available desktop space and no longer wraps tightly on the left.
 - DEV-803 follow-up: Added contextual subcategory filters to the new Portfolio board layout for services with subdivisions, preserving the image-first top-tab style.
 - DEV-803 follow-up: Refined the new Portfolio board filter bar so primary and subcategory tabs feel like one cohesive sticky control with consistent underline styling and stable spacing above the gallery.
+- DEV-803 follow-up: Hid empty Portfolio board filter tabs and subcategory tabs when no matching images are available.
 
 ## Changed URLs
 

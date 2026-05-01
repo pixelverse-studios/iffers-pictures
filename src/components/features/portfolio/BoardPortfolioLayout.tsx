@@ -16,7 +16,10 @@ import { PORTFOLIO_PAGE_COPY } from "@/data/page-copy";
 
 type PortfolioBoardFilter = "All" | ServiceFilter;
 
-const tabLabels: PortfolioBoardFilter[] = ["All", ...SERVICES];
+const availableServices = SERVICES.filter((service) =>
+  PORTFOLIO_ITEMS.some((item) => item.service === service)
+);
+const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
 
 function getBoardItems(
   filter: PortfolioBoardFilter,
@@ -43,7 +46,14 @@ export function BoardPortfolioLayout() {
     [activeFilter, activeSubCategory]
   );
   const subCategories =
-    activeFilter === "All" ? [] : SUB_CATEGORIES[activeFilter];
+    activeFilter === "All"
+      ? []
+      : SUB_CATEGORIES[activeFilter].filter((subCategory) =>
+          PORTFOLIO_ITEMS.some(
+            (item) =>
+              item.service === activeFilter && item.subCategory === subCategory
+          )
+        );
   const showSubCategories = subCategories.length > 1;
 
   function selectFilter(filter: PortfolioBoardFilter) {
