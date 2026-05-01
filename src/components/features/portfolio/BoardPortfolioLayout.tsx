@@ -28,6 +28,7 @@ const availableServices = SERVICES.filter((service) =>
 const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
 const GALLERY_EXIT_MS = 390;
 const MAX_STAGGER_INDEX = 16;
+const TILE_REVEAL_STAGGER_MS = 34;
 
 function getBoardItems(
   filter: PortfolioBoardFilter,
@@ -57,7 +58,7 @@ function PortfolioTile({ item, index, phase, onOpen }: PortfolioTileProps) {
   const cappedIndex = Math.min(index, MAX_STAGGER_INDEX);
   const style: CSSProperties = isExiting
     ? { animationDelay: `${cappedIndex * 8}ms` }
-    : { transitionDelay: `${cappedIndex * 18}ms` };
+    : { transitionDelay: `${cappedIndex * TILE_REVEAL_STAGGER_MS}ms` };
 
   useEffect(() => {
     if (isExiting || hasEnteredView) return;
@@ -71,7 +72,7 @@ function PortfolioTile({ item, index, phase, onOpen }: PortfolioTileProps) {
         setHasEnteredView(true);
         observer.disconnect();
       },
-      { rootMargin: "180px 0px", threshold: 0.08 }
+      { rootMargin: "40px 0px", threshold: 0.12 }
     );
 
     observer.observe(tile);

@@ -69,6 +69,7 @@
 - DEV-803 follow-up: Added CSS-based gallery transition animations to smooth Portfolio board image filter changes without Framer Motion.
 - DEV-803 follow-up: Refined Portfolio board gallery transitions from a whole-grid fade to individual trailing tile fade-out/fade-in animations.
 - DEV-803 follow-up: Added viewport-triggered tile reveals to the new Portfolio board gallery so images fade in as they approach view while preserving CSS-only motion.
+- DEV-803 follow-up: Tuned Portfolio board tile reveal timing so images trigger closer to the viewport with a more visible stagger while scrolling.
 
 ## Changed URLs
 
