@@ -19,6 +19,17 @@ interface InvestmentContentProps {
 function CurrentInvestmentContent() {
   return (
     <>
+      <section className="pt-hero pb-8 md:pb-12">
+        <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-heading font-semibold text-[var(--foreground)] mb-6">
+            {INVESTMENT_PAGE_COPY.hero.title}
+          </h1>
+          <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed">
+            {INVESTMENT_PAGE_COPY.hero.description}
+          </p>
+        </div>
+      </section>
+
       <EditorialLayout />
 
       <section className="py-12 md:py-16">
