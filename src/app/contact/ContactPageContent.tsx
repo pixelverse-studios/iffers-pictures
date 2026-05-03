@@ -28,6 +28,15 @@ function formatPhoneNumber(phone: string) {
   return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 }
 
+function getInstagramHandle(url: string) {
+  try {
+    const handle = new URL(url).pathname.replace(/^\/|\/$/g, "");
+    return handle ? `@${handle}` : "";
+  } catch {
+    return "";
+  }
+}
+
 function CurrentContactContent() {
   return (
     <>
@@ -288,9 +297,11 @@ function BoardContactContent() {
             <p className="font-heading text-xl font-semibold text-[var(--brand-strong)]">
               {CONTACT_PAGE_COPY.sidebar.followTitle}
             </p>
-            <p className="mt-2 text-sm font-semibold text-[var(--text-secondary)]">
-              @iffers_pictures
-            </p>
+            {BUSINESS_INFO.social.instagram && (
+              <p className="mt-2 text-sm font-semibold text-[var(--text-secondary)]">
+                {getInstagramHandle(BUSINESS_INFO.social.instagram)}
+              </p>
+            )}
             <div className="mt-3 flex gap-3">
               {BUSINESS_INFO.social.instagram && (
                 <a
