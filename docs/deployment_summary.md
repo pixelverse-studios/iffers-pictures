@@ -29,6 +29,7 @@
 - Added the new design-board layout option for the Sessions hub and all session detail pages so Jenn can compare those pages from the site-wide selector.
 - Improved direct review links for the Sessions pages so New Design URLs open in the correct layout immediately.
 - Expanded the New Design session detail gallery previews so each offering shows more of Jenn's work and links through to the full portfolio.
+- Added the new design-board layout option for the Investment, FAQ, and Inquire pages so Jenn can compare those pages from the site-wide selector.
 
 ## Notes for internal team
 
@@ -72,6 +73,8 @@
 - DEV-803 follow-up: Tuned Portfolio board tile reveal timing so images trigger closer to the viewport with a more visible stagger while scrolling.
 - DEV-803 follow-up: Redesigned the new Testimonials board cards into an asymmetric review wall that displays every testimonial with cohesive mixed card treatments.
 - DEV-803 follow-up: Featured Jolee's testimonial at the top of the new Testimonials board layout without changing the underlying testimonial data order.
+- DEV-805: Added board-mode Investment, FAQ, and Inquire page branches behind the site-wide layout selector. The current pages remain available as the default, the FAQ schema remains server-rendered, and the Inquire page continues to reuse the existing contact form and API behavior.
+- DEV-805 validation: targeted ESLint passed for changed files and `npm run build` passed.
 
 ## Changed URLs
 
@@ -97,3 +100,6 @@
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/image-review
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/faq
+- https://ifferspictures.com/contact
