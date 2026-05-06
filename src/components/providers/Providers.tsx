@@ -7,7 +7,6 @@ import {
   LayoutVariantQuerySync,
 } from "@/context/LayoutVariantContext";
 import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
-import { LayoutVariantWidget } from "./LayoutVariantWidget";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -18,7 +17,6 @@ export function Providers({ children }: { children: ReactNode }) {
         </Suspense>
         {children}
         <ThemeSwitcher />
-        <LayoutVariantWidget />
       </LayoutVariantProvider>
     </ThemeProvider>
   );

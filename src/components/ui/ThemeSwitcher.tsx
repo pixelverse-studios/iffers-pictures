@@ -4,15 +4,21 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Check, Palette, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/context/ThemeContext";
+import { useLayoutVariant } from "@/context/LayoutVariantContext";
+import {
+  LAYOUT_VARIANT_ORDER,
+  LAYOUT_VARIANTS,
+  type LayoutVariantId,
+} from "@/lib/layout-variants";
 import { THEME_ORDER, THEMES, type ThemeId } from "@/lib/themes";
 
-const POPOVER_ID = "theme-switcher-popover";
+const POPOVER_ID = "preview-switcher-popover";
 
 /**
- * Floating bottom-left theme switcher. Client-preview tool for DEV-680.
+ * Floating bottom-left preview switcher. Client-preview tool for DEV-680/DEV-798.
  *
- * Closed state: small pill with 4-dot preview of the current theme + name.
- * Open state: popover above the pill with a 2-column grid of theme chips.
+ * Closed state: small pill with the current theme and layout.
+ * Open state: popover above the pill with layout and theme controls.
  *
  * Interaction: click to apply instantly. No hover preview (confusing when
  * users scroll away mid-hover, per the UX research). Arrow keys navigate
@@ -20,10 +26,20 @@ const POPOVER_ID = "theme-switcher-popover";
  */
 export function ThemeSwitcher() {
   const { themeId, theme, setThemeId, mounted } = useTheme();
+  const {
+    layoutVariantId,
+    layoutVariant,
+    setLayoutVariantId,
+    mounted: layoutMounted,
+  } = useLayoutVariant();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const chipRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const layoutRefs = useRef<Record<LayoutVariantId, HTMLButtonElement | null>>({
+    current: null,
+    board: null,
+  });
 
   // Close on outside click
   useEffect(() => {
@@ -93,9 +109,51 @@ export function ThemeSwitcher() {
     // Keep the popover open so users can audition multiple themes quickly
   };
 
+  const selectLayoutAndFocus = (id: LayoutVariantId) => {
+    setLayoutVariantId(id);
+    requestAnimationFrame(() => {
+      layoutRefs.current[id]?.focus();
+    });
+  };
+
+  const handleLayoutKeyDown = (
+    e: KeyboardEvent<HTMLButtonElement>,
+    id: LayoutVariantId
+  ) => {
+    const currentIndex = LAYOUT_VARIANT_ORDER.indexOf(id);
+    let nextIndex = currentIndex;
+
+    switch (e.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        e.preventDefault();
+        nextIndex = (currentIndex + 1) % LAYOUT_VARIANT_ORDER.length;
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        e.preventDefault();
+        nextIndex =
+          (currentIndex - 1 + LAYOUT_VARIANT_ORDER.length) %
+          LAYOUT_VARIANT_ORDER.length;
+        break;
+      case "Home":
+        e.preventDefault();
+        nextIndex = 0;
+        break;
+      case "End":
+        e.preventDefault();
+        nextIndex = LAYOUT_VARIANT_ORDER.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    selectLayoutAndFocus(LAYOUT_VARIANT_ORDER[nextIndex]);
+  };
+
   // Hydration guard — don't render until we know the persisted theme,
   // prevents a flash of "Morning Dew" label when a different theme is stored.
-  if (!mounted) return null;
+  if (!mounted || !layoutMounted) return null;
 
   return (
     <div
@@ -106,11 +164,10 @@ export function ThemeSwitcher() {
       {open && (
         <div
           id={POPOVER_ID}
-          role="radiogroup"
-          aria-label="Choose a theme"
+          aria-label="Preview controls"
           className={cn(
             "absolute bottom-full left-0 mb-2",
-            "w-[min(340px,calc(100vw-2rem))] max-h-[70vh] overflow-y-auto",
+            "w-[min(360px,calc(100vw-2rem))] max-h-[70vh] overflow-y-auto",
             "rounded-2xl border shadow-2xl",
             "bg-[var(--surface)] border-[var(--border)]",
             "p-3"
@@ -118,7 +175,7 @@ export function ThemeSwitcher() {
         >
           <div className="flex items-center justify-between px-2 pb-2 mb-2 border-b border-[var(--border)]">
             <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-[var(--text-muted)]">
-              Theme preview
+              Preview controls
             </span>
             <button
               type="button"
@@ -133,7 +190,59 @@ export function ThemeSwitcher() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="mb-3 rounded-xl border border-[var(--border)] bg-[var(--background-warm)] p-2">
+            <div className="mb-2 px-1">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
+                Layout preview
+              </p>
+              <p className="text-xs font-medium text-[var(--foreground)]">
+                {layoutVariant.label}
+              </p>
+            </div>
+            <div
+              role="radiogroup"
+              aria-label="Choose layout preview"
+              className="grid grid-cols-2 gap-1"
+            >
+              {LAYOUT_VARIANT_ORDER.map((id) => {
+                const variant = LAYOUT_VARIANTS[id];
+                const isActive = layoutVariantId === id;
+
+                return (
+                  <button
+                    key={id}
+                    ref={(el) => {
+                      layoutRefs.current[id] = el;
+                    }}
+                    type="button"
+                    role="radio"
+                    aria-checked={isActive}
+                    tabIndex={isActive ? 0 : -1}
+                    title={variant.description}
+                    onClick={() => setLayoutVariantId(id)}
+                    onKeyDown={(e) => handleLayoutKeyDown(e, id)}
+                    className={cn(
+                      "inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg px-3 py-2",
+                      "text-xs font-semibold transition-all duration-200 motion-reduce:transition-none",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-warm)]",
+                      isActive
+                        ? "bg-[var(--brand)] text-white shadow-sm"
+                        : "bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--foreground)]"
+                    )}
+                  >
+                    {isActive && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
+                    <span>{variant.shortLabel}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div
+            role="radiogroup"
+            aria-label="Choose a theme"
+            className="grid grid-cols-2 gap-2"
+          >
             {THEME_ORDER.map((id, index) => {
               const t = THEMES[id];
               const isActive = id === themeId;
@@ -206,7 +315,7 @@ export function ThemeSwitcher() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls={POPOVER_ID}
-        aria-label={`Theme switcher — current theme: ${theme.name}`}
+        aria-label={`Preview controls — current theme: ${theme.name}; current layout: ${layoutVariant.shortLabel}`}
         className={cn(
           "flex items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-full",
           "bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border)] shadow-lg",
@@ -229,7 +338,9 @@ export function ThemeSwitcher() {
             />
           ))}
         </div>
-        <span className="max-w-[130px] truncate">{theme.name}</span>
+        <span className="max-w-[170px] truncate">
+          {theme.name} / {layoutVariant.shortLabel}
+        </span>
       </button>
     </div>
   );

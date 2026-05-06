@@ -31,6 +31,8 @@
 - Expanded the New Design session detail gallery previews so each offering shows more of Jenn's work and links through to the full portfolio.
 - Added the new design-board layout option for the Investment, FAQ, and Inquire pages so Jenn can compare those pages from the site-wide selector.
 - Widened the new design-board layouts on large screens so the pages feel more natural and less boxed in while preserving the original editorial direction.
+- Fixed the new design-board layout gutters so page content and navigation no longer stretch flush to the browser edges.
+- Combined the theme preview and layout preview controls into one cohesive bottom-left preview widget.
 
 ## Notes for internal team
 
@@ -77,6 +79,8 @@
 - DEV-805: Added board-mode Investment, FAQ, and Inquire page branches behind the site-wide layout selector. The current pages remain available as the default, the FAQ schema remains server-rendered, and the Inquire page continues to reuse the existing contact form and API behavior.
 - DEV-805 validation: targeted ESLint passed for changed files and `npm run build` passed.
 - Wide-screen board polish: added shared `.board-shell`, `.board-shell-narrow`, and `.board-band` utilities, then replaced fixed 1180px board wrappers across the board-mode pages with responsive shells and wider bands.
+- Board shell fix: split the responsive `min(calc(...), max)` shell width into explicit `width` plus `max-width` declarations so CSS optimization cannot emit browser-unsafe math syntax.
+- Preview widget cleanup: folded `LayoutVariantWidget` into `ThemeSwitcher` and removed the separate bottom-right widget render.
 
 ## Changed URLs
 
