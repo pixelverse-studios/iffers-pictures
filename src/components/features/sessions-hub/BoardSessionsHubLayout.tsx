@@ -66,7 +66,7 @@ function BoardSessionsDivider() {
 export function BoardSessionsHubLayout() {
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <section className="mx-auto max-w-[1180px] px-6 py-14 text-center md:px-8 md:py-20">
+      <section className="board-shell px-6 py-14 text-center md:px-8 md:py-20">
         <h1 className="mx-auto max-w-4xl whitespace-pre-line font-heading text-5xl font-semibold leading-[1.02] text-[var(--foreground)] md:text-7xl">
           {SESSIONS_PAGE_COPY.boardHero.title}
         </h1>
@@ -76,11 +76,11 @@ export function BoardSessionsHubLayout() {
         <BoardSessionsDivider />
       </section>
 
-      <section className="mx-auto max-w-[1180px]">
+      <section className="board-shell">
         <BoardSessionStrip items={sessionItems} />
       </section>
 
-      <section className="mx-auto max-w-[1180px] px-6 py-10 md:px-8 md:py-14">
+      <section className="board-shell px-6 py-10 md:px-8 md:py-14">
         <div className="bg-[var(--background-warm)] px-7 py-9 text-center md:px-10 md:py-11">
           <div className="mx-auto max-w-2xl">
             <Heart

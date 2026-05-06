@@ -176,7 +176,7 @@ export function BoardPortfolioLayout() {
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <section className="mx-auto max-w-[1180px] px-5 pb-10 pt-14 md:px-8 md:pb-12 md:pt-20">
+      <section className="board-shell px-5 pb-10 pt-14 md:px-8 md:pb-12 md:pt-20">
         <div className="max-w-[920px]">
           <p className="mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[var(--brand-strong)]">
             {PORTFOLIO_PAGE_COPY.hero.eyebrow}
@@ -201,7 +201,7 @@ export function BoardPortfolioLayout() {
 
       </section>
 
-      <section className="mx-auto max-w-[1180px] bg-white">
+      <section className="board-shell bg-white">
         <div className="sticky top-16 z-20 bg-[var(--background)] px-5 pb-6 pt-2 shadow-[0_12px_24px_rgba(250,251,253,0.92)] md:top-[72px] md:px-8">
           <div
             className="flex gap-8 overflow-x-auto"
@@ -288,7 +288,7 @@ export function BoardPortfolioLayout() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] px-5 py-10 md:px-8 md:py-12">
+      <section className="board-shell px-5 py-10 md:px-8 md:py-12">
         <div className="flex flex-col items-start justify-between gap-7 bg-[var(--background-warm)] px-7 py-8 md:flex-row md:items-center md:px-12">
           <div className="max-w-[560px]">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">

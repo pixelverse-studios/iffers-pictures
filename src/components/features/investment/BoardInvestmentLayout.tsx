@@ -64,7 +64,7 @@ function getPreviewImage(slug: string): PortfolioItem {
 export function BoardInvestmentLayout() {
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <section className="mx-auto grid max-w-[1180px] overflow-hidden bg-[var(--background)] md:min-h-[660px] md:grid-cols-[0.92fr_1.08fr]">
+      <section className="board-shell grid overflow-hidden bg-[var(--background)] md:min-h-[660px] md:grid-cols-[0.92fr_1.08fr]">
         <div className="relative z-10 flex flex-col justify-center px-6 py-14 md:px-10 lg:px-16">
           <h1 className="max-w-[620px] font-heading text-5xl font-semibold leading-[1.04] text-[var(--foreground)] md:text-6xl">
             Custom investment for what matters most
@@ -124,30 +124,32 @@ export function BoardInvestmentLayout() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] border-y border-[var(--border)] bg-[var(--background-warm)] px-6 py-9 md:px-10">
-        <h2 className="font-heading text-3xl font-semibold text-[var(--brand-strong)]">
-          What affects your investment
-        </h2>
-        <div className="mt-8 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-          {investmentFactors.map(({ title, description, Icon }) => (
-            <div key={title} className="text-center">
-              <Icon
-                className="mx-auto h-10 w-10 stroke-[1.45] text-[var(--brand-strong)]/72"
-                aria-hidden
-              />
-              <h3 className="mt-5 font-heading text-xl font-semibold text-[var(--brand-strong)]">
-                {title}
-              </h3>
-              <p className="mx-auto mt-2 max-w-[190px] text-sm font-semibold leading-6 text-[var(--text-secondary)]">
-                {description}
-              </p>
-            </div>
-          ))}
+      <section className="board-band border-y border-[var(--border)] bg-[var(--background-warm)]">
+        <div className="board-shell px-6 py-9 md:px-10">
+          <h2 className="font-heading text-3xl font-semibold text-[var(--brand-strong)]">
+            What affects your investment
+          </h2>
+          <div className="mt-8 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+            {investmentFactors.map(({ title, description, Icon }) => (
+              <div key={title} className="text-center">
+                <Icon
+                  className="mx-auto h-10 w-10 stroke-[1.45] text-[var(--brand-strong)]/72"
+                  aria-hidden
+                />
+                <h3 className="mt-5 font-heading text-xl font-semibold text-[var(--brand-strong)]">
+                  {title}
+                </h3>
+                <p className="mx-auto mt-2 max-w-[190px] text-sm font-semibold leading-6 text-[var(--text-secondary)]">
+                  {description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] bg-[var(--background)]">
-        <div className="grid md:grid-cols-[1fr_0.72fr]">
+      <section className="board-band bg-[var(--background)]">
+        <div className="board-shell grid md:grid-cols-[1fr_0.78fr]">
           <div className="px-6 py-12 md:px-10 lg:px-14">
             <p className="font-heading text-2xl font-semibold italic text-[var(--brand-strong)] md:text-3xl">
               {INVESTMENT_PAGE_COPY.cta.title}

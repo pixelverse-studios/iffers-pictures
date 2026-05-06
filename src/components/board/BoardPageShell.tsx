@@ -11,9 +11,9 @@ interface BoardPageShellProps {
 
 const containerClass = {
   none: "",
-  default: "container",
-  wide: "container-wide",
-  narrow: "container-narrow",
+  default: "board-shell",
+  wide: "board-shell",
+  narrow: "board-shell-narrow",
 };
 
 const paddingClass = {

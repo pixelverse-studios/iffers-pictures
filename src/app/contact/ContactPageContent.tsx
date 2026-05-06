@@ -198,7 +198,8 @@ function CurrentContactContent() {
 function BoardContactContent() {
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <section className="mx-auto grid max-w-[1180px] bg-[var(--background)] md:grid-cols-[0.72fr_1.28fr]">
+      <section className="board-band bg-[var(--background)]">
+        <div className="board-shell grid md:grid-cols-[0.72fr_1.28fr]">
         <aside className="bg-[var(--brand-strong)] px-8 py-12 text-white md:px-12 md:py-16 lg:px-16">
           <h1 className="font-heading text-5xl font-semibold leading-[1.02] md:text-6xl">
             Let&apos;s start planning something beautiful.
@@ -231,9 +232,11 @@ function BoardContactContent() {
             <ContactForm />
           </Suspense>
         </div>
+        </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1180px] border-t border-[var(--border)] bg-white md:grid-cols-[1fr_0.48fr]">
+      <section className="board-band border-t border-[var(--border)] bg-white">
+        <div className="board-shell grid md:grid-cols-[1fr_0.56fr]">
         <div className="px-7 py-11 md:px-12">
           <h2 className="font-heading text-3xl font-semibold text-[var(--brand-strong)]">
             What happens next
@@ -264,13 +267,15 @@ function BoardContactContent() {
             className="object-cover"
           />
         </div>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] bg-[var(--background-warm)] px-7 py-9 md:px-12">
-        <h2 className="font-heading text-2xl font-semibold text-[var(--foreground)]">
-          Other ways to reach me
-        </h2>
-        <div className="mt-6 grid gap-7 md:grid-cols-3 md:divide-x md:divide-[var(--border)]">
+      <section className="board-band bg-[var(--background-warm)]">
+        <div className="board-shell px-7 py-9 md:px-12">
+          <h2 className="font-heading text-2xl font-semibold text-[var(--foreground)]">
+            Other ways to reach me
+          </h2>
+          <div className="mt-6 grid gap-7 md:grid-cols-3 md:divide-x md:divide-[var(--border)]">
           <div>
             <p className="font-heading text-xl font-semibold text-[var(--brand-strong)]">
               {CONTACT_PAGE_COPY.sidebar.emailLabel}
@@ -327,6 +332,7 @@ function BoardContactContent() {
               )}
             </div>
           </div>
+        </div>
         </div>
       </section>
     </div>

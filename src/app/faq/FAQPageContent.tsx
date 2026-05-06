@@ -198,7 +198,7 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <section className="mx-auto max-w-[1180px] px-5 pb-10 pt-14 md:px-8 md:pb-14 md:pt-20">
+      <section className="board-shell board-gutter pb-10 pt-14 md:pb-14 md:pt-20">
         <div className="max-w-[780px]">
           <h1 className="font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl">
             You&apos;ve got questions.
@@ -244,7 +244,7 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] px-5 pb-12 md:px-8 md:pb-16">
+      <section className="board-shell board-gutter pb-12 md:pb-16">
         <div className="space-y-px">
           {activeSection.faqs.map((faq, index) => (
             <BoardFAQItem
@@ -261,30 +261,32 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
         </div>
       </section>
 
-      <section className="grid bg-[var(--background-warm)] md:grid-cols-[1.15fr_0.85fr]">
-        <div className="flex min-h-[300px] flex-col justify-center px-7 py-12 md:px-16">
-          <p className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
-            {FAQ_PAGE_COPY.cta.title}
-          </p>
-          <p className="mt-4 font-heading text-2xl italic leading-snug text-[var(--brand-strong)]/82 md:text-3xl">
-            {FAQ_PAGE_COPY.cta.description}
-          </p>
-          <Link
-            href={FAQ_PAGE_COPY.cta.href}
-            className="mt-9 inline-flex w-fit items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
-          >
-            {FAQ_PAGE_COPY.cta.label}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
-        </div>
-        <div className="relative min-h-[300px] overflow-hidden">
-          <Image
-            src={ctaImage.src}
-            alt={ctaImage.alt}
-            fill
-            sizes="(max-width: 768px) 100vw, 42vw"
-            className="object-cover"
-          />
+      <section className="board-band bg-[var(--background-warm)]">
+        <div className="board-shell board-gutter grid md:grid-cols-[1.15fr_0.85fr]">
+          <div className="flex min-h-[300px] flex-col justify-center py-12 md:pr-12">
+            <p className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
+              {FAQ_PAGE_COPY.cta.title}
+            </p>
+            <p className="mt-4 font-heading text-2xl italic leading-snug text-[var(--brand-strong)]/82 md:text-3xl">
+              {FAQ_PAGE_COPY.cta.description}
+            </p>
+            <Link
+              href={FAQ_PAGE_COPY.cta.href}
+              className="mt-9 inline-flex w-fit items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
+            >
+              {FAQ_PAGE_COPY.cta.label}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="relative min-h-[300px] overflow-hidden">
+            <Image
+              src={ctaImage.src}
+              alt={ctaImage.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 42vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </section>
     </div>

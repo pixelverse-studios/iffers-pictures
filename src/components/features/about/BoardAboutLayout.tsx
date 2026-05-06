@@ -24,7 +24,7 @@ const traits = [
 export function BoardAboutLayout() {
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-[1180px] flex-col md:min-h-[calc(100svh-72px)]">
+      <div className="board-shell flex min-h-[calc(100svh-4rem)] flex-col md:min-h-[calc(100svh-72px)]">
         <section className="flex flex-1 px-5 pb-8 pt-12 md:px-8 md:pb-10 md:pt-16">
           <div className="grid w-full gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
             <div className="flex flex-col justify-center py-4 lg:py-8">
@@ -90,7 +90,7 @@ export function BoardAboutLayout() {
 
       <section
         id="board-about-story"
-        className="mx-auto grid max-w-[1180px] scroll-mt-16 bg-[var(--background)] md:scroll-mt-[72px] md:grid-cols-[1.05fr_0.95fr]"
+        className="board-shell grid scroll-mt-16 bg-[var(--background)] md:scroll-mt-[72px] md:grid-cols-[1.05fr_0.95fr]"
       >
         <div className="relative min-h-[380px] overflow-hidden bg-[var(--background)] md:min-h-[520px]">
           <Image
@@ -112,22 +112,24 @@ export function BoardAboutLayout() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] bg-[var(--brand-strong)] px-8 py-16 text-center text-white md:px-16 md:py-20">
-        <figure className="mx-auto max-w-4xl">
-          <div
-            className="flex items-center justify-between font-heading text-7xl leading-none text-white/72"
-            aria-hidden
-          >
-            <span>“</span>
-            <span>”</span>
-          </div>
-          <blockquote className="-mt-5 font-heading text-3xl italic leading-snug md:text-5xl">
-            {ABOUT_PAGE_COPY.bio.paragraphs[6]}
-          </blockquote>
-        </figure>
+      <section className="board-band bg-[var(--brand-strong)] text-center text-white">
+        <div className="board-shell px-8 py-16 md:px-16 md:py-20">
+          <figure className="mx-auto max-w-4xl">
+            <div
+              className="flex items-center justify-between font-heading text-7xl leading-none text-white/72"
+              aria-hidden
+            >
+              <span>“</span>
+              <span>”</span>
+            </div>
+            <blockquote className="-mt-5 font-heading text-3xl italic leading-snug md:text-5xl">
+              {ABOUT_PAGE_COPY.bio.paragraphs[6]}
+            </blockquote>
+          </figure>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] bg-[var(--background)] px-7 py-12 md:px-12 md:py-16">
+      <section className="board-shell bg-[var(--background)] px-7 py-12 md:px-12 md:py-16">
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="space-y-6 text-base leading-8 text-[var(--text-secondary)] md:text-lg">
             <p>{ABOUT_PAGE_COPY.bio.paragraphs[2]}</p>

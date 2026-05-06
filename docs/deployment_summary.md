@@ -30,6 +30,7 @@
 - Improved direct review links for the Sessions pages so New Design URLs open in the correct layout immediately.
 - Expanded the New Design session detail gallery previews so each offering shows more of Jenn's work and links through to the full portfolio.
 - Added the new design-board layout option for the Investment, FAQ, and Inquire pages so Jenn can compare those pages from the site-wide selector.
+- Widened the new design-board layouts on large screens so the pages feel more natural and less boxed in while preserving the original editorial direction.
 
 ## Notes for internal team
 
@@ -75,6 +76,7 @@
 - DEV-803 follow-up: Featured Jolee's testimonial at the top of the new Testimonials board layout without changing the underlying testimonial data order.
 - DEV-805: Added board-mode Investment, FAQ, and Inquire page branches behind the site-wide layout selector. The current pages remain available as the default, the FAQ schema remains server-rendered, and the Inquire page continues to reuse the existing contact form and API behavior.
 - DEV-805 validation: targeted ESLint passed for changed files and `npm run build` passed.
+- Wide-screen board polish: added shared `.board-shell`, `.board-shell-narrow`, and `.board-band` utilities, then replaced fixed 1180px board wrappers across the board-mode pages with responsive shells and wider bands.
 
 ## Changed URLs
 
@@ -100,6 +102,15 @@
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/image-review
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/faq
+- https://ifferspictures.com/contact
+- https://ifferspictures.com/
+- https://ifferspictures.com/about
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/testimonials
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/contact

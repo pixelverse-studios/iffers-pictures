@@ -134,7 +134,7 @@ export function BoardTestimonialsLayout() {
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <section className="mx-auto max-w-[1180px] px-5 pb-12 pt-14 text-center md:px-8 md:pb-16 md:pt-20">
+      <section className="board-shell px-5 pb-12 pt-14 text-center md:px-8 md:pb-16 md:pt-20">
         <Quote
           className="mx-auto h-12 w-12 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
           aria-hidden
@@ -169,7 +169,7 @@ export function BoardTestimonialsLayout() {
         )}
       </section>
 
-      <section className="mx-auto max-w-[1180px] px-5 pb-12 md:px-8 md:pb-16">
+      <section className="board-shell px-5 pb-12 md:px-8 md:pb-16">
         <div className="mb-7 flex flex-col justify-between gap-3 border-y border-[var(--border)] py-5 md:flex-row md:items-center">
           <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
             More kind words
@@ -191,7 +191,7 @@ export function BoardTestimonialsLayout() {
       </section>
 
       <section className="bg-[var(--brand-strong)] px-5 py-10 text-white md:px-8 md:py-12">
-        <div className="mx-auto flex max-w-[1180px] flex-col items-start justify-between gap-7 md:flex-row md:items-center">
+        <div className="board-shell flex flex-col items-start justify-between gap-7 md:flex-row md:items-center">
           <p className="font-heading text-2xl font-semibold italic md:text-3xl">
             Real moments. Real stories. Real people.
           </p>

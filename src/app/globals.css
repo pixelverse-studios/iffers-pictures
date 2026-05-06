@@ -305,6 +305,28 @@ h1, h2, h3, h4, h5, h6,
   padding-right: var(--spacing-container);
 }
 
+/* Design-board responsive shells */
+.board-shell {
+  width: min(calc(100% - clamp(2rem, 6vw, 7rem)), 1500px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board-shell-narrow {
+  width: min(calc(100% - clamp(2rem, 6vw, 7rem)), 1180px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board-gutter {
+  padding-left: clamp(1.25rem, 2vw, 2rem);
+  padding-right: clamp(1.25rem, 2vw, 2rem);
+}
+
+.board-band {
+  width: 100%;
+}
+
 /* Section Spacing */
 .section {
   padding-top: var(--spacing-section);

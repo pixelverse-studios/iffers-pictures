@@ -159,7 +159,7 @@ export function Header() {
   return (
     <>
       <header className="board-layout-header fixed left-0 right-0 top-0 z-50 border-b border-[var(--border)] bg-white/95 shadow-[0_8px_28px_rgba(42,68,92,0.10)] backdrop-blur-md">
-          <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between px-5 md:h-[72px] md:px-8">
+          <div className="board-shell board-gutter flex h-16 items-center justify-between md:h-[72px]">
             <Link
               href="/"
               aria-label="Iffer's Pictures — Home"

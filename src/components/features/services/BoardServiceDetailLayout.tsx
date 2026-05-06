@@ -62,7 +62,7 @@ export function BoardServiceDetailLayout({
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
-      <section className="mx-auto grid max-w-[1180px] md:min-h-[640px] md:grid-cols-[0.86fr_1.14fr]">
+      <section className="board-shell grid md:min-h-[640px] md:grid-cols-[0.86fr_1.14fr]">
         <div className="flex flex-col justify-center bg-[var(--brand-strong)] px-8 py-12 text-white md:px-12 lg:px-14">
           <p className="text-[11px] font-bold uppercase tracking-[0.26em] text-white/70">
             {serviceInfo.name}
@@ -110,7 +110,7 @@ export function BoardServiceDetailLayout({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] px-6 py-10 md:px-8 md:py-12">
+      <section className="board-shell px-6 py-10 md:px-8 md:py-12">
         <div>
           <div className="max-w-sm">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--foreground)]">
@@ -142,7 +142,7 @@ export function BoardServiceDetailLayout({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] px-6 pb-12 md:px-8 md:pb-14">
+      <section className="board-shell px-6 pb-12 md:px-8 md:pb-14">
         <div className="border-y border-[var(--border)] py-10 md:py-12">
           <div className="grid gap-9 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
             <div className="lg:sticky lg:top-28">
@@ -177,7 +177,7 @@ export function BoardServiceDetailLayout({
 
       <section
         id="board-service-gallery"
-        className="mx-auto max-w-[1180px] scroll-mt-16 px-6 pb-12 md:scroll-mt-[72px] md:px-8 md:pb-14"
+        className="board-shell scroll-mt-16 px-6 pb-12 md:scroll-mt-[72px] md:px-8 md:pb-14"
       >
         <div className="grid gap-8 md:grid-cols-[0.35fr_0.65fr] md:items-end">
           <div>
@@ -231,27 +231,29 @@ export function BoardServiceDetailLayout({
       </section>
 
       {testimonial && (
-        <section className="mx-auto max-w-[1180px] bg-[var(--brand-strong)] px-8 py-8 text-white md:px-12 md:py-10">
-          <figure className="grid gap-6 md:grid-cols-[0.24fr_0.76fr] md:items-start">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/62">
-                Client words
-              </p>
-              <p className="mt-3 h-px w-16 bg-white/34" aria-hidden />
-            </div>
-            <div>
-              <blockquote className="max-w-4xl font-heading text-2xl italic leading-snug text-white md:text-[30px]">
-                {testimonial.quote}
-              </blockquote>
-              <figcaption className="mt-5 text-sm font-medium text-white/72">
-                - {testimonial.author}
-              </figcaption>
-            </div>
-          </figure>
+        <section className="board-band bg-[var(--brand-strong)] text-white">
+          <div className="board-shell px-8 py-8 md:px-12 md:py-10">
+            <figure className="grid gap-6 md:grid-cols-[0.24fr_0.76fr] md:items-start">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/62">
+                  Client words
+                </p>
+                <p className="mt-3 h-px w-16 bg-white/34" aria-hidden />
+              </div>
+              <div>
+                <blockquote className="max-w-4xl font-heading text-2xl italic leading-snug text-white md:text-[30px]">
+                  {testimonial.quote}
+                </blockquote>
+                <figcaption className="mt-5 text-sm font-medium text-white/72">
+                  - {testimonial.author}
+                </figcaption>
+              </div>
+            </figure>
+          </div>
         </section>
       )}
 
-      <section className="mx-auto max-w-[1180px] px-6 py-12 md:px-8 md:py-14">
+      <section className="board-shell px-6 py-12 md:px-8 md:py-14">
         <p className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
           {serviceData.faq.title}
         </p>
@@ -274,8 +276,8 @@ export function BoardServiceDetailLayout({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1180px] bg-[var(--brand-strong)] px-8 py-10 text-white md:px-12">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <section className="board-band bg-[var(--brand-strong)] text-white">
+        <div className="board-shell flex flex-col gap-6 px-8 py-10 md:flex-row md:items-center md:justify-between md:px-12">
           <div>
             <h2 className="font-heading text-3xl font-semibold md:text-4xl">
               {serviceData.cta.headline}

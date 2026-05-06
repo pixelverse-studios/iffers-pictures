@@ -45,7 +45,7 @@ function BoardHomeHero() {
       <div className="absolute inset-0 bg-gradient-to-r from-white/96 via-white/72 to-white/8" />
       <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/18" />
 
-      <div className="container relative z-10 flex min-h-[calc(720px-4rem)] items-center md:min-h-[calc(760px-72px)]">
+      <div className="board-shell board-gutter relative z-10 flex min-h-[calc(720px-4rem)] items-center md:min-h-[calc(760px-72px)]">
         <div className="max-w-[560px] pb-12 pt-14 md:pb-20 md:pt-20">
           <h1 className="whitespace-pre-line font-heading text-[4rem] font-semibold leading-[0.94] text-[var(--brand-strong)] drop-shadow-sm sm:text-[5.4rem] lg:text-[6.6rem]">
             {HOME_PAGE_COPY.boardHero.title}
@@ -103,7 +103,7 @@ function BoardSessionsPreview() {
           ? "Explore sessions"
           : HOME_PAGE_COPY.sessions.heading}
       </h2>
-      <div className="mx-auto mt-7 grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="board-shell-narrow mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {sessionItems.map((item) => (
           <Link key={item.href} href={item.href} className="group text-center">
             <div className="relative aspect-[1.18/1] overflow-hidden bg-[var(--background-warm)]">
@@ -130,26 +130,28 @@ function BoardSessionsPreview() {
 
 function BoardQuotePreview() {
   return (
-    <section className="grid bg-[var(--background-warm)] md:grid-cols-[1.16fr_0.84fr]">
-      <figure className="flex min-h-[230px] flex-col justify-center px-8 py-10 text-[var(--brand-strong)] md:px-16">
-        <span className="font-heading text-5xl leading-none" aria-hidden>
-          “
-        </span>
-        <blockquote className="max-w-xl font-heading text-2xl italic leading-snug md:text-3xl">
-          {quote.quote}
-        </blockquote>
-        <figcaption className="mt-5 text-sm text-[var(--text-secondary)]">
-          — {quote.author}
-        </figcaption>
-      </figure>
-      <div className="relative min-h-[230px] overflow-hidden">
-        <Image
-          src={heroImage.src}
-          alt={heroImage.alt}
-          fill
-          sizes="(max-width: 768px) 100vw, 42vw"
-          className="object-cover"
-        />
+    <section className="board-band bg-[var(--background-warm)]">
+      <div className="board-shell board-gutter grid md:grid-cols-[1.16fr_0.84fr]">
+        <figure className="flex min-h-[230px] flex-col justify-center py-10 pr-8 text-[var(--brand-strong)] md:pr-16">
+          <span className="font-heading text-5xl leading-none" aria-hidden>
+            “
+          </span>
+          <blockquote className="max-w-xl font-heading text-2xl italic leading-snug md:text-3xl">
+            {quote.quote}
+          </blockquote>
+          <figcaption className="mt-5 text-sm text-[var(--text-secondary)]">
+            — {quote.author}
+          </figcaption>
+        </figure>
+        <div className="relative min-h-[230px] overflow-hidden">
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 42vw"
+            className="object-cover"
+          />
+        </div>
       </div>
     </section>
   );
