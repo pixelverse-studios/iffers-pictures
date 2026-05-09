@@ -15,7 +15,6 @@ export const SITE_CONFIG = {
 export const BUSINESS_INFO = {
   name: "Iffer's Pictures",
   legalName: "Iffer's Pictures",
-  phone: "5514866059",
   email: "ifferspictures@gmail.com", // Update with real email
   address: {
     street: "", // Update with real address if desired

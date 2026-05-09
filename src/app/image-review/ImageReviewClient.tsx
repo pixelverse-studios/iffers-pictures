@@ -66,16 +66,20 @@ export function ImageReviewClient({ items }: Props) {
 
   // Restore selection from localStorage
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const ids = JSON.parse(raw) as number[];
-        setSelected(new Set(ids));
+    const timer = window.setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const ids = JSON.parse(raw) as number[];
+          setSelected(new Set(ids));
+        }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
-    }
-    setHydrated(true);
+      setHydrated(true);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Persist selection

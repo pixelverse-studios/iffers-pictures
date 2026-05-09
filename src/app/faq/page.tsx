@@ -5,10 +5,6 @@ import { generalFaqs } from "./faqData";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
 import { FAQPageContent } from "./FAQPageContent";
-import {
-  getLayoutVariantFromSearchParams,
-  type LayoutVariantSearchParams,
-} from "@/lib/layout-variants";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -64,15 +60,7 @@ function FAQPageSchema() {
   );
 }
 
-interface FAQPageProps {
-  searchParams?: Promise<LayoutVariantSearchParams>;
-}
-
-export default async function FAQPage({ searchParams }: FAQPageProps) {
-  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
-    searchParams ? await searchParams : undefined
-  );
-
+export default function FAQPage() {
   return (
     <>
       <FAQPageSchema />
@@ -83,7 +71,7 @@ export default async function FAQPage({ searchParams }: FAQPageProps) {
         ]}
       />
 
-      <FAQPageContent initialLayoutVariantId={initialLayoutVariantId} />
+      <FAQPageContent />
     </>
   );
 }

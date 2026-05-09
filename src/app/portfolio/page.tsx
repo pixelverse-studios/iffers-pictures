@@ -1,10 +1,6 @@
 import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { PortfolioPageContent } from "@/components/features/portfolio/PortfolioPageContent";
-import {
-  getLayoutVariantFromSearchParams,
-  type LayoutVariantSearchParams,
-} from "@/lib/layout-variants";
 
 export const metadata: Metadata = {
   title: "Portfolio | Iffer's Pictures | Bergen County Photographer",
@@ -43,14 +39,6 @@ export const metadata: Metadata = {
   },
 };
 
-interface PortfolioPageProps {
-  searchParams?: Promise<LayoutVariantSearchParams>;
-}
-
-export default async function PortfolioPage({ searchParams }: PortfolioPageProps) {
-  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
-    searchParams ? await searchParams : undefined
-  );
-
-  return <PortfolioPageContent initialLayoutVariantId={initialLayoutVariantId} />;
+export default function PortfolioPage() {
+  return <PortfolioPageContent />;
 }

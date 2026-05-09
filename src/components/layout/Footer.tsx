@@ -4,7 +4,6 @@ import {
   Facebook,
   MapPin,
   Mail,
-  Heart,
 } from "lucide-react";
 import {
   SITE_CONFIG,
@@ -12,6 +11,7 @@ import {
   FOOTER_LINKS,
   SERVICE_AREAS,
 } from "@/lib/constants";
+import { TrackedOutboundLink } from "@/components/analytics/TrackedLink";
 import { LocalBusinessSchema } from "@/components/seo/LocalBusinessSchema";
 
 export function Footer() {
@@ -37,26 +37,36 @@ export function Footer() {
             {/* Social Links */}
             <div className="flex items-center gap-4">
               {BUSINESS_INFO.social.instagram && (
-                <a
+                <TrackedOutboundLink
                   href={BUSINESS_INFO.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
+                  tracking={{
+                    link_location: "footer_social",
+                    link_text: "Instagram",
+                    link_type: "social",
+                  }}
                   className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--brand)] transition-colors duration-200"
                   aria-label="Follow us on Instagram"
                 >
                   <Instagram className="w-5 h-5" />
-                </a>
+                </TrackedOutboundLink>
               )}
               {BUSINESS_INFO.social.facebook && (
-                <a
+                <TrackedOutboundLink
                   href={BUSINESS_INFO.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
+                  tracking={{
+                    link_location: "footer_social",
+                    link_text: "Facebook",
+                    link_type: "social",
+                  }}
                   className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--brand)] transition-colors duration-200"
                   aria-label="Follow us on Facebook"
                 >
                   <Facebook className="w-5 h-5" />
-                </a>
+                </TrackedOutboundLink>
               )}
             </div>
           </div>
@@ -116,14 +126,19 @@ export function Footer() {
                 </li>
               ))}
               <li>
-                <a
+                <TrackedOutboundLink
                   href="https://www.facebook.com/ifferspictures/reviews"
                   target="_blank"
                   rel="noopener noreferrer"
+                  tracking={{
+                    link_location: "footer_resources",
+                    link_text: "Leave a Review",
+                    link_type: "review",
+                  }}
                   className="text-white/60 hover:text-white transition-colors duration-200 text-sm"
                 >
                   Leave a Review
-                </a>
+                </TrackedOutboundLink>
               </li>
             </ul>
           </div>
@@ -135,13 +150,18 @@ export function Footer() {
             </h3>
             <ul className="space-y-4">
               <li>
-                <a
+                <TrackedOutboundLink
                   href={`mailto:${BUSINESS_INFO.email}`}
+                  tracking={{
+                    link_location: "footer_inquire",
+                    link_text: BUSINESS_INFO.email,
+                    link_type: "email",
+                  }}
                   className="flex items-center gap-3 text-white/60 hover:text-white transition-colors duration-200 text-sm"
                 >
                   <Mail className="w-4 h-4 text-[var(--brand-soft)]" />
                   {BUSINESS_INFO.email}
-                </a>
+                </TrackedOutboundLink>
               </li>
               <li>
                 <div className="flex items-start gap-3 text-white/60 text-sm">
@@ -175,14 +195,19 @@ export function Footer() {
             </p>
             <p className="text-white/40 text-sm">
               Built by{" "}
-              <a
+              <TrackedOutboundLink
                 href="https://pixelversestudios.io"
                 target="_blank"
                 rel="noopener noreferrer"
+                tracking={{
+                  link_location: "footer_credit",
+                  link_text: "PixelVerse Studios",
+                  link_type: "credit",
+                }}
                 className="text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-2"
               >
                 PixelVerse Studios
-              </a>
+              </TrackedOutboundLink>
             </p>
           </div>
         </div>

@@ -3,10 +3,6 @@ import { notFound } from "next/navigation";
 import { SESSIONS, SITE_CONFIG } from "@/lib/constants";
 import { getServiceData, getAllServiceSlugs } from "@/data/services";
 import {
-  getLayoutVariantFromSearchParams,
-  type LayoutVariantSearchParams,
-} from "@/lib/layout-variants";
-import {
   ServicePageContent,
   ServiceSchema,
   FAQSchema,
@@ -20,7 +16,6 @@ interface ServicePageProps {
   params: Promise<{
     slug: string;
   }>;
-  searchParams?: Promise<LayoutVariantSearchParams>;
 }
 
 // Generate static params for all session types
@@ -72,15 +67,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function ServicePage({
-  params,
-  searchParams,
-}: ServicePageProps) {
+export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
   const serviceData = getServiceData(slug);
-  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
-    searchParams ? await searchParams : undefined
-  );
 
   // Find session info from constants
   const serviceInfo = SESSIONS.find((s) => s.slug === slug);
@@ -105,7 +94,6 @@ export default async function ServicePage({
       <ServicePageContent
         serviceData={serviceData}
         serviceInfo={serviceInfo}
-        initialLayoutVariantId={initialLayoutVariantId}
       />
     </>
   );

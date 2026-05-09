@@ -1,22 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Send, CheckCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
+import { Select, Textarea, TextInput } from "@mantine/core";
 import { Button } from "@/components/ui/Button";
 import { SERVICES } from "@/lib/constants";
+import {
+  trackFormStart,
+  trackFormSubmitAttempt,
+  trackFormSubmitError,
+  trackLeadGenerated,
+  type LeadFormAnalyticsParams,
+} from "@/lib/analytics";
 
 const contactSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().optional(),
+  phone: z.string().min(1, "Phone number is required"),
   service: z.string().min(1, "Please select a service"),
   eventDate: z.string().optional(),
   eventTime: z.string().optional(),
@@ -28,9 +33,27 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+const serviceOptions = [
+  ...SERVICES.map((service) => ({
+    value: service.id,
+    label: service.name,
+  })),
+  { value: "other", label: "Other / Not Sure" },
+];
+
+const referralOptions = [
+  "Instagram",
+  "Google",
+  "Facebook",
+  "Referral",
+  "Returning client",
+  "Other",
+];
+
 export function ContactForm() {
   const searchParams = useSearchParams();
   const preselectedSession = searchParams.get("session") ?? "";
+  const hasStartedRef = useRef(false);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -38,6 +61,7 @@ export function ContactForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<ContactFormData>({
@@ -47,8 +71,26 @@ export function ContactForm() {
     },
   });
 
+  const getAnalyticsParams = (
+    data?: Partial<ContactFormData>
+  ): LeadFormAnalyticsParams => ({
+    service: data?.service || preselectedSession || undefined,
+    referral_source: data?.referralSource,
+    event_date_provided: Boolean(data?.eventDate),
+    event_location_provided: Boolean(data?.eventLocation),
+  });
+
+  const handleFormChange = () => {
+    setSubmitError(null);
+
+    if (hasStartedRef.current) return;
+    hasStartedRef.current = true;
+    trackFormStart(getAnalyticsParams());
+  };
+
   const onSubmit = async (data: ContactFormData) => {
     setSubmitError(null);
+    trackFormSubmitAttempt(getAnalyticsParams(data));
 
     try {
       const response = await fetch("/api/contact", {
@@ -58,6 +100,7 @@ export function ContactForm() {
       });
 
       if (response.status === 201) {
+        trackLeadGenerated(getAnalyticsParams(data));
         setIsSubmitted(true);
         reset();
         return;
@@ -69,8 +112,17 @@ export function ContactForm() {
           result.error ||
           "Something went wrong. Please try again."
       );
+      trackFormSubmitError({
+        ...getAnalyticsParams(data),
+        status_code: response.status,
+        error_type: response.status >= 500 ? "server_error" : "submission_error",
+      });
     } catch {
       setSubmitError("Something went wrong. Please try again.");
+      trackFormSubmitError({
+        ...getAnalyticsParams(data),
+        error_type: "network_error",
+      });
     }
   };
 
@@ -106,50 +158,50 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} onChange={() => setSubmitError(null)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} onChange={handleFormChange} className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
-        <Input
+        <TextInput
           label="First Name"
           placeholder="Jane"
-          required
+          withAsterisk
           {...register("firstName")}
           error={errors.firstName?.message}
         />
-        <Input
+        <TextInput
           label="Last Name"
           placeholder="Doe"
-          required
+          withAsterisk
           {...register("lastName")}
           error={errors.lastName?.message}
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <Input
-          label="Email Address"
-          type="email"
-          placeholder="jane@example.com"
-          required
-          {...register("email")}
-          error={errors.email?.message}
-        />
-        <Input
-          label="Phone Number"
-          type="tel"
-          placeholder="(201) 555-1234"
-          {...register("phone")}
-          error={errors.phone?.message}
-        />
-      </div>
+      <TextInput
+        label="Email Address"
+        type="email"
+        placeholder="jane@example.com"
+        withAsterisk
+        {...register("email")}
+        error={errors.email?.message}
+      />
+
+      <TextInput
+        label="Phone Number"
+        type="tel"
+        placeholder="(555) 555-5555"
+        withAsterisk
+        {...register("phone")}
+        error={errors.phone?.message}
+      />
 
       <div className="grid md:grid-cols-2 gap-6">
-        <Input
+        <TextInput
           label="Event Location"
           placeholder="Venue, town, or not sure yet"
           {...register("eventLocation")}
           error={errors.eventLocation?.message}
         />
-        <Input
+        <TextInput
           label="Event Time"
           type="time"
           {...register("eventTime")}
@@ -158,27 +210,13 @@ export function ContactForm() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="w-full">
-          <label
-            htmlFor="eventDate"
-            className="block text-sm font-medium text-[var(--foreground)] mb-2"
-          >
-            Event Date
-          </label>
-          <input
-            type="date"
-            id="eventDate"
-            {...register("eventDate")}
-            className={cn(
-              "w-full px-4 py-3 rounded-lg",
-              "bg-white border border-[var(--border)]",
-              "text-[var(--foreground)]",
-              "transition-all duration-200",
-              "focus:outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20"
-            )}
-          />
-        </div>
-        <Input
+        <TextInput
+          label="Event Date"
+          type="date"
+          {...register("eventDate")}
+          error={errors.eventDate?.message}
+        />
+        <TextInput
           label="I'd love to tag you in your photos!"
           placeholder="Instagram handle or Facebook name"
           {...register("socialHandle")}
@@ -186,71 +224,55 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="w-full">
-        <label
-          htmlFor="service"
-          className="block text-sm font-medium text-[var(--foreground)] mb-2"
-        >
-          Session Type <span className="text-[var(--accent)]">*</span>
-        </label>
-        <select
-          id="service"
-          {...register("service")}
-          className={cn(
-            "w-full px-4 py-3 rounded-lg",
-            "bg-white border border-[var(--border)]",
-            "text-[var(--foreground)]",
-            "transition-all duration-200",
-            "focus:outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20",
-            errors.service && "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-          )}
-        >
-          <option value="">Select a session type...</option>
-          {SERVICES.map((service) => (
-            <option key={service.id} value={service.id}>
-              {service.name}
-            </option>
-          ))}
-          <option value="other">Other / Not Sure</option>
-        </select>
-        {errors.service && (
-          <p className="mt-1.5 text-sm text-red-500">{errors.service.message}</p>
+      <Controller
+        name="service"
+        control={control}
+        render={({ field }) => (
+          <Select
+            label="Session Type"
+            placeholder="Select a session type..."
+            data={serviceOptions}
+            value={field.value || null}
+            onChange={(value) => {
+              handleFormChange();
+              field.onChange(value ?? "");
+            }}
+            onBlur={field.onBlur}
+            name={field.name}
+            ref={field.ref}
+            withAsterisk
+            error={errors.service?.message}
+          />
         )}
-      </div>
+      />
 
-      <div className="w-full">
-        <label
-          htmlFor="referralSource"
-          className="block text-sm font-medium text-[var(--foreground)] mb-2"
-        >
-          How did you hear about me?
-        </label>
-        <select
-          id="referralSource"
-          {...register("referralSource")}
-          className={cn(
-            "w-full px-4 py-3 rounded-lg",
-            "bg-white border border-[var(--border)]",
-            "text-[var(--foreground)]",
-            "transition-all duration-200",
-            "focus:outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/20"
-          )}
-        >
-          <option value="">Select an option...</option>
-          <option value="Instagram">Instagram</option>
-          <option value="Google">Google</option>
-          <option value="Facebook">Facebook</option>
-          <option value="Referral">Referral</option>
-          <option value="Returning client">Returning client</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
+      <Controller
+        name="referralSource"
+        control={control}
+        render={({ field }) => (
+          <Select
+            label="How did you hear about me?"
+            placeholder="Select an option..."
+            data={referralOptions}
+            value={field.value || null}
+            onChange={(value) => {
+              handleFormChange();
+              field.onChange(value ?? "");
+            }}
+            onBlur={field.onBlur}
+            name={field.name}
+            ref={field.ref}
+            clearable
+            error={errors.referralSource?.message}
+          />
+        )}
+      />
 
       <Textarea
         label="Message"
         placeholder="Tell me what you're planning..."
-        helperText="What are you celebrating? Who will be there? What moments matter most to you? Approximately how many guests? Feel free to include anything you think is important for me to know"
-        required
+        description="What are you celebrating? Who will be there? What moments matter most to you? Approximately how many guests? Feel free to include anything you think is important for me to know"
+        withAsterisk
         rows={5}
         {...register("message")}
         error={errors.message?.message}

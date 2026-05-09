@@ -19,6 +19,12 @@ import {
 } from "./portfolioData";
 import { Lightbox } from "./Lightbox";
 import { PORTFOLIO_PAGE_COPY } from "@/data/page-copy";
+import {
+  trackCtaClick,
+  trackPortfolioFilter,
+  trackPortfolioLightboxNavigate,
+  trackPortfolioLightboxOpen,
+} from "@/lib/analytics";
 
 type PortfolioBoardFilter = "All" | ServiceFilter;
 
@@ -140,16 +146,45 @@ export function BoardPortfolioLayout() {
   const showSubCategories = subCategories.length > 1;
 
   function selectFilter(filter: PortfolioBoardFilter) {
+    trackPortfolioFilter({ filter });
     setActiveFilter(filter);
     setActiveSubCategory(null);
     setLightboxIndex(null);
   }
 
   function selectSubCategory(subCategory: string) {
-    setActiveSubCategory((current) =>
-      current === subCategory ? null : subCategory
-    );
+    const nextSubCategory =
+      activeSubCategory === subCategory ? undefined : subCategory;
+    trackPortfolioFilter({
+      filter: activeFilter,
+      subcategory: nextSubCategory ?? "all",
+    });
+    setActiveSubCategory(nextSubCategory ?? null);
     setLightboxIndex(null);
+  }
+
+  function openLightbox(index: number) {
+    const item = displayedItems[index];
+    trackPortfolioLightboxOpen({
+      source: "portfolio_gallery",
+      image_id: item?.id,
+      image_category: item?.service,
+      image_subcategory: item?.subCategory,
+    });
+    setLightboxIndex(index);
+  }
+
+  function navigateLightbox(index: number) {
+    const item = displayedItems[index];
+    trackPortfolioLightboxNavigate({
+      source: "portfolio_gallery",
+      image_id: item?.id,
+      image_category: item?.service,
+      image_subcategory: item?.subCategory,
+      direction:
+        lightboxIndex === null || index > lightboxIndex ? "next" : "previous",
+    });
+    setLightboxIndex(index);
   }
 
   useEffect(() => {
@@ -282,7 +317,7 @@ export function BoardPortfolioLayout() {
               item={item}
               index={index}
               phase={galleryPhase}
-              onOpen={() => setLightboxIndex(index)}
+              onOpen={() => openLightbox(index)}
             />
           ))}
         </div>
@@ -305,6 +340,13 @@ export function BoardPortfolioLayout() {
           </div>
           <Link
             href={PORTFOLIO_PAGE_COPY.cta.href}
+            onClick={() =>
+              trackCtaClick({
+                cta_label: PORTFOLIO_PAGE_COPY.cta.label,
+                cta_location: "portfolio_bottom_cta",
+                destination: PORTFOLIO_PAGE_COPY.cta.href,
+              })
+            }
             className="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-7 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-300 hover:bg-[var(--brand)] active:scale-[0.98]"
           >
             {PORTFOLIO_PAGE_COPY.cta.label}
@@ -318,7 +360,7 @@ export function BoardPortfolioLayout() {
           items={displayedItems}
           currentIndex={lightboxIndex}
           onClose={() => setLightboxIndex(null)}
-          onNavigate={setLightboxIndex}
+          onNavigate={navigateLightbox}
         />
       )}
     </div>

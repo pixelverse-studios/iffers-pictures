@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 export interface BoardFAQItem {
   question: string;
@@ -37,7 +38,14 @@ export function BoardFAQPanel({
               type="button"
               aria-expanded={isOpen}
               aria-controls={answerId}
-              onClick={() => setOpenIndex(isOpen ? null : index)}
+              onClick={() => {
+                trackEvent("faq_toggle", {
+                  faq_location: idPrefix,
+                  faq_index: index,
+                  action: isOpen ? "close" : "open",
+                });
+                setOpenIndex(isOpen ? null : index);
+              }}
               className="flex w-full items-center justify-between gap-6 px-5 py-4 text-left transition-colors duration-200 hover:bg-[var(--background-warm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--brand)]"
             >
               <span className="text-sm font-semibold text-[var(--foreground)] md:text-base">

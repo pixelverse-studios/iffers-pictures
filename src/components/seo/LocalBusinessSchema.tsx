@@ -8,7 +8,6 @@ export function LocalBusinessSchema() {
     name: BUSINESS_INFO.name,
     description: SITE_CONFIG.description,
     url: SITE_CONFIG.url,
-    telephone: `+1${BUSINESS_INFO.phone}`,
     email: BUSINESS_INFO.email,
     image: `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`,
     logo: `${SITE_CONFIG.url}/logo-blue.png`,

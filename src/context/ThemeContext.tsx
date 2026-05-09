@@ -49,15 +49,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // whatever the FOUC script already applied to <html>. We don't need to
   // re-apply tokens here — the inline script beats us to first paint.
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(THEME_STORAGE_KEY);
-      if (isThemeId(stored)) {
-        setThemeIdState(stored);
+    const timer = window.setTimeout(() => {
+      try {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        if (isThemeId(stored)) {
+          setThemeIdState(stored);
+        }
+      } catch {
+        // localStorage unavailable (private mode, disabled, etc.) — fall through
       }
-    } catch {
-      // localStorage unavailable (private mode, disabled, etc.) — fall through
-    }
-    setMounted(true);
+      setMounted(true);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   const setThemeId = useCallback((id: ThemeId) => {

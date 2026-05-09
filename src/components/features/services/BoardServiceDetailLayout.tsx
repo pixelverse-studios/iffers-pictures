@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
   BoardFAQPanel,
@@ -12,8 +11,14 @@ import {
   getServiceThumbnail,
 } from "@/components/features/portfolio/portfolioData";
 import { Lightbox } from "@/components/features/portfolio/Lightbox";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 import type { ServicePageData } from "@/data/services/types";
 import type { SESSIONS } from "@/lib/constants";
+import {
+  trackPortfolioLightboxNavigate,
+  trackPortfolioLightboxOpen,
+  trackServicePageView,
+} from "@/lib/analytics";
 
 type SessionInfo = (typeof SESSIONS)[number];
 
@@ -60,6 +65,39 @@ export function BoardServiceDetailLayout({
   const faqImage = galleryItems[galleryItems.length - 1];
   const testimonial = serviceData.testimonials?.items[0];
 
+  useEffect(() => {
+    trackServicePageView({
+      service_slug: serviceData.slug,
+      service_name: serviceInfo.name,
+    });
+  }, [serviceData.slug, serviceInfo.name]);
+
+  function openLightbox(index: number) {
+    const item = galleryItems[index];
+    trackPortfolioLightboxOpen({
+      source: "service_gallery",
+      service: serviceData.slug,
+      image_id: item?.id,
+      image_category: item?.service,
+      image_subcategory: item?.subCategory,
+    });
+    setLightboxIndex(index);
+  }
+
+  function navigateLightbox(index: number) {
+    const item = galleryItems[index];
+    trackPortfolioLightboxNavigate({
+      source: "service_gallery",
+      service: serviceData.slug,
+      image_id: item?.id,
+      image_category: item?.service,
+      image_subcategory: item?.subCategory,
+      direction:
+        lightboxIndex === null || index > lightboxIndex ? "next" : "previous",
+    });
+    setLightboxIndex(index);
+  }
+
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <section className="board-shell grid md:min-h-[640px] md:grid-cols-[0.86fr_1.14fr]">
@@ -79,19 +117,31 @@ export function BoardServiceDetailLayout({
             ))}
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link
+            <TrackedLink
               href={`/contact?session=${serviceData.slug}`}
+              tracking={{
+                cta_label: serviceData.cta.buttonText,
+                cta_location: "service_hero",
+                destination: `/contact?session=${serviceData.slug}`,
+                service: serviceData.slug,
+              }}
               className="inline-flex min-h-11 items-center justify-center rounded-sm border border-white/70 px-6 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white hover:text-[var(--brand-strong)] active:translate-y-0"
             >
               {serviceData.cta.buttonText}
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
               href="#board-service-gallery"
+              tracking={{
+                cta_label: "View galleries",
+                cta_location: "service_hero",
+                destination: "#board-service-gallery",
+                service: serviceData.slug,
+              }}
               className="inline-flex min-h-11 items-center gap-3 text-xs font-bold uppercase tracking-[0.16em] text-white/86 transition-all duration-200 hover:translate-x-1 hover:text-white active:translate-x-0"
             >
               View galleries
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </TrackedLink>
           </div>
         </div>
 
@@ -197,7 +247,7 @@ export function BoardServiceDetailLayout({
             <button
               type="button"
               key={item.id}
-              onClick={() => setLightboxIndex(index)}
+              onClick={() => openLightbox(index)}
               className={`group relative min-h-[190px] overflow-hidden bg-[var(--background-warm)] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-strong)] md:min-h-0 ${getGalleryTileClass(index)}`}
               aria-label={`Open gallery image: ${item.alt}`}
             >
@@ -220,13 +270,19 @@ export function BoardServiceDetailLayout({
             Browse more of Jenn&apos;s work from this session style, or open
             the full portfolio to compare stories across galleries.
           </p>
-          <Link
+          <TrackedLink
             href="/portfolio"
+            tracking={{
+              cta_label: "View full portfolio",
+              cta_location: "service_gallery",
+              destination: "/portfolio",
+              service: serviceData.slug,
+            }}
             className="inline-flex min-h-11 w-fit items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-6 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--brand)] active:translate-y-0"
           >
             View full portfolio
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </TrackedLink>
         </div>
       </section>
 
@@ -286,13 +342,19 @@ export function BoardServiceDetailLayout({
               {serviceData.cta.description}
             </p>
           </div>
-          <Link
+          <TrackedLink
             href={`/contact?session=${serviceData.slug}`}
+            tracking={{
+              cta_label: serviceData.cta.buttonText,
+              cta_location: "service_bottom_cta",
+              destination: `/contact?session=${serviceData.slug}`,
+              service: serviceData.slug,
+            }}
             className="inline-flex min-h-11 shrink-0 items-center justify-center gap-3 rounded-sm bg-white px-6 text-xs font-bold uppercase tracking-[0.16em] text-[var(--brand-strong)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 active:translate-y-0"
           >
             {serviceData.cta.buttonText}
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </TrackedLink>
         </div>
       </section>
       {lightboxIndex !== null && (
@@ -300,7 +362,7 @@ export function BoardServiceDetailLayout({
           items={galleryItems}
           currentIndex={lightboxIndex}
           onClose={() => setLightboxIndex(null)}
-          onNavigate={setLightboxIndex}
+          onNavigate={navigateLightbox}
         />
       )}
     </div>

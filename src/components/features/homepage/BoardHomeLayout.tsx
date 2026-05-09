@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SESSIONS } from "@/lib/constants";
 import { HOME_PAGE_COPY } from "@/data/page-copy";
 import { ALL_TESTIMONIALS } from "@/data/testimonials";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 import {
   PORTFOLIO_ITEMS,
   getServiceThumbnail,
@@ -54,19 +54,29 @@ function BoardHomeHero() {
             {HOME_PAGE_COPY.boardHero.description}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-5">
-            <Link
+            <TrackedLink
               href={HOME_PAGE_COPY.boardHero.primaryHref}
+              tracking={{
+                cta_label: HOME_PAGE_COPY.boardHero.primaryLabel,
+                cta_location: "home_hero_primary",
+                destination: HOME_PAGE_COPY.boardHero.primaryHref,
+              }}
               className="inline-flex min-h-12 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-7 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-sm transition-colors duration-200 hover:bg-[var(--brand)]"
             >
               {HOME_PAGE_COPY.boardHero.primaryLabel}
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
               href={HOME_PAGE_COPY.boardHero.secondaryHref}
+              tracking={{
+                cta_label: HOME_PAGE_COPY.boardHero.secondaryLabel,
+                cta_location: "home_hero_secondary",
+                destination: HOME_PAGE_COPY.boardHero.secondaryHref,
+              }}
               className="inline-flex min-h-12 items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-strong)] transition-colors duration-200 hover:text-[var(--brand)]"
             >
               {HOME_PAGE_COPY.boardHero.secondaryLabel}
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </div>
@@ -105,7 +115,17 @@ function BoardSessionsPreview() {
       </h2>
       <div className="board-shell-narrow mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {sessionItems.map((item) => (
-          <Link key={item.href} href={item.href} className="group text-center">
+          <TrackedLink
+            key={item.href}
+            href={item.href}
+            tracking={{
+              cta_label: item.title,
+              cta_location: "home_sessions_preview",
+              destination: item.href,
+              service: item.href.split("/").pop(),
+            }}
+            className="group text-center"
+          >
             <div className="relative aspect-[1.18/1] overflow-hidden bg-[var(--background-warm)]">
               <Image
                 src={item.image.src}
@@ -121,7 +141,7 @@ function BoardSessionsPreview() {
             <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">
               {item.description}
             </p>
-          </Link>
+          </TrackedLink>
         ))}
       </div>
     </section>

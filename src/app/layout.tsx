@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
 import { Josefin_Slab, Nunito } from "next/font/google";
+import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
+import "@mantine/core/styles.css";
 import "./globals.css";
 import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Providers } from "@/components/providers/Providers";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { DEFAULT_THEME_ID, THEMES, THEME_STORAGE_KEY } from "@/lib/themes";
-import {
-  DEFAULT_LAYOUT_VARIANT_ID,
-  LAYOUT_VARIANT_QUERY_KEY,
-  LAYOUT_VARIANT_STORAGE_KEY,
-  LAYOUT_VARIANTS,
-} from "@/lib/layout-variants";
 
 // Bakes the theme token maps into an inline <script> that runs in <head>
 // before hydration, so we can apply the stored theme to :root synchronously
@@ -34,19 +31,6 @@ var e=M[id],t=e.tokens,r=document.documentElement;
 for(var p in t){r.style.setProperty('--'+p,t[p]);}
 r.dataset.theme=id;
 r.dataset.themeMode=e.mode;
-}catch(e){}})();
-`.trim();
-
-const layoutVariantInitScript = `
-(function(){try{
-var q=${JSON.stringify(LAYOUT_VARIANT_QUERY_KEY)};
-var k=${JSON.stringify(LAYOUT_VARIANT_STORAGE_KEY)};
-var M=${JSON.stringify(Object.keys(LAYOUT_VARIANTS))};
-var p=new URLSearchParams(window.location.search);
-var v=p.get(q);
-var s=localStorage.getItem(k);
-var id=(v&&M.indexOf(v)>-1)?v:((s&&M.indexOf(s)>-1)?s:${JSON.stringify(DEFAULT_LAYOUT_VARIANT_ID)});
-document.documentElement.dataset.layoutVariant=id;
 }catch(e){}})();
 `.trim();
 
@@ -132,14 +116,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html
+      {...mantineHtmlProps}
+      lang="en"
+      className="scroll-smooth"
+      suppressHydrationWarning
+    >
       <head>
+        <ColorSchemeScript defaultColorScheme="light" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <script dangerouslySetInnerHTML={{ __html: layoutVariantInitScript }} />
       </head>
       <body
         className={`${josefinSlab.variable} ${nunito.variable} antialiased min-h-screen flex flex-col`}
       >
+        <GoogleAnalytics />
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>

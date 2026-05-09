@@ -5,19 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { SITE_CONFIG, SERVICES } from "@/lib/constants";
-import { useLayoutVariant } from "@/context/LayoutVariantContext";
-import {
-  DEFAULT_LAYOUT_VARIANT_ID,
-  type LayoutVariantId,
-} from "@/lib/layout-variants";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { FAQAccordion } from "@/components/ui/FAQAccordion";
-import { Button } from "@/components/ui/Button";
+import { SERVICES } from "@/lib/constants";
 import { FAQ_PAGE_COPY } from "@/data/page-copy";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
 import { PORTFOLIO_ITEMS } from "@/components/features/portfolio/portfolioData";
+import { trackCtaClick, trackEvent } from "@/lib/analytics";
 import { generalFaqs } from "./faqData";
 
 interface FAQSection {
@@ -35,89 +28,6 @@ function getServiceFAQSections(): FAQSection[] {
       faqs: data?.faq.items ?? [],
     };
   }).filter((section) => section.faqs.length > 0);
-}
-
-function CurrentFAQContent({ serviceSections }: { serviceSections: FAQSection[] }) {
-  return (
-    <>
-      <section className="pt-hero pb-12 md:pb-16 bg-[var(--background-warm)]">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-sm font-medium uppercase tracking-wider text-[var(--brand)] mb-4">
-              {FAQ_PAGE_COPY.hero.eyebrow}
-            </p>
-            <h1 className="text-4xl md:text-5xl font-heading font-semibold text-[var(--foreground)] mb-4">
-              {FAQ_PAGE_COPY.hero.title}
-            </h1>
-            <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
-              {FAQ_PAGE_COPY.hero.introLead} {SITE_CONFIG.name}.{" "}
-              {FAQ_PAGE_COPY.hero.contactPrompt}{" "}
-              <Link
-                href={FAQ_PAGE_COPY.hero.contactHref}
-                className="text-[var(--brand)] hover:text-[var(--brand-strong)] underline underline-offset-4"
-              >
-                {FAQ_PAGE_COPY.hero.contactLabel}
-              </Link>
-              .
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-10 md:py-14">
-        <div className="container">
-          <SectionHeader
-            eyebrow={FAQ_PAGE_COPY.general.eyebrow}
-            title={FAQ_PAGE_COPY.general.title}
-            description={FAQ_PAGE_COPY.general.description}
-          />
-
-          <div className="mt-12 max-w-3xl mx-auto">
-            <FAQAccordion faqs={generalFaqs} idPrefix="general" />
-          </div>
-        </div>
-      </section>
-
-      {serviceSections.map((section) => (
-        <section
-          key={section.slug}
-          className="py-10 md:py-14 odd:bg-[var(--background-warm)]"
-        >
-          <div className="container">
-            <SectionHeader
-              eyebrow={section.name}
-              title={`${section.name} Questions`}
-            />
-
-            <div className="mt-12 max-w-3xl mx-auto">
-              <FAQAccordion
-                faqs={section.faqs}
-                idPrefix={`svc-${section.slug}`}
-              />
-            </div>
-          </div>
-        </section>
-      ))}
-
-      <section className="py-10 md:py-14">
-        <div className="container">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-heading font-semibold text-[var(--foreground)] mb-4">
-              {FAQ_PAGE_COPY.cta.title}
-            </h2>
-            <p className="text-[var(--text-secondary)] mb-8">
-              {FAQ_PAGE_COPY.cta.description}
-            </p>
-            <Link href={FAQ_PAGE_COPY.cta.href}>
-              <Button rightIcon={<ArrowRight className="w-4 h-4" />}>
-                {FAQ_PAGE_COPY.cta.label}
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-    </>
-  );
 }
 
 function BoardFAQItem({
@@ -192,6 +102,7 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
     PORTFOLIO_ITEMS.find((item) => item.id === 99) ?? PORTFOLIO_ITEMS[0];
 
   function selectSection(slug: string) {
+    trackEvent("faq_category_select", { category: slug });
     setActiveSectionSlug(slug);
     setOpenIndex(0);
   }
@@ -253,9 +164,14 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
               index={index}
               idPrefix={`board-${activeSection.slug}`}
               active={openIndex === index}
-              onToggle={() =>
-                setOpenIndex((current) => (current === index ? -1 : index))
-              }
+              onToggle={() => {
+                trackEvent("faq_toggle", {
+                  faq_category: activeSection.slug,
+                  faq_index: index,
+                  action: openIndex === index ? "close" : "open",
+                });
+                setOpenIndex((current) => (current === index ? -1 : index));
+              }}
             />
           ))}
         </div>
@@ -272,6 +188,13 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
             </p>
             <Link
               href={FAQ_PAGE_COPY.cta.href}
+              onClick={() =>
+                trackCtaClick({
+                  cta_label: FAQ_PAGE_COPY.cta.label,
+                  cta_location: "faq_bottom_cta",
+                  destination: FAQ_PAGE_COPY.cta.href,
+                })
+              }
               className="mt-9 inline-flex w-fit items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
             >
               {FAQ_PAGE_COPY.cta.label}
@@ -293,21 +216,7 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
   );
 }
 
-interface FAQPageContentProps {
-  initialLayoutVariantId?: LayoutVariantId;
-}
-
-export function FAQPageContent({
-  initialLayoutVariantId = DEFAULT_LAYOUT_VARIANT_ID,
-}: FAQPageContentProps) {
-  const { isBoardLayout, mounted } = useLayoutVariant();
+export function FAQPageContent() {
   const serviceSections = getServiceFAQSections();
-  const shouldRenderBoard =
-    mounted ? isBoardLayout : initialLayoutVariantId === "board";
-
-  return shouldRenderBoard ? (
-    <BoardFAQContent serviceSections={serviceSections} />
-  ) : (
-    <CurrentFAQContent serviceSections={serviceSections} />
-  );
+  return <BoardFAQContent serviceSections={serviceSections} />;
 }

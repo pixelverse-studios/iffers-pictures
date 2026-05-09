@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { TestimonialsPageContent } from "@/components/features/testimonials/TestimonialsPageContent";
-import {
-  getLayoutVariantFromSearchParams,
-  type LayoutVariantSearchParams,
-} from "@/lib/layout-variants";
 
 export const metadata: Metadata = {
   title: "Testimonials | Iffer's Pictures | Bergen County NJ",
@@ -22,18 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-interface TestimonialsPageProps {
-  searchParams?: Promise<LayoutVariantSearchParams>;
-}
-
-export default async function TestimonialsPage({
-  searchParams,
-}: TestimonialsPageProps) {
-  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
-    searchParams ? await searchParams : undefined
-  );
-
-  return (
-    <TestimonialsPageContent initialLayoutVariantId={initialLayoutVariantId} />
-  );
+export default function TestimonialsPage() {
+  return <TestimonialsPageContent />;
 }

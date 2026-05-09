@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
   Camera,
@@ -14,6 +13,7 @@ import {
   PORTFOLIO_ITEMS,
   type PortfolioItem,
 } from "@/components/features/portfolio/portfolioData";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 
 const heroImage =
   PORTFOLIO_ITEMS.find((item) => item.id === 99) ?? PORTFOLIO_ITEMS[0];
@@ -95,19 +95,29 @@ export function BoardInvestmentLayout() {
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-7">
-            <Link
+            <TrackedLink
               href={INVESTMENT_PAGE_COPY.cta.href}
+              tracking={{
+                cta_label: INVESTMENT_PAGE_COPY.cta.label,
+                cta_location: "investment_hero_primary",
+                destination: INVESTMENT_PAGE_COPY.cta.href,
+              }}
               className="inline-flex min-h-13 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-8 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-sm transition-all duration-300 hover:bg-[var(--brand)] active:scale-[0.98]"
             >
               {INVESTMENT_PAGE_COPY.cta.label}
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
               href="/portfolio"
+              tracking={{
+                cta_label: "View sample galleries",
+                cta_location: "investment_hero_secondary",
+                destination: "/portfolio",
+              }}
               className="inline-flex min-h-13 items-center gap-4 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
             >
               View sample galleries
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            </TrackedLink>
           </div>
         </div>
 
@@ -157,21 +167,32 @@ export function BoardInvestmentLayout() {
             <p className="mt-4 max-w-xl text-base leading-7 text-[var(--text-secondary)]">
               {INVESTMENT_PAGE_COPY.cta.description}
             </p>
-            <Link
+            <TrackedLink
               href={INVESTMENT_PAGE_COPY.cta.href}
+              tracking={{
+                cta_label: "Get a custom quote",
+                cta_location: "investment_quote_section",
+                destination: INVESTMENT_PAGE_COPY.cta.href,
+              }}
               className="mt-8 inline-flex items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
             >
               Get a custom quote
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            </TrackedLink>
 
             <div className="mt-10 grid gap-3 sm:grid-cols-2">
               {SESSION_INCLUSIONS.map((session) => {
                 const image = getPreviewImage(session.slug);
                 return (
-                  <Link
+                  <TrackedLink
                     key={session.slug}
                     href={`/services/${session.slug}`}
+                    tracking={{
+                      cta_label: session.name,
+                      cta_location: "investment_session_card",
+                      destination: `/services/${session.slug}`,
+                      service: session.slug,
+                    }}
                     className="group grid grid-cols-[82px_1fr] gap-4 border border-[var(--border)] bg-white p-3 transition-transform duration-300 hover:-translate-y-1"
                   >
                     <div className="relative overflow-hidden bg-[var(--background-warm)]">
@@ -191,7 +212,7 @@ export function BoardInvestmentLayout() {
                         {session.tagline}
                       </p>
                     </div>
-                  </Link>
+                  </TrackedLink>
                 );
               })}
             </div>

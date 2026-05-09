@@ -1,23 +1,18 @@
 "use client";
 
-import { Suspense, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { MantineProvider } from "@mantine/core";
 import { ThemeProvider } from "@/context/ThemeContext";
-import {
-  LayoutVariantProvider,
-  LayoutVariantQuerySync,
-} from "@/context/LayoutVariantContext";
 import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
+import { mantineTheme } from "@/lib/mantine-theme";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
-      <LayoutVariantProvider>
-        <Suspense fallback={null}>
-          <LayoutVariantQuerySync />
-        </Suspense>
+      <MantineProvider theme={mantineTheme} defaultColorScheme="light">
         {children}
         <ThemeSwitcher />
-      </LayoutVariantProvider>
+      </MantineProvider>
     </ThemeProvider>
   );
 }

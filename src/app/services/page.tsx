@@ -3,10 +3,6 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { ServicesHubSchema } from "@/components/features/services-hub";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { SessionsPageContent } from "@/components/features/sessions-hub";
-import {
-  getLayoutVariantFromSearchParams,
-  type LayoutVariantSearchParams,
-} from "@/lib/layout-variants";
 
 export const metadata: Metadata = {
   title: "Sessions | Iffer's Pictures | Bergen County NJ",
@@ -47,15 +43,7 @@ export const metadata: Metadata = {
   },
 };
 
-interface SessionsPageProps {
-  searchParams?: Promise<LayoutVariantSearchParams>;
-}
-
-export default async function SessionsPage({ searchParams }: SessionsPageProps) {
-  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
-    searchParams ? await searchParams : undefined
-  );
-
+export default function SessionsPage() {
   return (
     <>
       <ServicesHubSchema />
@@ -66,7 +54,7 @@ export default async function SessionsPage({ searchParams }: SessionsPageProps) 
         ]}
       />
 
-      <SessionsPageContent initialLayoutVariantId={initialLayoutVariantId} />
+      <SessionsPageContent />
     </>
   );
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 /**
  * Git Hooks Installer
@@ -43,7 +44,6 @@ function logInfo(message) {
 function installPrePushHook() {
   const gitHooksDir = path.join(__dirname, '..', '.git', 'hooks');
   const prePushHookPath = path.join(gitHooksDir, 'pre-push');
-  const prePushScriptPath = path.join(__dirname, 'pre-push.js');
 
   // Check if .git directory exists
   if (!fs.existsSync(path.join(__dirname, '..', '.git'))) {

@@ -3,10 +3,6 @@ import { Suspense } from "react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { InvestmentContent } from "@/components/features/investment";
-import {
-  getLayoutVariantFromSearchParams,
-  type LayoutVariantSearchParams,
-} from "@/lib/layout-variants";
 
 export const metadata: Metadata = {
   title: "Investment | Iffer's Pictures | Bergen County NJ",
@@ -24,15 +20,7 @@ export const metadata: Metadata = {
   },
 };
 
-interface InvestmentPageProps {
-  searchParams?: Promise<LayoutVariantSearchParams>;
-}
-
-export default async function InvestmentPage({ searchParams }: InvestmentPageProps) {
-  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
-    searchParams ? await searchParams : undefined
-  );
-
+export default function InvestmentPage() {
   return (
     <>
       <BreadcrumbSchema
@@ -43,7 +31,7 @@ export default async function InvestmentPage({ searchParams }: InvestmentPagePro
       />
 
       <Suspense fallback={<div className="min-h-96" aria-hidden />}>
-        <InvestmentContent initialLayoutVariantId={initialLayoutVariantId} />
+        <InvestmentContent />
       </Suspense>
     </>
   );

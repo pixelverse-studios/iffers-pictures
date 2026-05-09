@@ -2,10 +2,6 @@ import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { AboutPageContent } from "@/components/features/about";
 import { PersonSchema } from "@/components/seo/PersonSchema";
-import {
-  getLayoutVariantFromSearchParams,
-  type LayoutVariantSearchParams,
-} from "@/lib/layout-variants";
 
 export const metadata: Metadata = {
   title: "About Jennifer | Iffer's Pictures | Bergen County Photographer",
@@ -45,19 +41,11 @@ export const metadata: Metadata = {
   },
 };
 
-interface AboutPageProps {
-  searchParams?: Promise<LayoutVariantSearchParams>;
-}
-
-export default async function AboutPage({ searchParams }: AboutPageProps) {
-  const initialLayoutVariantId = getLayoutVariantFromSearchParams(
-    searchParams ? await searchParams : undefined
-  );
-
+export default function AboutPage() {
   return (
     <>
       <PersonSchema />
-      <AboutPageContent initialLayoutVariantId={initialLayoutVariantId} />
+      <AboutPageContent />
     </>
   );
 }
