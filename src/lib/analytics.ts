@@ -46,28 +46,32 @@ function cleanParams(params: AnalyticsParams = {}) {
   return cleaned;
 }
 
-export function trackEvent(name: string, params?: AnalyticsParams) {
-  if (
-    typeof window === "undefined" ||
-    !GA_MEASUREMENT_ID ||
-    typeof window.gtag !== "function"
-  ) {
-    return;
+function getGtag() {
+  if (typeof window === "undefined" || !GA_MEASUREMENT_ID) return null;
+
+  window.dataLayer = window.dataLayer || [];
+
+  if (typeof window.gtag !== "function") {
+    window.gtag = (...args: unknown[]) => {
+      window.dataLayer?.push(args);
+    };
   }
 
-  window.gtag("event", name, cleanParams(params));
+  return window.gtag;
+}
+
+export function trackEvent(name: string, params?: AnalyticsParams) {
+  const gtag = getGtag();
+  if (!gtag) return;
+
+  gtag("event", name, cleanParams(params));
 }
 
 export function trackPageView(path: string) {
-  if (
-    typeof window === "undefined" ||
-    !GA_MEASUREMENT_ID ||
-    typeof window.gtag !== "function"
-  ) {
-    return;
-  }
+  const gtag = getGtag();
+  if (!gtag || typeof window === "undefined") return;
 
-  window.gtag("event", "page_view", {
+  gtag("event", "page_view", {
     page_path: path,
     page_location: window.location.href,
     page_title: document.title,

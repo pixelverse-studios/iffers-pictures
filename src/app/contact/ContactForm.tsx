@@ -158,8 +158,8 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} onChange={handleFormChange} className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit(onSubmit)} onChange={handleFormChange} className="space-y-4">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-5">
         <TextInput
           label="First Name"
           placeholder="Jane"
@@ -194,7 +194,7 @@ export function ContactForm() {
         error={errors.phone?.message}
       />
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-5">
         <TextInput
           label="Event Location"
           placeholder="Venue, town, or not sure yet"
@@ -209,7 +209,7 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-5">
         <TextInput
           label="Event Date"
           type="date"
@@ -273,7 +273,7 @@ export function ContactForm() {
         placeholder="Tell me what you're planning..."
         description="What are you celebrating? Who will be there? What moments matter most to you? Approximately how many guests? Feel free to include anything you think is important for me to know"
         withAsterisk
-        rows={5}
+        rows={4}
         {...register("message")}
         error={errors.message?.message}
       />
@@ -284,7 +284,7 @@ export function ContactForm() {
         </p>
       )}
 
-      <div className="flex justify-end pt-4">
+      <div className="flex justify-end pt-1">
         <Button
           type="submit"
           isLoading={isSubmitting}
