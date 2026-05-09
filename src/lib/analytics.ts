@@ -32,6 +32,7 @@ declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
+    __ga4Configured?: boolean;
   }
 }
 
@@ -55,6 +56,12 @@ function getGtag() {
     window.gtag = (...args: unknown[]) => {
       window.dataLayer?.push(args);
     };
+  }
+
+  if (!window.__ga4Configured) {
+    window.gtag("js", new Date());
+    window.gtag("config", GA_MEASUREMENT_ID, { send_page_view: false });
+    window.__ga4Configured = true;
   }
 
   return window.gtag;

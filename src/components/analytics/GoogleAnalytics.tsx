@@ -20,8 +20,11 @@ export function GoogleAnalytics() {
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 window.gtag = gtag;
-gtag('js', new Date());
-gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false });
+if (!window.__ga4Configured) {
+  gtag('js', new Date());
+  gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false });
+  window.__ga4Configured = true;
+}
           `.trim(),
         }}
       />
