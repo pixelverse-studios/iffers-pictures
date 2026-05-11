@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { SERVICES } from "@/lib/constants";
+import { SERVICES, SITE_CONFIG } from "@/lib/constants";
 import { FAQ_PAGE_COPY } from "@/data/page-copy";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
@@ -87,7 +87,7 @@ function BoardFAQItem({
 
 function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] }) {
   const sections = [
-    { name: "Booking", slug: "general", faqs: generalFaqs },
+    { name: FAQ_PAGE_COPY.general.eyebrow, slug: "general", faqs: generalFaqs },
     ...serviceSections.map((section) => ({
       ...section,
       name: section.name.replace(" Sessions", ""),
@@ -111,11 +111,23 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <section className="board-shell board-gutter pb-10 pt-14 md:pb-14 md:pt-20">
         <div className="max-w-[780px]">
+          <p className="mb-5 text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+            {FAQ_PAGE_COPY.hero.eyebrow}
+          </p>
           <h1 className="font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl">
-            You&apos;ve got questions.
-            <br />
-            I&apos;ve got answers.
+            {FAQ_PAGE_COPY.hero.title}
           </h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">
+            {FAQ_PAGE_COPY.hero.introLead} {SITE_CONFIG.name}.{" "}
+            {FAQ_PAGE_COPY.hero.contactPrompt}{" "}
+            <Link
+              href={FAQ_PAGE_COPY.hero.contactHref}
+              className="font-semibold text-[var(--brand-strong)] underline underline-offset-4"
+            >
+              {FAQ_PAGE_COPY.hero.contactLabel}
+            </Link>
+            .
+          </p>
           <div
             className="mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
             style={{

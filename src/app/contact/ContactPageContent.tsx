@@ -30,7 +30,7 @@ export function ContactPageContent() {
         <div className="board-shell grid md:grid-cols-[0.72fr_1.28fr]">
         <aside className="bg-[var(--brand-strong)] px-8 py-12 text-white md:px-12 md:py-16 lg:px-16">
           <h1 className="font-heading text-5xl font-semibold leading-[1.02] md:text-6xl">
-            Let&apos;s start planning something beautiful.
+            {CONTACT_PAGE_COPY.hero.title}
           </h1>
           <div
             className="mt-8 h-5 w-40 bg-white/72"
@@ -52,7 +52,9 @@ export function ContactPageContent() {
         </aside>
 
         <div className="px-6 py-10 md:px-10 md:py-14 lg:px-14">
-          <h2 className="sr-only">{CONTACT_PAGE_COPY.form.title}</h2>
+          <h2 className="font-heading text-2xl font-semibold text-[var(--foreground)]">
+            {CONTACT_PAGE_COPY.form.title}
+          </h2>
           <p className="mb-8 max-w-xl text-base font-semibold leading-7 text-[var(--text-secondary)]">
             {CONTACT_PAGE_COPY.form.description}
           </p>
@@ -101,7 +103,7 @@ export function ContactPageContent() {
       <section className="board-band bg-[var(--background-warm)]">
         <div className="board-shell px-7 py-9 md:px-12">
           <h2 className="font-heading text-2xl font-semibold text-[var(--foreground)]">
-            Other ways to reach me
+            {CONTACT_PAGE_COPY.sidebar.contactTitle}
           </h2>
           <div className="mt-6 grid gap-7 md:grid-cols-2 md:divide-x md:divide-[var(--border)]">
           <div>
@@ -122,6 +124,24 @@ export function ContactPageContent() {
           </div>
           <div className="md:pl-9">
             <p className="font-heading text-xl font-semibold text-[var(--brand-strong)]">
+              {CONTACT_PAGE_COPY.sidebar.locationLabel}
+            </p>
+            <p className="mt-2 text-sm font-semibold text-[var(--text-secondary)]">
+              {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
+            </p>
+            <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+              {CONTACT_PAGE_COPY.sidebar.serviceArea}
+            </p>
+            <p className="mt-5 font-heading text-xl font-semibold text-[var(--brand-strong)]">
+              {CONTACT_PAGE_COPY.sidebar.availabilityLabel}
+            </p>
+            <p className="mt-2 text-sm font-semibold text-[var(--text-secondary)]">
+              {CONTACT_PAGE_COPY.sidebar.availability}
+            </p>
+            <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+              {CONTACT_PAGE_COPY.sidebar.availabilityDetail}
+            </p>
+            <p className="mt-5 font-heading text-xl font-semibold text-[var(--brand-strong)]">
               {CONTACT_PAGE_COPY.sidebar.followTitle}
             </p>
             {BUSINESS_INFO.social.instagram && (

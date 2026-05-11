@@ -188,7 +188,7 @@ export function ContactForm() {
       <TextInput
         label="Phone Number"
         type="tel"
-        placeholder="(555) 555-5555"
+        placeholder="(201) 555-1234"
         withAsterisk
         {...register("phone")}
         error={errors.phone?.message}

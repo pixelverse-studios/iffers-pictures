@@ -135,15 +135,19 @@ export function BoardTestimonialsLayout() {
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <section className="board-shell px-5 pb-12 pt-14 text-center md:px-8 md:pb-16 md:pt-20">
+        <p className="text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+          {TESTIMONIALS_PAGE_COPY.hero.eyebrow}
+        </p>
         <Quote
-          className="mx-auto h-12 w-12 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
+          className="mx-auto mt-6 h-12 w-12 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
           aria-hidden
         />
         <h1 className="mx-auto mt-7 max-w-[560px] font-heading text-4xl font-semibold italic leading-tight text-[var(--brand-strong)] sm:text-5xl">
-          Kind words from
-          <br />
-          amazing people.
+          {TESTIMONIALS_PAGE_COPY.hero.title}
         </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">
+          {TESTIMONIALS_PAGE_COPY.hero.description}
+        </p>
         <div
           className="mx-auto mt-6 h-5 w-40 bg-[var(--brand-strong)] opacity-70"
           style={{
@@ -192,9 +196,14 @@ export function BoardTestimonialsLayout() {
 
       <section className="bg-[var(--brand-strong)] px-5 py-10 text-white md:px-8 md:py-12">
         <div className="board-shell flex flex-col items-start justify-between gap-7 md:flex-row md:items-center">
-          <p className="font-heading text-2xl font-semibold italic md:text-3xl">
-            Real moments. Real stories. Real people.
-          </p>
+          <div>
+            <p className="font-heading text-2xl font-semibold italic md:text-3xl">
+              {TESTIMONIALS_PAGE_COPY.cta.title}
+            </p>
+            <p className="mt-3 max-w-xl text-base leading-7 text-white/76">
+              {TESTIMONIALS_PAGE_COPY.cta.description}
+            </p>
+          </div>
           <Link
             href={TESTIMONIALS_PAGE_COPY.cta.href}
             className="inline-flex min-h-12 items-center justify-center gap-3 rounded-sm border border-white/55 px-7 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-300 hover:bg-white hover:text-[var(--brand-strong)] active:scale-[0.98]"

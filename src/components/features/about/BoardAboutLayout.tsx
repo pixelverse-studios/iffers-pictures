@@ -1,25 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Eye, HandHeart, School } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ABOUT_PAGE_COPY } from "@/data/page-copy";
-
-const traits = [
-  {
-    title: "Teacher",
-    description: "Middle school math teacher & people person",
-    Icon: School,
-  },
-  {
-    title: "Observer",
-    description: "Noticing the little moments that matter",
-    Icon: Eye,
-  },
-  {
-    title: "Storyteller",
-    description: "Turning your moments into timeless images",
-    Icon: HandHeart,
-  },
-] as const;
 
 export function BoardAboutLayout() {
   return (
@@ -28,13 +10,21 @@ export function BoardAboutLayout() {
         <section className="flex flex-1 px-5 pb-8 pt-12 md:px-8 md:pb-10 md:pt-16">
           <div className="grid w-full gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
             <div className="flex flex-col justify-center py-4 lg:py-8">
+              <p className="mb-6 text-xs font-bold uppercase tracking-[0.25em] text-[var(--brand-strong)]">
+                {ABOUT_PAGE_COPY.hero.location}
+              </p>
               <h1 className="font-heading text-[4.15rem] font-semibold leading-[0.95] text-[var(--foreground)] sm:text-[5.2rem] lg:text-[5.8rem]">
-                {ABOUT_PAGE_COPY.hero.boardTitle}
-              </h1>
-              <p className="mt-8 text-sm font-bold uppercase leading-7 tracking-[0.28em] text-[var(--accent-strong)] md:text-base">
-                The heart behind
+                {ABOUT_PAGE_COPY.hero.firstName}
                 <br />
-                Iffer&apos;s Pictures
+                <span className="text-[var(--brand-strong)]">
+                  {ABOUT_PAGE_COPY.hero.lastName}
+                </span>
+              </h1>
+              <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                {ABOUT_PAGE_COPY.hero.role}
+              </p>
+              <p className="mt-6 max-w-md text-lg italic leading-8 text-[var(--text-secondary)]">
+                {ABOUT_PAGE_COPY.hero.intro}
               </p>
               <div className="mt-8 max-w-[470px] space-y-6 text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg">
                 <p>{ABOUT_PAGE_COPY.bio.paragraphs[0]}</p>
@@ -44,7 +34,7 @@ export function BoardAboutLayout() {
                 href="#board-about-story"
                 className="mt-9 inline-flex w-fit items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-200 hover:text-[var(--brand)]"
               >
-                Read my story
+                {ABOUT_PAGE_COPY.hero.storyLabel}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -64,22 +54,19 @@ export function BoardAboutLayout() {
 
         <section className="border-y border-[var(--border)] bg-[var(--background)] px-5 py-8 md:px-8 md:py-9">
           <div className="grid gap-8 md:grid-cols-3 md:gap-px">
-            {traits.map(({ title, description, Icon }, index) => (
+            {ABOUT_PAGE_COPY.stats.map((stat, index) => (
               <div
-                key={title}
+                key={stat.label}
                 className="flex flex-col items-center text-center md:border-r md:border-[var(--border)] md:px-8 md:last:border-r-0"
               >
-                <Icon
-                  className="h-10 w-10 stroke-[1.4] text-[var(--brand-strong)]"
-                  aria-hidden
-                />
-                <h2 className="mt-5 font-heading text-2xl font-semibold text-[var(--brand-strong)]">
-                  {title}
+                <h2 className="font-heading text-4xl font-semibold text-[var(--brand-strong)]">
+                  {stat.value}
+                  {stat.suffix}
                 </h2>
-                <p className="mt-3 max-w-[220px] text-sm leading-6 text-[var(--text-secondary)]">
-                  {description}
+                <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                  {stat.label}
                 </p>
-                {index < traits.length - 1 && (
+                {index < ABOUT_PAGE_COPY.stats.length - 1 && (
                   <span className="mt-8 h-px w-24 bg-[var(--border)] md:hidden" />
                 )}
               </div>
@@ -102,10 +89,7 @@ export function BoardAboutLayout() {
           />
         </div>
         <div className="flex flex-col justify-center px-7 py-12 md:px-14 lg:px-20">
-          <h2 className="font-heading text-4xl font-semibold text-[var(--brand-strong)] md:text-5xl">
-            Outside the camera
-          </h2>
-          <div className="mt-8 space-y-6 text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg">
+          <div className="space-y-6 text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg">
             <p>{ABOUT_PAGE_COPY.bio.paragraphs[3]}</p>
             <p>{ABOUT_PAGE_COPY.bio.paragraphs[4]}</p>
           </div>
@@ -123,8 +107,11 @@ export function BoardAboutLayout() {
               <span>”</span>
             </div>
             <blockquote className="-mt-5 font-heading text-3xl italic leading-snug md:text-5xl">
-              {ABOUT_PAGE_COPY.bio.paragraphs[6]}
+              {ABOUT_PAGE_COPY.approach.quote}
             </blockquote>
+            <figcaption className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-white/70">
+              {ABOUT_PAGE_COPY.approach.eyebrow} {ABOUT_PAGE_COPY.approach.attribution}
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -134,6 +121,9 @@ export function BoardAboutLayout() {
           <div className="space-y-6 text-base leading-8 text-[var(--text-secondary)] md:text-lg">
             <p>{ABOUT_PAGE_COPY.bio.paragraphs[2]}</p>
             <p>{ABOUT_PAGE_COPY.bio.paragraphs[5]}</p>
+            <p className="font-semibold text-[var(--foreground)]">
+              {ABOUT_PAGE_COPY.bio.paragraphs[6]}
+            </p>
             <div className="space-y-2 pt-2">
               {ABOUT_PAGE_COPY.bio.signoff.map((line) => (
                 <p key={line}>{line}</p>

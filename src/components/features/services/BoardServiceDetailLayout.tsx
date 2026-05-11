@@ -120,26 +120,26 @@ export function BoardServiceDetailLayout({
             <TrackedLink
               href={`/contact?session=${serviceData.slug}`}
               tracking={{
-                cta_label: serviceData.cta.buttonText,
+                cta_label: "Book Your Session",
                 cta_location: "service_hero",
                 destination: `/contact?session=${serviceData.slug}`,
                 service: serviceData.slug,
               }}
               className="inline-flex min-h-11 items-center justify-center rounded-sm border border-white/70 px-6 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white hover:text-[var(--brand-strong)] active:translate-y-0"
             >
-              {serviceData.cta.buttonText}
+              Book Your Session
             </TrackedLink>
             <TrackedLink
-              href="#board-service-gallery"
+              href={`/investment?focus=${serviceData.slug}`}
               tracking={{
-                cta_label: "View galleries",
+                cta_label: "View Investments",
                 cta_location: "service_hero",
-                destination: "#board-service-gallery",
+                destination: `/investment?focus=${serviceData.slug}`,
                 service: serviceData.slug,
               }}
               className="inline-flex min-h-11 items-center gap-3 text-xs font-bold uppercase tracking-[0.16em] text-white/86 transition-all duration-200 hover:translate-x-1 hover:text-white active:translate-x-0"
             >
-              View galleries
+              View Investments
               <ArrowRight className="h-4 w-4" />
             </TrackedLink>
           </div>
@@ -292,7 +292,7 @@ export function BoardServiceDetailLayout({
             <figure className="grid gap-6 md:grid-cols-[0.24fr_0.76fr] md:items-start">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/62">
-                  Client words
+                  {serviceData.testimonials?.eyebrow ?? "Testimonials"}
                 </p>
                 <p className="mt-3 h-px w-16 bg-white/34" aria-hidden />
               </div>
@@ -308,6 +308,32 @@ export function BoardServiceDetailLayout({
           </div>
         </section>
       )}
+
+      <section className="board-shell px-6 py-12 md:px-8 md:py-14">
+        <div className="bg-white px-7 py-10 text-center md:px-12">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-strong)]">
+            {serviceData.pricing.eyebrow}
+          </p>
+          <h2 className="mt-3 font-heading text-3xl font-semibold text-[var(--foreground)] md:text-4xl">
+            {serviceData.pricing.title}
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[var(--text-secondary)]">
+            {serviceData.pricing.description}
+          </p>
+          <TrackedLink
+            href={`/contact?session=${serviceData.slug}`}
+            tracking={{
+              cta_label: "Get a Custom Quote",
+              cta_location: "service_pricing",
+              destination: `/contact?session=${serviceData.slug}`,
+              service: serviceData.slug,
+            }}
+            className="mt-8 inline-flex min-h-11 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-6 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--brand)] active:translate-y-0"
+          >
+            Get a Custom Quote
+          </TrackedLink>
+        </div>
+      </section>
 
       <section className="board-shell px-6 py-12 md:px-8 md:py-14">
         <p className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">

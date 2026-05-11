@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowRight, Camera, Heart } from "lucide-react";
 import { BoardSessionStrip } from "@/components/board";
 import { SESSIONS_PAGE_COPY } from "@/data/page-copy";
 import { SESSIONS, getSessionImage } from "./data";
@@ -68,16 +68,34 @@ export function BoardSessionsHubLayout() {
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <section className="board-shell px-6 py-14 text-center md:px-8 md:py-20">
         <h1 className="mx-auto max-w-4xl whitespace-pre-line font-heading text-5xl font-semibold leading-[1.02] text-[var(--foreground)] md:text-7xl">
-          {SESSIONS_PAGE_COPY.boardHero.title}
+          {SESSIONS_PAGE_COPY.hero.title}
         </h1>
         <p className="mx-auto mt-6 max-w-xl whitespace-pre-line text-lg leading-8 text-[var(--text-secondary)] md:text-xl">
-          {SESSIONS_PAGE_COPY.boardHero.description}
+          {SESSIONS_PAGE_COPY.hero.description}
         </p>
         <BoardSessionsDivider />
       </section>
 
       <section className="board-shell">
         <BoardSessionStrip items={sessionItems} />
+      </section>
+
+      <section className="board-shell px-6 pt-10 md:px-8 md:pt-14">
+        <Link
+          href="/contact"
+          className="group flex flex-col items-center justify-center bg-[var(--background-warm)] px-7 py-10 text-center transition-colors duration-200 hover:bg-[var(--surface)]"
+        >
+          <Camera
+            className="h-9 w-9 stroke-[1.5] text-[var(--brand-strong)]"
+            aria-hidden
+          />
+          <h2 className="mt-5 font-heading text-3xl font-semibold text-[var(--brand-strong)]">
+            Custom Request
+          </h2>
+          <p className="mt-3 max-w-lg text-base leading-7 text-[var(--text-secondary)]">
+            Have something else in mind? Let&apos;s create a session tailored to you.
+          </p>
+        </Link>
       </section>
 
       <section className="board-shell px-6 py-10 md:px-8 md:py-14">
@@ -90,9 +108,6 @@ export function BoardSessionsHubLayout() {
             <h2 className="mt-5 font-heading text-2xl font-semibold text-[var(--brand-strong)] md:text-3xl">
               {SESSIONS_PAGE_COPY.cta.title}
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[var(--text-secondary)] md:text-base">
-              Not sure which session is right for you? I&apos;m here to help you choose.
-            </p>
             <Link
               href={SESSIONS_PAGE_COPY.cta.href}
               className="mx-auto mt-7 inline-flex min-h-11 w-fit items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-7 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--brand)] active:translate-y-0"

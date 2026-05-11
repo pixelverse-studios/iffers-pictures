@@ -15,9 +15,9 @@ const STAGGER_BASE_MS = 150;
 const STAGGER_STEP_MS = 50;
 const BODY_SCROLL_LOCK_CLASS = "overflow-hidden";
 const BOARD_NAV_LINKS = [
+  { label: "About", href: "/about" },
   { label: "Sessions", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "About", href: "/about" },
   { label: "Testimonials", href: "/testimonials" },
   { label: "Investment", href: "/investment" },
   { label: "FAQ", href: "/faq" },

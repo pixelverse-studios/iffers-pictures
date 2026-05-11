@@ -1,7 +1,7 @@
 export const HOME_PAGE_COPY = {
   boardHero: {
-    title: "The feeling,\nthen the\nphotograph",
-    description: "Honest moments.\nBeautifully remembered.\nForever yours.",
+    title: "Heartfelt Moments,\nBeautifully Captured",
+    description: "Because every special moment deserves to last forever.",
     primaryLabel: "Inquire",
     primaryHref: "/contact",
     secondaryLabel: "Meet Jenn",
@@ -37,13 +37,6 @@ export const HOME_PAGE_COPY = {
     heading: "Sessions",
     ctaLabel: "View all",
     ctaHref: "/services",
-    boardSubtitles: {
-      events: "Celebrations",
-      family: "Togetherness",
-      maternity: "The beautiful wait",
-      "couples-engagement": "Your connection",
-      portrait: "Just because",
-    },
   },
   stats: [
     { value: "200+", label: "Events Captured" },

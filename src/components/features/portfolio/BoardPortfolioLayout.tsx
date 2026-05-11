@@ -217,9 +217,11 @@ export function BoardPortfolioLayout() {
             {PORTFOLIO_PAGE_COPY.hero.eyebrow}
           </p>
           <h1 className="max-w-[820px] font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl">
-            Stories
+            {PORTFOLIO_PAGE_COPY.hero.titleLead}
             <br />
-            <span className="block md:inline">I&apos;ve had the honor to tell</span>
+            <span className="text-[var(--brand-strong)]">
+              {PORTFOLIO_PAGE_COPY.hero.titleAccent}
+            </span>
           </h1>
           <div
             className="mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"

@@ -22,7 +22,6 @@ const sessionItems = SESSIONS.map((session) => {
 
   return {
     title: session.shortName,
-    description: HOME_PAGE_COPY.sessions.boardSubtitles[session.slug],
     href: `/services/${session.slug}`,
     image,
   };
@@ -86,21 +85,80 @@ function BoardHomeHero() {
 
 function BoardImageStrip() {
   return (
-    <section className="grid border-y border-white bg-white md:grid-cols-3">
-      {stripImages.map((image) => (
-        <div
-          key={image.id}
-          className="relative min-h-[230px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[320px] md:border-b-0 md:border-r md:last:border-r-0"
+    <section className="bg-white">
+      <div className="grid border-y border-white md:grid-cols-3">
+        {stripImages.map((image) => (
+          <div
+            key={image.id}
+            className="relative min-h-[230px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[320px] md:border-b-0 md:border-r md:last:border-r-0"
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover"
+            />
+          </div>
+        ))}
+      </div>
+      <div className="board-shell board-gutter flex justify-center py-7">
+        <TrackedLink
+          href={HOME_PAGE_COPY.portfolio.ctaHref}
+          tracking={{
+            cta_label: HOME_PAGE_COPY.portfolio.ctaLabel,
+            cta_location: "home_portfolio_preview",
+            destination: HOME_PAGE_COPY.portfolio.ctaHref,
+          }}
+          className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-200 hover:text-[var(--brand)]"
         >
+          {HOME_PAGE_COPY.portfolio.ctaLabel}
+          <ArrowRight className="h-4 w-4" />
+        </TrackedLink>
+      </div>
+    </section>
+  );
+}
+
+function BoardMeetJenn() {
+  return (
+    <section className="board-band bg-[var(--background)]">
+      <div className="board-shell board-gutter grid gap-8 py-12 md:grid-cols-[0.42fr_0.58fr] md:items-center md:py-16">
+        <div className="relative mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-md bg-[var(--background-warm)] shadow-sm md:mx-0">
           <Image
-            src={image.src}
-            alt={image.alt}
+            src="/headshot.jpg"
+            alt={HOME_PAGE_COPY.meetJenn.imageAlt}
             fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover"
+            sizes="(max-width: 768px) 86vw, 360px"
+            className="object-cover object-[50%_30%]"
           />
         </div>
-      ))}
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+            {HOME_PAGE_COPY.meetJenn.eyebrow}
+          </p>
+          <h2 className="mt-4 max-w-2xl font-heading text-3xl font-semibold leading-tight text-[var(--foreground)] md:text-4xl">
+            {HOME_PAGE_COPY.meetJenn.heading}
+          </h2>
+          <div className="mt-6 max-w-2xl space-y-4 text-base leading-8 text-[var(--text-secondary)] md:text-lg">
+            {HOME_PAGE_COPY.meetJenn.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+          <TrackedLink
+            href={HOME_PAGE_COPY.meetJenn.ctaHref}
+            tracking={{
+              cta_label: HOME_PAGE_COPY.meetJenn.ctaLabel,
+              cta_location: "home_meet_jenn",
+              destination: HOME_PAGE_COPY.meetJenn.ctaHref,
+            }}
+            className="mt-8 inline-flex min-h-11 w-fit items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-6 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[var(--brand)]"
+          >
+            {HOME_PAGE_COPY.meetJenn.ctaLabel}
+            <ArrowRight className="h-4 w-4" />
+          </TrackedLink>
+        </div>
+      </div>
     </section>
   );
 }
@@ -109,9 +167,7 @@ function BoardSessionsPreview() {
   return (
     <section className="bg-white px-5 py-8 md:px-8 md:py-10">
       <h2 className="text-center font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
-        {HOME_PAGE_COPY.sessions.heading === "Sessions"
-          ? "Explore sessions"
-          : HOME_PAGE_COPY.sessions.heading}
+        {HOME_PAGE_COPY.sessions.heading}
       </h2>
       <div className="board-shell-narrow mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {sessionItems.map((item) => (
@@ -138,9 +194,6 @@ function BoardSessionsPreview() {
             <p className="mt-3 text-xs font-bold uppercase tracking-[0.16em] text-[var(--brand-strong)]">
               {item.title}
             </p>
-            <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">
-              {item.description}
-            </p>
           </TrackedLink>
         ))}
       </div>
@@ -162,6 +215,18 @@ function BoardQuotePreview() {
           <figcaption className="mt-5 text-sm text-[var(--text-secondary)]">
             — {quote.author}
           </figcaption>
+          <TrackedLink
+            href={HOME_PAGE_COPY.testimonials.ctaHref}
+            tracking={{
+              cta_label: HOME_PAGE_COPY.testimonials.ctaLabel,
+              cta_location: "home_testimonial_preview",
+              destination: HOME_PAGE_COPY.testimonials.ctaHref,
+            }}
+            className="mt-7 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-200 hover:text-[var(--brand)]"
+          >
+            {HOME_PAGE_COPY.testimonials.ctaLabel}
+            <ArrowRight className="h-4 w-4" />
+          </TrackedLink>
         </figure>
         <div className="relative min-h-[230px] overflow-hidden">
           <Image
@@ -177,13 +242,71 @@ function BoardQuotePreview() {
   );
 }
 
+function BoardStatsBand() {
+  return (
+    <section className="board-band border-y border-[var(--border)] bg-white">
+      <div className="board-shell board-gutter flex flex-wrap items-center justify-center py-6">
+        {HOME_PAGE_COPY.stats.map((stat, index) => (
+          <div key={stat.label} className="flex items-center">
+            <div className="px-6 text-center md:px-10">
+              <p className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                {stat.label}
+              </p>
+            </div>
+            {index < HOME_PAGE_COPY.stats.length - 1 && (
+              <div className="hidden h-10 w-px bg-[var(--border)] md:block" />
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BoardFinalCta() {
+  return (
+    <section className="board-band bg-[var(--background)]">
+      <div className="board-shell board-gutter py-14 text-center md:py-20">
+        <h2 className="mx-auto max-w-2xl font-heading text-4xl font-semibold leading-tight text-[var(--foreground)] md:text-5xl">
+          {HOME_PAGE_COPY.finalCta.titleLead}
+          <br />
+          <span className="text-[var(--brand-strong)]">
+            {HOME_PAGE_COPY.finalCta.titleAccent}
+          </span>
+        </h2>
+        <p className="mt-5 text-lg text-[var(--text-secondary)]">
+          {HOME_PAGE_COPY.finalCta.description}
+        </p>
+        <TrackedLink
+          href={HOME_PAGE_COPY.finalCta.ctaHref}
+          tracking={{
+            cta_label: HOME_PAGE_COPY.finalCta.ctaLabel,
+            cta_location: "home_final_cta",
+            destination: HOME_PAGE_COPY.finalCta.ctaHref,
+          }}
+          className="mt-8 inline-flex min-h-12 items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-8 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[var(--brand)]"
+        >
+          {HOME_PAGE_COPY.finalCta.ctaLabel}
+          <ArrowRight className="h-4 w-4" />
+        </TrackedLink>
+      </div>
+    </section>
+  );
+}
+
 export function BoardHomeLayout() {
   return (
     <>
       <BoardHomeHero />
       <BoardImageStrip />
+      <BoardMeetJenn />
       <BoardSessionsPreview />
       <BoardQuotePreview />
+      <BoardStatsBand />
+      <BoardFinalCta />
     </>
   );
 }

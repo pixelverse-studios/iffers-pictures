@@ -1,12 +1,5 @@
 import Image from "next/image";
-import {
-  ArrowRight,
-  Camera,
-  Check,
-  Clock,
-  FileText,
-  MapPin,
-} from "lucide-react";
+import { ArrowRight, Camera, Check, Clock, FileText, MapPin } from "lucide-react";
 import { INVESTMENT_PAGE_COPY } from "@/data/page-copy";
 import { SESSION_INCLUSIONS, WHATS_INCLUDED } from "./data";
 import {
@@ -67,7 +60,7 @@ export function BoardInvestmentLayout() {
       <section className="board-shell grid overflow-hidden bg-[var(--background)] md:min-h-[660px] md:grid-cols-[0.92fr_1.08fr]">
         <div className="relative z-10 flex flex-col justify-center px-6 py-14 md:px-10 lg:px-16">
           <h1 className="max-w-[620px] font-heading text-5xl font-semibold leading-[1.04] text-[var(--foreground)] md:text-6xl">
-            Custom investment for what matters most
+            {INVESTMENT_PAGE_COPY.hero.title}
           </h1>
           <p className="mt-7 max-w-[560px] text-lg font-semibold leading-8 text-[var(--text-secondary)]">
             {INVESTMENT_PAGE_COPY.hero.description}
@@ -105,18 +98,6 @@ export function BoardInvestmentLayout() {
               className="inline-flex min-h-13 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-8 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-sm transition-all duration-300 hover:bg-[var(--brand)] active:scale-[0.98]"
             >
               {INVESTMENT_PAGE_COPY.cta.label}
-            </TrackedLink>
-            <TrackedLink
-              href="/portfolio"
-              tracking={{
-                cta_label: "View sample galleries",
-                cta_location: "investment_hero_secondary",
-                destination: "/portfolio",
-              }}
-              className="inline-flex min-h-13 items-center gap-4 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
-            >
-              View sample galleries
-              <ArrowRight className="h-4 w-4" aria-hidden />
             </TrackedLink>
           </div>
         </div>
@@ -170,13 +151,13 @@ export function BoardInvestmentLayout() {
             <TrackedLink
               href={INVESTMENT_PAGE_COPY.cta.href}
               tracking={{
-                cta_label: "Get a custom quote",
+                cta_label: INVESTMENT_PAGE_COPY.cta.label,
                 cta_location: "investment_quote_section",
                 destination: INVESTMENT_PAGE_COPY.cta.href,
               }}
               className="mt-8 inline-flex items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
             >
-              Get a custom quote
+              {INVESTMENT_PAGE_COPY.cta.label}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </TrackedLink>
 
@@ -186,6 +167,7 @@ export function BoardInvestmentLayout() {
                 return (
                   <TrackedLink
                     key={session.slug}
+                    id={`session-${session.slug}`}
                     href={`/services/${session.slug}`}
                     tracking={{
                       cta_label: session.name,
