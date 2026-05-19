@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   Check,
@@ -8,7 +8,9 @@ import {
   ClipboardList,
   Copy,
   Mail,
+  SlidersHorizontal,
   Trash2,
+  X,
 } from "lucide-react";
 
 const STORAGE_KEY = "iffers-image-review-selections";
@@ -78,6 +80,9 @@ export function ImageReviewClient({ items }: Props) {
   const [hydrated, setHydrated] = useState(false);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
   const [copyFeedback, setCopyFeedback] = useState(false);
+  const [isMobileControlsOpen, setIsMobileControlsOpen] = useState(false);
+  const mobileControlsRef = useRef<HTMLDivElement | null>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
 
   // Restore selection from localStorage
   useEffect(() => {
@@ -106,6 +111,60 @@ export function ImageReviewClient({ items }: Props) {
       // ignore
     }
   }, [selected, hydrated]);
+
+  useEffect(() => {
+    if (!isMobileControlsOpen) return;
+
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+
+    function getFocusable() {
+      const panel = mobileControlsRef.current;
+      if (!panel) return [];
+      return Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+    }
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      getFocusable()[0]?.focus();
+    });
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsMobileControlsOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const items = getFocusable();
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.body.classList.add("overflow-hidden");
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.body.classList.remove("overflow-hidden");
+      window.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused.current?.focus();
+      previouslyFocused.current = null;
+    };
+  }, [isMobileControlsOpen]);
 
   const grouped = useMemo(() => groupItems(items), [items]);
   const services = useMemo(() => Object.keys(grouped), [grouped]);
@@ -171,6 +230,14 @@ export function ImageReviewClient({ items }: Props) {
     setSelected(new Set());
   }
 
+  function jumpToGroup(id: string) {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    setIsMobileControlsOpen(false);
+  }
+
   function toggleCollapsed(key: string) {
     setCollapsed((prev) => {
       const next = new Set(prev);
@@ -206,7 +273,7 @@ export function ImageReviewClient({ items }: Props) {
             Internal image review
           </p>
           <h1 className="font-heading text-5xl font-semibold leading-[1.02] text-[var(--foreground)] sm:text-6xl md:text-7xl">
-            Mark the images Jenn wants removed.
+            Review your sites images
           </h1>
           <p className="mt-6 max-w-[600px] text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg">
             Select any site image, then send the generated list to Phil. Your
@@ -240,18 +307,72 @@ export function ImageReviewClient({ items }: Props) {
         </aside>
       </section>
 
-      <div className="sticky top-16 z-30 border-y border-[var(--border)] bg-white/92 backdrop-blur-md md:top-[72px]">
-        <div className="board-shell board-gutter flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="sticky top-16 z-30 border-y border-[var(--border)] bg-white/94 backdrop-blur-md md:top-[72px]">
+        <div className="board-shell board-gutter flex items-center justify-between gap-2 py-3 md:hidden">
+          <button
+            type="button"
+            onClick={() => setIsMobileControlsOpen(true)}
+            aria-expanded={isMobileControlsOpen}
+            className="inline-flex min-h-11 min-w-0 flex-1 items-center justify-between rounded-sm border border-[var(--border)] bg-white px-4 text-left transition-all duration-200 active:scale-[0.98]"
+          >
+            <span className="flex min-w-0 items-center gap-3">
+              <SlidersHorizontal className="h-4 w-4 shrink-0 text-[var(--brand-strong)]" />
+              <span className="truncate text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--foreground)]">
+                Groups
+              </span>
+            </span>
+            <span className="shrink-0 font-mono text-[11px] font-bold text-[var(--brand-strong)]">
+              {selectedItems.length}/{items.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={copyList}
+            disabled={selectedItems.length === 0}
+            aria-label={copyFeedback ? "Copied selected image list" : "Copy selected image list"}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-[var(--border)] bg-white text-[var(--foreground)] transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 active:scale-[0.96]"
+          >
+            {copyFeedback ? (
+              <Check className="h-4 w-4 text-emerald-600" />
+            ) : (
+              <Copy className="h-4 w-4" />
+            )}
+          </button>
+
+          {mailtoTooLong ? (
+            <button
+              type="button"
+              disabled
+              aria-label="Email list is too long; copy instead"
+              className="inline-flex h-11 w-11 shrink-0 cursor-not-allowed items-center justify-center rounded-sm bg-[var(--text-muted)] text-white opacity-70"
+            >
+              <Mail className="h-4 w-4" />
+            </button>
+          ) : (
+            <a
+              href={selectedItems.length > 0 ? mailto : undefined}
+              aria-disabled={selectedItems.length === 0}
+              aria-label="Send selected image list to Phil"
+              className={[
+                "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm text-white transition-all duration-200 active:scale-[0.96]",
+                selectedItems.length === 0
+                  ? "pointer-events-none cursor-not-allowed bg-[var(--text-muted)] opacity-55"
+                  : "bg-[var(--brand-strong)]",
+              ].join(" ")}
+            >
+              <Mail className="h-4 w-4" />
+            </a>
+          )}
+        </div>
+
+        <div className="board-shell board-gutter hidden flex-col gap-4 py-4 md:flex lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-2">
             {groupSummaries.map((group) => (
               <button
                 key={group.id}
                 type="button"
-                onClick={() => {
-                  document
-                    .getElementById(group.id)
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
+                onClick={() => jumpToGroup(group.id)}
                 className={[
                   "inline-flex min-h-9 items-center gap-2 rounded-sm border px-3 text-[10px] font-bold uppercase tracking-[0.14em] transition-all duration-300 active:scale-[0.98]",
                   group.selected > 0
@@ -338,6 +459,88 @@ export function ImageReviewClient({ items }: Props) {
           )}
         </div>
       </div>
+
+      {isMobileControlsOpen && (
+        <div
+          ref={mobileControlsRef}
+          className="fixed inset-0 z-50 md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image review groups"
+        >
+          <button
+            type="button"
+            aria-label="Close image review controls"
+            onClick={() => setIsMobileControlsOpen(false)}
+            className="absolute inset-0 bg-[var(--foreground)]/34"
+          />
+          <div className="absolute inset-x-0 bottom-0 max-h-[82dvh] overflow-hidden border-t border-[var(--border)] bg-[var(--surface)] shadow-[0_-24px_60px_rgba(26,32,48,0.20)]">
+            <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">
+                  Image groups
+                </p>
+                <p className="mt-1 text-sm font-bold text-[var(--foreground)]">
+                  {selectedItems.length} selected
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsMobileControlsOpen(false)}
+                aria-label="Close image review controls"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[var(--border)] text-[var(--foreground)] active:scale-[0.96]"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="max-h-[calc(82dvh-9.5rem)] overflow-y-auto px-5 py-4">
+              <div className="grid grid-cols-1 gap-2">
+                {groupSummaries.map((group) => (
+                  <button
+                    key={group.id}
+                    type="button"
+                    onClick={() => jumpToGroup(group.id)}
+                    className={[
+                      "flex min-h-12 items-center justify-between rounded-sm border px-4 text-left transition-all duration-200 active:scale-[0.98]",
+                      group.selected > 0
+                        ? "border-[var(--brand-strong)] bg-[var(--brand-strong)] text-white"
+                        : "border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]",
+                    ].join(" ")}
+                  >
+                    <span className="min-w-0 truncate text-[12px] font-bold uppercase tracking-[0.14em]">
+                      {group.subCategory}
+                    </span>
+                    <span className="ml-3 shrink-0 font-mono text-[11px] font-bold opacity-80">
+                      {group.selected}/{group.total}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 border-t border-[var(--border)] bg-[var(--background-warm)] p-4">
+              <button
+                type="button"
+                onClick={() => toggleCollapsed(ALL_GROUPS_KEY)}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--foreground)] active:scale-[0.98]"
+              >
+                <ChevronDown className="h-4 w-4" />
+                Collapse
+              </button>
+              <button
+                type="button"
+                onClick={clearAll}
+                disabled={selectedItems.length === 0}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-secondary)] disabled:cursor-not-allowed disabled:opacity-40 active:scale-[0.98]"
+              >
+                <Trash2 className="h-4 w-4" />
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="board-shell space-y-10 pb-16 pt-8 md:pb-24 md:pt-12">
         {services.map((service) => {
