@@ -43,6 +43,7 @@
 - Restored the approved prior-layout copy across the promoted new layout, including homepage sections, page headers, CTAs, and contact details.
 - Reintroduced missing homepage content for Meet Jenn, portfolio, testimonials, stats, and the final inquiry prompt.
 - Restored key page wording across About, Sessions, service details, Portfolio, Testimonials, Investment, FAQ, Inquire, and header navigation.
+- Refreshed the internal image review page so Jenn can review current site images, mark removals, and send the removal list to Phil from a cleaner themed interface.
 
 ## Notes for internal team
 
@@ -99,6 +100,7 @@
 - Reduced contact form vertical spacing by tightening row gaps, message height, and submit-button top padding.
 - Copy restoration keeps the new board layout structure while reusing the prior approved page copy and CTA labels where the new-only wording diverged.
 - Service detail `View Investments` links now target matching `session-[slug]` anchors on the Investment page.
+- Updated `/image-review` styling and controls while preserving the existing localStorage selection state, copy-to-clipboard fallback, and generated email workflow.
 
 ## Changed URLs
 
@@ -162,3 +164,4 @@
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/contact
+- https://ifferspictures.com/image-review
