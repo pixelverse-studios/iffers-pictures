@@ -7,6 +7,7 @@
 - Updated the inquire page wording, next steps, and location/travel details based on Jenn's feedback.
 - Updated event, maternity, couples, portrait, and session FAQ wording based on Jenn's feedback.
 - Updated the sessions page image strips so they use a soft blur by default, smoothly unblur and zoom on hover, and keep text readable without dimming the full image.
+- Updated the investment page copy, session details, included items, and starting investment amounts based on Jenn's feedback.
 
 ## Notes for internal team
 
@@ -15,6 +16,7 @@
 - DEV-924: Removed the contact page availability block and kept the travel wording scoped to the location block.
 - DEV-925: Removed the event fast-share benefit, updated session duration copy, and removed style-guide promises from targeted FAQs.
 - Updated `BoardSessionStrip` hover styling for the sessions hub.
+- DEV-926: Reworked investment page data and layout copy while preserving existing imagery and session links.
 
 ## Changed URLs
 
