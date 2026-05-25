@@ -6,9 +6,10 @@ import { ALL_TESTIMONIALS } from "@/data/testimonials";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import {
   PORTFOLIO_ITEMS,
-  getServiceThumbnail,
   type PortfolioItem,
 } from "@/components/features/portfolio/portfolioData";
+
+const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 
 const heroImage =
   PORTFOLIO_ITEMS.find((item) => item.id === 99) ?? PORTFOLIO_ITEMS[0];
@@ -17,8 +18,51 @@ const stripImages = [34, 96, 100]
   .map((id) => PORTFOLIO_ITEMS.find((item) => item.id === id))
   .filter((item): item is PortfolioItem => Boolean(item));
 
+const sessionImageOverrides: Record<string, { key: string; alt: string }> = {
+  events: {
+    key: "events/baby-shower/baby-shower-02.jpg",
+    alt: "Mommy to be chair sign with tulle bow and blue balloon garland at venue",
+  },
+  family: {
+    key: "family/family-25.jpg",
+    alt: "Toddler on dad's shoulders laughing with mom reaching up in autumn park",
+  },
+  maternity: {
+    key: "maternity/maternity-01.jpg",
+    alt: "Studio maternity portrait with white roses and baby breath against bare bump",
+  },
+  "couples-engagement": {
+    key: "events/engagement/engagement-14.jpg",
+    alt: "Close-up of engagement ring held in hand with Christmas tree bokeh lights",
+  },
+  portrait: {
+    key: "portrait/portrait-01.jpg",
+    alt: "Portrait session for Iffer's Pictures",
+  },
+};
+
+function getHomepageSessionImage(slug: string) {
+  const override = sessionImageOverrides[slug];
+  if (!override) return heroImage;
+
+  const existing = PORTFOLIO_ITEMS.find((item) =>
+    item.src.endsWith(`/${override.key}`)
+  );
+
+  return (
+    existing ?? {
+      id: `homepage-${slug}`,
+      src: `${R2_BASE}/${override.key}`,
+      alt: override.alt,
+      service: "Portrait",
+      subCategory: "Portrait",
+      aspectRatio: "portrait",
+    }
+  );
+}
+
 const sessionItems = SESSIONS.map((session) => {
-  const image = getServiceThumbnail(session.slug) ?? heroImage;
+  const image = getHomepageSessionImage(session.slug);
 
   return {
     title: session.shortName,
