@@ -55,8 +55,8 @@ export const couplesEngagementData: ServicePageData = {
         description: "We'll discuss locations, outfits, and your vision. For proposals, we'll coordinate every detail — the timing, the location, and my hiding spot.",
       },
       {
-        title: "60-90 Minute Session",
-        description: "Plenty of time for multiple outfits, locations, and poses. No rushing—just enjoying the moment together.",
+        title: "45-60 Minute Session",
+        description: "Plenty of time to capture gorgeous photos of the surprise proposal and some portraits of the newly engaged couple!",
       },
       {
         title: "Location Flexibility",
@@ -125,7 +125,7 @@ export const couplesEngagementData: ServicePageData = {
       },
       {
         question: "What should we wear?",
-        answer: "Coordinate without matching exactly. Solid colors photograph beautifully—avoid busy patterns or logos. Bring 1-2 outfit changes: one dressy, one casual. I'll send a detailed style guide after booking!",
+        answer: "Coordinate without matching exactly. Solid colors photograph beautifully—avoid busy patterns or logos. Bring 1-2 outfit changes: one dressy, one casual.",
       },
       {
         question: "How do you handle surprise proposals?",

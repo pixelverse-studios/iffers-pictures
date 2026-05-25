@@ -37,11 +37,6 @@ export const eventsData: ServicePageData = {
         description: "You spent weeks on the centerpieces, the cake, the favors. Those details deserve their own spotlight, and I make sure they get it.",
         icon: "Sparkles",
       },
-      {
-        title: "Shareable the Same Week",
-        description: "Guests are asking for photos before the confetti's even swept up. A fast turnaround means you're sharing memories—not waiting on them.",
-        icon: "Camera",
-      },
     ],
   },
 
