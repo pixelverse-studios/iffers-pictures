@@ -115,7 +115,7 @@ export const familyData: ServicePageData = {
       },
       {
         question: "What should we wear?",
-        answer: "Coordinate, don't match! Choose a color palette of 2-3 complementary colors. Solid colors photograph best—avoid busy patterns, logos, or graphics. Layers add visual interest. I'll send you a detailed styling guide after booking with specific suggestions based on your session location and season.",
+        answer: "Coordinate, don't match! Choose a color palette of 2-3 complementary colors. Solid colors photograph best—avoid busy patterns, logos, or graphics. Layers add visual interest.",
       },
       {
         question: "Where do you recommend shooting?",
