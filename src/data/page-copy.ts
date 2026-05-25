@@ -147,14 +147,14 @@ export const TESTIMONIALS_PAGE_COPY = {
 
 export const INVESTMENT_PAGE_COPY = {
   hero: {
-    title: "Investment",
+    title: "Details & Investment",
     description:
-      "Each session is thoughtfully tailored to your vision. Reach out and I'll put together a package that fits.",
+      "Every session is unique, and I believe your photography experience should feel personal, meaningful, and true to you. Whether you're celebrating a milestone, documenting a growing family, or simply wanting to hold onto a season of life, I’ll work with you to create a session that fits your vision naturally and comfortably.",
   },
   cta: {
-    title: "Custom quotes based on your vision.",
+    title: "The moments may pass quickly, but the memories deserve to last.",
     description:
-      "Every celebration and session is unique. Tell me about yours and I'll create a package just for you.",
+      "I’d love to hear what you’re envisioning and create something meaningful together.",
     label: "Inquire Here",
     href: "/contact",
   },

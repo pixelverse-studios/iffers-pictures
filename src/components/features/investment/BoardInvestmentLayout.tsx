@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { ArrowRight, Camera, Check, Clock, FileText, MapPin } from "lucide-react";
 import { INVESTMENT_PAGE_COPY } from "@/data/page-copy";
-import { SESSION_INCLUSIONS, WHATS_INCLUDED } from "./data";
+import {
+  SESSION_INCLUSIONS,
+  STARTING_INVESTMENTS,
+  WHATS_INCLUDED,
+} from "./data";
 import {
   PORTFOLIO_ITEMS,
   type PortfolioItem,
@@ -15,23 +19,23 @@ const detailImage =
 
 const investmentFactors = [
   {
-    title: "Session type",
-    description: "The kind of session you choose",
+    title: "Session Type",
+    description: "The type of session you’re looking for",
     Icon: Camera,
   },
   {
     title: "Coverage",
-    description: "The amount of time we spend together",
+    description: "The amount of time needed to capture your moments naturally",
     Icon: Clock,
   },
   {
     title: "Location",
-    description: "Travel and permit needs",
+    description: "Travel, venue access, or permit requirements",
     Icon: MapPin,
   },
   {
-    title: "Details",
-    description: "Add-ons and album options",
+    title: "Custom Details",
+    description: "Albums, additional coverage, and personalized add-ons",
     Icon: FileText,
   },
 ] as const;
@@ -68,7 +72,7 @@ export function BoardInvestmentLayout() {
 
           <div className="mt-10 max-w-[560px]">
             <h2 className="font-heading text-3xl font-semibold text-[var(--brand-strong)]">
-              What&apos;s included
+              What&apos;s Included in Every Session
             </h2>
             <ul className="mt-6 space-y-4">
               {WHATS_INCLUDED.map((item) => (
@@ -118,8 +122,11 @@ export function BoardInvestmentLayout() {
       <section className="board-band border-y border-[var(--border)] bg-[var(--background-warm)]">
         <div className="board-shell px-6 py-9 md:px-10">
           <h2 className="font-heading text-3xl font-semibold text-[var(--brand-strong)]">
-            What affects your investment
+            Session Details
           </h2>
+          <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-[var(--text-secondary)]">
+            Pricing varies depending on session type, coverage time, location, and any custom details or add-ons. Every session is tailored to best fit your vision and what matters most to you.
+          </p>
           <div className="mt-8 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
             {investmentFactors.map(({ title, description, Icon }) => (
               <div key={title} className="text-center">
@@ -148,6 +155,30 @@ export function BoardInvestmentLayout() {
             <p className="mt-4 max-w-xl text-base leading-7 text-[var(--text-secondary)]">
               {INVESTMENT_PAGE_COPY.cta.description}
             </p>
+
+            <div className="mt-10 max-w-xl border-y border-[var(--border)] py-8">
+              <h2 className="font-heading text-3xl font-semibold text-[var(--brand-strong)]">
+                Starting Investment
+              </h2>
+              <dl className="mt-6 divide-y divide-[var(--border)]">
+                {STARTING_INVESTMENTS.map((session) => (
+                  <div
+                    key={session.name}
+                    className="flex flex-col gap-1 py-3 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <dt className="font-heading text-lg font-semibold text-[var(--foreground)]">
+                      {session.name}
+                    </dt>
+                    <dd className="text-sm font-bold uppercase tracking-[0.12em] text-[var(--brand-strong)]">
+                      {session.price}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-5 text-sm font-semibold leading-6 text-[var(--text-secondary)]">
+                Full pricing and custom package details are shared after inquiry.
+              </p>
+            </div>
             <TrackedLink
               href={INVESTMENT_PAGE_COPY.cta.href}
               tracking={{
