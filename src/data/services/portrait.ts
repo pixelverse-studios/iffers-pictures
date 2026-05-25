@@ -39,7 +39,7 @@ export const portraitData: ServicePageData = {
       },
       {
         title: "Quick Turnaround",
-        description: "Need photos fast? Most sessions are 30-60 minutes with edited images delivered within days, not weeks.",
+        description: "Need photos fast? Most sessions are 15-30 minutes with edited images delivered within days, not weeks.",
         icon: "Clock",
       },
     ],
@@ -56,8 +56,8 @@ export const portraitData: ServicePageData = {
         description: "We'll discuss your goals, industry, and wardrobe options. Corporate lawyer? Creative director? Actor? Each requires a different approach.",
       },
       {
-        title: "Efficient Session Time",
-        description: "Sessions run 30-60 minutes depending on your package. We'll capture multiple expressions, angles, and looks to give you options.",
+        title: "15-30 Minute Session",
+        description: "Sessions run 15-30 minutes depending on your package. We'll capture multiple expressions, angles, and looks to give you options.",
       },
       {
         title: "On-the-Spot Review",
