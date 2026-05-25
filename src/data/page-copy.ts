@@ -17,7 +17,7 @@ export const HOME_PAGE_COPY = {
     eyebrow: "Meet Jenn",
     imageAlt: "Jennifer Matone, photographer behind Iffer's Pictures",
     heading:
-      "Hi, I'm Jennifer — a Bergen County photographer preserving life's most meaningful moments.",
+      "Hi, I'm Jennifer — a Bergen County photographer thoughtfully capturing life's most meaningful moments.",
     paragraphs: [
       "Photography has always felt natural to me: the laughter, the light, and the quiet in-between moments that become the memories we hold onto.",
       "Whether I'm photographing a milestone celebration, a growing family, or a season worth remembering, my goal is to create timeless images that bring you back to how it felt.",
@@ -40,7 +40,7 @@ export const HOME_PAGE_COPY = {
   },
   stats: [
     { value: "200+", label: "Events Captured" },
-    { value: "5+", label: "Years Experience" },
+    { value: "6+", label: "Years Experience" },
     { value: "100%", label: "Facebook Rating" },
   ],
   finalCta: {
@@ -77,7 +77,7 @@ export const ABOUT_PAGE_COPY = {
   },
   stats: [
     { value: 100, suffix: "+", label: "Events Captured" },
-    { value: 5, suffix: "+", label: "Years Experience" },
+    { value: 6, suffix: "+", label: "Years Experience" },
     { value: 100, suffix: "%", label: "Facebook Rating" },
   ],
   approach: {
