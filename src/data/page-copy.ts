@@ -1,3 +1,5 @@
+import { MapPin, Plane } from "lucide-react";
+
 export const HOME_PAGE_COPY = {
   boardHero: {
     title: "Heartfelt Moments,\nBeautifully Captured",
@@ -17,7 +19,7 @@ export const HOME_PAGE_COPY = {
     eyebrow: "Meet Jenn",
     imageAlt: "Jennifer Matone, photographer behind Iffer's Pictures",
     heading:
-      "Hi, I'm Jennifer — a Bergen County photographer thoughtfully capturing life's most meaningful moments.",
+      "Hi, I’m Jennifer — a photographer capturing life’s most meaningful moments with warmth and intention.",
     paragraphs: [
       "Photography has always felt natural to me: the laughter, the light, and the quiet in-between moments that become the memories we hold onto.",
       "Whether I'm photographing a milestone celebration, a growing family, or a season worth remembering, my goal is to create timeless images that bring you back to how it felt.",
@@ -39,14 +41,14 @@ export const HOME_PAGE_COPY = {
     ctaHref: "/services",
   },
   stats: [
-    { value: "200+", label: "Events Captured" },
-    { value: "6+", label: "Years Experience" },
-    { value: "100%", label: "Facebook Rating" },
+    { value: MapPin , label: "Based in Bergen County, NJ" },
+    { value: "6+", label: "Years Behind the Camera" },
+    { value: Plane, label: "Available for Travel" },
   ],
   finalCta: {
-    titleLead: "Your story deserves",
-    titleAccent: "to be told beautifully.",
-    description: "Let's start with a conversation.",
+    titleLead: "Thoughtfully Capturing the Moments",
+    titleAccent: "You'll Always Want to Hold Onto.",
+    description: "I'd love to hear about what you're envisioning. ",
     ctaLabel: "Inquire Here",
     ctaHref: "/contact",
   },

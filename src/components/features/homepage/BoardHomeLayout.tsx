@@ -181,7 +181,7 @@ function BoardMeetJenn() {
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
             {HOME_PAGE_COPY.meetJenn.eyebrow}
           </p>
-          <h2 className="mt-4 max-w-2xl font-heading text-3xl font-semibold leading-tight text-[var(--foreground)] md:text-4xl">
+          <h2 className="mt-4 max-w-4xl font-heading text-3xl font-semibold leading-tight text-[var(--foreground)] md:text-4xl">
             {HOME_PAGE_COPY.meetJenn.heading}
           </h2>
           <div className="mt-6 max-w-2xl space-y-4 text-base leading-8 text-[var(--text-secondary)] md:text-lg">
@@ -286,16 +286,40 @@ function BoardQuotePreview() {
   );
 }
 
+function BoardStatValue({
+  value,
+}: {
+  value: (typeof HOME_PAGE_COPY.stats)[number]["value"];
+}) {
+  if (typeof value === "string" || typeof value === "number") {
+    return (
+      <span className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
+        {value}
+      </span>
+    );
+  }
+
+  const Icon = value;
+
+  return (
+    <Icon
+      className="mx-auto h-8 w-8 text-[var(--brand-strong)] md:h-10 md:w-10"
+      aria-hidden="true"
+      strokeWidth={1.8}
+    />
+  );
+}
+
 function BoardStatsBand() {
   return (
-    <section className="board-band border-y border-[var(--border)] bg-white">
-      <div className="board-shell board-gutter flex flex-wrap items-center justify-center py-6">
+    <section className="board-band border-y border-[var(--border)] bg-white items-end">
+      <div className="board-shell board-gutter flex flex-wrap items-end justify-center py-6">
         {HOME_PAGE_COPY.stats.map((stat, index) => (
-          <div key={stat.label} className="flex items-center">
+          <div key={stat.label} className="flex items-end">
             <div className="px-6 text-center md:px-10">
-              <p className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
-                {stat.value}
-              </p>
+              <div className="flex min-h-10 items-center justify-center">
+                <BoardStatValue value={stat.value} />
+              </div>
               <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-muted)]">
                 {stat.label}
               </p>
@@ -314,7 +338,7 @@ function BoardFinalCta() {
   return (
     <section className="board-band bg-[var(--background)]">
       <div className="board-shell board-gutter py-14 text-center md:py-20">
-        <h2 className="mx-auto max-w-2xl font-heading text-4xl font-semibold leading-tight text-[var(--foreground)] md:text-5xl">
+        <h2 className="mx-auto max-w-4xl font-heading text-4xl font-semibold leading-tight text-[var(--foreground)] md:text-5xl">
           {HOME_PAGE_COPY.finalCta.titleLead}
           <br />
           <span className="text-[var(--brand-strong)]">
