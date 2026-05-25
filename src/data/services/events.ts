@@ -85,28 +85,23 @@ export const eventsData: ServicePageData = {
     title: "What Clients Say",
     items: [
       {
+        quote: "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted during my bridal shower. Jennifer captured the entire event and made sure we were satisfied with the content. Highly recommend booking her for all events (because we sure will)!",
+        author: "Jessica F.",
+        location: "Bergen County, NJ",
+      },
+      {
         quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
         author: "Vittoria F.",
         location: "Bergen County, NJ",
       },
       {
-        quote: "Thank you so much for sending the gallery, I am so happy with the pictures, they are just stunning!! I can't wait to share with everyone.",
-        author: "Heather Harris",
+        quote: "Jennifer is an outstanding photographer! Every shot feels so natural and beautifully captured, it’s like she turns real moments into something timeless. Not only is she incredibly talented, but she also makes you feel so comfortable and confident in front of the camera. You can truly see the passion and attention to detail in her work. If you’re looking for someone who will go above and beyond to capture your vision, Jennifer is your person!",
+        author: "Antonia C.",
         location: "Bergen County, NJ",
       },
       {
-        quote: "THANK YOU so much for everything. You were absolutely amazing to work with! Thank you so much for the pictures, they are BEAUTIFUL!!! Seriously, I can't thank you enough for all the memories you captured. We will be using you for all future events.",
-        author: "Jessica Uribe",
-        location: "Bergen County, NJ",
-      },
-      {
-        quote: "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted during my bridal shower. Jennifer captured the entire event and made sure we were satisfied with the content. Highly recommend booking her for all events (because we sure will)!",
-        author: "Jessica U.F.",
-        location: "Bergen County, NJ",
-      },
-      {
-        quote: "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
-        author: "Happy Client",
+        quote: "Everyone needs to get Jenn to take pictures for them! She is hands down the best photographer we’ve had. We’ll come up with an idea and she just runs with it, adding creative touches and getting our poses perfect. She doesn’t just take pictures just to take them, she will get the perfect shot for whatever you need it for. I’ve used her for holiday shoots to baptisms and she even traveled to Boston to take pictures for my sister’s wedding. My kids love when Jenn comes to take their pictures, she makes it so fun for them and gets them laughing every time. Iffer’s Pictures is my go to, every single time.",
+        author: "Teresa B.",
         location: "Bergen County, NJ",
       },
     ],

@@ -36,7 +36,7 @@ const sessionImageOverrides: Record<string, { key: string; alt: string }> = {
     alt: "Close-up of engagement ring held in hand with Christmas tree bokeh lights",
   },
   portrait: {
-    key: "portrait/portrait-01.jpg",
+    key: "portraits/portrait_01.jpg",
     alt: "Portrait session for Iffer's Pictures",
   },
 };

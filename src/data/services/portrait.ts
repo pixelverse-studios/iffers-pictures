@@ -134,13 +134,13 @@ export const portraitData: ServicePageData = {
     title: "What Clients Say",
     items: [
       {
-        quote: "Thank you so much for providing the Photography services for our special day!! Jennifer has been so lovely and kind to work with and we feel so lucky that we booked her!!!! Our photos are gorgeous!",
-        author: "Vittoria F.",
+        quote: "Jennifer is honestly so talented. Every photo looks so natural, effortless, and just really beautiful! She has such a great eye and made the whole experience feel so easy and comfortable. You can really tell how good she is at what she does. I’d definitely recommend her!!",
+        author: "Mimma R.",
         location: "Bergen County, NJ",
       },
       {
-        quote: "Jennifer was extremely easy to work with. She is very professional and was able to get all the shots I wanted. Highly recommend booking her for all events (because we sure will)!",
-        author: "Jessica U.F.",
+        quote: "Jennifer is an outstanding photographer! Every shot feels so natural and beautifully captured, it’s like she turns real moments into something timeless. Not only is she incredibly talented, but she also makes you feel so comfortable and confident in front of the camera. You can truly see the passion and attention to detail in her work. If you’re looking for someone who will go above and beyond to capture your vision, Jennifer is your person!",
+        author: "Antonia C.",
         location: "Bergen County, NJ",
       },
     ],

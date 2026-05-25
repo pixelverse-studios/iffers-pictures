@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { ArrowRight, Camera, Heart } from "lucide-react";
+import { ArrowRight, Heart } from "lucide-react";
 import { BoardSessionStrip } from "@/components/board";
+import type { BoardSessionStripItem } from "@/components/board";
 import { SESSIONS_PAGE_COPY } from "@/data/page-copy";
 import { SESSIONS, getSessionImage } from "./data";
 
-const sessionItems = SESSIONS.map((session) => {
+const CUSTOM_REQUEST_IMAGE = "/selfie.jpg";
+
+const sessionItems: BoardSessionStripItem[] = SESSIONS.map((session) => {
   const imageSrc = getSessionImage(session.slug);
 
   return {
@@ -16,6 +19,16 @@ const sessionItems = SESSIONS.map((session) => {
       alt: session.name,
     },
   };
+});
+
+sessionItems.push({
+  title: "Custom Request",
+  description: "Have something else in mind? Let's create a session tailored to you.",
+  href: "/contact",
+  image: {
+    src: CUSTOM_REQUEST_IMAGE,
+    alt: "Jenn holding a camera for a custom photography request",
+  },
 });
 
 function BoardSessionsDivider() {
@@ -78,24 +91,6 @@ export function BoardSessionsHubLayout() {
 
       <section className="board-shell">
         <BoardSessionStrip items={sessionItems} />
-      </section>
-
-      <section className="board-shell px-6 pt-10 md:px-8 md:pt-14">
-        <Link
-          href="/contact"
-          className="group flex flex-col items-center justify-center bg-[var(--background-warm)] px-7 py-10 text-center transition-colors duration-200 hover:bg-[var(--surface)]"
-        >
-          <Camera
-            className="h-9 w-9 stroke-[1.5] text-[var(--brand-strong)]"
-            aria-hidden
-          />
-          <h2 className="mt-5 font-heading text-3xl font-semibold text-[var(--brand-strong)]">
-            Custom Request
-          </h2>
-          <p className="mt-3 max-w-lg text-base leading-7 text-[var(--text-secondary)]">
-            Have something else in mind? Let&apos;s create a session tailored to you.
-          </p>
-        </Link>
       </section>
 
       <section className="board-shell px-6 py-10 md:px-8 md:py-14">

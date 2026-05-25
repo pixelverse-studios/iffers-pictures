@@ -51,47 +51,41 @@ export function BoardAboutLayout() {
             </div>
           </div>
         </section>
-
-        <section className="border-y border-[var(--border)] bg-[var(--background)] px-5 py-8 md:px-8 md:py-9">
-          <div className="grid gap-8 md:grid-cols-3 md:gap-px">
-            {ABOUT_PAGE_COPY.stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="flex flex-col items-center text-center md:border-r md:border-[var(--border)] md:px-8 md:last:border-r-0"
-              >
-                <h2 className="font-heading text-4xl font-semibold text-[var(--brand-strong)]">
-                  {stat.value}
-                  {stat.suffix}
-                </h2>
-                <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-secondary)]">
-                  {stat.label}
-                </p>
-                {index < ABOUT_PAGE_COPY.stats.length - 1 && (
-                  <span className="mt-8 h-px w-24 bg-[var(--border)] md:hidden" />
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
       </div>
 
       <section
         id="board-about-story"
-        className="board-shell grid scroll-mt-16 bg-[var(--background)] md:scroll-mt-[72px] md:grid-cols-[1.05fr_0.95fr]"
+        className="scroll-mt-16 bg-[var(--background-warm)] md:scroll-mt-[72px]"
       >
-        <div className="relative min-h-[380px] overflow-hidden bg-[var(--background)] md:min-h-[520px]">
-          <Image
-            src="/selfie.jpg"
-            alt="Jenn holding a camera"
-            fill
-            sizes="(max-width: 768px) 100vw, 52vw"
-            className="object-cover object-center"
-          />
-        </div>
-        <div className="flex flex-col justify-center px-7 py-12 md:px-14 lg:px-20">
-          <div className="space-y-6 text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg">
-            <p>{ABOUT_PAGE_COPY.bio.paragraphs[3]}</p>
-            <p>{ABOUT_PAGE_COPY.bio.paragraphs[4]}</p>
+        <div className="board-shell grid gap-10 px-5 py-12 md:grid-cols-[0.92fr_1.08fr] md:items-center md:px-8 md:py-16 lg:gap-16 lg:py-20">
+          <div className="relative">
+            <div
+              className="absolute -left-3 -top-3 h-24 w-24 border-l border-t border-[var(--brand-strong)]/30 md:-left-5 md:-top-5"
+              aria-hidden
+            />
+            <div
+              className="absolute -bottom-3 -right-3 h-24 w-24 border-b border-r border-[var(--brand-strong)]/20 md:-bottom-5 md:-right-5"
+              aria-hidden
+            />
+            <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-[var(--background)] shadow-[0_20px_58px_-42px_rgba(26,32,48,0.58)]">
+              <Image
+                src="/selfie.jpg"
+                alt="Jenn holding a camera"
+                fill
+                sizes="(max-width: 768px) 100vw, 46vw"
+                className="object-cover object-center"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-center border-t border-[var(--border)] pt-8 md:border-l md:border-t-0 md:py-6 md:pl-12 lg:pl-16">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+              Beyond the camera
+            </p>
+            <div className="max-w-[620px] space-y-6 text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg">
+              <p>{ABOUT_PAGE_COPY.bio.paragraphs[3]}</p>
+              <p>{ABOUT_PAGE_COPY.bio.paragraphs[4]}</p>
+            </div>
           </div>
         </div>
       </section>
