@@ -9,9 +9,18 @@ import { TrackedOutboundLink } from "@/components/analytics/TrackedLink";
 import { ContactForm } from "./ContactForm";
 
 const nextSteps = [
-  ["01", "We connect", "I'll reach out to learn more."],
-  ["02", "We plan", "We'll create the perfect plan."],
-  ["03", "You relax", "I'll handle the rest and capture it all."],
+  [
+    "01 — We Connect",
+    "We’ll chat about your vision, your plans, and the moments that matter most to you.",
+  ],
+  [
+    "02 — We Plan",
+    "Together, we’ll create a session experience that feels natural, comfortable, and true to you.",
+  ],
+  [
+    "03 — You Enjoy the Moment",
+    "I’ll take care of capturing it all so you can simply be present and enjoy every moment.",
+  ],
 ] as const;
 
 function getInstagramHandle(url: string) {
@@ -72,16 +81,13 @@ export function ContactPageContent() {
             What happens next
           </h2>
           <div className="mt-9 grid gap-8 md:grid-cols-3">
-            {nextSteps.map(([number, title, description]) => (
-              <div key={number}>
-                <p className="font-heading text-4xl font-semibold text-[var(--brand-strong)]">
-                  {number}
-                </p>
-                <div className="mt-4 h-px w-full bg-[var(--border)]" />
-                <h3 className="mt-5 font-heading text-xl font-semibold text-[var(--foreground)]">
+            {nextSteps.map(([title, description]) => (
+              <div key={title}>
+                <h3 className="font-heading text-2xl font-semibold leading-tight text-[var(--brand-strong)]">
                   {title}
                 </h3>
-                <p className="mt-2 text-sm font-semibold leading-6 text-[var(--text-secondary)]">
+                <div className="mt-4 h-px w-full bg-[var(--border)]" />
+                <p className="mt-5 text-sm font-semibold leading-6 text-[var(--text-secondary)]">
                   {description}
                 </p>
               </div>
@@ -132,14 +138,8 @@ export function ContactPageContent() {
             <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
               {CONTACT_PAGE_COPY.sidebar.serviceArea}
             </p>
-            <p className="mt-5 font-heading text-xl font-semibold text-[var(--brand-strong)]">
-              {CONTACT_PAGE_COPY.sidebar.availabilityLabel}
-            </p>
-            <p className="mt-2 text-sm font-semibold text-[var(--text-secondary)]">
-              {CONTACT_PAGE_COPY.sidebar.availability}
-            </p>
             <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
-              {CONTACT_PAGE_COPY.sidebar.availabilityDetail}
+              {CONTACT_PAGE_COPY.sidebar.travel}
             </p>
             <p className="mt-5 font-heading text-xl font-semibold text-[var(--brand-strong)]">
               {CONTACT_PAGE_COPY.sidebar.followTitle}
