@@ -182,8 +182,8 @@ export const FAQ_PAGE_COPY = {
 
 export const CONTACT_PAGE_COPY = {
   hero: {
-    title: "Let's capture your story",
-    description: "I'd love to hear about your vision and the moments you want to preserve.",
+    title: "Let’s capture the moments you never want to forget.",
+    description: "I’d love to hear what you’re envisioning.",
   },
   form: {
     title: "Send a Message",
@@ -193,10 +193,8 @@ export const CONTACT_PAGE_COPY = {
     contactTitle: "Contact Information",
     emailLabel: "Email",
     locationLabel: "Location",
-    serviceArea: "Serving Bergen County & Northern NJ",
-    availabilityLabel: "Availability",
-    availability: "By Appointment",
-    availabilityDetail: "Weekdays & Weekends",
+    serviceArea: "Serving Bergen County, Northern and Central NJ.",
+    travel: "Available for travel — I'd love to hear what you're planning!",
     followTitle: "Follow Along",
     serviceAreasTitle: "Sessions Across Northern NJ",
     serviceAreasDescription:
