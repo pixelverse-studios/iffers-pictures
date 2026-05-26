@@ -126,7 +126,7 @@ function ReviewCard({
 
 export function BoardTestimonialsLayout() {
   const featured =
-    ALL_TESTIMONIALS.find((testimonial) => testimonial.author === "Jolee") ??
+    ALL_TESTIMONIALS.find((testimonial) => testimonial.author === "Jolee M.") ??
     ALL_TESTIMONIALS[0];
   const reviews = ALL_TESTIMONIALS.filter(
     (testimonial) => testimonial.id !== featured?.id
@@ -149,21 +149,21 @@ export function BoardTestimonialsLayout() {
           {TESTIMONIALS_PAGE_COPY.hero.description}
         </p>
         <div
-          className="mx-auto mt-6 h-5 w-40 bg-[var(--brand-strong)] opacity-70"
-          style={{
-            clipPath:
-              "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
-          }}
+          className="mx-auto mt-8 flex w-[65%] items-center justify-center px-2 text-[var(--brand-strong)] opacity-70"
           aria-hidden
-        />
+        >
+          <span className="h-1 flex-1 bg-current [clip-path:polygon(0_38%,96%_38%,100%_50%,96%_62%,0_62%)]" />
+          <span className="mx-1.5 h-6 w-6 rotate-45 bg-current" />
+          <span className="h-1 flex-1 bg-current [clip-path:polygon(0_50%,4%_38%,100%_38%,100%_62%,4%_62%)]" />
+        </div>
 
         {featured && (
-          <figure className="mx-auto mt-9 max-w-[660px]">
+          <figure className="mx-auto mt-9 max-w-7xl">
             <Quote
               className="mx-auto mb-5 h-8 w-8 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
               aria-hidden
             />
-            <blockquote className="font-heading text-2xl font-semibold italic leading-10 text-[var(--brand-strong)] md:text-3xl md:leading-[3rem]">
+            <blockquote className="font-heading text-xl font-semibold italic leading-10 text-[var(--brand-strong)] md:text-2xl md:leading-[3rem]">
               &ldquo;{featured.quote}&rdquo;
             </blockquote>
             <figcaption className="mt-6 text-sm font-bold text-[var(--brand-strong)]">

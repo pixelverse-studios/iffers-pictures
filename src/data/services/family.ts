@@ -91,7 +91,12 @@ export const familyData: ServicePageData = {
     items: [
       {
         quote: "Jennifer took such amazing photos of our family! She was happy to include our dog with our family pictures as well!",
-        author: "Patricia P.B.",
+        author: "Patricia B.",
+        location: "Bergen County, NJ",
+      },
+      {
+        quote: "Everyone needs to get Jenn to take pictures for them! She is hands down the best photographer we’ve had. We’ll come up with an idea and she just runs with it, adding creative touches and getting our poses perfect. She doesn’t just take pictures just to take them, she will get the perfect shot for whatever you need it for. I’ve used her for holiday shoots to baptisms and she even traveled to Boston to take pictures for my sister’s wedding. My kids love when Jenn comes to take their pictures, she makes it so fun for them and gets them laughing every time. Iffer’s Pictures is my go to, every single time.",
+        author: "Teresa B.",
         location: "Bergen County, NJ",
       },
     ],
@@ -115,7 +120,7 @@ export const familyData: ServicePageData = {
       },
       {
         question: "What should we wear?",
-        answer: "Coordinate, don't match! Choose a color palette of 2-3 complementary colors. Solid colors photograph best—avoid busy patterns, logos, or graphics. Layers add visual interest. I'll send you a detailed styling guide after booking with specific suggestions based on your session location and season.",
+        answer: "Coordinate, don't match! Choose a color palette of 2-3 complementary colors. Solid colors photograph best—avoid busy patterns, logos, or graphics. Layers add visual interest.",
       },
       {
         question: "Where do you recommend shooting?",
