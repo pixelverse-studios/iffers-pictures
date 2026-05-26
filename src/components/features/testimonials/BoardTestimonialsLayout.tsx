@@ -158,12 +158,12 @@ export function BoardTestimonialsLayout() {
         </div>
 
         {featured && (
-          <figure className="mx-auto mt-9 max-w-4xl">
+          <figure className="mx-auto mt-9 max-w-7xl">
             <Quote
               className="mx-auto mb-5 h-8 w-8 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
               aria-hidden
             />
-            <blockquote className="font-heading text-2xl font-semibold italic leading-10 text-[var(--brand-strong)] md:text-3xl md:leading-[3rem]">
+            <blockquote className="font-heading text-xl font-semibold italic leading-10 text-[var(--brand-strong)] md:text-2xl md:leading-[3rem]">
               &ldquo;{featured.quote}&rdquo;
             </blockquote>
             <figcaption className="mt-6 text-sm font-bold text-[var(--brand-strong)]">
