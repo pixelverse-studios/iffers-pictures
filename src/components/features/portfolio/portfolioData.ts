@@ -152,6 +152,9 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { id: 113, src: `${R2_BASE}/maternity/maternity-14.jpg`, alt: "Toddler smiling after dropping ultrasound strip by pumpkins in autumn garden", service: "Maternity", subCategory: "Maternity", aspectRatio: "landscape" },
   { id: 115, src: `${R2_BASE}/maternity/maternity-16.jpg`, alt: "Couple kissing while holding ultrasound strip in autumn park", service: "Maternity", subCategory: "Maternity", aspectRatio: "portrait" },
   { id: 116, src: `${R2_BASE}/maternity/maternity-17.jpg`, alt: "Toddler crawling on grass with parents blurred in background holding ultrasound", service: "Maternity", subCategory: "Maternity", aspectRatio: "portrait" },
+
+  // ── Portrait (1) ──────────────────────────────────────────────
+  { id: 117, src: `${R2_BASE}/portraits/portrait_01.jpg`, alt: "Portrait session for Iffer's Pictures", service: "Portrait", subCategory: "Portrait", aspectRatio: "portrait" },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────────
@@ -184,6 +187,7 @@ const THUMBNAIL_SLUG_MAP: Record<string, { service: ServiceFilter; subCategory: 
   events: { service: "Events", subCategory: "Bridal Shower" },
   parties: { service: "Events", subCategory: "Birthday" },
   milestones: { service: "Events", subCategory: "Gender Reveal" },
+  portrait: { service: "Portrait", subCategory: "Portrait" },
 };
 
 /** Get all portfolio items for a given service slug. */

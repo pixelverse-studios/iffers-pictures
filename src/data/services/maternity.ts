@@ -142,8 +142,8 @@ export const maternityData: ServicePageData = {
         location: "Bergen County, NJ",
       },
       {
-        quote: "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
-        author: "Happy Client",
+        quote: "Jennifer is incredibly talented, professional, and an absolute joy to work with. She has such a natural eye for capturing moments in the most beautiful, effortless way, and it truly shines through in every photo. She makes the whole experience feel easy and special from start to finish. I couldn’t recommend her more!",
+        author: "Jeannie E.",
         location: "Bergen County, NJ",
       },
     ],
