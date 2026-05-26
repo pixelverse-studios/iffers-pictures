@@ -185,7 +185,6 @@ export const FAQ_PAGE_COPY = {
 export const CONTACT_PAGE_COPY = {
   hero: {
     title: "Let’s capture the moments you never want to forget.",
-    description: "I’d love to hear what you’re envisioning.",
   },
   form: {
     title: "Send a Message",

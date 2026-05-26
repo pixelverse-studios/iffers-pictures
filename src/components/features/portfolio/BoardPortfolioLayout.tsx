@@ -19,6 +19,7 @@ import {
 } from "./portfolioData";
 import { Lightbox } from "./Lightbox";
 import { PORTFOLIO_PAGE_COPY } from "@/data/page-copy";
+import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 import {
   trackCtaClick,
   trackPortfolioFilter,
@@ -211,12 +212,16 @@ export function BoardPortfolioLayout() {
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
+      <ScrollRevealObserver />
       <section className="board-shell px-5 pb-10 pt-14 md:px-8 md:pb-12 md:pt-20">
         <div className="max-w-[920px]">
-          <p className="mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[var(--brand-strong)]">
+          <p className="hero-reveal mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[var(--brand-strong)]">
             {PORTFOLIO_PAGE_COPY.hero.eyebrow}
           </p>
-          <h1 className="max-w-[820px] font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl">
+          <h1
+            className="hero-reveal max-w-[820px] font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl"
+            style={{ "--reveal-delay": "110ms" } as CSSProperties}
+          >
             {PORTFOLIO_PAGE_COPY.hero.titleLead}
             <br />
             <span className="text-[var(--brand-strong)]">
@@ -224,14 +229,18 @@ export function BoardPortfolioLayout() {
             </span>
           </h1>
           <div
-            className="mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
+            className="hero-reveal mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
             style={{
+              "--reveal-delay": "210ms",
               clipPath:
                 "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
-            }}
+            } as CSSProperties}
             aria-hidden
           />
-          <p className="mt-7 max-w-[520px] text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg">
+          <p
+            className="hero-reveal mt-7 max-w-[520px] text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg"
+            style={{ "--reveal-delay": "300ms" } as CSSProperties}
+          >
             {PORTFOLIO_PAGE_COPY.hero.description}
           </p>
         </div>
@@ -326,17 +335,23 @@ export function BoardPortfolioLayout() {
       </section>
 
       <section className="board-shell px-5 py-10 md:px-8 md:py-12">
-        <div className="flex flex-col items-start justify-between gap-7 bg-[var(--background-warm)] px-7 py-8 md:flex-row md:items-center md:px-12">
+        <div className="reveal-tile scroll-reveal flex flex-col items-start justify-between gap-7 bg-[var(--background-warm)] px-7 py-8 md:flex-row md:items-center md:px-12" data-scroll-reveal>
           <div className="max-w-[560px]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+            <p className="reveal-tile-copy text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
               {PORTFOLIO_PAGE_COPY.cta.eyebrow}
             </p>
-            <h2 className="mt-3 font-heading text-2xl font-semibold leading-tight text-[var(--brand-strong)] md:text-3xl">
+            <h2
+              className="reveal-tile-copy mt-3 font-heading text-2xl font-semibold leading-tight text-[var(--brand-strong)] md:text-3xl"
+              style={{ "--reveal-delay": "90ms" } as CSSProperties}
+            >
               {PORTFOLIO_PAGE_COPY.cta.titleLead}
               <br />
               {PORTFOLIO_PAGE_COPY.cta.titleSecondLine}
             </h2>
-            <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)] md:text-base">
+            <p
+              className="reveal-tile-copy mt-3 text-sm leading-6 text-[var(--text-secondary)] md:text-base"
+              style={{ "--reveal-delay": "180ms" } as CSSProperties}
+            >
               {PORTFOLIO_PAGE_COPY.cta.description}
             </p>
           </div>
@@ -349,7 +364,8 @@ export function BoardPortfolioLayout() {
                 destination: PORTFOLIO_PAGE_COPY.cta.href,
               })
             }
-            className="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-7 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-300 hover:bg-[var(--brand)] active:scale-[0.98]"
+            className="motion-action reveal-tile-copy inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-7 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-[var(--brand)]"
+            style={{ "--reveal-delay": "260ms" } as CSSProperties}
           >
             {PORTFOLIO_PAGE_COPY.cta.label}
             <ArrowRight className="h-4 w-4" />
