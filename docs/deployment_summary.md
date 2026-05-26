@@ -13,6 +13,7 @@
 - Refined the about page story section so the two images feel more cohesive after the stats removal.
 - Moved Custom Request into the sessions strip layout and updated portrait imagery to use the new R2 portrait asset.
 - Removed the floating theme selector now that Morning Dew is the final site theme.
+- Updated the inquiry form so event date, time, and location are required while phone and message details are optional.
 
 ## Notes for internal team
 
@@ -29,6 +30,7 @@
 - Added the R2 `portraits/portrait_01.jpg` asset to portfolio data and used it for portrait thumbnails/hero imagery.
 - Converted the sessions hub Custom Request CTA from a standalone card into a `BoardSessionStrip` item with a temporary image placeholder.
 - Removed the theme switcher UI, runtime theme context, stored-theme boot script, and theme catalog.
+- Updated contact form validation and event field ordering.
 
 ## Changed URLs
 
