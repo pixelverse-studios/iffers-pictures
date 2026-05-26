@@ -12,6 +12,7 @@
 - Removed the stats band from the about page.
 - Refined the about page story section so the two images feel more cohesive after the stats removal.
 - Moved Custom Request into the sessions strip layout and updated portrait imagery to use the new R2 portrait asset.
+- Removed the floating theme selector now that Morning Dew is the final site theme.
 
 ## Notes for internal team
 
@@ -27,6 +28,7 @@
 - Reworked the about page story block with a warm band, framed image, and separated text column.
 - Added the R2 `portraits/portrait_01.jpg` asset to portfolio data and used it for portrait thumbnails/hero imagery.
 - Converted the sessions hub Custom Request CTA from a standalone card into a `BoardSessionStrip` item with a temporary image placeholder.
+- Removed the theme switcher UI, runtime theme context, stored-theme boot script, and theme catalog.
 
 ## Changed URLs
 
