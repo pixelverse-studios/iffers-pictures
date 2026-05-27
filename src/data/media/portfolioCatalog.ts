@@ -4,7 +4,8 @@ export const R2_PUBLIC_BASE_URL =
   "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 
 export type PortfolioAspect = "portrait" | "landscape" | "square" | "video";
-export type MediaStatus = "draft" | "published" | "hidden" | "archived";
+export type MediaStatus = "draft" | "published" | "archived";
+export type RestorableMediaStatus = Exclude<MediaStatus, "archived">;
 
 export const SERVICES = [
   "Events",
@@ -43,11 +44,14 @@ export interface PortfolioItem {
 
 export interface PortfolioCatalogItem extends PortfolioItem {
   key: string;
+  filename: string;
   status: MediaStatus;
   sortOrder: number;
   createdAt?: string;
   updatedAt?: string;
   archivedAt?: string;
+  archivedBy?: string;
+  archivedFromStatus?: RestorableMediaStatus;
 }
 
 export interface PortfolioCatalog {
@@ -59,7 +63,13 @@ export interface PortfolioCatalog {
 }
 
 const ASPECTS = ["portrait", "landscape", "square", "video"] as const;
-const STATUSES = ["draft", "published", "hidden", "archived"] as const;
+export const MEDIA_STATUSES = ["draft", "published", "archived"] as const;
+export const PUBLIC_MEDIA_STATUS: MediaStatus = "published";
+export const DEFAULT_UPLOAD_STATUS: MediaStatus = "draft";
+
+const LEGACY_STATUS_MAP: Record<string, MediaStatus> = {
+  hidden: "draft",
+};
 
 function isString(value: unknown): value is string {
   return typeof value === "string" && value.length > 0;
@@ -80,12 +90,22 @@ function isAspect(value: unknown): value is PortfolioAspect {
   return ASPECTS.includes(value as PortfolioAspect);
 }
 
-function isStatus(value: unknown): value is MediaStatus {
-  return STATUSES.includes(value as MediaStatus);
+function normalizeStatus(value: unknown): MediaStatus | null {
+  if (!isString(value)) return null;
+  if (MEDIA_STATUSES.includes(value as MediaStatus)) return value as MediaStatus;
+  return LEGACY_STATUS_MAP[value] ?? null;
 }
 
-function getPublicUrl(publicBaseUrl: string, key: string) {
+function isRestorableStatus(value: unknown): value is RestorableMediaStatus {
+  return value === "draft" || value === "published";
+}
+
+export function getPublicUrl(publicBaseUrl: string, key: string) {
   return `${publicBaseUrl.replace(/\/$/, "")}/${key.replace(/^\//, "")}`;
+}
+
+export function getFilenameFromKey(key: string) {
+  return key.split("/").pop() ?? key;
 }
 
 export function normalizePortfolioCatalogItem(
@@ -101,26 +121,33 @@ export function normalizePortfolioCatalogItem(
   if (!isService(value.service)) return null;
   if (!isSubCategory(value.service, value.subCategory)) return null;
   if (!isAspect(value.aspectRatio)) return null;
-  if (!isStatus(value.status)) return null;
+  const status = normalizeStatus(value.status);
+  if (!status) return null;
   if (typeof value.sortOrder !== "number") return null;
 
   const src = isString(value.src)
     ? value.src
     : getPublicUrl(publicBaseUrl, value.key);
+  const archivedFromStatus = isRestorableStatus(value.archivedFromStatus)
+    ? value.archivedFromStatus
+    : undefined;
 
   return {
     id: value.id,
     key: value.key,
+    filename: getFilenameFromKey(value.key),
     src,
     alt: value.alt,
     service: value.service,
     subCategory: value.subCategory,
     aspectRatio: value.aspectRatio,
-    status: value.status,
+    status,
     sortOrder: value.sortOrder,
     createdAt: isString(value.createdAt) ? value.createdAt : undefined,
     updatedAt: isString(value.updatedAt) ? value.updatedAt : undefined,
     archivedAt: isString(value.archivedAt) ? value.archivedAt : undefined,
+    archivedBy: isString(value.archivedBy) ? value.archivedBy : undefined,
+    archivedFromStatus,
   };
 }
 
@@ -162,7 +189,7 @@ export const PORTFOLIO_CATALOG =
 
 export const PUBLISHED_PORTFOLIO_CATALOG_ITEMS: PortfolioCatalogItem[] =
   PORTFOLIO_CATALOG.items
-    .filter((item) => item.status === "published")
+    .filter((item) => item.status === PUBLIC_MEDIA_STATUS)
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
 export const PORTFOLIO_ITEMS: PortfolioItem[] =

@@ -9,9 +9,14 @@ export {
   PORTFOLIO_CATALOG,
   PORTFOLIO_ITEMS,
   PUBLISHED_PORTFOLIO_CATALOG_ITEMS,
+  DEFAULT_UPLOAD_STATUS,
+  MEDIA_STATUSES,
+  PUBLIC_MEDIA_STATUS,
   R2_PUBLIC_BASE_URL,
   SERVICES,
   SUB_CATEGORIES,
+  getFilenameFromKey,
+  getPublicUrl,
   normalizePortfolioCatalog,
   normalizePortfolioCatalogItem,
   type MediaStatus,
@@ -19,6 +24,7 @@ export {
   type PortfolioCatalog,
   type PortfolioCatalogItem,
   type PortfolioItem,
+  type RestorableMediaStatus,
   type ServiceFilter,
   type SubCategory,
 } from "@/data/media/portfolioCatalog";
@@ -63,6 +69,7 @@ const THUMBNAIL_SLUG_MAP: Record<
   events: { service: "Events", subCategory: "Bridal Shower" },
   parties: { service: "Events", subCategory: "Birthday" },
   milestones: { service: "Events", subCategory: "Gender Reveal" },
+  portrait: { service: "Portrait", subCategory: "Portrait" },
 };
 
 /** Get all published portfolio items for a given service slug. */

@@ -6,7 +6,7 @@ const SESSION_IMAGE_MAP: Record<string, string> = {
   family: "Family",
   maternity: "Maternity",
   "couples-engagement": "Engagement",
-  portrait: "Family",
+  portrait: "Portrait",
 };
 
 export function getSessionImage(slug: string): string | undefined {
