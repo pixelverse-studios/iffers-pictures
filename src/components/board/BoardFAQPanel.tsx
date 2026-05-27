@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
@@ -32,7 +32,11 @@ export function BoardFAQPanel({
         return (
           <div
             key={`${item.question}-${index}`}
-            className="border-b border-[var(--border)] last:border-b-0"
+            className="scroll-reveal scroll-reveal-soft border-b border-[var(--border)] last:border-b-0"
+            data-scroll-reveal
+            style={
+              { "--reveal-delay": `${Math.min(index, 8) * 55}ms` } as CSSProperties
+            }
           >
             <button
               type="button"

@@ -55,8 +55,8 @@ export const couplesEngagementData: ServicePageData = {
         description: "We'll discuss locations, outfits, and your vision. For proposals, we'll coordinate every detail — the timing, the location, and my hiding spot.",
       },
       {
-        title: "60-90 Minute Session",
-        description: "Plenty of time for multiple outfits, locations, and poses. No rushing—just enjoying the moment together.",
+        title: "45-60 Minute Session",
+        description: "Plenty of time to capture gorgeous photos of the surprise proposal and some portraits of the newly engaged couple!",
       },
       {
         title: "Location Flexibility",
@@ -91,17 +91,17 @@ export const couplesEngagementData: ServicePageData = {
     items: [
       {
         quote: "Jennifer was hired by my mom and fiancé to capture a surprise second engagement after our original photos and SD card were lost by the original photographer. She was so great and helped the second proposal feel just as special as the first! Would highly recommend! She also got us our gallery SO quickly!",
-        author: "Miranda S.A.",
+        author: "Miranda S.",
         location: "Bergen County, NJ",
       },
       {
-        quote: "Jennifer photographed our engagement and made the whole experience so comfortable and fun. We're not the most natural in front of a camera, but she knew exactly how to guide us and the photos came out absolutely beautiful. She really captured us as a couple.",
-        author: "Jolee",
+        quote: "Jennifer was amazing to work with from start to finish. She photographed my bridal shower, engagement session, and rehearsal dinner, and I honestly love every single photo. She made everything feel really easy and natural, which I appreciated so much. My fiancé and I aren’t always the most comfortable in front of a camera, but she gave just the right amount of direction to help us pose without it feeling forced or awkward. You can also tell she puts a lot of care into her editing. Everything looks clean and beautiful without feeling overdone, and still looks so natural. I’m so happy we chose her to capture these moments. I’d recommend her to anyone looking for someone talented, detail-oriented, and just genuinely great to work with.",
+        author: "Jolee M.",
         location: "Bergen County, NJ",
       },
       {
-        quote: "I just wanted to take a moment to thank you for your beautiful work! Miranda and Jesse are so very happy with their photos. I will definitely mention your name to anyone that asks for a recommendation for a professional and reliable photographer.",
-        author: "Debby",
+        quote: "Jennifer took amazing pictures for my engagement shoot! She really captured our moment naturally while using the landscape beautifully.",
+        author: "Suzana P.",
         location: "Bergen County, NJ",
       },
     ],
@@ -125,7 +125,7 @@ export const couplesEngagementData: ServicePageData = {
       },
       {
         question: "What should we wear?",
-        answer: "Coordinate without matching exactly. Solid colors photograph beautifully—avoid busy patterns or logos. Bring 1-2 outfit changes: one dressy, one casual. I'll send a detailed style guide after booking!",
+        answer: "Coordinate without matching exactly. Solid colors photograph beautifully—avoid busy patterns or logos. Bring 1-2 outfit changes: one dressy, one casual.",
       },
       {
         question: "How do you handle surprise proposals?",

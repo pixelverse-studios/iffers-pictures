@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
@@ -10,6 +11,7 @@ import { FAQ_PAGE_COPY } from "@/data/page-copy";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
 import { PORTFOLIO_ITEMS } from "@/components/features/portfolio/portfolioData";
+import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 import { trackCtaClick, trackEvent } from "@/lib/analytics";
 import { generalFaqs } from "./faqData";
 
@@ -30,6 +32,10 @@ function getServiceFAQSections(): FAQSection[] {
   }).filter((section) => section.faqs.length > 0);
 }
 
+function revealStyle(delay: number): CSSProperties {
+  return { "--reveal-delay": `${delay}ms` } as CSSProperties;
+}
+
 function BoardFAQItem({
   faq,
   index,
@@ -44,7 +50,11 @@ function BoardFAQItem({
   idPrefix: string;
 }) {
   return (
-    <article className="border border-[var(--border)] bg-white">
+    <article
+      className="scroll-reveal scroll-reveal-soft border border-[var(--border)] bg-white"
+      data-scroll-reveal
+      style={revealStyle(Math.min(index, 8) * 55)}
+    >
       <button
         type="button"
         onClick={onToggle}
@@ -109,15 +119,16 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
+      <ScrollRevealObserver />
       <section className="board-shell board-gutter pb-10 pt-14 md:pb-14 md:pt-20">
         <div className="max-w-[780px]">
-          <p className="mb-5 text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+          <p className="hero-reveal mb-5 text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
             {FAQ_PAGE_COPY.hero.eyebrow}
           </p>
-          <h1 className="font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl">
+          <h1 className="hero-reveal font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl" style={revealStyle(110)}>
             {FAQ_PAGE_COPY.hero.title}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">
+          <p className="hero-reveal mt-5 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]" style={revealStyle(220)}>
             {FAQ_PAGE_COPY.hero.introLead} {SITE_CONFIG.name}.{" "}
             {FAQ_PAGE_COPY.hero.contactPrompt}{" "}
             <Link
@@ -129,20 +140,23 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
             .
           </p>
           <div
-            className="mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
+            className="hero-reveal mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
             style={{
+              "--reveal-delay": "320ms",
               clipPath:
                 "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
-            }}
+            } as CSSProperties}
             aria-hidden
           />
         </div>
 
         <div
-          className="mt-12 flex gap-10 overflow-x-auto border-b border-[var(--border)]"
+          className="hero-reveal mt-12 flex gap-10 overflow-x-auto border-b border-[var(--border)]"
+          style={
+            { "--reveal-delay": "420ms", scrollbarWidth: "none" } as CSSProperties
+          }
           role="tablist"
           aria-label="FAQ categories"
-          style={{ scrollbarWidth: "none" }}
         >
           {sections.map((section) => {
             const isActive = activeSection.slug === section.slug;
@@ -191,11 +205,11 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
 
       <section className="board-band bg-[var(--background-warm)]">
         <div className="board-shell board-gutter grid md:grid-cols-[1.15fr_0.85fr]">
-          <div className="flex min-h-[300px] flex-col justify-center py-12 md:pr-12">
-            <p className="font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
+          <div className="reveal-tile scroll-reveal flex min-h-[300px] flex-col justify-center py-12 md:pr-12" data-scroll-reveal>
+            <p className="reveal-tile-copy font-heading text-3xl font-semibold text-[var(--brand-strong)] md:text-4xl">
               {FAQ_PAGE_COPY.cta.title}
             </p>
-            <p className="mt-4 font-heading text-2xl italic leading-snug text-[var(--brand-strong)]/82 md:text-3xl">
+            <p className="reveal-tile-copy mt-4 font-heading text-2xl italic leading-snug text-[var(--brand-strong)]/82 md:text-3xl" style={revealStyle(90)}>
               {FAQ_PAGE_COPY.cta.description}
             </p>
             <Link
@@ -207,19 +221,20 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
                   destination: FAQ_PAGE_COPY.cta.href,
                 })
               }
-              className="mt-9 inline-flex w-fit items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
+              className="motion-action reveal-tile-copy mt-9 inline-flex w-fit items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)] transition-colors duration-300 hover:text-[var(--brand)]"
+              style={revealStyle(180)}
             >
               {FAQ_PAGE_COPY.cta.label}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
-          <div className="relative min-h-[300px] overflow-hidden">
+          <div className="scroll-reveal scroll-reveal-image relative min-h-[300px] overflow-hidden" data-scroll-reveal>
             <Image
               src={ctaImage.src}
               alt={ctaImage.alt}
               fill
               sizes="(max-width: 768px) 100vw, 42vw"
-              className="object-cover"
+              className="motion-image-zoom object-cover"
             />
           </div>
         </div>
