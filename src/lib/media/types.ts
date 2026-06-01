@@ -195,6 +195,26 @@ export interface RevalidateMediaResponse {
   status?: number;
 }
 
+export interface MediaRevalidationWebhookPayload {
+  website_slug: string;
+  reason: MediaRevalidationReason;
+  affected_paths: string[];
+  media_id?: number;
+  media_key?: string;
+  actor?: string;
+  triggered_at: string;
+}
+
+export interface MediaRevalidationWebhookResponse {
+  revalidated: boolean;
+  ignored: boolean;
+  website_slug?: string;
+  reason?: MediaRevalidationReason;
+  affected_paths: string[];
+  revalidated_paths: string[];
+  ignored_paths: string[];
+}
+
 export interface R2ObjectItem {
   key: string;
   public_url: string;
