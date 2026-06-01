@@ -1,8 +1,10 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { ArrowRight, Quote, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ALL_TESTIMONIALS, type Testimonial } from "@/data/testimonials";
 import { TESTIMONIALS_PAGE_COPY } from "@/data/page-copy";
+import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 
 const SESSION_LABELS: Record<string, string> = {
   events: "Event Photography",
@@ -58,6 +60,10 @@ function Stars({ className }: { className?: string }) {
   );
 }
 
+function revealStyle(delay: number): CSSProperties {
+  return { "--reveal-delay": `${delay}ms` } as CSSProperties;
+}
+
 function ReviewCard({
   testimonial,
   index,
@@ -71,7 +77,7 @@ function ReviewCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full min-h-[300px] flex-col overflow-hidden border px-7 py-8 transition-transform duration-300 hover:-translate-y-1 md:px-9 md:py-10",
+        "scroll-reveal scroll-reveal-soft group relative flex h-full min-h-[300px] flex-col overflow-hidden border px-7 py-8 transition-transform duration-300 hover:-translate-y-1 md:px-9 md:py-10",
         pattern.span,
         pattern.tone === "warm" &&
           "border-[var(--border)] bg-[var(--background-warm)] text-[var(--foreground)] shadow-[0_18px_44px_-36px_rgba(26,32,48,0.55)]",
@@ -82,6 +88,9 @@ function ReviewCard({
         isBlue &&
           "border-[var(--brand-strong)] bg-[var(--brand-strong)] text-white shadow-[0_20px_48px_-34px_rgba(42,68,92,0.7)]"
       )}
+      data-scroll-reveal
+      data-scroll-reveal-after-scroll="true"
+      style={revealStyle(Math.min(index, 8) * 70)}
     >
       <Quote
         className={cn(
@@ -126,7 +135,7 @@ function ReviewCard({
 
 export function BoardTestimonialsLayout() {
   const featured =
-    ALL_TESTIMONIALS.find((testimonial) => testimonial.author === "Jolee") ??
+    ALL_TESTIMONIALS.find((testimonial) => testimonial.author === "Jolee M.") ??
     ALL_TESTIMONIALS[0];
   const reviews = ALL_TESTIMONIALS.filter(
     (testimonial) => testimonial.id !== featured?.id
@@ -134,39 +143,48 @@ export function BoardTestimonialsLayout() {
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
+      <ScrollRevealObserver />
       <section className="board-shell px-5 pb-12 pt-14 text-center md:px-8 md:pb-16 md:pt-20">
-        <p className="text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+        <p className="hero-reveal text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
           {TESTIMONIALS_PAGE_COPY.hero.eyebrow}
         </p>
         <Quote
-          className="mx-auto mt-6 h-12 w-12 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
+          className="hero-reveal mx-auto mt-6 h-12 w-12 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
+          style={revealStyle(90)}
           aria-hidden
         />
-        <h1 className="mx-auto mt-7 max-w-[560px] font-heading text-4xl font-semibold italic leading-tight text-[var(--brand-strong)] sm:text-5xl">
+        <h1
+          className="hero-reveal mx-auto mt-7 max-w-[560px] font-heading text-4xl font-semibold italic leading-tight text-[var(--brand-strong)] sm:text-5xl"
+          style={revealStyle(180)}
+        >
           {TESTIMONIALS_PAGE_COPY.hero.title}
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">
+        <p
+          className="hero-reveal mx-auto mt-4 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]"
+          style={revealStyle(270)}
+        >
           {TESTIMONIALS_PAGE_COPY.hero.description}
         </p>
         <div
-          className="mx-auto mt-6 h-5 w-40 bg-[var(--brand-strong)] opacity-70"
-          style={{
-            clipPath:
-              "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
-          }}
+          className="hero-reveal mx-auto mt-8 flex w-[65%] items-center justify-center px-2 text-[var(--brand-strong)] opacity-70"
+          style={revealStyle(360)}
           aria-hidden
-        />
+        >
+          <span className="h-1 flex-1 bg-current [clip-path:polygon(0_38%,96%_38%,100%_50%,96%_62%,0_62%)]" />
+          <span className="mx-1.5 h-6 w-6 rotate-45 bg-current" />
+          <span className="h-1 flex-1 bg-current [clip-path:polygon(0_50%,4%_38%,100%_38%,100%_62%,4%_62%)]" />
+        </div>
 
         {featured && (
-          <figure className="mx-auto mt-9 max-w-[660px]">
+          <figure className="reveal-tile scroll-reveal mx-auto mt-9 max-w-7xl" data-scroll-reveal>
             <Quote
-              className="mx-auto mb-5 h-8 w-8 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
+              className="reveal-tile-copy mx-auto mb-5 h-8 w-8 fill-[var(--brand-strong)] text-[var(--brand-strong)]"
               aria-hidden
             />
-            <blockquote className="font-heading text-2xl font-semibold italic leading-10 text-[var(--brand-strong)] md:text-3xl md:leading-[3rem]">
+            <blockquote className="reveal-tile-copy font-heading text-xl font-semibold italic leading-10 text-[var(--brand-strong)] md:text-2xl md:leading-[3rem]" style={revealStyle(120)}>
               &ldquo;{featured.quote}&rdquo;
             </blockquote>
-            <figcaption className="mt-6 text-sm font-bold text-[var(--brand-strong)]">
+            <figcaption className="reveal-tile-copy mt-6 text-sm font-bold text-[var(--brand-strong)]" style={revealStyle(240)}>
               &ndash; {featured.author}
             </figcaption>
           </figure>
@@ -174,11 +192,11 @@ export function BoardTestimonialsLayout() {
       </section>
 
       <section className="board-shell px-5 pb-12 md:px-8 md:pb-16">
-        <div className="mb-7 flex flex-col justify-between gap-3 border-y border-[var(--border)] py-5 md:flex-row md:items-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+        <div className="reveal-tile scroll-reveal mb-7 flex flex-col justify-between gap-3 border-y border-[var(--border)] py-5 md:flex-row md:items-center" data-scroll-reveal>
+          <p className="reveal-tile-copy text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
             More kind words
           </p>
-          <p className="text-sm font-semibold text-[var(--text-secondary)]">
+          <p className="reveal-tile-copy text-sm font-semibold text-[var(--text-secondary)]" style={revealStyle(90)}>
             {ALL_TESTIMONIALS.length} notes from families, couples, and hosts
           </p>
         </div>
@@ -195,18 +213,19 @@ export function BoardTestimonialsLayout() {
       </section>
 
       <section className="bg-[var(--brand-strong)] px-5 py-10 text-white md:px-8 md:py-12">
-        <div className="board-shell flex flex-col items-start justify-between gap-7 md:flex-row md:items-center">
+        <div className="reveal-tile scroll-reveal board-shell flex flex-col items-start justify-between gap-7 md:flex-row md:items-center" data-scroll-reveal>
           <div>
-            <p className="font-heading text-2xl font-semibold italic md:text-3xl">
+            <p className="reveal-tile-copy font-heading text-2xl font-semibold italic md:text-3xl">
               {TESTIMONIALS_PAGE_COPY.cta.title}
             </p>
-            <p className="mt-3 max-w-xl text-base leading-7 text-white/76">
+            <p className="reveal-tile-copy mt-3 max-w-xl text-base leading-7 text-white/76" style={revealStyle(90)}>
               {TESTIMONIALS_PAGE_COPY.cta.description}
             </p>
           </div>
           <Link
             href={TESTIMONIALS_PAGE_COPY.cta.href}
-            className="inline-flex min-h-12 items-center justify-center gap-3 rounded-sm border border-white/55 px-7 text-xs font-bold uppercase tracking-[0.16em] text-white transition-all duration-300 hover:bg-white hover:text-[var(--brand-strong)] active:scale-[0.98]"
+            className="motion-action reveal-tile-copy inline-flex min-h-12 items-center justify-center gap-3 rounded-sm border border-white/55 px-7 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-white hover:text-[var(--brand-strong)]"
+            style={revealStyle(160)}
           >
             {TESTIMONIALS_PAGE_COPY.cta.label}
             <ArrowRight className="h-4 w-4" />

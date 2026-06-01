@@ -21,14 +21,14 @@ const contactSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(1, "Phone number is required"),
+  phone: z.string().optional(),
   service: z.string().min(1, "Please select a service"),
-  eventDate: z.string().optional(),
-  eventTime: z.string().optional(),
-  eventLocation: z.string().optional(),
+  eventDate: z.string().min(1, "Event date is required"),
+  eventTime: z.string().min(1, "Event time is required"),
+  eventLocation: z.string().min(1, "Event location is required"),
   socialHandle: z.string().optional(),
   referralSource: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  message: z.string().optional(),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -189,21 +189,22 @@ export function ContactForm() {
         label="Phone Number"
         type="tel"
         placeholder="(201) 555-1234"
-        withAsterisk
         {...register("phone")}
         error={errors.phone?.message}
       />
 
       <div className="grid gap-4 md:grid-cols-2 md:gap-5">
         <TextInput
-          label="Event Location"
-          placeholder="Venue, town, or not sure yet"
-          {...register("eventLocation")}
-          error={errors.eventLocation?.message}
+          label="Event Date"
+          type="date"
+          withAsterisk
+          {...register("eventDate")}
+          error={errors.eventDate?.message}
         />
         <TextInput
           label="Event Time"
           type="time"
+          withAsterisk
           {...register("eventTime")}
           error={errors.eventTime?.message}
         />
@@ -211,10 +212,11 @@ export function ContactForm() {
 
       <div className="grid gap-4 md:grid-cols-2 md:gap-5">
         <TextInput
-          label="Event Date"
-          type="date"
-          {...register("eventDate")}
-          error={errors.eventDate?.message}
+          label="Event Location"
+          placeholder="Venue, town, or not sure yet"
+          withAsterisk
+          {...register("eventLocation")}
+          error={errors.eventLocation?.message}
         />
         <TextInput
           label="I'd love to tag you in your photos!"
@@ -272,7 +274,6 @@ export function ContactForm() {
         label="Message"
         placeholder="Tell me what you're planning..."
         description="What are you celebrating? Who will be there? What moments matter most to you? Approximately how many guests? Feel free to include anything you think is important for me to know"
-        withAsterisk
         rows={4}
         {...register("message")}
         error={errors.message?.message}

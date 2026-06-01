@@ -13,6 +13,11 @@ export interface IncludedItem {
   label: string;
 }
 
+export interface StartingInvestment {
+  name: string;
+  price: string;
+}
+
 export const SESSION_INCLUSIONS: SessionInclusion[] = [
   {
     slug: "events",
@@ -47,9 +52,18 @@ export const SESSION_INCLUSIONS: SessionInclusion[] = [
 ];
 
 export const WHATS_INCLUDED: IncludedItem[] = [
-  { icon: Camera, label: "Professional editing on every image" },
-  { icon: ImageIcon, label: "Private online gallery for viewing and downloading" },
-  { icon: Clock, label: "Fast turnaround — most galleries within 2 weeks" },
-  { icon: Users, label: "Pre-session consultation to plan your vision" },
+  { icon: ImageIcon, label: "Thoughtfully edited, high-resolution images" },
+  { icon: Camera, label: "A private online gallery for viewing and downloading" },
   { icon: Heart, label: "A relaxed, comfortable experience from start to finish" },
+  { icon: Users, label: "Pre-session guidance and planning support" },
+  { icon: Clock, label: "Sneak peeks delivered shortly after your session" },
+  { icon: ImageIcon, label: "Most galleries delivered within two weeks" },
+];
+
+export const STARTING_INVESTMENTS: StartingInvestment[] = [
+  { name: "Event Sessions", price: "beginning at $600" },
+  { name: "Family Sessions", price: "beginning at $350" },
+  { name: "Maternity Sessions", price: "beginning at $350" },
+  { name: "Couples & Engagement", price: "beginning at $400" },
+  { name: "Portrait Sessions", price: "beginning at $250" },
 ];
