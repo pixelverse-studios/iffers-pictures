@@ -7,9 +7,11 @@ import {
   BoardFAQPanel,
 } from "@/components/board";
 import {
-  getPortfolioForService,
-  getServiceThumbnail,
-} from "@/components/features/portfolio/portfolioData";
+  DEFAULT_PUBLIC_GALLERY_ITEMS,
+  getPortfolioForServiceFromItems,
+  getServiceThumbnailFromItems,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
 import { Lightbox } from "@/components/features/portfolio/Lightbox";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
@@ -26,6 +28,7 @@ type SessionInfo = (typeof SESSIONS)[number];
 interface BoardServiceDetailLayoutProps {
   serviceData: ServicePageData;
   serviceInfo: SessionInfo;
+  mediaItems?: PublicGalleryItem[];
 }
 
 function formatStepLabel(index: number) {
@@ -62,10 +65,15 @@ function revealStyle(delay: number): CSSProperties {
 export function BoardServiceDetailLayout({
   serviceData,
   serviceInfo,
+  mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
 }: BoardServiceDetailLayoutProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const heroImage = getServiceThumbnail(serviceData.slug);
-  const portfolioItems = getPortfolioForService(serviceData.slug);
+  const allItems = mediaItems;
+  const heroImage = getServiceThumbnailFromItems(allItems, serviceData.slug);
+  const portfolioItems = getPortfolioForServiceFromItems(
+    allItems,
+    serviceData.slug
+  );
   const galleryItems = portfolioItems.slice(0, 12);
   const faqImage = galleryItems[galleryItems.length - 1];
   const testimonial = serviceData.testimonials?.items[0];

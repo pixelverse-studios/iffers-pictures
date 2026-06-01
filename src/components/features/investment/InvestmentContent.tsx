@@ -2,9 +2,14 @@
 
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import type { PublicGalleryItem } from "@/lib/media/gallery";
 import { BoardInvestmentLayout } from "./BoardInvestmentLayout";
 
-export function InvestmentContent() {
+interface InvestmentContentProps {
+  mediaItems: PublicGalleryItem[];
+}
+
+export function InvestmentContent({ mediaItems }: InvestmentContentProps) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -24,5 +29,5 @@ export function InvestmentContent() {
     return () => clearTimeout(timer);
   }, [searchParams]);
 
-  return <BoardInvestmentLayout />;
+  return <BoardInvestmentLayout mediaItems={mediaItems} />;
 }

@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { PortfolioPageContent } from "@/components/features/portfolio/PortfolioPageContent";
+import { getPublicMediaCatalogWithFallback } from "@/lib/media/server";
+import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
   title: "Portfolio | Iffer's Pictures | Bergen County Photographer",
@@ -39,6 +41,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PortfolioPage() {
-  return <PortfolioPageContent />;
+export default async function PortfolioPage() {
+  const catalog = await getPublicMediaCatalogWithFallback();
+  const mediaItems = toPublicGalleryItems(catalog.items);
+
+  return <PortfolioPageContent mediaItems={mediaItems} />;
 }

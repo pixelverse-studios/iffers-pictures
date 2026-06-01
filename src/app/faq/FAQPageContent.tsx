@@ -10,7 +10,10 @@ import { SERVICES, SITE_CONFIG } from "@/lib/constants";
 import { FAQ_PAGE_COPY } from "@/data/page-copy";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
-import { PORTFOLIO_ITEMS } from "@/components/features/portfolio/portfolioData";
+import {
+  findPinnedGalleryItem,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 import { trackCtaClick, trackEvent } from "@/lib/analytics";
 import { generalFaqs } from "./faqData";
@@ -95,7 +98,13 @@ function BoardFAQItem({
   );
 }
 
-function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] }) {
+function BoardFAQContent({
+  serviceSections,
+  mediaItems,
+}: {
+  serviceSections: FAQSection[];
+  mediaItems: PublicGalleryItem[];
+}) {
   const sections = [
     { name: FAQ_PAGE_COPY.general.eyebrow, slug: "general", faqs: generalFaqs },
     ...serviceSections.map((section) => ({
@@ -108,8 +117,12 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
   const activeSection =
     sections.find((section) => section.slug === activeSectionSlug) ??
     sections[0];
-  const ctaImage =
-    PORTFOLIO_ITEMS.find((item) => item.id === 99) ?? PORTFOLIO_ITEMS[0];
+  const allItems = mediaItems;
+  const ctaImage = findPinnedGalleryItem(allItems, {
+    id: 99,
+    service: "Family",
+    subCategory: "Family",
+  });
 
   function selectSection(slug: string) {
     trackEvent("faq_category_select", { category: slug });
@@ -228,22 +241,30 @@ function BoardFAQContent({ serviceSections }: { serviceSections: FAQSection[] })
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
-          <div className="scroll-reveal scroll-reveal-image relative min-h-[300px] overflow-hidden" data-scroll-reveal>
-            <Image
-              src={ctaImage.src}
-              alt={ctaImage.alt}
-              fill
-              sizes="(max-width: 768px) 100vw, 42vw"
-              className="motion-image-zoom object-cover"
-            />
-          </div>
+          {ctaImage && (
+            <div className="scroll-reveal scroll-reveal-image relative min-h-[300px] overflow-hidden" data-scroll-reveal>
+              <Image
+                src={ctaImage.src}
+                alt={ctaImage.alt}
+                fill
+                sizes="(max-width: 768px) 100vw, 42vw"
+                className="motion-image-zoom object-cover"
+              />
+            </div>
+          )}
         </div>
       </section>
     </div>
   );
 }
 
-export function FAQPageContent() {
+interface FAQPageContentProps {
+  mediaItems: PublicGalleryItem[];
+}
+
+export function FAQPageContent({ mediaItems }: FAQPageContentProps) {
   const serviceSections = getServiceFAQSections();
-  return <BoardFAQContent serviceSections={serviceSections} />;
+  return (
+    <BoardFAQContent serviceSections={serviceSections} mediaItems={mediaItems} />
+  );
 }

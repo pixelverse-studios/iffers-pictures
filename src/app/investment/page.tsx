@@ -3,6 +3,8 @@ import { Suspense } from "react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { InvestmentContent } from "@/components/features/investment";
+import { getPublicMediaCatalogWithFallback } from "@/lib/media/server";
+import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
   title: "Investment | Iffer's Pictures | Bergen County NJ",
@@ -20,7 +22,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function InvestmentPage() {
+export default async function InvestmentPage() {
+  const catalog = await getPublicMediaCatalogWithFallback();
+  const mediaItems = toPublicGalleryItems(catalog.items);
+
   return (
     <>
       <BreadcrumbSchema
@@ -31,7 +36,7 @@ export default function InvestmentPage() {
       />
 
       <Suspense fallback={<div className="min-h-96" aria-hidden />}>
-        <InvestmentContent />
+        <InvestmentContent mediaItems={mediaItems} />
       </Suspense>
     </>
   );

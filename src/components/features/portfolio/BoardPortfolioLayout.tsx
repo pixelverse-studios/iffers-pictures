@@ -11,10 +11,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
-  PORTFOLIO_ITEMS,
   SERVICES,
   SUB_CATEGORIES,
-  type PortfolioItem,
   type ServiceFilter,
 } from "./portfolioData";
 import { Lightbox } from "./Lightbox";
@@ -26,25 +24,25 @@ import {
   trackPortfolioLightboxNavigate,
   trackPortfolioLightboxOpen,
 } from "@/lib/analytics";
+import {
+  DEFAULT_PUBLIC_GALLERY_ITEMS,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
 
 type PortfolioBoardFilter = "All" | ServiceFilter;
-
-const availableServices = SERVICES.filter((service) =>
-  PORTFOLIO_ITEMS.some((item) => item.service === service)
-);
-const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
 const GALLERY_EXIT_MS = 390;
 const MAX_STAGGER_INDEX = 16;
 const TILE_REVEAL_STAGGER_MS = 34;
 
 function getBoardItems(
+  allItems: PublicGalleryItem[],
   filter: PortfolioBoardFilter,
   subCategory: string | null
-): PortfolioItem[] {
+): PublicGalleryItem[] {
   const serviceItems =
     filter === "All"
-      ? PORTFOLIO_ITEMS
-      : PORTFOLIO_ITEMS.filter((item) => item.service === filter);
+      ? allItems
+      : allItems.filter((item) => item.service === filter);
 
   return subCategory
     ? serviceItems.filter((item) => item.subCategory === subCategory)
@@ -52,7 +50,7 @@ function getBoardItems(
 }
 
 interface PortfolioTileProps {
-  item: PortfolioItem;
+  item: PublicGalleryItem;
   index: number;
   phase: "enter" | "exit";
   onOpen: () => void;
@@ -123,15 +121,26 @@ function PortfolioTile({ item, index, phase, onOpen }: PortfolioTileProps) {
   );
 }
 
-export function BoardPortfolioLayout() {
+interface BoardPortfolioLayoutProps {
+  mediaItems?: PublicGalleryItem[];
+}
+
+export function BoardPortfolioLayout({
+  mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+}: BoardPortfolioLayoutProps) {
+  const allItems = mediaItems;
+  const availableServices = SERVICES.filter((service) =>
+    allItems.some((item) => item.service === service)
+  );
+  const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
   const [activeFilter, setActiveFilter] = useState<PortfolioBoardFilter>("All");
   const [activeSubCategory, setActiveSubCategory] = useState<string | null>(
     null
   );
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const items = useMemo(
-    () => getBoardItems(activeFilter, activeSubCategory),
-    [activeFilter, activeSubCategory]
+    () => getBoardItems(allItems, activeFilter, activeSubCategory),
+    [activeFilter, activeSubCategory, allItems]
   );
   const [displayedItems, setDisplayedItems] = useState(items);
   const [galleryPhase, setGalleryPhase] = useState<"enter" | "exit">("enter");
@@ -139,7 +148,7 @@ export function BoardPortfolioLayout() {
     activeFilter === "All"
       ? []
       : SUB_CATEGORIES[activeFilter].filter((subCategory) =>
-          PORTFOLIO_ITEMS.some(
+          allItems.some(
             (item) =>
               item.service === activeFilter && item.subCategory === subCategory
           )
