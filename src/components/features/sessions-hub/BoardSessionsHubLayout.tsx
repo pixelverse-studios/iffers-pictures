@@ -5,33 +5,65 @@ import { BoardSessionStrip } from "@/components/board";
 import type { BoardSessionStripItem } from "@/components/board";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 import { SESSIONS_PAGE_COPY } from "@/data/page-copy";
-import { SESSIONS, getSessionImage } from "./data";
+import { SESSIONS } from "./data";
+import {
+  DEFAULT_PUBLIC_GALLERY_ITEMS,
+  findPinnedGalleryItem,
+  type PinnedMediaFallback,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
 
 const CUSTOM_REQUEST_IMAGE = "/selfie.jpg";
 
-const sessionItems: BoardSessionStripItem[] = SESSIONS.map((session) => {
-  const imageSrc = getSessionImage(session.slug);
+function getSessionImage(
+  items: PublicGalleryItem[],
+  slug: string
+): PublicGalleryItem | undefined {
+  const fallback: PinnedMediaFallback =
+    slug === "events"
+      ? { service: "Events", subCategory: "Baby Shower" }
+      : slug === "family"
+        ? { service: "Family", subCategory: "Family" }
+        : slug === "maternity"
+          ? { service: "Maternity", subCategory: "Maternity" }
+          : slug === "couples-engagement"
+            ? { service: "Couples", subCategory: "Engagement" }
+            : { service: "Portrait", subCategory: "Portrait" };
 
-  return {
-    title: session.shortName,
-    description: session.description,
-    href: `/services/${session.slug}`,
+  return findPinnedGalleryItem(items, fallback);
+}
+
+function getSessionItems(items: PublicGalleryItem[]): BoardSessionStripItem[] {
+  const sessionItems = SESSIONS.flatMap((session): BoardSessionStripItem[] => {
+    const image = getSessionImage(items, session.slug);
+    if (!image) return [];
+
+    return [
+      {
+        title: session.shortName,
+        description: session.description,
+        href: `/services/${session.slug}`,
+        image: {
+          src: image.src,
+          alt: image.alt,
+        },
+      },
+    ];
+  });
+
+  sessionItems.push({
+    title: "Custom Request",
+    description:
+      "Have something else in mind? Let's create a session tailored to you.",
+    href: "/contact",
     image: {
-      src: imageSrc ?? "/selfie.jpg",
-      alt: session.name,
+      src: CUSTOM_REQUEST_IMAGE,
+      alt: "Jenn holding a camera for a custom photography request",
     },
-  };
-});
+  });
 
-sessionItems.push({
-  title: "Custom Request",
-  description: "Have something else in mind? Let's create a session tailored to you.",
-  href: "/contact",
-  image: {
-    src: CUSTOM_REQUEST_IMAGE,
-    alt: "Jenn holding a camera for a custom photography request",
-  },
-});
+  return sessionItems;
+}
 
 function BoardSessionsDivider() {
   return (
@@ -78,7 +110,16 @@ function BoardSessionsDivider() {
   );
 }
 
-export function BoardSessionsHubLayout() {
+interface BoardSessionsHubLayoutProps {
+  mediaItems?: PublicGalleryItem[];
+}
+
+export function BoardSessionsHubLayout({
+  mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+}: BoardSessionsHubLayoutProps) {
+  const allItems = mediaItems;
+  const sessionItems = getSessionItems(allItems);
+
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <ScrollRevealObserver />

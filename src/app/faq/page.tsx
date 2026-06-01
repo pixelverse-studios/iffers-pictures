@@ -5,6 +5,8 @@ import { generalFaqs } from "./faqData";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
 import { FAQPageContent } from "./FAQPageContent";
+import { getPublicMediaCatalogWithFallback } from "@/lib/media/server";
+import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -60,7 +62,10 @@ function FAQPageSchema() {
   );
 }
 
-export default function FAQPage() {
+export default async function FAQPage() {
+  const catalog = await getPublicMediaCatalogWithFallback();
+  const mediaItems = toPublicGalleryItems(catalog.items);
+
   return (
     <>
       <FAQPageSchema />
@@ -71,7 +76,7 @@ export default function FAQPage() {
         ]}
       />
 
-      <FAQPageContent />
+      <FAQPageContent mediaItems={mediaItems} />
     </>
   );
 }
