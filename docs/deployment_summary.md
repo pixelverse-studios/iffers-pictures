@@ -8,6 +8,7 @@
 - Removed the extra "I’d love to hear what you’re envisioning" line from the inquire page hero.
 - Prepared the site for the managed media catalog by adding the frontend media API/proxy foundation.
 - Added the media revalidation webhook needed to refresh public image pages after catalog changes.
+- Hardened managed media image loading so future approved R2 or media-domain URLs can render through Next.js image optimization.
 
 ## Notes for internal team
 
@@ -17,6 +18,7 @@
 - Removed the contact hero description paragraph and copy value.
 - DEV-941: Added typed media API client helpers, public catalog fallback support, and same-origin proxy routes for Pixelverse media/admin endpoints.
 - DEV-942: Added `/api/media/revalidate` with optional bearer-secret validation, site-local path validation, and Next.js `revalidatePath` calls for media catalog updates.
+- DEV-944: Added constrained env-backed media image remote patterns using `MEDIA_PUBLIC_BASE_URL` or `MEDIA_PUBLIC_BASE_URLS`; documented the hosting environment setting.
 
 ## Changed URLs
 
