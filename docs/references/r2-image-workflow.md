@@ -191,8 +191,8 @@ images: {
 }
 ```
 
-For the managed media catalog, configure Vercel with the public base URL returned
-by the server catalog:
+For the managed media catalog, configure the hosting/build environment with the
+public base URL returned by the server catalog:
 
 ```text
 MEDIA_PUBLIC_BASE_URL=https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev
@@ -207,5 +207,6 @@ MEDIA_PUBLIC_BASE_URLS=https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev,https
 
 Allowed hosts are intentionally narrow: HTTPS-only Cloudflare R2 public hosts
 ending in `.r2.dev`, the current static fallback host, and
-`media.ifferspictures.com`. After changing these values in Vercel, redeploy the
-Next.js app so image optimization receives the updated allowlist.
+`media.ifferspictures.com`. After changing these values in the hosting
+environment, redeploy the Next.js app so image optimization receives the updated
+allowlist.
