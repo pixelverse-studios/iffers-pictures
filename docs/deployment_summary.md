@@ -10,6 +10,7 @@
 - Added the media revalidation webhook needed to refresh public image pages after catalog changes.
 - Hardened managed media image loading so future approved R2 or media-domain URLs can render through Next.js image optimization.
 - Wired public portfolio, session, investment, FAQ, and homepage imagery to the managed media catalog with static fallback behavior.
+- Added the admin media manager interface for protected catalog browsing, uploads, metadata edits, publishing, archiving, restore, draft rename/move, and manual revalidation.
 
 ## Notes for internal team
 
@@ -21,6 +22,7 @@
 - DEV-942: Added `/api/media/revalidate` with optional bearer-secret validation, site-local path validation, and Next.js `revalidatePath` calls for media catalog updates.
 - DEV-944: Added constrained env-backed media image remote patterns using `MEDIA_PUBLIC_BASE_URL` or `MEDIA_PUBLIC_BASE_URLS`; documented the hosting environment setting.
 - DEV-919: Public media-heavy pages now fetch the published catalog through `GET /api/media/iffers-pictures/catalog` with local static fallbacks and pinned-image category fallback rules.
+- DEV-918: Added `/admin/media` plus the magic-link callback UI backed by the completed Pixelverse media admin auth, admin catalog, upload, lifecycle, move, and revalidation endpoints.
 
 ## Changed URLs
 
@@ -37,3 +39,4 @@
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/contact
+- https://ifferspictures.com/admin/media
