@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Archive, FileImage, Grid2X2, LogOut } from "lucide-react";
 import type {
   MediaAdminSession,
@@ -35,8 +36,19 @@ export function AdminMediaSidebar({
   return (
     <aside className="border-b border-[var(--border)] bg-white lg:border-b-0 lg:border-r">
       <div className="flex items-center justify-between px-5 py-5 lg:block">
-        <Link href="/" className="font-heading text-2xl font-semibold">
-          Iffer&apos;s Pictures
+        <Link
+          href="/"
+          className="block w-fit"
+          aria-label="Iffer's Pictures home"
+        >
+          <Image
+            src="/logo-black.png"
+            alt="Iffer's Pictures"
+            width={150}
+            height={80}
+            priority
+            className="h-16 w-auto"
+          />
         </Link>
         <button
           type="button"

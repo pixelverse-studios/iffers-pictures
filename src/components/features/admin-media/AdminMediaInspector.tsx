@@ -69,7 +69,7 @@ export function AdminMediaInspector({
   if (!item || !editor) {
     return (
       <aside className="border-t border-[var(--border)] bg-white xl:border-l xl:border-t-0">
-        <div className="sticky top-[var(--header-height)] max-h-[calc(100vh-var(--header-height))] overflow-y-auto p-5">
+        <div className="sticky top-0 max-h-screen overflow-y-auto p-5">
           <div className="grid min-h-96 place-items-center text-center">
             <div>
               <FileImage className="mx-auto h-12 w-12 text-[var(--text-muted)]" />
@@ -116,7 +116,7 @@ export function AdminMediaInspector({
 
   return (
     <aside className="border-t border-[var(--border)] bg-white xl:border-l xl:border-t-0">
-      <div className="sticky top-[var(--header-height)] max-h-[calc(100vh-var(--header-height))] overflow-y-auto p-5">
+      <div className="sticky top-0 max-h-screen overflow-y-auto p-5">
         <div className="space-y-5">
           <div className="flex items-center justify-between gap-3">
             <div>

@@ -24,7 +24,7 @@ export function AdminMediaHeader({
   onTriggerRevalidate,
 }: AdminMediaHeaderProps) {
   return (
-    <header className="sticky top-[var(--header-height)] z-20 border-b border-[var(--border)] bg-white/96 px-5 py-4 backdrop-blur md:px-7">
+    <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-white/96 px-5 py-4 backdrop-blur md:px-7">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="flex items-center gap-3">

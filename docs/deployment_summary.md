@@ -18,6 +18,7 @@
 - Fixed admin media restore so archived images can be restored before editing metadata.
 - Added safer admin media uploads with per-image queued category selection, early file validation, and clearer server error messages.
 - Added a destination availability guard so draft media can only be moved after the latest target path passes a collision check.
+- Removed the public website navigation from admin media screens and moved the home link into the admin sidebar logo.
 
 ## Notes for internal team
 
@@ -37,6 +38,7 @@
 - DEV-918: Changed archived media restore to use a status-only patch, matching the Pixelverse media API restore contract.
 - DEV-920: Queued uploads now snapshot their service/sub-category and support per-item category edits before upload.
 - DEV-920: Added frontend upload type/size checks, expanded media API error copy, and gated draft move execution on a successful destination check.
+- DEV-920: Added route-aware site chrome so `/admin/*` omits public header/footer, then removed admin fixed-header offsets.
 
 ## Changed URLs
 

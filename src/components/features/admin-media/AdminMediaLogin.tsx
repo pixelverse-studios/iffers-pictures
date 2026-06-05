@@ -23,7 +23,7 @@ export function AdminMediaLogin({
   onSubmit,
 }: AdminMediaLoginProps) {
   return (
-    <main className="min-h-screen bg-[var(--background)] px-5 pb-8 pt-hero text-[var(--foreground)] md:px-8">
+    <main className="min-h-screen bg-[var(--background)] px-5 py-8 text-[var(--foreground)] md:px-8">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
         <section className="hidden min-h-[720px] overflow-hidden bg-[var(--background-warm)] md:flex">
           <div className="flex w-full flex-col justify-center px-12">
