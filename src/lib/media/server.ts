@@ -11,10 +11,7 @@ import {
 const PUBLIC_CATALOG_REVALIDATE_SECONDS = 60;
 
 export function getMediaApiBaseUrl(): string | null {
-  const rawBaseUrl =
-    process.env.PVS_MEDIA_API_URL ??
-    process.env.PVS_API_URL ??
-    process.env.PVS_CONTACT_API_URL;
+  const rawBaseUrl = process.env.PVS_API_URL;
 
   if (!rawBaseUrl) return null;
   return rawBaseUrl.replace(/\/$/, "");
@@ -24,7 +21,7 @@ export function buildMediaApiUrl(path: string): string {
   const baseUrl = getMediaApiBaseUrl();
 
   if (!baseUrl) {
-    throw new Error("PVS_MEDIA_API_URL is not configured.");
+    throw new Error("PVS_API_URL is not configured.");
   }
 
   return `${baseUrl}${path.startsWith("/") ? path : `/${path}`}`;

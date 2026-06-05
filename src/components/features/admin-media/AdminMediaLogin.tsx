@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import Image from "next/image";
+import { TextInput } from "@mantine/core";
 import Link from "next/link";
 import { Check, CircleAlert, Loader2, Lock, Mail, Send, ShieldCheck } from "lucide-react";
 
@@ -23,19 +23,10 @@ export function AdminMediaLogin({
   onSubmit,
 }: AdminMediaLoginProps) {
   return (
-    <main className="min-h-screen bg-[var(--background)] px-5 py-8 text-[var(--foreground)] md:px-8">
+    <main className="min-h-screen bg-[var(--background)] px-5 pb-8 pt-hero text-[var(--foreground)] md:px-8">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
-        <section className="hidden min-h-[720px] overflow-hidden bg-[var(--background-warm)] md:grid md:grid-cols-[150px_1fr]">
-          <div className="grid grid-rows-5">
-            {["/hero.jpg", "/headshot.jpg", "/logo.png", "/selfie.jpg", "/logo-blue.png"].map(
-              (src) => (
-                <div key={src} className="relative bg-[var(--background-warm)]">
-                  <Image src={src} alt="" fill sizes="150px" className="object-cover" />
-                </div>
-              ),
-            )}
-          </div>
-          <div className="flex flex-col justify-center px-12">
+        <section className="hidden min-h-[720px] overflow-hidden bg-[var(--background-warm)] md:flex">
+          <div className="flex w-full flex-col justify-center px-12">
             <p className="font-heading text-3xl font-semibold text-[var(--foreground)]">
               Iffer&apos;s Pictures
             </p>
@@ -79,22 +70,20 @@ export function AdminMediaLogin({
           </p>
 
           <form className="mt-7 space-y-5" onSubmit={onSubmit}>
-            <label className="block">
-              <span className="text-sm font-bold text-[var(--foreground)]">
-                Email address
-              </span>
-              <span className="mt-2 flex min-h-12 items-center gap-3 border border-[var(--border)] px-3 focus-within:border-[var(--brand-strong)]">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(event) => onEmailChange(event.target.value)}
-                  className="min-w-0 flex-1 bg-transparent text-base outline-none"
-                  placeholder="jenn@ifferspictures.com"
-                  required
-                />
-                <Mail className="h-4 w-4 text-[var(--text-muted)]" aria-hidden />
-              </span>
-            </label>
+            <TextInput
+              type="email"
+              label="Email address"
+              value={email}
+              onChange={(event) => onEmailChange(event.currentTarget.value)}
+              placeholder="jenn@ifferspictures.com"
+              rightSection={<Mail className="h-4 w-4 text-[var(--text-muted)]" aria-hidden />}
+              required
+              radius="sm"
+              styles={{
+                label: { fontWeight: 700 },
+                input: { backgroundColor: "#ffffff" },
+              }}
+            />
 
             {message && (
               <div className="flex gap-3 border border-green-100 bg-green-50 px-4 py-3 text-sm font-semibold text-green-800">

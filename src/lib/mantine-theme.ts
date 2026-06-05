@@ -1,5 +1,6 @@
 import {
   createTheme,
+  NumberInput,
   Select,
   Textarea,
   TextInput,
@@ -99,6 +100,13 @@ export const mantineTheme: MantineThemeOverride = createTheme({
           resize: "vertical",
         },
       },
+    }),
+    NumberInput: NumberInput.extend({
+      defaultProps: {
+        size: "md",
+        radius: "md",
+      },
+      styles: fieldStyles,
     }),
     Select: Select.extend({
       defaultProps: {

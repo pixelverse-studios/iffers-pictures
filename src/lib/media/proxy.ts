@@ -42,7 +42,7 @@ export async function proxyMediaApiRequest(
 
     return buildProxyResponse(upstreamResponse);
   } catch (error) {
-    if (error instanceof Error && error.message.includes("PVS_MEDIA_API_URL")) {
+    if (error instanceof Error && error.message.includes("PVS_API_URL")) {
       return NextResponse.json(
         {
           error: {

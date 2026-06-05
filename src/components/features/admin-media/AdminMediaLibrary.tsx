@@ -127,8 +127,8 @@ export function AdminMediaLibrary({
   onUploadTargetChange,
 }: AdminMediaLibraryProps) {
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <div className="grid min-h-screen lg:grid-cols-[220px_1fr]">
+    <main className="min-h-screen bg-[var(--background)] pt-hero text-[var(--foreground)]">
+      <div className="grid min-h-[calc(100vh-var(--header-height)-1rem)] lg:grid-cols-[220px_1fr]">
         <AdminMediaSidebar
           session={session}
           serviceFilter={serviceFilter}

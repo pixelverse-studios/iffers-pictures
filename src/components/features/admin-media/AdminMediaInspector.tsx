@@ -1,5 +1,6 @@
 "use client";
 
+import { NumberInput, Select, Textarea, TextInput } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 import { Archive, Copy, ExternalLink, FileImage, Loader2, RotateCcw, X } from "lucide-react";
@@ -66,7 +67,7 @@ export function AdminMediaInspector({
   if (!item || !editor) {
     return (
       <aside className="border-t border-[var(--border)] bg-white xl:border-l xl:border-t-0">
-        <div className="sticky top-0 max-h-screen overflow-y-auto p-5">
+        <div className="sticky top-[var(--header-height)] max-h-[calc(100vh-var(--header-height))] overflow-y-auto p-5">
           <div className="grid min-h-96 place-items-center text-center">
             <div>
               <FileImage className="mx-auto h-12 w-12 text-[var(--text-muted)]" />
@@ -82,10 +83,31 @@ export function AdminMediaInspector({
   }
 
   const archivedLocked = item.status === "archived";
+  const serviceOptions = [
+    { value: "", label: "Unset" },
+    ...MEDIA_SERVICES.map((service) => ({ value: service, label: service })),
+  ];
+  const subCategoryOptions = [
+    { value: "", label: "Unset" },
+    ...(editor.service
+      ? MEDIA_SUB_CATEGORIES[editor.service].map((subCategory) => ({
+          value: subCategory,
+          label: subCategory,
+        }))
+      : []),
+  ];
+  const aspectRatioOptions = [
+    { value: "", label: "Unset" },
+    ...MEDIA_ASPECT_RATIOS.map((ratio) => ({ value: ratio, label: ratio })),
+  ];
+  const statusOptions = MEDIA_STATUSES.map((status) => ({
+    value: status,
+    label: STATUS_COPY[status],
+  }));
 
   return (
     <aside className="border-t border-[var(--border)] bg-white xl:border-l xl:border-t-0">
-      <div className="sticky top-0 max-h-screen overflow-y-auto p-5">
+      <div className="sticky top-[var(--header-height)] max-h-[calc(100vh-var(--header-height))] overflow-y-auto p-5">
         <div className="space-y-5">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -129,113 +151,103 @@ export function AdminMediaInspector({
             </div>
           )}
 
-          <label className="block">
-            <span className="text-sm font-bold">Alt text</span>
-            <textarea
-              value={editor.alt}
-              onChange={(event) => onUpdateEditor("alt", event.target.value)}
-              disabled={archivedLocked}
-              rows={3}
-              className="mt-2 w-full resize-none border border-[var(--border)] px-3 py-2 text-sm outline-none disabled:bg-[var(--background-warm)]"
-              placeholder="Describe what someone should understand from the image."
-            />
-          </label>
+          <Textarea
+            label="Alt text"
+            value={editor.alt}
+            onChange={(event) => onUpdateEditor("alt", event.currentTarget.value)}
+            disabled={archivedLocked}
+            rows={3}
+            placeholder="Describe what someone should understand from the image."
+            radius="sm"
+            styles={{
+              label: { fontWeight: 700 },
+              input: { minHeight: "5.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem" },
+            }}
+          />
 
           <div className="grid grid-cols-2 gap-3">
-            <label className="block">
-              <span className="text-sm font-bold">Service</span>
-              <select
-                value={editor.service}
-                onChange={(event) =>
-                  onUpdateEditor("service", event.target.value as MediaService | "")
-                }
-                disabled={archivedLocked}
-                className="mt-2 h-11 w-full border border-[var(--border)] bg-white px-3 text-sm disabled:bg-[var(--background-warm)]"
-              >
-                <option value="">Unset</option>
-                {MEDIA_SERVICES.map((service) => (
-                  <option key={service} value={service}>
-                    {service}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="text-sm font-bold">Sub-category</span>
-              <select
-                value={editor.subCategory}
-                onChange={(event) =>
-                  onUpdateEditor(
-                    "subCategory",
-                    event.target.value as MediaSubCategory | "",
-                  )
-                }
-                disabled={archivedLocked || !editor.service}
-                className="mt-2 h-11 w-full border border-[var(--border)] bg-white px-3 text-sm disabled:bg-[var(--background-warm)]"
-              >
-                <option value="">Unset</option>
-                {editor.service &&
-                  MEDIA_SUB_CATEGORIES[editor.service].map((subCategory) => (
-                    <option key={subCategory} value={subCategory}>
-                      {subCategory}
-                    </option>
-                  ))}
-              </select>
-            </label>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <label className="block">
-              <span className="text-sm font-bold">Aspect ratio</span>
-              <select
-                value={editor.aspectRatio}
-                onChange={(event) =>
-                  onUpdateEditor("aspectRatio", event.target.value as MediaAspectRatio | "")
-                }
-                disabled={archivedLocked}
-                className="mt-2 h-11 w-full border border-[var(--border)] bg-white px-3 text-sm disabled:bg-[var(--background-warm)]"
-              >
-                <option value="">Unset</option>
-                {MEDIA_ASPECT_RATIOS.map((ratio) => (
-                  <option key={ratio} value={ratio}>
-                    {ratio}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="text-sm font-bold">Sort order</span>
-              <input
-                type="number"
-                value={editor.sortOrder}
-                onChange={(event) => onUpdateEditor("sortOrder", event.target.value)}
-                disabled={archivedLocked}
-                className="mt-2 h-11 w-full border border-[var(--border)] px-3 text-sm disabled:bg-[var(--background-warm)]"
-              />
-            </label>
-          </div>
-
-          <label className="block">
-            <span className="text-sm font-bold">Status</span>
-            <select
-              value={editor.status}
-              onChange={(event) =>
-                onUpdateEditor("status", event.target.value as MediaStatus)
+            <Select
+              label="Service"
+              value={editor.service}
+              onChange={(value) =>
+                onUpdateEditor("service", (value ?? "") as MediaService | "")
               }
-              className="mt-2 h-11 w-full border border-[var(--border)] bg-white px-3 text-sm"
-            >
-              {MEDIA_STATUSES.map((status) => (
-                <option key={status} value={status}>
-                  {STATUS_COPY[status]}
-                </option>
-              ))}
-            </select>
+              data={serviceOptions}
+              disabled={archivedLocked}
+              allowDeselect={false}
+              radius="sm"
+              styles={{
+                label: { fontWeight: 700 },
+                input: { backgroundColor: "#ffffff", fontSize: "0.875rem" },
+              }}
+            />
+            <Select
+              label="Sub-category"
+              value={editor.subCategory}
+              onChange={(value) =>
+                onUpdateEditor("subCategory", (value ?? "") as MediaSubCategory | "")
+              }
+              data={subCategoryOptions}
+              disabled={archivedLocked || !editor.service}
+              allowDeselect={false}
+              radius="sm"
+              styles={{
+                label: { fontWeight: 700 },
+                input: { backgroundColor: "#ffffff", fontSize: "0.875rem" },
+              }}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Select
+              label="Aspect ratio"
+              value={editor.aspectRatio}
+              onChange={(value) =>
+                onUpdateEditor("aspectRatio", (value ?? "") as MediaAspectRatio | "")
+              }
+              data={aspectRatioOptions}
+              disabled={archivedLocked}
+              allowDeselect={false}
+              radius="sm"
+              styles={{
+                label: { fontWeight: 700 },
+                input: { backgroundColor: "#ffffff", fontSize: "0.875rem" },
+              }}
+            />
+            <NumberInput
+              label="Sort order"
+              value={editor.sortOrder}
+              onChange={(value) => onUpdateEditor("sortOrder", String(value))}
+              disabled={archivedLocked}
+              radius="sm"
+              styles={{
+                label: { fontWeight: 700 },
+                input: { backgroundColor: "#ffffff", fontSize: "0.875rem" },
+              }}
+            />
+          </div>
+
+          <div>
+            <Select
+              label="Status"
+              value={editor.status}
+              onChange={(value) =>
+                onUpdateEditor("status", (value ?? editor.status) as MediaStatus)
+              }
+              data={statusOptions}
+              allowDeselect={false}
+              radius="sm"
+              styles={{
+                label: { fontWeight: 700 },
+                input: { backgroundColor: "#ffffff", fontSize: "0.875rem" },
+              }}
+            />
             {publishBlocked && (
               <span className="mt-2 block text-xs font-semibold text-red-700">
                 Add alt text, service, sub-category, and aspect ratio before publishing.
               </span>
             )}
-          </label>
+          </div>
 
           <div className="grid gap-2">
             <button
@@ -301,12 +313,16 @@ export function AdminMediaInspector({
                 </span>
               )}
             </div>
-            <input
-              type="text"
+            <TextInput
               value={moveKey}
-              onChange={(event) => onMoveKeyChange(event.target.value)}
+              onChange={(event) => onMoveKeyChange(event.currentTarget.value)}
               disabled={!canMove}
-              className="mt-3 h-10 w-full border border-[var(--border)] px-3 text-xs disabled:bg-[var(--background-warm)]"
+              aria-label="Draft destination key"
+              className="mt-3"
+              radius="sm"
+              styles={{
+                input: { minHeight: "2.5rem", backgroundColor: "#ffffff", fontSize: "0.75rem" },
+              }}
             />
             {moveMessage && (
               <p className="mt-2 text-xs font-semibold text-[var(--text-secondary)]">

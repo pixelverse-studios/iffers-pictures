@@ -1,5 +1,6 @@
 "use client";
 
+import { Select } from "@mantine/core";
 import type { RefObject } from "react";
 import { ImagePlus, Loader2 } from "lucide-react";
 import type { MediaService, MediaSubCategory } from "@/lib/media/types";
@@ -26,6 +27,11 @@ export function AdminMediaUploadPanel({
   onUploadDrafts,
   onUploadTargetChange,
 }: AdminMediaUploadPanelProps) {
+  const categoryOptions = CATEGORY_OPTIONS.map((option) => ({
+    value: `${option.service}|${option.subCategory}`,
+    label: option.subCategory,
+  }));
+
   return (
     <section className="grid gap-4 border border-[var(--border)] bg-white p-4 lg:grid-cols-[1fr_280px]">
       <div
@@ -52,29 +58,25 @@ export function AdminMediaUploadPanel({
         </button>
       </div>
       <div className="space-y-4">
-        <label className="block">
-          <span className="text-sm font-bold">Target category</span>
-          <select
-            value={`${uploadService}|${uploadSubCategory}`}
-            onChange={(event) => {
-              const [service, subCategory] = event.target.value.split("|") as [
-                MediaService,
-                MediaSubCategory,
-              ];
-              onUploadTargetChange(service, subCategory);
-            }}
-            className="mt-2 h-11 w-full border border-[var(--border)] bg-white px-3 text-sm"
-          >
-            {CATEGORY_OPTIONS.map((option) => (
-              <option
-                key={`${option.service}-${option.subCategory}`}
-                value={`${option.service}|${option.subCategory}`}
-              >
-                {option.subCategory}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Select
+          label="Target category"
+          value={`${uploadService}|${uploadSubCategory}`}
+          onChange={(value) => {
+            if (!value) return;
+            const [service, subCategory] = value.split("|") as [
+              MediaService,
+              MediaSubCategory,
+            ];
+            onUploadTargetChange(service, subCategory);
+          }}
+          data={categoryOptions}
+          allowDeselect={false}
+          radius="sm"
+          styles={{
+            label: { fontWeight: 700 },
+            input: { backgroundColor: "#ffffff", fontSize: "0.875rem" },
+          }}
+        />
         <div className="border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           <p className="font-bold">Alt text required after upload</p>
           <p className="mt-1 leading-6">

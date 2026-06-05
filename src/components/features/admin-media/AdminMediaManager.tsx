@@ -406,7 +406,7 @@ export function AdminMediaManager() {
 
   if (authState === "checking") {
     return (
-      <main className="grid min-h-screen place-items-center bg-[var(--background)] px-6">
+      <main className="grid min-h-screen place-items-center bg-[var(--background)] px-6 pt-hero">
         <div className="flex items-center gap-3 text-sm font-semibold text-[var(--brand-strong)]">
           <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
           Checking media admin session
