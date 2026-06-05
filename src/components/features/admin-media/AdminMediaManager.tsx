@@ -238,6 +238,25 @@ export function AdminMediaManager() {
     }
   }
 
+  async function restoreSelected() {
+    if (!selectedItem) return;
+
+    setIsSaving(true);
+    setNotice("");
+
+    try {
+      const updated = await patchMediaItem(selectedItem.id, {
+        status: selectedItem.archivedFromStatus ?? "draft",
+      });
+      upsertItem(updated);
+      setNotice("Image restored.");
+    } catch (error) {
+      setNotice(getFriendlyError(error));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
   function upsertItem(item: AdminMediaItem) {
     setItems((current) =>
       current.map((existing) => (existing.id === item.id ? item : existing)),
@@ -471,10 +490,7 @@ export function AdminMediaManager() {
       onMove={moveSelected}
       onMoveKeyChange={setMoveKey}
       onRemoveUpload={removeUpload}
-      onRestore={() => {
-        const status = selectedItem?.archivedFromStatus ?? "draft";
-        void saveEditor({ status });
-      }}
+      onRestore={() => void restoreSelected()}
       onSave={() => void saveEditor()}
       onSearchChange={setQuery}
       onSelectedIdChange={setSelectedId}

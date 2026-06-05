@@ -15,6 +15,7 @@
 - Fixed admin media manager spacing so the fixed site navigation no longer overlaps the admin content.
 - Simplified the admin media sign-in screen by removing the decorative image rail.
 - Updated media API calls to use the shared `PVS_API_URL` configuration.
+- Fixed admin media restore so archived images can be restored before editing metadata.
 
 ## Notes for internal team
 
@@ -31,6 +32,7 @@
 - DEV-918: Added fixed-header offsets to admin media login, callback, loading, library, and sticky inspector/header states.
 - DEV-918: Removed the decorative image column from the admin media login panel.
 - DEV-918: Removed the media-specific API base URL fallback so media proxy requests resolve through `PVS_API_URL`.
+- DEV-918: Changed archived media restore to use a status-only patch, matching the Pixelverse media API restore contract.
 
 ## Changed URLs
 
