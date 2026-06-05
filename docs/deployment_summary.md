@@ -16,6 +16,8 @@
 - Simplified the admin media sign-in screen by removing the decorative image rail.
 - Updated media API calls to use the shared `PVS_API_URL` configuration.
 - Fixed admin media restore so archived images can be restored before editing metadata.
+- Added safer admin media uploads with per-image queued category selection, early file validation, and clearer server error messages.
+- Added a destination availability guard so draft media can only be moved after the latest target path passes a collision check.
 
 ## Notes for internal team
 
@@ -33,6 +35,8 @@
 - DEV-918: Removed the decorative image column from the admin media login panel.
 - DEV-918: Removed the media-specific API base URL fallback so media proxy requests resolve through `PVS_API_URL`.
 - DEV-918: Changed archived media restore to use a status-only patch, matching the Pixelverse media API restore contract.
+- DEV-920: Queued uploads now snapshot their service/sub-category and support per-item category edits before upload.
+- DEV-920: Added frontend upload type/size checks, expanded media API error copy, and gated draft move execution on a successful destination check.
 
 ## Changed URLs
 

@@ -32,6 +32,7 @@ interface AdminMediaLibraryProps {
   isRevalidating: boolean;
   isSaving: boolean;
   isUploading: boolean;
+  moveDestinationAvailable: boolean | null;
   moveKey: string;
   moveMessage: string;
   notice: string;
@@ -71,6 +72,11 @@ interface AdminMediaLibraryProps {
     value: EditorState[Key],
   ) => void;
   onUploadDrafts: () => void;
+  onUpdateUploadItemTarget: (
+    id: string,
+    service: MediaService,
+    subCategory: MediaSubCategory,
+  ) => void;
   onUploadTargetChange: (service: MediaService, subCategory: MediaSubCategory) => void;
 }
 
@@ -88,6 +94,7 @@ export function AdminMediaLibrary({
   isRevalidating,
   isSaving,
   isUploading,
+  moveDestinationAvailable,
   moveKey,
   moveMessage,
   notice,
@@ -124,6 +131,7 @@ export function AdminMediaLibrary({
   onTriggerRevalidate,
   onUpdateEditor,
   onUploadDrafts,
+  onUpdateUploadItemTarget,
   onUploadTargetChange,
 }: AdminMediaLibraryProps) {
   return (
@@ -187,8 +195,8 @@ export function AdminMediaLibrary({
               {uploadQueue.length > 0 && (
                 <AdminMediaUploadQueue
                   items={uploadQueue}
-                  uploadSubCategory={uploadSubCategory}
                   onRemoveUpload={onRemoveUpload}
+                  onUpdateUploadItemTarget={onUpdateUploadItemTarget}
                 />
               )}
 
@@ -209,6 +217,7 @@ export function AdminMediaLibrary({
             isMoving={isMoving}
             isSaving={isSaving}
             item={selectedItem}
+            moveDestinationAvailable={moveDestinationAvailable}
             moveKey={moveKey}
             moveMessage={moveMessage}
             publishBlocked={publishBlocked}

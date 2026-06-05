@@ -28,6 +28,7 @@ interface AdminMediaInspectorProps {
   isMoving: boolean;
   isSaving: boolean;
   item: AdminMediaItem | null;
+  moveDestinationAvailable: boolean | null;
   moveKey: string;
   moveMessage: string;
   publishBlocked: boolean;
@@ -52,6 +53,7 @@ export function AdminMediaInspector({
   isMoving,
   isSaving,
   item,
+  moveDestinationAvailable,
   moveKey,
   moveMessage,
   publishBlocked,
@@ -83,6 +85,13 @@ export function AdminMediaInspector({
   }
 
   const archivedLocked = item.status === "archived";
+  const trimmedMoveKey = moveKey.trim();
+  const canSubmitMove =
+    canMove &&
+    !isMoving &&
+    Boolean(trimmedMoveKey) &&
+    trimmedMoveKey !== item.key &&
+    moveDestinationAvailable === true;
   const serviceOptions = [
     { value: "", label: "Unset" },
     ...MEDIA_SERVICES.map((service) => ({ value: service, label: service })),
@@ -333,7 +342,7 @@ export function AdminMediaInspector({
               <button
                 type="button"
                 onClick={onCheckDestination}
-                disabled={!canMove || isCheckingMove || !moveKey.trim()}
+                disabled={!canMove || isCheckingMove || !trimmedMoveKey}
                 className="inline-flex min-h-10 items-center justify-center rounded-sm border border-[var(--border)] text-xs font-bold disabled:opacity-50"
               >
                 {isCheckingMove ? "Checking..." : "Check"}
@@ -341,7 +350,7 @@ export function AdminMediaInspector({
               <button
                 type="button"
                 onClick={onMove}
-                disabled={!canMove || isMoving || !moveKey.trim() || moveKey === item.key}
+                disabled={!canSubmitMove}
                 className="inline-flex min-h-10 items-center justify-center rounded-sm bg-[var(--brand-strong)] text-xs font-bold text-white disabled:opacity-50"
               >
                 {isMoving ? "Moving..." : "Move"}
