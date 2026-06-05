@@ -10,6 +10,12 @@
 - Added the media revalidation webhook needed to refresh public image pages after catalog changes.
 - Hardened managed media image loading so future approved R2 or media-domain URLs can render through Next.js image optimization.
 - Wired public portfolio, session, investment, FAQ, and homepage imagery to the managed media catalog with static fallback behavior.
+- Added the admin media manager interface for protected catalog browsing, uploads, metadata edits, publishing, archiving, restore, draft rename/move, and manual revalidation.
+- Standardized the admin media manager's visible form fields on the site's Mantine field components.
+- Fixed admin media manager spacing so the fixed site navigation no longer overlaps the admin content.
+- Simplified the admin media sign-in screen by removing the decorative image rail.
+- Updated media API calls to use the shared `PVS_API_URL` configuration.
+- Fixed admin media restore so archived images can be restored before editing metadata.
 
 ## Notes for internal team
 
@@ -21,6 +27,12 @@
 - DEV-942: Added `/api/media/revalidate` with optional bearer-secret validation, site-local path validation, and Next.js `revalidatePath` calls for media catalog updates.
 - DEV-944: Added constrained env-backed media image remote patterns using `MEDIA_PUBLIC_BASE_URL` or `MEDIA_PUBLIC_BASE_URLS`; documented the hosting environment setting.
 - DEV-919: Public media-heavy pages now fetch the published catalog through `GET /api/media/iffers-pictures/catalog` with local static fallbacks and pinned-image category fallback rules.
+- DEV-918: Added `/admin/media` plus the magic-link callback UI backed by the completed Pixelverse media admin auth, admin catalog, upload, lifecycle, move, and revalidation endpoints.
+- DEV-918: Replaced native visible admin media form controls with Mantine TextInput, Textarea, Select, and NumberInput components.
+- DEV-918: Added fixed-header offsets to admin media login, callback, loading, library, and sticky inspector/header states.
+- DEV-918: Removed the decorative image column from the admin media login panel.
+- DEV-918: Removed the media-specific API base URL fallback so media proxy requests resolve through `PVS_API_URL`.
+- DEV-918: Changed archived media restore to use a status-only patch, matching the Pixelverse media API restore contract.
 
 ## Changed URLs
 
@@ -37,3 +49,4 @@
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/contact
+- https://ifferspictures.com/admin/media
