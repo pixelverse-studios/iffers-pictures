@@ -28,6 +28,7 @@
 - Standardized pointer cursors across clickable admin media controls.
 - Restored fixed desktop admin media side columns while the image workspace scrolls independently.
 - Redirected the legacy image review page to the admin media manager so there is one clear media-management entry point.
+- Added durable admin media manager documentation and a QA checklist for Jenn-facing image operations.
 
 ## Notes for internal team
 
@@ -57,6 +58,7 @@
 - DEV-920: Added admin media shell cursor rules for active and disabled interactive controls.
 - DEV-920: Changed the desktop admin media shell to viewport-height column scrolling so the sidebar and inspector remain visible.
 - DEV-943: Replaced the `/image-review` implementation with a redirect to `/admin/media` and updated internal mockup/planning references to the media manager.
+- DEV-921: Documented the admin media manager workflow, frontend/server environment setup, R2 upload safety expectations, public catalog behavior, revalidation, and QA coverage.
 
 ## Changed URLs
 
