@@ -9,7 +9,6 @@ import {
 
 const fieldStyles = {
   label: {
-    color: "var(--foreground)",
     fontSize: "0.875rem",
     fontWeight: 500,
     lineHeight: 1.4,
@@ -21,37 +20,26 @@ const fieldStyles = {
   },
   input: {
     minHeight: "3rem",
-    borderColor: "var(--border)",
     borderRadius: "0.5rem",
-    backgroundColor: "var(--surface)",
-    color: "var(--foreground)",
     fontFamily: "var(--font-nunito), system-ui, sans-serif",
     fontSize: "1rem",
     transition: "border-color 200ms ease, box-shadow 200ms ease",
-
-    "&::placeholder": {
-      color: "var(--text-muted)",
-    },
-
-    "&:focus, &:focus-within": {
-      borderColor: "var(--brand)",
-      boxShadow: "0 0 0 2px color-mix(in srgb, var(--brand) 20%, transparent)",
-    },
-
-    "&[data-error]": {
-      borderColor: "var(--color-error, #ef4444)",
-    },
   },
   error: {
-    color: "var(--color-error, #ef4444)",
     fontSize: "0.875rem",
     marginTop: "0.375rem",
   },
   description: {
-    color: "var(--text-muted)",
     fontSize: "0.875rem",
     marginTop: "0.375rem",
   },
+};
+
+const fieldClassNames = {
+  label: "mantine-field-label",
+  input: "mantine-field-input",
+  error: "mantine-field-error",
+  description: "mantine-field-description",
 };
 
 export const mantineTheme: MantineThemeOverride = createTheme({
@@ -86,6 +74,7 @@ export const mantineTheme: MantineThemeOverride = createTheme({
         radius: "md",
       },
       styles: fieldStyles,
+      classNames: fieldClassNames,
     }),
     Textarea: Textarea.extend({
       defaultProps: {
@@ -100,6 +89,7 @@ export const mantineTheme: MantineThemeOverride = createTheme({
           resize: "vertical",
         },
       },
+      classNames: fieldClassNames,
     }),
     NumberInput: NumberInput.extend({
       defaultProps: {
@@ -107,6 +97,7 @@ export const mantineTheme: MantineThemeOverride = createTheme({
         radius: "md",
       },
       styles: fieldStyles,
+      classNames: fieldClassNames,
     }),
     Select: Select.extend({
       defaultProps: {
@@ -121,16 +112,11 @@ export const mantineTheme: MantineThemeOverride = createTheme({
         },
         option: {
           color: "var(--foreground)",
-
-          "&[data-combobox-active]": {
-            backgroundColor: "var(--background-warm)",
-          },
-
-          "&[data-combobox-selected]": {
-            backgroundColor: "var(--brand-strong)",
-            color: "#ffffff",
-          },
         },
+      },
+      classNames: {
+        ...fieldClassNames,
+        option: "mantine-field-option",
       },
     }),
   },

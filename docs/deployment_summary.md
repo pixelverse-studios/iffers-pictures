@@ -19,6 +19,7 @@
 - Added safer admin media uploads with per-image queued category selection, early file validation, and clearer server error messages.
 - Added a destination availability guard so draft media can only be moved after the latest target path passes a collision check.
 - Removed the public website navigation from admin media screens and moved the home link into the admin sidebar logo.
+- Fixed the admin media screen crash caused by unsupported nested Mantine style selectors.
 
 ## Notes for internal team
 
@@ -39,6 +40,7 @@
 - DEV-920: Queued uploads now snapshot their service/sub-category and support per-item category edits before upload.
 - DEV-920: Added frontend upload type/size checks, expanded media API error copy, and gated draft move execution on a successful destination check.
 - DEV-920: Added route-aware site chrome so `/admin/*` omits public header/footer, then removed admin fixed-header offsets.
+- DEV-920: Moved Mantine pseudo-selector styling from theme style objects into global CSS classes for React 19 compatibility.
 
 ## Changed URLs
 
