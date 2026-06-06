@@ -22,6 +22,7 @@
 - Fixed the admin media screen crash caused by unsupported nested Mantine style selectors.
 - Allowed the production media domain to render through Next.js image optimization in admin media views.
 - Kept the admin media sidebar visible while scrolling through large image grids.
+- Organized admin media sidebar filters into nested service and sub-category navigation.
 
 ## Notes for internal team
 
@@ -45,6 +46,7 @@
 - DEV-920: Moved Mantine pseudo-selector styling from theme style objects into global CSS classes for React 19 compatibility.
 - DEV-920: Added `https://media.ifferspictures.com` to default Next image remote patterns.
 - DEV-920: Made the desktop admin media sidebar sticky with an internal category scroll region.
+- DEV-920: Replaced the flat media category sidebar with service parent filters and nested child filters for multi-category services.
 
 ## Changed URLs
 
