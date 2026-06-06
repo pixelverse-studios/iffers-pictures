@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Archive, FileImage, Grid2X2, LogOut, X } from "lucide-react";
@@ -38,21 +39,51 @@ export function AdminMediaSidebar({
   onStatusFilterChange,
   onSubCategoryFilterChange,
 }: AdminMediaSidebarProps) {
+  const [isDrawerClosing, setIsDrawerClosing] = useState(false);
+  const closeTimerRef = useRef<number | null>(null);
   const serviceNavItems = MEDIA_SERVICES.map((service) => ({
     service,
     subCategories: MEDIA_SUB_CATEGORIES[service],
   }));
 
+  const requestMobileClose = useCallback(() => {
+    if (!onCloseMobile || isDrawerClosing) return;
+
+    setIsDrawerClosing(true);
+    closeTimerRef.current = window.setTimeout(() => {
+      onCloseMobile();
+      setIsDrawerClosing(false);
+      closeTimerRef.current = null;
+    }, 220);
+  }, [isDrawerClosing, onCloseMobile]);
+
+  useEffect(() => {
+    if (!isMobileOpen) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") requestMobileClose();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileOpen, requestMobileClose]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
   function handleAllMediaClick() {
     onServiceFilterChange("all");
     onSubCategoryFilterChange("all");
-    onCloseMobile?.();
+    requestMobileClose();
   }
 
   function handleServiceClick(service: MediaService) {
     onServiceFilterChange(service);
     onSubCategoryFilterChange("all");
-    onCloseMobile?.();
+    requestMobileClose();
   }
 
   function handleSubCategoryClick(
@@ -61,17 +92,17 @@ export function AdminMediaSidebar({
   ) {
     onServiceFilterChange(service);
     onSubCategoryFilterChange(subCategory);
-    onCloseMobile?.();
+    requestMobileClose();
   }
 
   function handleArchiveClick() {
     onStatusFilterChange("archived");
-    onCloseMobile?.();
+    requestMobileClose();
   }
 
   function handleLogoutClick() {
     onLogout();
-    onCloseMobile?.();
+    requestMobileClose();
   }
 
   function renderSidebarContent(isDrawer = false) {
@@ -234,19 +265,27 @@ export function AdminMediaSidebar({
       </aside>
 
       {isMobileOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden">
+        <div
+          className="fixed inset-0 z-40 lg:hidden"
+        >
           <button
             type="button"
-            className="absolute inset-0 bg-[rgba(26,32,48,0.48)]"
+            className={`absolute inset-0 bg-[rgba(26,32,48,0.48)] transition-opacity duration-200 ease-out motion-safe:animate-[admin-fade-in_200ms_ease-out] ${
+              isDrawerClosing ? "opacity-0" : "opacity-100"
+            }`}
             aria-label="Close media navigation"
-            onClick={onCloseMobile}
+            onClick={requestMobileClose}
           />
-          <aside className="absolute bottom-0 left-0 top-0 w-[min(22rem,88vw)] overflow-y-auto border-r border-[var(--border)] bg-white shadow-xl">
+          <aside
+            className={`absolute bottom-0 left-0 top-0 w-[min(22rem,88vw)] overflow-y-auto border-r border-[var(--border)] bg-white shadow-xl transition-transform duration-200 ease-out motion-safe:animate-[admin-drawer-in_200ms_ease-out] ${
+              isDrawerClosing ? "-translate-x-full" : "translate-x-0"
+            }`}
+          >
             <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
               <p className="text-sm font-bold text-[var(--foreground)]">Media menu</p>
               <button
                 type="button"
-                onClick={onCloseMobile}
+                onClick={requestMobileClose}
                 className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[var(--border)] text-[var(--text-secondary)]"
                 aria-label="Close media navigation"
               >
