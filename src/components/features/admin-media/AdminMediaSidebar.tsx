@@ -34,7 +34,7 @@ export function AdminMediaSidebar({
   onSubCategoryFilterChange,
 }: AdminMediaSidebarProps) {
   return (
-    <aside className="border-b border-[var(--border)] bg-white lg:border-b-0 lg:border-r">
+    <aside className="border-b border-[var(--border)] bg-white lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r">
       <div className="flex items-center justify-between px-5 py-5 lg:block">
         <Link
           href="/"
@@ -60,7 +60,7 @@ export function AdminMediaSidebar({
         </button>
       </div>
 
-      <nav className="flex gap-2 overflow-x-auto px-5 pb-4 lg:block lg:space-y-1 lg:overflow-visible">
+      <nav className="flex gap-2 overflow-x-auto px-5 pb-4 lg:block lg:max-h-[calc(100vh-14rem)] lg:space-y-1 lg:overflow-y-auto lg:overflow-x-hidden">
         <button
           type="button"
           onClick={() => {
@@ -108,7 +108,7 @@ export function AdminMediaSidebar({
         </button>
       </nav>
 
-      <div className="hidden border-t border-[var(--border)] p-5 lg:block">
+      <div className="hidden border-t border-[var(--border)] p-5 lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:block lg:bg-white">
         <p className="text-sm font-bold text-[var(--foreground)]">
           {session?.email ?? "Administrator"}
         </p>
