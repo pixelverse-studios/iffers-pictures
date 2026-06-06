@@ -2,6 +2,13 @@
 
 Reference guide for processing and uploading portfolio images to Cloudflare R2 for Iffer's Pictures.
 
+> Current workflow: use `/admin/media` for normal uploads, metadata edits,
+> publishing, archiving, restore, and draft move/rename operations. See
+> `docs/references/admin-media-manager-workflow.md`.
+>
+> This document is now a fallback/manual maintenance reference for folder
+> conventions, historical static catalog data, and emergency R2 work.
+
 ## R2 Bucket Details
 
 | Field | Value |
