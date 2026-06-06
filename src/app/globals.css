@@ -221,6 +221,80 @@ h1, h2, h3, h4, h5, h6,
   outline-offset: 2px;
 }
 
+.mantine-field-label {
+  color: var(--foreground);
+}
+
+.mantine-field-input {
+  border-color: var(--border);
+  background-color: var(--surface);
+  color: var(--foreground);
+}
+
+.mantine-field-input::placeholder {
+  color: var(--text-muted);
+}
+
+.mantine-field-input:focus,
+.mantine-field-input:focus-within {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 20%, transparent);
+}
+
+.mantine-field-input[data-error] {
+  border-color: var(--color-error, #ef4444);
+}
+
+.mantine-field-error {
+  color: var(--color-error, #ef4444);
+}
+
+.mantine-field-description {
+  color: var(--text-muted);
+}
+
+.mantine-field-option[data-combobox-active] {
+  background-color: var(--background-warm);
+}
+
+.mantine-field-option[data-combobox-selected] {
+  background-color: var(--brand-strong);
+  color: #ffffff;
+}
+
+.admin-media-shell button:not(:disabled),
+.admin-media-shell [role="button"]:not([aria-disabled="true"]),
+.admin-media-shell a[href],
+.admin-media-shell summary,
+.admin-media-shell label,
+.admin-media-shell .mantine-Select-input:not([data-disabled]) {
+  cursor: pointer;
+}
+
+.admin-media-shell button:disabled,
+.admin-media-shell [aria-disabled="true"],
+.admin-media-shell .mantine-Select-input[data-disabled] {
+  cursor: not-allowed;
+}
+
+@keyframes admin-drawer-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes admin-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* ============================================
    Scrollbar Styling
    ============================================ */

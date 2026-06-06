@@ -16,6 +16,17 @@
 - Simplified the admin media sign-in screen by removing the decorative image rail.
 - Updated media API calls to use the shared `PVS_API_URL` configuration.
 - Fixed admin media restore so archived images can be restored before editing metadata.
+- Added safer admin media uploads with per-image queued category selection, early file validation, and clearer server error messages.
+- Added a destination availability guard so draft media can only be moved after the latest target path passes a collision check.
+- Removed the public website navigation from admin media screens and moved the home link into the admin sidebar logo.
+- Fixed the admin media screen crash caused by unsupported nested Mantine style selectors.
+- Allowed the production media domain to render through Next.js image optimization in admin media views.
+- Kept the admin media sidebar visible while scrolling through large image grids.
+- Organized admin media sidebar filters into nested service and sub-category navigation.
+- Replaced the mobile admin media sidebar with a compact top bar and slide-in media menu.
+- Added smooth open and close animation to the mobile admin media menu.
+- Standardized pointer cursors across clickable admin media controls.
+- Restored fixed desktop admin media side columns while the image workspace scrolls independently.
 
 ## Notes for internal team
 
@@ -33,6 +44,17 @@
 - DEV-918: Removed the decorative image column from the admin media login panel.
 - DEV-918: Removed the media-specific API base URL fallback so media proxy requests resolve through `PVS_API_URL`.
 - DEV-918: Changed archived media restore to use a status-only patch, matching the Pixelverse media API restore contract.
+- DEV-920: Queued uploads now snapshot their service/sub-category and support per-item category edits before upload.
+- DEV-920: Added frontend upload type/size checks, expanded media API error copy, and gated draft move execution on a successful destination check.
+- DEV-920: Added route-aware site chrome so `/admin/*` omits public header/footer, then removed admin fixed-header offsets.
+- DEV-920: Moved Mantine pseudo-selector styling from theme style objects into global CSS classes for React 19 compatibility.
+- DEV-920: Added `https://media.ifferspictures.com` to default Next image remote patterns.
+- DEV-920: Made the desktop admin media sidebar sticky with an internal category scroll region.
+- DEV-920: Replaced the flat media category sidebar with service parent filters and nested child filters for multi-category services.
+- DEV-920: Added a mobile-only media navigation drawer to prevent horizontal overflow on small screens.
+- DEV-920: Kept the mobile drawer mounted during close so overlay opacity and panel transform can animate out.
+- DEV-920: Added admin media shell cursor rules for active and disabled interactive controls.
+- DEV-920: Changed the desktop admin media shell to viewport-height column scrolling so the sidebar and inspector remain visible.
 
 ## Changed URLs
 

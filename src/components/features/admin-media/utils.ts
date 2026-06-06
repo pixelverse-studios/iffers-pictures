@@ -8,7 +8,7 @@ import {
   type MediaStatus,
   type MediaUploadContentType,
 } from "@/lib/media/types";
-import { FRIENDLY_ERRORS } from "./constants";
+import { FRIENDLY_ERRORS, MAX_UPLOAD_BYTES } from "./constants";
 import type { EditorState, SortMode, StatusFilter } from "./types";
 
 export function getFriendlyError(error: unknown) {
@@ -37,6 +37,14 @@ export function getInitialEditorState(item: AdminMediaItem): EditorState {
 
 export function isValidUploadType(type: string): type is MediaUploadContentType {
   return MEDIA_UPLOAD_CONTENT_TYPES.includes(type as MediaUploadContentType);
+}
+
+export function getUploadValidationMessage(file: File) {
+  if (!isValidUploadType(file.type)) return "JPEG, PNG, or WebP only";
+  if (file.size > MAX_UPLOAD_BYTES) {
+    return `Image must be ${formatBytes(MAX_UPLOAD_BYTES)} or smaller`;
+  }
+  return "";
 }
 
 export function canPublish(state: EditorState) {

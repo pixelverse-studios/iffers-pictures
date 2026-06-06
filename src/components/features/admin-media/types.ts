@@ -23,6 +23,8 @@ export interface EditorState {
 export interface UploadQueueItem {
   id: string;
   file: File;
+  service: MediaService;
+  subCategory: MediaSubCategory;
   status: UploadStatus;
   progress: number;
   message: string;

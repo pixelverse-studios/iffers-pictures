@@ -33,6 +33,7 @@ import {
   getErrorCode,
   getFriendlyError,
   getImageAspectRatio,
+  getUploadValidationMessage,
   getInitialEditorState,
   getStatusCounts,
   isValidUploadType,
@@ -62,6 +63,9 @@ export function AdminMediaManager() {
   const [isMoving, setIsMoving] = useState(false);
   const [moveKey, setMoveKey] = useState("");
   const [moveMessage, setMoveMessage] = useState("");
+  const [moveDestinationAvailable, setMoveDestinationAvailable] = useState<
+    boolean | null
+  >(null);
   const [isCheckingMove, setIsCheckingMove] = useState(false);
   const [uploadService, setUploadService] = useState<MediaService>("Events");
   const [uploadSubCategory, setUploadSubCategory] =
@@ -129,6 +133,7 @@ export function AdminMediaManager() {
     setEditor(getInitialEditorState(selectedItem));
     setMoveKey(selectedItem.key);
     setMoveMessage("");
+    setMoveDestinationAvailable(null);
   }, [selectedItem]);
 
   useEffect(() => {
@@ -265,13 +270,19 @@ export function AdminMediaManager() {
   }
 
   function queueFiles(files: File[]) {
-    const queued = files.map((file): UploadQueueItem => ({
-      id: `${file.name}-${file.lastModified}-${crypto.randomUUID()}`,
-      file,
-      status: isValidUploadType(file.type) ? "queued" : "error",
-      progress: 0,
-      message: isValidUploadType(file.type) ? "Ready" : "JPEG, PNG, or WebP only",
-    }));
+    const queued = files.map((file): UploadQueueItem => {
+      const validationMessage = getUploadValidationMessage(file);
+
+      return {
+        id: `${file.name}-${file.lastModified}-${crypto.randomUUID()}`,
+        file,
+        service: uploadService,
+        subCategory: uploadSubCategory,
+        status: validationMessage ? "error" : "queued",
+        progress: 0,
+        message: validationMessage || "Ready",
+      };
+    });
 
     setUploadQueue((current) => [...current, ...queued]);
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -279,6 +290,14 @@ export function AdminMediaManager() {
 
   function removeUpload(id: string) {
     setUploadQueue((current) => current.filter((item) => item.id !== id));
+  }
+
+  function updateUploadItemTarget(
+    id: string,
+    service: MediaService,
+    subCategory: MediaSubCategory,
+  ) {
+    setUploadItem(id, { service, subCategory });
   }
 
   function setUploadItem(id: string, patch: Partial<UploadQueueItem>) {
@@ -292,15 +311,20 @@ export function AdminMediaManager() {
     if (readyItems.length === 0) return;
 
     setIsUploading(true);
-    const folder = getFolderForCategory(uploadService, uploadSubCategory);
     const startingSortOrder =
       items.reduce((max, item) => Math.max(max, item.sortOrder), 0) + 1;
 
     for (const [index, queueItem] of readyItems.entries()) {
       try {
+        const validationMessage = getUploadValidationMessage(queueItem.file);
+        if (validationMessage) {
+          throw new Error(validationMessage || "JPEG, PNG, or WebP only");
+        }
         if (!isValidUploadType(queueItem.file.type)) {
           throw new Error("JPEG, PNG, or WebP only");
         }
+
+        const folder = getFolderForCategory(queueItem.service, queueItem.subCategory);
 
         setUploadItem(queueItem.id, {
           status: "uploading",
@@ -335,8 +359,8 @@ export function AdminMediaManager() {
           filename: queueItem.file.name,
           src: presign.public_url,
           alt: "",
-          service: uploadService,
-          subCategory: uploadSubCategory,
+          service: queueItem.service,
+          subCategory: queueItem.subCategory,
           aspectRatio,
           sortOrder: startingSortOrder + index,
         });
@@ -366,17 +390,20 @@ export function AdminMediaManager() {
     if (!selectedItem || selectedItem.status !== "draft") return;
     setIsCheckingMove(true);
     setMoveMessage("");
+    setMoveDestinationAvailable(null);
     try {
       const result = await checkMediaDestination({
         destination_key: moveKey.trim(),
         exclude_media_id: selectedItem.id,
       });
+      setMoveDestinationAvailable(result.available);
       setMoveMessage(
         result.available
           ? "Destination is available."
           : "Destination already exists in the catalog or storage.",
       );
     } catch (error) {
+      setMoveDestinationAvailable(false);
       setMoveMessage(getFriendlyError(error));
     } finally {
       setIsCheckingMove(false);
@@ -385,6 +412,11 @@ export function AdminMediaManager() {
 
   async function moveSelected() {
     if (!selectedItem || selectedItem.status !== "draft") return;
+    if (moveDestinationAvailable !== true) {
+      setMoveMessage("Check destination availability before moving this draft.");
+      return;
+    }
+
     setIsMoving(true);
     setMoveMessage("");
     try {
@@ -393,6 +425,7 @@ export function AdminMediaManager() {
       });
       upsertItem(result.item);
       setMoveMessage("Draft moved.");
+      setMoveDestinationAvailable(null);
     } catch (error) {
       setMoveMessage(getFriendlyError(error));
     } finally {
@@ -425,7 +458,7 @@ export function AdminMediaManager() {
 
   if (authState === "checking") {
     return (
-      <main className="grid min-h-screen place-items-center bg-[var(--background)] px-6 pt-hero">
+      <main className="grid min-h-screen place-items-center bg-[var(--background)] px-6">
         <div className="flex items-center gap-3 text-sm font-semibold text-[var(--brand-strong)]">
           <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
           Checking media admin session
@@ -462,6 +495,7 @@ export function AdminMediaManager() {
       isRevalidating={isRevalidating}
       isSaving={isSaving}
       isUploading={isUploading}
+      moveDestinationAvailable={moveDestinationAvailable}
       moveKey={moveKey}
       moveMessage={moveMessage}
       notice={notice}
@@ -488,7 +522,11 @@ export function AdminMediaManager() {
       onFilesSelected={queueFiles}
       onLogout={handleLogout}
       onMove={moveSelected}
-      onMoveKeyChange={setMoveKey}
+      onMoveKeyChange={(value) => {
+        setMoveKey(value);
+        setMoveDestinationAvailable(null);
+        setMoveMessage("");
+      }}
       onRemoveUpload={removeUpload}
       onRestore={() => void restoreSelected()}
       onSave={() => void saveEditor()}
@@ -501,6 +539,7 @@ export function AdminMediaManager() {
       onTriggerRevalidate={triggerRevalidate}
       onUpdateEditor={updateEditor}
       onUploadDrafts={uploadDrafts}
+      onUpdateUploadItemTarget={updateUploadItemTarget}
       onUploadTargetChange={(service, subCategory) => {
         setUploadService(service);
         setUploadSubCategory(subCategory);

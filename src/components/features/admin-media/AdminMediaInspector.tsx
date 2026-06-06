@@ -28,6 +28,7 @@ interface AdminMediaInspectorProps {
   isMoving: boolean;
   isSaving: boolean;
   item: AdminMediaItem | null;
+  moveDestinationAvailable: boolean | null;
   moveKey: string;
   moveMessage: string;
   publishBlocked: boolean;
@@ -52,6 +53,7 @@ export function AdminMediaInspector({
   isMoving,
   isSaving,
   item,
+  moveDestinationAvailable,
   moveKey,
   moveMessage,
   publishBlocked,
@@ -66,8 +68,8 @@ export function AdminMediaInspector({
 }: AdminMediaInspectorProps) {
   if (!item || !editor) {
     return (
-      <aside className="border-t border-[var(--border)] bg-white xl:border-l xl:border-t-0">
-        <div className="sticky top-[var(--header-height)] max-h-[calc(100vh-var(--header-height))] overflow-y-auto p-5">
+      <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
+        <div className="p-5">
           <div className="grid min-h-96 place-items-center text-center">
             <div>
               <FileImage className="mx-auto h-12 w-12 text-[var(--text-muted)]" />
@@ -83,6 +85,13 @@ export function AdminMediaInspector({
   }
 
   const archivedLocked = item.status === "archived";
+  const trimmedMoveKey = moveKey.trim();
+  const canSubmitMove =
+    canMove &&
+    !isMoving &&
+    Boolean(trimmedMoveKey) &&
+    trimmedMoveKey !== item.key &&
+    moveDestinationAvailable === true;
   const serviceOptions = [
     { value: "", label: "Unset" },
     ...MEDIA_SERVICES.map((service) => ({ value: service, label: service })),
@@ -106,8 +115,8 @@ export function AdminMediaInspector({
   }));
 
   return (
-    <aside className="border-t border-[var(--border)] bg-white xl:border-l xl:border-t-0">
-      <div className="sticky top-[var(--header-height)] max-h-[calc(100vh-var(--header-height))] overflow-y-auto p-5">
+    <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
+      <div className="p-5">
         <div className="space-y-5">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -333,7 +342,7 @@ export function AdminMediaInspector({
               <button
                 type="button"
                 onClick={onCheckDestination}
-                disabled={!canMove || isCheckingMove || !moveKey.trim()}
+                disabled={!canMove || isCheckingMove || !trimmedMoveKey}
                 className="inline-flex min-h-10 items-center justify-center rounded-sm border border-[var(--border)] text-xs font-bold disabled:opacity-50"
               >
                 {isCheckingMove ? "Checking..." : "Check"}
@@ -341,7 +350,7 @@ export function AdminMediaInspector({
               <button
                 type="button"
                 onClick={onMove}
-                disabled={!canMove || isMoving || !moveKey.trim() || moveKey === item.key}
+                disabled={!canSubmitMove}
                 className="inline-flex min-h-10 items-center justify-center rounded-sm bg-[var(--brand-strong)] text-xs font-bold text-white disabled:opacity-50"
               >
                 {isMoving ? "Moving..." : "Move"}

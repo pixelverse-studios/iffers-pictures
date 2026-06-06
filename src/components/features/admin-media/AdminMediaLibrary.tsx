@@ -1,6 +1,9 @@
 "use client";
 
-import type { RefObject } from "react";
+import { useState, type RefObject } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Menu } from "lucide-react";
 import type {
   AdminMediaItem,
   MediaAdminSession,
@@ -32,6 +35,7 @@ interface AdminMediaLibraryProps {
   isRevalidating: boolean;
   isSaving: boolean;
   isUploading: boolean;
+  moveDestinationAvailable: boolean | null;
   moveKey: string;
   moveMessage: string;
   notice: string;
@@ -71,6 +75,11 @@ interface AdminMediaLibraryProps {
     value: EditorState[Key],
   ) => void;
   onUploadDrafts: () => void;
+  onUpdateUploadItemTarget: (
+    id: string,
+    service: MediaService,
+    subCategory: MediaSubCategory,
+  ) => void;
   onUploadTargetChange: (service: MediaService, subCategory: MediaSubCategory) => void;
 }
 
@@ -88,6 +97,7 @@ export function AdminMediaLibrary({
   isRevalidating,
   isSaving,
   isUploading,
+  moveDestinationAvailable,
   moveKey,
   moveMessage,
   notice,
@@ -124,24 +134,57 @@ export function AdminMediaLibrary({
   onTriggerRevalidate,
   onUpdateEditor,
   onUploadDrafts,
+  onUpdateUploadItemTarget,
   onUploadTargetChange,
 }: AdminMediaLibraryProps) {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const activeMobileFilter =
+    subCategoryFilter !== "all"
+      ? subCategoryFilter
+      : serviceFilter !== "all"
+        ? serviceFilter
+        : "All Media";
+
   return (
-    <main className="min-h-screen bg-[var(--background)] pt-hero text-[var(--foreground)]">
-      <div className="grid min-h-[calc(100vh-var(--header-height)-1rem)] lg:grid-cols-[220px_1fr]">
+    <main className="admin-media-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)] lg:h-[100dvh] lg:overflow-hidden">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[var(--border)] bg-white/96 px-4 py-3 backdrop-blur lg:hidden">
+        <Link href="/" aria-label="Iffer's Pictures home" className="block">
+          <Image
+            src="/logo-black.png"
+            alt="Iffer's Pictures"
+            width={112}
+            height={60}
+            priority
+            className="h-11 w-auto"
+          />
+        </Link>
+        <button
+          type="button"
+          onClick={() => setMobileNavOpen(true)}
+          className="inline-flex min-h-10 items-center gap-2 rounded-sm border border-[var(--border)] bg-white px-3 text-sm font-bold text-[var(--foreground)]"
+          aria-label="Open media navigation"
+          aria-expanded={mobileNavOpen}
+        >
+          <Menu className="h-4 w-4" aria-hidden />
+          {activeMobileFilter}
+        </button>
+      </header>
+      <div className="grid min-h-screen lg:h-[100dvh] lg:min-h-0 lg:grid-cols-[220px_1fr] lg:overflow-hidden">
         <AdminMediaSidebar
+          isMobileOpen={mobileNavOpen}
           session={session}
           serviceFilter={serviceFilter}
           statusFilter={statusFilter}
           subCategoryFilter={subCategoryFilter}
+          onCloseMobile={() => setMobileNavOpen(false)}
           onLogout={onLogout}
           onServiceFilterChange={onServiceFilterChange}
           onStatusFilterChange={onStatusFilterChange}
           onSubCategoryFilterChange={onSubCategoryFilterChange}
         />
 
-        <section className="grid min-w-0 xl:grid-cols-[1fr_360px]">
-          <div className="min-w-0">
+        <section className="grid min-w-0 lg:min-h-0 lg:overflow-hidden xl:grid-cols-[1fr_360px]">
+          <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto">
             <AdminMediaHeader
               counts={counts}
               fileInputRef={fileInputRef}
@@ -187,8 +230,8 @@ export function AdminMediaLibrary({
               {uploadQueue.length > 0 && (
                 <AdminMediaUploadQueue
                   items={uploadQueue}
-                  uploadSubCategory={uploadSubCategory}
                   onRemoveUpload={onRemoveUpload}
+                  onUpdateUploadItemTarget={onUpdateUploadItemTarget}
                 />
               )}
 
@@ -209,6 +252,7 @@ export function AdminMediaLibrary({
             isMoving={isMoving}
             isSaving={isSaving}
             item={selectedItem}
+            moveDestinationAvailable={moveDestinationAvailable}
             moveKey={moveKey}
             moveMessage={moveMessage}
             publishBlocked={publishBlocked}

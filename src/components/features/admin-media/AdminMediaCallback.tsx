@@ -58,7 +58,7 @@ export function AdminMediaCallback() {
   }, [router, token]);
 
   return (
-    <main className="min-h-screen bg-[var(--background)] px-5 pb-10 pt-hero text-[var(--foreground)] md:px-8">
+    <main className="min-h-screen bg-[var(--background)] px-5 py-10 text-[var(--foreground)] md:px-8">
       <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-5xl place-items-center">
         <section className="w-full max-w-xl border border-[var(--border)] bg-white p-7 shadow-sm md:p-10">
           <div className="flex items-start gap-4">
