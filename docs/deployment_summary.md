@@ -23,6 +23,7 @@
 - Allowed the production media domain to render through Next.js image optimization in admin media views.
 - Kept the admin media sidebar visible while scrolling through large image grids.
 - Organized admin media sidebar filters into nested service and sub-category navigation.
+- Replaced the mobile admin media sidebar with a compact top bar and slide-in media menu.
 
 ## Notes for internal team
 
@@ -47,6 +48,7 @@
 - DEV-920: Added `https://media.ifferspictures.com` to default Next image remote patterns.
 - DEV-920: Made the desktop admin media sidebar sticky with an internal category scroll region.
 - DEV-920: Replaced the flat media category sidebar with service parent filters and nested child filters for multi-category services.
+- DEV-920: Added a mobile-only media navigation drawer to prevent horizontal overflow on small screens.
 
 ## Changed URLs
 

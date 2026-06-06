@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Archive, FileImage, Grid2X2, LogOut } from "lucide-react";
+import { Archive, FileImage, Grid2X2, LogOut, X } from "lucide-react";
 import {
   MEDIA_SERVICES,
   MEDIA_SUB_CATEGORIES,
@@ -14,10 +14,12 @@ import type { StatusFilter } from "./types";
 import { formatDate } from "./utils";
 
 interface AdminMediaSidebarProps {
+  isMobileOpen?: boolean;
   session: MediaAdminSession | null;
   serviceFilter: "all" | MediaService;
   statusFilter: StatusFilter;
   subCategoryFilter: "all" | MediaSubCategory;
+  onCloseMobile?: () => void;
   onLogout: () => void;
   onServiceFilterChange: (value: "all" | MediaService) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
@@ -25,10 +27,12 @@ interface AdminMediaSidebarProps {
 }
 
 export function AdminMediaSidebar({
+  isMobileOpen = false,
   session,
   serviceFilter,
   statusFilter,
   subCategoryFilter,
+  onCloseMobile,
   onLogout,
   onServiceFilterChange,
   onStatusFilterChange,
@@ -39,41 +43,76 @@ export function AdminMediaSidebar({
     subCategories: MEDIA_SUB_CATEGORIES[service],
   }));
 
-  return (
-    <aside className="border-b border-[var(--border)] bg-white lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r">
-      <div className="flex items-center justify-between px-5 py-5 lg:block">
-        <Link
-          href="/"
-          className="block w-fit"
-          aria-label="Iffer's Pictures home"
-        >
-          <Image
-            src="/logo-black.png"
-            alt="Iffer's Pictures"
-            width={150}
-            height={80}
-            priority
-            className="h-16 w-auto"
-          />
-        </Link>
-        <button
-          type="button"
-          onClick={onLogout}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--text-secondary)] lg:hidden"
-        >
-          <LogOut className="h-4 w-4" aria-hidden />
-          Logout
-        </button>
-      </div>
+  function handleAllMediaClick() {
+    onServiceFilterChange("all");
+    onSubCategoryFilterChange("all");
+    onCloseMobile?.();
+  }
 
-      <nav className="flex gap-2 overflow-x-auto px-5 pb-4 lg:block lg:max-h-[calc(100vh-14rem)] lg:space-y-1 lg:overflow-y-auto lg:overflow-x-hidden">
+  function handleServiceClick(service: MediaService) {
+    onServiceFilterChange(service);
+    onSubCategoryFilterChange("all");
+    onCloseMobile?.();
+  }
+
+  function handleSubCategoryClick(
+    service: MediaService,
+    subCategory: MediaSubCategory,
+  ) {
+    onServiceFilterChange(service);
+    onSubCategoryFilterChange(subCategory);
+    onCloseMobile?.();
+  }
+
+  function handleArchiveClick() {
+    onStatusFilterChange("archived");
+    onCloseMobile?.();
+  }
+
+  function handleLogoutClick() {
+    onLogout();
+    onCloseMobile?.();
+  }
+
+  function renderSidebarContent(isDrawer = false) {
+    const navClassName = isDrawer
+      ? "space-y-1 px-5 pb-5"
+      : "flex gap-2 overflow-x-auto px-5 pb-4 lg:block lg:max-h-[calc(100vh-14rem)] lg:space-y-1 lg:overflow-y-auto lg:overflow-x-hidden";
+    const parentButtonClassName = "inline-flex min-h-11 items-center gap-3 rounded-sm px-3 text-sm font-semibold";
+    const parentWidthClassName = isDrawer ? "w-full" : "shrink-0 lg:w-full";
+    const childListClassName = isDrawer
+      ? "mt-1 space-y-1 pl-6"
+      : "mt-1 flex gap-2 lg:block lg:space-y-1 lg:pl-6";
+    const childButtonClassName = isDrawer
+      ? "inline-flex min-h-9 w-full items-center rounded-sm px-3 text-xs font-bold"
+      : "inline-flex min-h-9 shrink-0 items-center rounded-sm px-3 text-xs font-bold lg:w-full";
+
+    return (
+      <>
+      {!isDrawer && (
+        <div className="flex items-center justify-between px-5 py-5">
+          <Link
+            href="/"
+            className="block w-fit"
+            aria-label="Iffer's Pictures home"
+          >
+            <Image
+              src="/logo-black.png"
+              alt="Iffer's Pictures"
+              width={150}
+              height={80}
+              priority
+              className="h-16 w-auto"
+            />
+          </Link>
+        </div>
+      )}
+
+      <nav className={navClassName}>
         <button
           type="button"
-          onClick={() => {
-            onServiceFilterChange("all");
-            onSubCategoryFilterChange("all");
-          }}
-          className={`inline-flex min-h-11 shrink-0 items-center gap-3 rounded-sm px-3 text-sm font-semibold lg:w-full ${
+          onClick={handleAllMediaClick}
+          className={`${parentButtonClassName} ${parentWidthClassName} ${
             serviceFilter === "all"
               ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
               : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -95,11 +134,8 @@ export function AdminMediaSidebar({
               <button
                 key={service}
                 type="button"
-                onClick={() => {
-                  onServiceFilterChange(service);
-                  onSubCategoryFilterChange(subCategory);
-                }}
-                className={`inline-flex min-h-11 shrink-0 items-center gap-3 rounded-sm px-3 text-sm font-semibold lg:w-full ${
+                onClick={() => handleSubCategoryClick(service, subCategory)}
+                className={`${parentButtonClassName} ${parentWidthClassName} ${
                   serviceFilter === service
                     ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
                     : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -112,14 +148,11 @@ export function AdminMediaSidebar({
           }
 
           return (
-            <div key={service} className="shrink-0 lg:w-full">
+            <div key={service} className={parentWidthClassName}>
               <button
                 type="button"
-                onClick={() => {
-                  onServiceFilterChange(service);
-                  onSubCategoryFilterChange("all");
-                }}
-                className={`inline-flex min-h-11 w-full items-center gap-3 rounded-sm px-3 text-sm font-semibold ${
+                onClick={() => handleServiceClick(service)}
+                className={`${parentButtonClassName} w-full ${
                   serviceIsActive || serviceHasActiveChild
                     ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
                     : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -128,16 +161,13 @@ export function AdminMediaSidebar({
                 <FileImage className="h-4 w-4" aria-hidden />
                 {service}
               </button>
-              <div className="mt-1 flex gap-2 lg:block lg:space-y-1 lg:pl-6">
+              <div className={childListClassName}>
                 {subCategories.map((subCategory) => (
                   <button
                     key={`${service}-${subCategory}`}
                     type="button"
-                    onClick={() => {
-                      onServiceFilterChange(service);
-                      onSubCategoryFilterChange(subCategory);
-                    }}
-                    className={`inline-flex min-h-9 shrink-0 items-center rounded-sm px-3 text-xs font-bold lg:w-full ${
+                    onClick={() => handleSubCategoryClick(service, subCategory)}
+                    className={`${childButtonClassName} ${
                       serviceFilter === service && subCategoryFilter === subCategory
                         ? "bg-[var(--background-warm)] text-[var(--brand-strong)]"
                         : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -152,8 +182,8 @@ export function AdminMediaSidebar({
         })}
         <button
           type="button"
-          onClick={() => onStatusFilterChange("archived")}
-          className={`inline-flex min-h-11 shrink-0 items-center gap-3 rounded-sm px-3 text-sm font-semibold lg:w-full ${
+          onClick={handleArchiveClick}
+          className={`${parentButtonClassName} ${parentWidthClassName} ${
             statusFilter === "archived"
               ? "bg-red-50 text-red-700"
               : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -164,6 +194,19 @@ export function AdminMediaSidebar({
         </button>
       </nav>
 
+      {isDrawer && (
+        <div className="border-t border-[var(--border)] p-5">
+          <button
+            type="button"
+            onClick={handleLogoutClick}
+            className="inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-[var(--text-secondary)]"
+          >
+            <LogOut className="h-4 w-4" aria-hidden />
+            Logout
+          </button>
+        </div>
+      )}
+
       <div className="hidden border-t border-[var(--border)] p-5 lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:block lg:bg-white">
         <p className="text-sm font-bold text-[var(--foreground)]">
           {session?.email ?? "Administrator"}
@@ -173,13 +216,47 @@ export function AdminMediaSidebar({
         </p>
         <button
           type="button"
-          onClick={onLogout}
+          onClick={handleLogoutClick}
           className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--text-secondary)]"
         >
           <LogOut className="h-4 w-4" aria-hidden />
           Logout
         </button>
       </div>
-    </aside>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <aside className="hidden border-b border-[var(--border)] bg-white lg:sticky lg:top-0 lg:block lg:h-screen lg:border-b-0 lg:border-r">
+        {renderSidebarContent()}
+      </aside>
+
+      {isMobileOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 bg-[rgba(26,32,48,0.48)]"
+            aria-label="Close media navigation"
+            onClick={onCloseMobile}
+          />
+          <aside className="absolute bottom-0 left-0 top-0 w-[min(22rem,88vw)] overflow-y-auto border-r border-[var(--border)] bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
+              <p className="text-sm font-bold text-[var(--foreground)]">Media menu</p>
+              <button
+                type="button"
+                onClick={onCloseMobile}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[var(--border)] text-[var(--text-secondary)]"
+                aria-label="Close media navigation"
+              >
+                <X className="h-5 w-5" aria-hidden />
+              </button>
+            </div>
+            {renderSidebarContent(true)}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

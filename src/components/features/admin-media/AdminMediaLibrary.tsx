@@ -1,6 +1,9 @@
 "use client";
 
-import type { RefObject } from "react";
+import { useState, type RefObject } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Menu } from "lucide-react";
 import type {
   AdminMediaItem,
   MediaAdminSession,
@@ -134,14 +137,46 @@ export function AdminMediaLibrary({
   onUpdateUploadItemTarget,
   onUploadTargetChange,
 }: AdminMediaLibraryProps) {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const activeMobileFilter =
+    subCategoryFilter !== "all"
+      ? subCategoryFilter
+      : serviceFilter !== "all"
+        ? serviceFilter
+        : "All Media";
+
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <main className="min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[var(--border)] bg-white/96 px-4 py-3 backdrop-blur lg:hidden">
+        <Link href="/" aria-label="Iffer's Pictures home" className="block">
+          <Image
+            src="/logo-black.png"
+            alt="Iffer's Pictures"
+            width={112}
+            height={60}
+            priority
+            className="h-11 w-auto"
+          />
+        </Link>
+        <button
+          type="button"
+          onClick={() => setMobileNavOpen(true)}
+          className="inline-flex min-h-10 items-center gap-2 rounded-sm border border-[var(--border)] bg-white px-3 text-sm font-bold text-[var(--foreground)]"
+          aria-label="Open media navigation"
+          aria-expanded={mobileNavOpen}
+        >
+          <Menu className="h-4 w-4" aria-hidden />
+          {activeMobileFilter}
+        </button>
+      </header>
       <div className="grid min-h-screen lg:grid-cols-[220px_1fr]">
         <AdminMediaSidebar
+          isMobileOpen={mobileNavOpen}
           session={session}
           serviceFilter={serviceFilter}
           statusFilter={statusFilter}
           subCategoryFilter={subCategoryFilter}
+          onCloseMobile={() => setMobileNavOpen(false)}
           onLogout={onLogout}
           onServiceFilterChange={onServiceFilterChange}
           onStatusFilterChange={onStatusFilterChange}
