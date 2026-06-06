@@ -262,6 +262,21 @@ h1, h2, h3, h4, h5, h6,
   color: #ffffff;
 }
 
+.admin-media-shell button:not(:disabled),
+.admin-media-shell [role="button"]:not([aria-disabled="true"]),
+.admin-media-shell a[href],
+.admin-media-shell summary,
+.admin-media-shell label,
+.admin-media-shell .mantine-Select-input:not([data-disabled]) {
+  cursor: pointer;
+}
+
+.admin-media-shell button:disabled,
+.admin-media-shell [aria-disabled="true"],
+.admin-media-shell .mantine-Select-input[data-disabled] {
+  cursor: not-allowed;
+}
+
 @keyframes admin-drawer-in {
   from {
     transform: translateX(-100%);

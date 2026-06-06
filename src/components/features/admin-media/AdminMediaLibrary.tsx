@@ -146,7 +146,7 @@ export function AdminMediaLibrary({
         : "All Media";
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
+    <main className="admin-media-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[var(--border)] bg-white/96 px-4 py-3 backdrop-blur lg:hidden">
         <Link href="/" aria-label="Iffer's Pictures home" className="block">
           <Image

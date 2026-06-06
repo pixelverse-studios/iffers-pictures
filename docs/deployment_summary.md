@@ -25,6 +25,7 @@
 - Organized admin media sidebar filters into nested service and sub-category navigation.
 - Replaced the mobile admin media sidebar with a compact top bar and slide-in media menu.
 - Added smooth open and close animation to the mobile admin media menu.
+- Standardized pointer cursors across clickable admin media controls.
 
 ## Notes for internal team
 
@@ -51,6 +52,7 @@
 - DEV-920: Replaced the flat media category sidebar with service parent filters and nested child filters for multi-category services.
 - DEV-920: Added a mobile-only media navigation drawer to prevent horizontal overflow on small screens.
 - DEV-920: Kept the mobile drawer mounted during close so overlay opacity and panel transform can animate out.
+- DEV-920: Added admin media shell cursor rules for active and disabled interactive controls.
 
 ## Changed URLs
 
