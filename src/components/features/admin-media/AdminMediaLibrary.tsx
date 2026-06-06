@@ -146,7 +146,7 @@ export function AdminMediaLibrary({
         : "All Media";
 
   return (
-    <main className="admin-media-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
+    <main className="admin-media-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)] lg:h-[100dvh] lg:overflow-hidden">
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[var(--border)] bg-white/96 px-4 py-3 backdrop-blur lg:hidden">
         <Link href="/" aria-label="Iffer's Pictures home" className="block">
           <Image
@@ -169,7 +169,7 @@ export function AdminMediaLibrary({
           {activeMobileFilter}
         </button>
       </header>
-      <div className="grid min-h-screen lg:grid-cols-[220px_1fr]">
+      <div className="grid min-h-screen lg:h-[100dvh] lg:min-h-0 lg:grid-cols-[220px_1fr] lg:overflow-hidden">
         <AdminMediaSidebar
           isMobileOpen={mobileNavOpen}
           session={session}
@@ -183,8 +183,8 @@ export function AdminMediaLibrary({
           onSubCategoryFilterChange={onSubCategoryFilterChange}
         />
 
-        <section className="grid min-w-0 xl:grid-cols-[1fr_360px]">
-          <div className="min-w-0">
+        <section className="grid min-w-0 lg:min-h-0 lg:overflow-hidden xl:grid-cols-[1fr_360px]">
+          <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto">
             <AdminMediaHeader
               counts={counts}
               fileInputRef={fileInputRef}

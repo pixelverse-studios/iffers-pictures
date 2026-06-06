@@ -26,6 +26,7 @@
 - Replaced the mobile admin media sidebar with a compact top bar and slide-in media menu.
 - Added smooth open and close animation to the mobile admin media menu.
 - Standardized pointer cursors across clickable admin media controls.
+- Restored fixed desktop admin media side columns while the image workspace scrolls independently.
 
 ## Notes for internal team
 
@@ -53,6 +54,7 @@
 - DEV-920: Added a mobile-only media navigation drawer to prevent horizontal overflow on small screens.
 - DEV-920: Kept the mobile drawer mounted during close so overlay opacity and panel transform can animate out.
 - DEV-920: Added admin media shell cursor rules for active and disabled interactive controls.
+- DEV-920: Changed the desktop admin media shell to viewport-height column scrolling so the sidebar and inspector remain visible.
 
 ## Changed URLs
 

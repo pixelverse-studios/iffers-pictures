@@ -260,7 +260,7 @@ export function AdminMediaSidebar({
 
   return (
     <>
-      <aside className="hidden border-b border-[var(--border)] bg-white lg:sticky lg:top-0 lg:block lg:h-screen lg:border-b-0 lg:border-r">
+      <aside className="hidden border-b border-[var(--border)] bg-white lg:block lg:h-[100dvh] lg:border-b-0 lg:border-r">
         {renderSidebarContent()}
       </aside>
 
