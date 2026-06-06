@@ -20,6 +20,7 @@
 - Added a destination availability guard so draft media can only be moved after the latest target path passes a collision check.
 - Removed the public website navigation from admin media screens and moved the home link into the admin sidebar logo.
 - Fixed the admin media screen crash caused by unsupported nested Mantine style selectors.
+- Allowed the production media domain to render through Next.js image optimization in admin media views.
 
 ## Notes for internal team
 
@@ -41,6 +42,7 @@
 - DEV-920: Added frontend upload type/size checks, expanded media API error copy, and gated draft move execution on a successful destination check.
 - DEV-920: Added route-aware site chrome so `/admin/*` omits public header/footer, then removed admin fixed-header offsets.
 - DEV-920: Moved Mantine pseudo-selector styling from theme style objects into global CSS classes for React 19 compatibility.
+- DEV-920: Added `https://media.ifferspictures.com` to default Next image remote patterns.
 
 ## Changed URLs
 

@@ -7,9 +7,11 @@ type ImageRemotePattern = ImageRemotePatterns[number];
 
 const DEFAULT_MEDIA_PUBLIC_BASE_URL =
   "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
+const DEFAULT_MEDIA_CUSTOM_DOMAIN = "https://media.ifferspictures.com";
 
 const mediaPublicBaseUrls = [
   DEFAULT_MEDIA_PUBLIC_BASE_URL,
+  DEFAULT_MEDIA_CUSTOM_DOMAIN,
   ...parseMediaPublicBaseUrls(process.env.MEDIA_PUBLIC_BASE_URLS),
   ...parseMediaPublicBaseUrls(process.env.MEDIA_PUBLIC_BASE_URL),
   ...parseMediaPublicBaseUrls(process.env.NEXT_PUBLIC_MEDIA_PUBLIC_BASE_URL),
