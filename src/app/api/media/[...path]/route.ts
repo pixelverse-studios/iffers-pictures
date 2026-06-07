@@ -17,6 +17,10 @@ export function PATCH(request: NextRequest, { params }: RouteContext) {
   return proxyMediaApiRequest(request, params, "/api/media");
 }
 
+export function PUT(request: NextRequest, { params }: RouteContext) {
+  return proxyMediaApiRequest(request, params, "/api/media");
+}
+
 export function DELETE(request: NextRequest, { params }: RouteContext) {
   return proxyMediaApiRequest(request, params, "/api/media");
 }

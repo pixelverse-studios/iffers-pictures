@@ -1,7 +1,11 @@
 import { parseMediaApiResponse } from "./errors";
 import {
   IFFERS_MEDIA_WEBSITE_SLUG,
+  type AdminMediaPlacementsResponse,
   type AdminMediaItem,
+  type AssignMediaPlacementRequest,
+  type AssignMediaPlacementResponse,
+  type ClearMediaPlacementResponse,
   type CreateDraftMediaItemRequest,
   type DestinationCheckRequest,
   type DestinationCheckResponse,
@@ -9,11 +13,13 @@ import {
   type MagicLinkResponse,
   type MediaAdminSession,
   type MediaCatalog,
+  type MediaPlacementSlotKey,
   type MoveMediaItemRequest,
   type MoveMediaItemResponse,
   type PatchMediaItemRequest,
   type PresignUploadRequest,
   type PresignUploadResponse,
+  type PublicMediaPlacementsResponse,
   type PublicMediaItem,
   type R2ObjectListResponse,
   type RevalidateMediaRequest,
@@ -59,6 +65,12 @@ export function getPublicMediaCatalog(): Promise<MediaCatalog<PublicMediaItem>> 
   });
 }
 
+export function getPublicMediaPlacements(): Promise<PublicMediaPlacementsResponse> {
+  return requestJson<PublicMediaPlacementsResponse>(`${MEDIA_ROOT}/placements`, {
+    method: "GET",
+  });
+}
+
 export function requestMediaAdminMagicLink(
   email: string
 ): Promise<MagicLinkResponse> {
@@ -94,6 +106,39 @@ export function getAdminMediaCatalog(): Promise<MediaCatalog<AdminMediaItem>> {
     `${MEDIA_ROOT}/admin/catalog`,
     {
       method: "GET",
+    }
+  );
+}
+
+export function getAdminMediaPlacements(): Promise<AdminMediaPlacementsResponse> {
+  return requestAdminJson<AdminMediaPlacementsResponse>(
+    `${MEDIA_ROOT}/admin/placements`,
+    {
+      method: "GET",
+    }
+  );
+}
+
+export function assignMediaPlacement(
+  slotKey: MediaPlacementSlotKey,
+  payload: AssignMediaPlacementRequest
+): Promise<AssignMediaPlacementResponse> {
+  return requestAdminJson<AssignMediaPlacementResponse>(
+    `${MEDIA_ROOT}/admin/placements/${encodeURIComponent(slotKey)}`,
+    {
+      method: "PUT",
+      body: payload,
+    }
+  );
+}
+
+export function clearMediaPlacement(
+  slotKey: MediaPlacementSlotKey
+): Promise<ClearMediaPlacementResponse> {
+  return requestAdminJson<ClearMediaPlacementResponse>(
+    `${MEDIA_ROOT}/admin/placements/${encodeURIComponent(slotKey)}`,
+    {
+      method: "DELETE",
     }
   );
 }

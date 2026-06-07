@@ -2,6 +2,7 @@ import { PORTFOLIO_ITEMS } from "@/components/features/portfolio/portfolioData";
 import {
   IFFERS_MEDIA_WEBSITE_SLUG,
   type MediaCatalog,
+  type PublicMediaPlacementsResponse,
   type PublicMediaItem,
 } from "./types";
 
@@ -27,4 +28,10 @@ export const STATIC_PUBLIC_MEDIA_CATALOG: MediaCatalog<PublicMediaItem> = {
       sortOrder: index,
     };
   }),
+};
+
+export const STATIC_PUBLIC_MEDIA_PLACEMENTS: PublicMediaPlacementsResponse = {
+  version: 1,
+  publicBaseUrl: STATIC_R2_PUBLIC_BASE_URL,
+  placements: [],
 };

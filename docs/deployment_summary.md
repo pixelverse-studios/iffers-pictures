@@ -28,6 +28,7 @@
 - Standardized pointer cursors across clickable admin media controls.
 - Restored fixed desktop admin media side columns while the image workspace scrolls independently.
 - Redirected the legacy image review page to the admin media manager so there is one clear media-management entry point.
+- Prepared the frontend media layer for explicit image placement assignments across homepage, service, portfolio, investment, FAQ, and admin media workflows.
 
 ## Notes for internal team
 
@@ -57,6 +58,7 @@
 - DEV-920: Added admin media shell cursor rules for active and disabled interactive controls.
 - DEV-920: Changed the desktop admin media shell to viewport-height column scrolling so the sidebar and inspector remain visible.
 - DEV-943: Replaced the `/image-review` implementation with a redirect to `/admin/media` and updated internal mockup/planning references to the media manager.
+- DEV-954: Added typed media placement slot registry, public/admin placement API clients, server-side public placement fallback fetching, gallery conversion helpers, proxy `PUT` forwarding, and placement-specific admin error copy.
 
 ## Changed URLs
 
@@ -75,3 +77,5 @@
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/image-review
+- https://ifferspictures.com/api/media/iffers-pictures/placements
+- https://ifferspictures.com/api/media/iffers-pictures/admin/placements

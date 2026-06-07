@@ -35,7 +35,13 @@ export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.file_too_large": "This image is too large for upload.",
   "media.destination_key_required": "Enter a destination key before moving this draft.",
   "media.invalid_status_transition": "That status change is not allowed.",
+  "media.invalid_placement_slot": "Choose a supported placement slot.",
+  "media.archived_assignment_forbidden":
+    "Archived media cannot be assigned to a placement.",
+  "media.unpublished_assignment_forbidden":
+    "Publish this media item before assigning it to a placement.",
   "media.not_found": "That media item could not be found. Refresh the catalog and try again.",
+  "media.website_not_found": "That media website could not be found.",
   "media.r2_not_configured": "Media storage is not configured on the server.",
 };
 
