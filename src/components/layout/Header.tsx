@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BUSINESS_INFO } from "@/lib/constants";
 import { trackCtaClick } from "@/lib/analytics";
+import { getMediaAdminSession } from "@/lib/media/client";
 
 // ─── Constants ────────────────────────────────────────────────────────
 const MOBILE_MENU_ID = "header-mobile-menu";
@@ -30,6 +31,7 @@ const MOBILE_BOARD_NAV_LINKS = [
 // ─── Header ───────────────────────────────────────────────────────────
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasMediaAdminSession, setHasMediaAdminSession] = useState(false);
   const pathname = usePathname();
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -39,6 +41,28 @@ export function Header() {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(href + "/");
   };
+  const desktopNavLinks = hasMediaAdminSession
+    ? [...BOARD_NAV_LINKS, { label: "Media", href: "/admin/media" }]
+    : BOARD_NAV_LINKS;
+  const mobileNavLinks = hasMediaAdminSession
+    ? [...MOBILE_BOARD_NAV_LINKS, { label: "Media", href: "/admin/media" }]
+    : MOBILE_BOARD_NAV_LINKS;
+
+  useEffect(() => {
+    let canceled = false;
+
+    getMediaAdminSession()
+      .then(() => {
+        if (!canceled) setHasMediaAdminSession(true);
+      })
+      .catch(() => {
+        if (!canceled) setHasMediaAdminSession(false);
+      });
+
+    return () => {
+      canceled = true;
+    };
+  }, []);
 
   // Body scroll lock while mobile menu is open. Uses a class rather than
   // inline style so it composes safely with anything else that touches
@@ -145,7 +169,7 @@ export function Header() {
           </button>
 
           <nav className="hidden items-center gap-4 md:flex lg:gap-6">
-            {BOARD_NAV_LINKS.map((link) => (
+            {desktopNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -208,7 +232,7 @@ export function Header() {
               feels premium; a reverse stagger on close makes the dismissal
               feel sluggish.
             */}
-            {MOBILE_BOARD_NAV_LINKS.map((link, index) => (
+            {mobileNavLinks.map((link, index) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -237,7 +261,7 @@ export function Header() {
             )}
             style={{
               transitionDelay: isMobileMenuOpen
-                ? `${STAGGER_BASE_MS + MOBILE_BOARD_NAV_LINKS.length * STAGGER_STEP_MS}ms`
+                ? `${STAGGER_BASE_MS + mobileNavLinks.length * STAGGER_STEP_MS}ms`
                 : "0ms",
             }}
           >
@@ -266,7 +290,7 @@ export function Header() {
             )}
             style={{
               transitionDelay: isMobileMenuOpen
-                ? `${STAGGER_BASE_MS + (MOBILE_BOARD_NAV_LINKS.length + 1) * STAGGER_STEP_MS}ms`
+                ? `${STAGGER_BASE_MS + (mobileNavLinks.length + 1) * STAGGER_STEP_MS}ms`
                 : "0ms",
             }}
           >
