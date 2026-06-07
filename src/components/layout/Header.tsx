@@ -155,7 +155,7 @@ export function Header() {
           </Link>
 
           <button
-            className="rounded-sm border border-[var(--border)] p-2 md:hidden"
+            className="rounded-sm border border-[var(--border)] p-2 lg:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
@@ -168,7 +168,7 @@ export function Header() {
             )}
           </button>
 
-          <nav className="hidden items-center gap-4 md:flex lg:gap-6">
+          <nav className="hidden items-center gap-4 lg:flex lg:gap-6">
             {desktopNavLinks.map((link) => (
               <Link
                 key={link.href}
@@ -208,7 +208,7 @@ export function Header() {
         aria-modal="true"
         aria-label="Main menu"
         className={cn(
-          "fixed inset-0 z-40 md:hidden transition-all duration-500 motion-reduce:transition-none",
+          "fixed inset-0 z-40 lg:hidden transition-all duration-500 motion-reduce:transition-none",
           isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
