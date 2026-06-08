@@ -60,7 +60,7 @@ export const maternityData: ServicePageData = {
       },
       {
         title: "Relaxed Session Flow",
-        description: "Sessions last 60-90 minutes with plenty of breaks. We'll capture solo portraits, partner shots (if desired), and silhouettes during golden hour.",
+        description: "Sessions last 60–90 minutes with a relaxed, natural flow and plenty of room for genuine moments to unfold.",
       },
       {
         title: "Reveal & Delivery",
@@ -102,7 +102,7 @@ export const maternityData: ServicePageData = {
       },
       {
         question: "What should I wear?",
-        answer: "Flowy maxi dresses, form-fitting gowns, or even simple jeans with a beautiful top all photograph beautifully. Soft, solid colors like blush, ivory, sage, and earth tones work best. I'll send you a detailed styling guide after booking with specific recommendations.",
+        answer: "Flowy maxi dresses, form-fitting gowns, or even simple jeans with a beautiful top all photograph beautifully. Soft, solid colors like blush, ivory, sage, and earth tones work best.",
       },
       {
         question: "Can my partner be included?",
@@ -142,8 +142,8 @@ export const maternityData: ServicePageData = {
         location: "Bergen County, NJ",
       },
       {
-        quote: "I wanted pictures from this day, but didn't want to be attached to my phone. Jenn did a great job at capturing all of the special moments and I'm grateful I can keep these for a lifetime. She took over 400 pictures throughout the day and edited them within two weeks!",
-        author: "Happy Client",
+        quote: "Jennifer is incredibly talented, professional, and an absolute joy to work with. She has such a natural eye for capturing moments in the most beautiful, effortless way, and it truly shines through in every photo. She makes the whole experience feel easy and special from start to finish. I couldn’t recommend her more!",
+        author: "Jeannie E.",
         location: "Bergen County, NJ",
       },
     ],

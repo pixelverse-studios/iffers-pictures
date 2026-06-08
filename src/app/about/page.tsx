@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants";
 import { AboutPageContent } from "@/components/features/about";
 import { PersonSchema } from "@/components/seo/PersonSchema";
+import { getPublicMediaPlacementsWithFallback } from "@/lib/media/server";
 
 export const metadata: Metadata = {
   title: "About Jennifer | Iffer's Pictures | Bergen County Photographer",
@@ -41,11 +42,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const placementsResponse = await getPublicMediaPlacementsWithFallback();
+
   return (
     <>
       <PersonSchema />
-      <AboutPageContent />
+      <AboutPageContent placements={placementsResponse.placements} />
     </>
   );
 }

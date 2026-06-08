@@ -100,13 +100,13 @@ Issue: good functional content, but the form can feel more conversational and le
 
 Mockup direction: split inquiry page with "what happens next" alongside the form, plus a Jenn sign-off.
 
-### Image Review
+### Media Manager
 
-Current content: internal review utility.
+Current content: internal managed media catalog at `/admin/media`.
 
 Issue: not part of the public marketing journey.
 
-Mockup direction: keep operational and quiet. Do not apply the full editorial marketing system unless this tool becomes client-facing.
+Mockup direction: keep operational and quiet. Do not apply the full editorial marketing system unless this tool becomes client-facing. The legacy `/image-review` workflow should redirect to `/admin/media` instead of remaining a separate production path.
 
 ## Proposed Visual System
 

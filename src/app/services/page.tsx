@@ -3,6 +3,11 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { ServicesHubSchema } from "@/components/features/services-hub";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { SessionsPageContent } from "@/components/features/sessions-hub";
+import {
+  getPublicMediaCatalogWithFallback,
+  getPublicMediaPlacementsWithFallback,
+} from "@/lib/media/server";
+import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
   title: "Sessions | Iffer's Pictures | Bergen County NJ",
@@ -43,7 +48,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SessionsPage() {
+export default async function SessionsPage() {
+  const [catalog, placementsResponse] = await Promise.all([
+    getPublicMediaCatalogWithFallback(),
+    getPublicMediaPlacementsWithFallback(),
+  ]);
+  const mediaItems = toPublicGalleryItems(catalog.items);
+
   return (
     <>
       <ServicesHubSchema />
@@ -54,7 +65,10 @@ export default function SessionsPage() {
         ]}
       />
 
-      <SessionsPageContent />
+      <SessionsPageContent
+        mediaItems={mediaItems}
+        placements={placementsResponse.placements}
+      />
     </>
   );
 }
