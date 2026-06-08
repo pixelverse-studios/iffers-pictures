@@ -31,23 +31,13 @@ export function AdminMediaBulkArchiveBar({
   return (
     <section className="flex h-full min-h-0 flex-col gap-5">
       <div className="shrink-0">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-strong)]">
-              Selected media
-            </p>
-            <h2 className="mt-1 font-heading text-2xl font-semibold">
-              {selectedCount} images selected
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={onClearSelection}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[var(--border)]"
-            aria-label="Clear selected media"
-          >
-            <X className="h-4 w-4" aria-hidden />
-          </button>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-strong)]">
+            Selected media
+          </p>
+          <h2 className="mt-1 font-heading text-2xl font-semibold">
+            {selectedCount} images selected
+          </h2>
         </div>
         {overLimit && (
           <p className="mt-3 text-sm font-semibold text-red-700">
@@ -115,19 +105,29 @@ export function AdminMediaBulkArchiveBar({
       </div>
 
       <div className="shrink-0 border-t border-[var(--border)] bg-white pt-4">
-        <button
-          type="button"
-          onClick={onArchiveSelected}
-          disabled={archiveDisabled}
-          className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-sm bg-red-700 px-4 text-sm font-bold text-white transition active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {isArchiving ? (
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-          ) : (
-            <Archive className="h-4 w-4" aria-hidden />
-          )}
-          Archive selected
-        </button>
+        <div className="grid grid-cols-[1fr_1.25fr] gap-2">
+          <button
+            type="button"
+            onClick={onClearSelection}
+            disabled={isArchiving || selectedCount === 0}
+            className="inline-flex min-h-11 items-center justify-center rounded-sm border border-[var(--border)] px-4 text-sm font-bold text-[var(--text-secondary)] transition hover:border-[var(--brand-strong)] hover:text-[var(--foreground)] active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Clear all
+          </button>
+          <button
+            type="button"
+            onClick={onArchiveSelected}
+            disabled={archiveDisabled}
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-red-700 px-4 text-sm font-bold text-white transition active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isArchiving ? (
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+            ) : (
+              <Archive className="h-4 w-4" aria-hidden />
+            )}
+            Archive
+          </button>
+        </div>
       </div>
     </section>
   );
