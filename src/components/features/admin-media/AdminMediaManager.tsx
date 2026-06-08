@@ -368,6 +368,12 @@ export function AdminMediaManager() {
     setSelectedId(null);
   }
 
+  function editSelectedArchiveItem(id: number) {
+    setArchiveSelectionIds([]);
+    setBatchArchiveFeedback(null);
+    setSelectedId(id);
+  }
+
   function toggleArchiveSelection(id: number) {
     const item = items.find((current) => current.id === id);
     if (!item) return;
@@ -822,6 +828,7 @@ export function AdminMediaManager() {
         setPlacementError("");
         setNotice("");
       }}
+      onEditSelectedArchiveItem={editSelectedArchiveItem}
       onFilesSelected={queueFiles}
       onLogout={handleLogout}
       onMove={moveSelected}

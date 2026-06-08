@@ -84,6 +84,7 @@ interface AdminMediaLibraryProps {
   onClearPlacement: (slotKey: MediaPlacementSlotKey) => void;
   onClearNotice: () => void;
   onClearArchiveSelection: () => void;
+  onEditSelectedArchiveItem: (id: number) => void;
   onFilesSelected: (files: File[]) => void;
   onLogout: () => void;
   onMove: () => void;
@@ -163,6 +164,7 @@ export function AdminMediaLibrary({
   onClearPlacement,
   onClearNotice,
   onClearArchiveSelection,
+  onEditSelectedArchiveItem,
   onFilesSelected,
   onLogout,
   onMove,
@@ -362,6 +364,7 @@ export function AdminMediaLibrary({
             onCheckDestination={onCheckDestination}
             onClose={() => onSelectedIdChange(null)}
             onClearArchiveSelection={onClearArchiveSelection}
+            onEditSelectedItem={onEditSelectedArchiveItem}
             onMove={onMove}
             onMoveKeyChange={onMoveKeyChange}
             onRemoveArchiveSelectionItem={onArchiveSelectionToggle}

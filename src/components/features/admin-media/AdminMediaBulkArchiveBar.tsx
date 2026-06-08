@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Archive, Loader2, ShieldAlert, X } from "lucide-react";
+import { Archive, Loader2, Pencil, ShieldAlert, X } from "lucide-react";
 import type { AdminMediaItem } from "@/lib/media/types";
 import type { BatchArchiveFeedback } from "./types";
 
@@ -13,6 +13,7 @@ interface AdminMediaBulkArchiveBarProps {
   selectedItems: readonly AdminMediaItem[];
   onArchiveSelected: () => void;
   onClearSelection: () => void;
+  onEditSelectedItem: (id: number) => void;
   onRemoveItem: (id: number) => void;
 }
 
@@ -23,6 +24,7 @@ export function AdminMediaBulkArchiveBar({
   selectedItems,
   onArchiveSelected,
   onClearSelection,
+  onEditSelectedItem,
   onRemoveItem,
 }: AdminMediaBulkArchiveBarProps) {
   const [confirmingArchive, setConfirmingArchive] = useState(false);
@@ -74,6 +76,18 @@ export function AdminMediaBulkArchiveBar({
             </ul>
           )}
         </div>
+      )}
+
+      {selectedCount === 1 && selectedItems[0] && !showArchiveConfirm && (
+        <button
+          type="button"
+          onClick={() => onEditSelectedItem(selectedItems[0].id)}
+          disabled={isArchiving}
+          className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-sm border border-[var(--brand-soft)] bg-white px-4 text-sm font-bold text-[var(--brand-strong)] transition hover:border-[var(--brand-strong)] active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <Pencil className="h-4 w-4" aria-hidden />
+          Edit details
+        </button>
       )}
 
       <div className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">

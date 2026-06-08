@@ -42,6 +42,7 @@ interface AdminMediaInspectorProps {
   onCheckDestination: () => void;
   onClose: () => void;
   onClearArchiveSelection: () => void;
+  onEditSelectedItem: (id: number) => void;
   onMove: () => void;
   onMoveKeyChange: (value: string) => void;
   onRemoveArchiveSelectionItem: (id: number) => void;
@@ -74,6 +75,7 @@ export function AdminMediaInspector({
   onCheckDestination,
   onClose,
   onClearArchiveSelection,
+  onEditSelectedItem,
   onMove,
   onMoveKeyChange,
   onRemoveArchiveSelectionItem,
@@ -100,6 +102,7 @@ export function AdminMediaInspector({
             selectedItems={selectedBatchItems}
             onArchiveSelected={onArchiveSelected}
             onClearSelection={onClearArchiveSelection}
+            onEditSelectedItem={onEditSelectedItem}
             onRemoveItem={onRemoveArchiveSelectionItem}
           />
         </div>

@@ -50,6 +50,7 @@
 - Fixed the admin media filter panel so service and sub-category choices apply reliably before the panel closes.
 - Fixed selected-media batch archive so a single selected published image uses the batch archive confirmation flow.
 - Kept admin placement assignments visually in sync when assigned images are archived.
+- Restored direct metadata editing access for a single selected published image from the Selected Media panel.
 
 ## Notes for internal team
 
@@ -103,6 +104,7 @@
 - DEV-959: Kept filter panel service and sub-category dropdowns inside the panel DOM so outside-click handling does not interrupt option selection.
 - DEV-959: Single published-image selection now renders the Selected Media batch archive panel, so one-image archive QA exercises the batch endpoint.
 - DEV-959/DEV-955: Successful archive updates now clear matching local placement assignments to prevent stale admin placement state after archive.
+- DEV-959: Added a single-selection `Edit details` action that exits batch selection and opens the normal media inspector for the selected published image.
 
 ## Changed URLs
 
