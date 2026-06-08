@@ -261,7 +261,7 @@ export function AdminMediaFilters({
                     data={serviceOptions}
                     allowDeselect={false}
                     radius="sm"
-                    comboboxProps={{ withinPortal: true, zIndex: 80 }}
+                    comboboxProps={{ withinPortal: false, zIndex: 80 }}
                     styles={{
                       input: { minHeight: "2.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem", fontWeight: 600 },
                     }}
@@ -281,7 +281,7 @@ export function AdminMediaFilters({
                     disabled={serviceFilter === "all"}
                     allowDeselect={false}
                     radius="sm"
-                    comboboxProps={{ withinPortal: true, zIndex: 80 }}
+                    comboboxProps={{ withinPortal: false, zIndex: 80 }}
                     styles={{
                       input: { minHeight: "2.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem", fontWeight: 600 },
                     }}
