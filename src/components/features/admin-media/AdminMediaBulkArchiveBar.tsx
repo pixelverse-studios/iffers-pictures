@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Archive, Loader2, X } from "lucide-react";
+import { useState } from "react";
+import { Archive, Loader2, ShieldAlert, X } from "lucide-react";
 import type { AdminMediaItem } from "@/lib/media/types";
 import type { BatchArchiveFeedback } from "./types";
 
@@ -24,9 +25,16 @@ export function AdminMediaBulkArchiveBar({
   onClearSelection,
   onRemoveItem,
 }: AdminMediaBulkArchiveBarProps) {
+  const [confirmingArchive, setConfirmingArchive] = useState(false);
   const selectedCount = selectedItems.length;
   const overLimit = selectedCount > maxSelection;
   const archiveDisabled = isArchiving || selectedCount === 0 || overLimit;
+  const showArchiveConfirm = confirmingArchive && selectedCount > 0 && !overLimit;
+
+  function confirmArchive() {
+    setConfirmingArchive(false);
+    onArchiveSelected();
+  }
 
   return (
     <section className="flex h-full min-h-0 flex-col gap-5">
@@ -105,29 +113,71 @@ export function AdminMediaBulkArchiveBar({
       </div>
 
       <div className="shrink-0 border-t border-[var(--border)] bg-white pt-4">
-        <div className="grid grid-cols-[1.25fr_1fr] gap-2">
-          <button
-            type="button"
-            onClick={onArchiveSelected}
-            disabled={archiveDisabled}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-red-700 px-4 text-sm font-bold text-white transition active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isArchiving ? (
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            ) : (
-              <Archive className="h-4 w-4" aria-hidden />
-            )}
-            Archive
-          </button>
-          <button
-            type="button"
-            onClick={onClearSelection}
-            disabled={isArchiving || selectedCount === 0}
-            className="inline-flex min-h-11 items-center justify-center rounded-sm border border-[var(--border)] px-4 text-sm font-bold text-[var(--text-secondary)] transition hover:border-[var(--brand-strong)] hover:text-[var(--foreground)] active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Clear all
-          </button>
-        </div>
+        {showArchiveConfirm && (
+          <div className="mb-3 border border-red-200 bg-red-50 p-3 text-sm text-red-900">
+            <div className="flex items-start gap-3">
+              <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              <div>
+                <p className="font-bold">
+                  Archive {selectedCount} selected image
+                  {selectedCount === 1 ? "" : "s"}?
+                </p>
+                <p className="mt-1 leading-5">
+                  Archived images are removed from public rendering, but files are
+                  not deleted from R2.
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-[1.25fr_1fr] gap-2">
+              <button
+                type="button"
+                onClick={confirmArchive}
+                disabled={archiveDisabled}
+                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-sm bg-red-700 px-4 text-sm font-bold text-white transition active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isArchiving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                ) : (
+                  <Archive className="h-4 w-4" aria-hidden />
+                )}
+                Archive
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmingArchive(false)}
+                disabled={isArchiving}
+                className="inline-flex min-h-10 items-center justify-center rounded-sm border border-red-200 bg-white px-4 text-sm font-bold text-red-900 transition hover:border-red-300 active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+        {!showArchiveConfirm && (
+          <div className="grid grid-cols-[1.25fr_1fr] gap-2">
+            <button
+              type="button"
+              onClick={() => setConfirmingArchive(true)}
+              disabled={archiveDisabled}
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-red-700 px-4 text-sm font-bold text-white transition active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isArchiving ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              ) : (
+                <Archive className="h-4 w-4" aria-hidden />
+              )}
+              Archive
+            </button>
+            <button
+              type="button"
+              onClick={onClearSelection}
+              disabled={isArchiving || selectedCount === 0}
+              className="inline-flex min-h-11 items-center justify-center rounded-sm border border-[var(--border)] px-4 text-sm font-bold text-[var(--text-secondary)] transition hover:border-[var(--brand-strong)] hover:text-[var(--foreground)] active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Clear all
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

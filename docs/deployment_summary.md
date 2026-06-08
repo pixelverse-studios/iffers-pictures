@@ -39,6 +39,8 @@
 - Refined batch selected media so the archive action stays visible, selected images scroll inside their own list, and individual images can be removed from the selection.
 - Added an explicit Clear all action beside the batch Archive button in the selected media panel.
 - Positioned the batch Archive action before Clear all so the primary action leads the selected media controls.
+- Replaced the browser archive prompt with an in-panel confirmation inside Selected Media.
+- Kept the Archive action first in the selected media confirmation state for consistent button placement.
 
 ## Notes for internal team
 
@@ -81,6 +83,8 @@
 - DEV-959: Removed the explanatory batch archive callout, constrained the selected-image list to an internal scroll region, and added per-item removal from the batch selection.
 - DEV-959: Renamed the pinned batch archive button to `Archive` and added a secondary pinned `Clear all` action.
 - DEV-959: Flipped the pinned batch action order so `Archive` is the first and wider primary control.
+- DEV-959: Removed the native `window.confirm` batch archive prompt and added a styled inline confirmation state to the bulk archive panel.
+- DEV-959: Matched the confirmation action order to the default action row with `Archive` first and primary.
 
 ## Changed URLs
 

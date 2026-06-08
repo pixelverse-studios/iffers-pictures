@@ -374,13 +374,6 @@ export function AdminMediaManager() {
       return;
     }
 
-    const confirmed = window.confirm(
-      `Archive ${uniqueIds.length} selected image${
-        uniqueIds.length === 1 ? "" : "s"
-      }?\n\nArchived images are removed from public rendering, but files are not deleted from R2.`,
-    );
-    if (!confirmed) return;
-
     const itemsById = new Map(items.map((item) => [item.id, item]));
 
     setIsBatchArchiving(true);
