@@ -9,6 +9,7 @@ import {
   getMediaAdminSession,
   logoutMediaAdmin,
   moveDraftMediaItem,
+  patchMediaItemsBatch,
   patchMediaItem,
   presignMediaUpload,
   requestMediaAdminMagicLink,
@@ -24,8 +25,16 @@ import {
 } from "@/lib/media/types";
 import { AdminMediaLibrary } from "./AdminMediaLibrary";
 import { AdminMediaLogin } from "./AdminMediaLogin";
-import { getFolderForCategory } from "./constants";
-import type { AuthState, EditorState, SortMode, StatusFilter, UploadQueueItem } from "./types";
+import { FRIENDLY_ERRORS, getFolderForCategory } from "./constants";
+import type {
+  AuthState,
+  BatchArchiveFailure,
+  BatchArchiveFeedback,
+  EditorState,
+  SortMode,
+  StatusFilter,
+  UploadQueueItem,
+} from "./types";
 import {
   canPublish,
   filterItems,
@@ -38,6 +47,8 @@ import {
   getStatusCounts,
   isValidUploadType,
 } from "./utils";
+
+const MAX_BATCH_ARCHIVE_ITEMS = 50;
 
 export function AdminMediaManager() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -73,6 +84,11 @@ export function AdminMediaManager() {
   const [uploadQueue, setUploadQueue] = useState<UploadQueueItem[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isRevalidating, setIsRevalidating] = useState(false);
+  const [isArchiveSelectionMode, setIsArchiveSelectionMode] = useState(false);
+  const [archiveSelectionIds, setArchiveSelectionIds] = useState<number[]>([]);
+  const [isBatchArchiving, setIsBatchArchiving] = useState(false);
+  const [batchArchiveFeedback, setBatchArchiveFeedback] =
+    useState<BatchArchiveFeedback | null>(null);
 
   const selectedItem = useMemo(
     () => items.find((item) => item.id === selectedId) ?? null,
@@ -140,6 +156,14 @@ export function AdminMediaManager() {
     if (selectedId === null || items.some((item) => item.id === selectedId)) return;
     setSelectedId(items[0]?.id ?? null);
   }, [items, selectedId]);
+
+  useEffect(() => {
+    setArchiveSelectionIds((current) =>
+      current.filter((id) =>
+        items.some((item) => item.id === id && item.status === "published"),
+      ),
+    );
+  }, [items]);
 
   async function loadCatalog() {
     setIsLoadingCatalog(true);
@@ -267,6 +291,148 @@ export function AdminMediaManager() {
       current.map((existing) => (existing.id === item.id ? item : existing)),
     );
     setSelectedId(item.id);
+  }
+
+  function clearArchiveSelection() {
+    setArchiveSelectionIds([]);
+    setIsArchiveSelectionMode(false);
+    setBatchArchiveFeedback(null);
+  }
+
+  function toggleArchiveSelectionMode() {
+    if (isArchiveSelectionMode) {
+      clearArchiveSelection();
+      return;
+    }
+
+    setIsArchiveSelectionMode(true);
+    setBatchArchiveFeedback(null);
+  }
+
+  function toggleArchiveSelection(id: number) {
+    const item = items.find((current) => current.id === id);
+    if (!item || item.status !== "published") return;
+
+    setBatchArchiveFeedback(null);
+    if (archiveSelectionIds.includes(id)) {
+      setArchiveSelectionIds((current) =>
+        current.filter((selectedId) => selectedId !== id),
+      );
+      return;
+    }
+
+    if (archiveSelectionIds.length >= MAX_BATCH_ARCHIVE_ITEMS) {
+      setBatchArchiveFeedback({
+        tone: "error",
+        message: `Select ${MAX_BATCH_ARCHIVE_ITEMS} images or fewer before archiving.`,
+        failures: [],
+      });
+      return;
+    }
+
+    setArchiveSelectionIds((current) => [...current, id]);
+  }
+
+  function getBatchArchiveFailureMessage(error: {
+    code?: string;
+    message?: string;
+  }) {
+    if (error.code && FRIENDLY_ERRORS[error.code]) {
+      return FRIENDLY_ERRORS[error.code];
+    }
+
+    return error.message || "Archive failed.";
+  }
+
+  async function archiveSelectedItems() {
+    const uniqueIds = Array.from(new Set(archiveSelectionIds));
+    if (uniqueIds.length === 0) return;
+
+    if (uniqueIds.length > MAX_BATCH_ARCHIVE_ITEMS) {
+      setBatchArchiveFeedback({
+        tone: "error",
+        message: `Select ${MAX_BATCH_ARCHIVE_ITEMS} images or fewer before archiving.`,
+        failures: [],
+      });
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Archive ${uniqueIds.length} selected image${
+        uniqueIds.length === 1 ? "" : "s"
+      }?\n\nArchived images are removed from public rendering, but files are not deleted from R2.`,
+    );
+    if (!confirmed) return;
+
+    const itemsById = new Map(items.map((item) => [item.id, item]));
+
+    setIsBatchArchiving(true);
+    setBatchArchiveFeedback(null);
+    setNotice("");
+
+    try {
+      const response = await patchMediaItemsBatch({
+        ids: uniqueIds,
+        status: "archived",
+      });
+      const successfulItems = new Map<number, AdminMediaItem>();
+      const failures: BatchArchiveFailure[] = [];
+
+      for (const result of response.items) {
+        if (result.ok) {
+          successfulItems.set(result.id, result.item);
+          continue;
+        }
+
+        failures.push({
+          id: result.id,
+          filename: itemsById.get(result.id)?.filename ?? `Image #${result.id}`,
+          message: getBatchArchiveFailureMessage(result.error),
+        });
+      }
+
+      if (successfulItems.size > 0) {
+        setItems((current) =>
+          current.map((item) => successfulItems.get(item.id) ?? item),
+        );
+      }
+
+      const requested = response.summary.requested ?? uniqueIds.length;
+      const succeeded = response.summary.succeeded ?? successfulItems.size;
+      const failed = Math.max(response.summary.failed ?? 0, failures.length);
+
+      if (failed > 0) {
+        const successfulIds = new Set(successfulItems.keys());
+        setArchiveSelectionIds(
+          uniqueIds.filter(
+            (id) =>
+              !successfulIds.has(id) &&
+              itemsById.get(id)?.status === "published",
+          ),
+        );
+        setIsArchiveSelectionMode(true);
+        setBatchArchiveFeedback({
+          tone: "warning",
+          message: `Archived ${succeeded} of ${requested} images.`,
+          failures,
+        });
+        return;
+      }
+
+      setArchiveSelectionIds([]);
+      setIsArchiveSelectionMode(false);
+      setNotice(
+        `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Files remain in R2.`,
+      );
+    } catch (error) {
+      setBatchArchiveFeedback({
+        tone: "error",
+        message: getFriendlyError(error),
+        failures: [],
+      });
+    } finally {
+      setIsBatchArchiving(false);
+    }
   }
 
   function queueFiles(files: File[]) {
@@ -483,6 +649,8 @@ export function AdminMediaManager() {
   return (
     <AdminMediaLibrary
       affectedPages={affectedPages}
+      archiveSelectionIds={archiveSelectionIds}
+      batchArchiveFeedback={batchArchiveFeedback}
       canMove={Boolean(canMove)}
       catalogError={catalogError}
       counts={counts}
@@ -490,6 +658,8 @@ export function AdminMediaManager() {
       fileInputRef={fileInputRef}
       filteredItems={filteredItems}
       isCheckingMove={isCheckingMove}
+      isArchiveSelectionMode={isArchiveSelectionMode}
+      isBatchArchiving={isBatchArchiving}
       isLoadingCatalog={isLoadingCatalog}
       isMoving={isMoving}
       isRevalidating={isRevalidating}
@@ -514,7 +684,10 @@ export function AdminMediaManager() {
       uploadService={uploadService}
       uploadSubCategory={uploadSubCategory}
       onArchive={() => void saveEditor({ status: "archived" })}
+      onArchiveSelected={() => void archiveSelectedItems()}
+      onArchiveSelectionToggle={toggleArchiveSelection}
       onCheckDestination={checkDestination}
+      onClearArchiveSelection={clearArchiveSelection}
       onClearNotice={() => {
         setCatalogError("");
         setNotice("");
@@ -536,6 +709,7 @@ export function AdminMediaManager() {
       onSortModeChange={setSortMode}
       onStatusFilterChange={setStatusFilter}
       onSubCategoryFilterChange={setSubCategoryFilter}
+      onToggleArchiveSelectionMode={toggleArchiveSelectionMode}
       onTriggerRevalidate={triggerRevalidate}
       onUpdateEditor={updateEditor}
       onUploadDrafts={uploadDrafts}

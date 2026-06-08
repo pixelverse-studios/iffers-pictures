@@ -30,3 +30,15 @@ export interface UploadQueueItem {
   message: string;
   createdItem?: AdminMediaItem;
 }
+
+export interface BatchArchiveFailure {
+  id: number;
+  filename: string;
+  message: string;
+}
+
+export interface BatchArchiveFeedback {
+  tone: "warning" | "error";
+  message: string;
+  failures: BatchArchiveFailure[];
+}

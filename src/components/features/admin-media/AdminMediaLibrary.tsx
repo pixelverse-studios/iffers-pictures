@@ -11,6 +11,7 @@ import type {
   MediaStatus,
   MediaSubCategory,
 } from "@/lib/media/types";
+import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { AdminMediaFilters } from "./AdminMediaFilters";
 import { AdminMediaGrid } from "./AdminMediaGrid";
 import { AdminMediaHeader } from "./AdminMediaHeader";
@@ -19,7 +20,13 @@ import { AdminMediaNotice } from "./AdminMediaNotice";
 import { AdminMediaSidebar } from "./AdminMediaSidebar";
 import { AdminMediaUploadPanel } from "./AdminMediaUploadPanel";
 import { AdminMediaUploadQueue } from "./AdminMediaUploadQueue";
-import type { EditorState, SortMode, StatusFilter, UploadQueueItem } from "./types";
+import type {
+  BatchArchiveFeedback,
+  EditorState,
+  SortMode,
+  StatusFilter,
+  UploadQueueItem,
+} from "./types";
 
 interface AdminMediaLibraryProps {
   affectedPages: string[];
@@ -29,7 +36,11 @@ interface AdminMediaLibraryProps {
   editor: EditorState | null;
   fileInputRef: RefObject<HTMLInputElement | null>;
   filteredItems: AdminMediaItem[];
+  archiveSelectionIds: readonly number[];
+  batchArchiveFeedback: BatchArchiveFeedback | null;
   isCheckingMove: boolean;
+  isArchiveSelectionMode: boolean;
+  isBatchArchiving: boolean;
   isLoadingCatalog: boolean;
   isMoving: boolean;
   isRevalidating: boolean;
@@ -54,8 +65,11 @@ interface AdminMediaLibraryProps {
   uploadService: MediaService;
   uploadSubCategory: MediaSubCategory;
   onArchive: () => void;
+  onArchiveSelected: () => void;
+  onArchiveSelectionToggle: (id: number) => void;
   onCheckDestination: () => void;
   onClearNotice: () => void;
+  onClearArchiveSelection: () => void;
   onFilesSelected: (files: File[]) => void;
   onLogout: () => void;
   onMove: () => void;
@@ -69,6 +83,7 @@ interface AdminMediaLibraryProps {
   onSortModeChange: (value: SortMode) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
   onSubCategoryFilterChange: (value: "all" | MediaSubCategory) => void;
+  onToggleArchiveSelectionMode: () => void;
   onTriggerRevalidate: () => void;
   onUpdateEditor: <Key extends keyof EditorState>(
     key: Key,
@@ -91,7 +106,11 @@ export function AdminMediaLibrary({
   editor,
   fileInputRef,
   filteredItems,
+  archiveSelectionIds,
+  batchArchiveFeedback,
   isCheckingMove,
+  isArchiveSelectionMode,
+  isBatchArchiving,
   isLoadingCatalog,
   isMoving,
   isRevalidating,
@@ -116,8 +135,11 @@ export function AdminMediaLibrary({
   uploadService,
   uploadSubCategory,
   onArchive,
+  onArchiveSelected,
+  onArchiveSelectionToggle,
   onCheckDestination,
   onClearNotice,
+  onClearArchiveSelection,
   onFilesSelected,
   onLogout,
   onMove,
@@ -131,6 +153,7 @@ export function AdminMediaLibrary({
   onSortModeChange,
   onStatusFilterChange,
   onSubCategoryFilterChange,
+  onToggleArchiveSelectionMode,
   onTriggerRevalidate,
   onUpdateEditor,
   onUploadDrafts,
@@ -235,10 +258,24 @@ export function AdminMediaLibrary({
                 />
               )}
 
+              <AdminMediaBulkArchiveBar
+                feedback={batchArchiveFeedback}
+                isArchiving={isBatchArchiving}
+                isSelectionMode={isArchiveSelectionMode}
+                maxSelection={50}
+                selectedCount={archiveSelectionIds.length}
+                onArchiveSelected={onArchiveSelected}
+                onClearSelection={onClearArchiveSelection}
+                onToggleSelectionMode={onToggleArchiveSelectionMode}
+              />
+
               <AdminMediaGrid
+                archiveSelectionIds={archiveSelectionIds}
                 items={filteredItems}
                 isLoading={isLoadingCatalog}
+                isArchiveSelectionMode={isArchiveSelectionMode}
                 selectedId={selectedId}
+                onArchiveSelectionToggle={onArchiveSelectionToggle}
                 onSelect={onSelectedIdChange}
               />
             </div>
