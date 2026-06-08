@@ -163,9 +163,9 @@ export function AdminMediaSidebar({
       "inline-flex min-h-9 w-full items-center rounded-sm px-3 text-xs font-bold";
     const sectionPanelMotion = {
       animate: { height: "auto", opacity: 1, y: 0 },
-      exit: { height: 0, opacity: 0, y: -4 },
-      initial: { height: 0, opacity: 0, y: -4 },
-      transition: { duration: 0.22, ease: "easeOut" as const },
+      exit: { height: 0, opacity: 0.72, y: -1 },
+      initial: { height: 0, opacity: 0.72, y: -1 },
+      transition: { duration: 0.34, ease: "easeInOut" as const },
     };
 
     return (
