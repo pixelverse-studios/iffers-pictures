@@ -77,10 +77,14 @@ export function AdminMediaInspector({
   onSave,
   onUpdateEditor,
 }: AdminMediaInspectorProps) {
+  const activeTrayClass =
+    "fixed inset-0 z-50 overflow-y-auto bg-white xl:static xl:z-auto xl:h-[100dvh] xl:border-l xl:border-[var(--border)]";
+  const trayInnerClass = "mx-auto w-full max-w-5xl p-5 md:p-7 xl:max-w-none xl:p-5";
+
   if (selectedBatchItems.length > 1 || batchArchiveFeedback) {
     return (
-      <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
-        <div className="p-5">
+      <aside className={activeTrayClass}>
+        <div className={trayInnerClass}>
           <AdminMediaBulkArchiveBar
             feedback={batchArchiveFeedback}
             isArchiving={isBatchArchiving}
@@ -96,7 +100,7 @@ export function AdminMediaInspector({
 
   if (!item || !editor) {
     return (
-      <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
+      <aside className="hidden bg-white xl:block xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-[var(--border)]">
         <div className="p-5">
           <div className="grid min-h-96 place-items-center text-center">
             <div>
@@ -143,8 +147,8 @@ export function AdminMediaInspector({
   }));
 
   return (
-    <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
-      <div className="p-5">
+    <aside className={activeTrayClass}>
+      <div className={trayInnerClass}>
         <div className="space-y-5">
           <div className="flex items-center justify-between gap-3">
             <div>

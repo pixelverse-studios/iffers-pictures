@@ -35,6 +35,7 @@
 - Wired public homepage, about, sessions, service detail, portfolio, investment, and FAQ imagery to explicit media placement assignments with safe fallbacks.
 - Added direct multi-select batch archive controls to the admin media manager, with selected images and archive actions shown in the Selected Media panel.
 - Reworked admin media catalog filters so search stays prominent while category/status filters live in a compact filter panel with visible active filter chips.
+- Changed selected media on smaller admin media screens to open as a prominent full-screen tray instead of falling below the catalog.
 
 ## Notes for internal team
 
@@ -73,6 +74,7 @@
 - DEV-956: Service detail, services overview cards, and investment session cards share the same service slug to placement slot mapping.
 - DEV-959: Added client support for `PATCH /api/media/iffers-pictures/admin/items/batch`, including direct card selection, Selected Media batch actions, max-50 guarding, confirmation copy, local catalog updates, and partial-failure feedback.
 - DEV-959: Moved service, sub-category, and status filtering into a responsive admin media filter popover/sheet while preserving visible search and sort controls.
+- DEV-959: Below the `xl` breakpoint, active selected-media and batch archive inspector states now render as fixed full-screen trays; the empty inspector placeholder remains desktop-only.
 
 ## Changed URLs
 
