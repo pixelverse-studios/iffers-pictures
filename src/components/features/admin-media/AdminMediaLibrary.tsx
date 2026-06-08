@@ -11,7 +11,6 @@ import type {
   MediaStatus,
   MediaSubCategory,
 } from "@/lib/media/types";
-import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { AdminMediaFilters } from "./AdminMediaFilters";
 import { AdminMediaGrid } from "./AdminMediaGrid";
 import { AdminMediaHeader } from "./AdminMediaHeader";
@@ -38,8 +37,8 @@ interface AdminMediaLibraryProps {
   filteredItems: AdminMediaItem[];
   archiveSelectionIds: readonly number[];
   batchArchiveFeedback: BatchArchiveFeedback | null;
+  selectedBatchItems: readonly AdminMediaItem[];
   isCheckingMove: boolean;
-  isArchiveSelectionMode: boolean;
   isBatchArchiving: boolean;
   isLoadingCatalog: boolean;
   isMoving: boolean;
@@ -83,7 +82,6 @@ interface AdminMediaLibraryProps {
   onSortModeChange: (value: SortMode) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
   onSubCategoryFilterChange: (value: "all" | MediaSubCategory) => void;
-  onToggleArchiveSelectionMode: () => void;
   onTriggerRevalidate: () => void;
   onUpdateEditor: <Key extends keyof EditorState>(
     key: Key,
@@ -108,8 +106,8 @@ export function AdminMediaLibrary({
   filteredItems,
   archiveSelectionIds,
   batchArchiveFeedback,
+  selectedBatchItems,
   isCheckingMove,
-  isArchiveSelectionMode,
   isBatchArchiving,
   isLoadingCatalog,
   isMoving,
@@ -153,7 +151,6 @@ export function AdminMediaLibrary({
   onSortModeChange,
   onStatusFilterChange,
   onSubCategoryFilterChange,
-  onToggleArchiveSelectionMode,
   onTriggerRevalidate,
   onUpdateEditor,
   onUploadDrafts,
@@ -258,22 +255,10 @@ export function AdminMediaLibrary({
                 />
               )}
 
-              <AdminMediaBulkArchiveBar
-                feedback={batchArchiveFeedback}
-                isArchiving={isBatchArchiving}
-                isSelectionMode={isArchiveSelectionMode}
-                maxSelection={50}
-                selectedCount={archiveSelectionIds.length}
-                onArchiveSelected={onArchiveSelected}
-                onClearSelection={onClearArchiveSelection}
-                onToggleSelectionMode={onToggleArchiveSelectionMode}
-              />
-
               <AdminMediaGrid
                 archiveSelectionIds={archiveSelectionIds}
                 items={filteredItems}
                 isLoading={isLoadingCatalog}
-                isArchiveSelectionMode={isArchiveSelectionMode}
                 selectedId={selectedId}
                 onArchiveSelectionToggle={onArchiveSelectionToggle}
                 onSelect={onSelectedIdChange}
@@ -286,6 +271,7 @@ export function AdminMediaLibrary({
             canMove={canMove}
             editor={editor}
             isCheckingMove={isCheckingMove}
+            isBatchArchiving={isBatchArchiving}
             isMoving={isMoving}
             isSaving={isSaving}
             item={selectedItem}
@@ -293,9 +279,13 @@ export function AdminMediaLibrary({
             moveKey={moveKey}
             moveMessage={moveMessage}
             publishBlocked={publishBlocked}
+            selectedBatchItems={selectedBatchItems}
+            batchArchiveFeedback={batchArchiveFeedback}
             onArchive={onArchive}
+            onArchiveSelected={onArchiveSelected}
             onCheckDestination={onCheckDestination}
             onClose={() => onSelectedIdChange(null)}
+            onClearArchiveSelection={onClearArchiveSelection}
             onMove={onMove}
             onMoveKeyChange={onMoveKeyChange}
             onRestore={onRestore}

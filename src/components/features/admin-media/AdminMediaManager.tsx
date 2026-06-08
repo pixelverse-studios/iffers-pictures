@@ -84,15 +84,28 @@ export function AdminMediaManager() {
   const [uploadQueue, setUploadQueue] = useState<UploadQueueItem[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isRevalidating, setIsRevalidating] = useState(false);
-  const [isArchiveSelectionMode, setIsArchiveSelectionMode] = useState(false);
   const [archiveSelectionIds, setArchiveSelectionIds] = useState<number[]>([]);
   const [isBatchArchiving, setIsBatchArchiving] = useState(false);
   const [batchArchiveFeedback, setBatchArchiveFeedback] =
     useState<BatchArchiveFeedback | null>(null);
 
+  const selectedBatchItems = useMemo(
+    () =>
+      archiveSelectionIds
+        .map((id) => items.find((item) => item.id === id))
+        .filter(
+          (item): item is AdminMediaItem =>
+            Boolean(item) && item?.status === "published",
+        ),
+    [archiveSelectionIds, items],
+  );
+
   const selectedItem = useMemo(
-    () => items.find((item) => item.id === selectedId) ?? null,
-    [items, selectedId],
+    () =>
+      selectedBatchItems.length === 1
+        ? selectedBatchItems[0]
+        : items.find((item) => item.id === selectedId) ?? null,
+    [items, selectedBatchItems, selectedId],
   );
 
   const counts = useMemo(() => getStatusCounts(items), [items]);
@@ -295,29 +308,26 @@ export function AdminMediaManager() {
 
   function clearArchiveSelection() {
     setArchiveSelectionIds([]);
-    setIsArchiveSelectionMode(false);
     setBatchArchiveFeedback(null);
-  }
-
-  function toggleArchiveSelectionMode() {
-    if (isArchiveSelectionMode) {
-      clearArchiveSelection();
-      return;
-    }
-
-    setIsArchiveSelectionMode(true);
-    setBatchArchiveFeedback(null);
+    setSelectedId(null);
   }
 
   function toggleArchiveSelection(id: number) {
     const item = items.find((current) => current.id === id);
-    if (!item || item.status !== "published") return;
+    if (!item) return;
+
+    if (item.status !== "published") {
+      setArchiveSelectionIds([]);
+      setBatchArchiveFeedback(null);
+      setSelectedId(item.id);
+      return;
+    }
 
     setBatchArchiveFeedback(null);
     if (archiveSelectionIds.includes(id)) {
-      setArchiveSelectionIds((current) =>
-        current.filter((selectedId) => selectedId !== id),
-      );
+      const nextIds = archiveSelectionIds.filter((selectedId) => selectedId !== id);
+      setArchiveSelectionIds(nextIds);
+      setSelectedId(nextIds.length === 1 ? nextIds[0] : null);
       return;
     }
 
@@ -331,6 +341,13 @@ export function AdminMediaManager() {
     }
 
     setArchiveSelectionIds((current) => [...current, id]);
+    setSelectedId(id);
+  }
+
+  function selectSingleItem(id: number | null) {
+    setArchiveSelectionIds([]);
+    setBatchArchiveFeedback(null);
+    setSelectedId(id);
   }
 
   function getBatchArchiveFailureMessage(error: {
@@ -410,7 +427,7 @@ export function AdminMediaManager() {
               itemsById.get(id)?.status === "published",
           ),
         );
-        setIsArchiveSelectionMode(true);
+        setSelectedId(uniqueIds.find((id) => !successfulIds.has(id)) ?? null);
         setBatchArchiveFeedback({
           tone: "warning",
           message: `Archived ${succeeded} of ${requested} images.`,
@@ -420,7 +437,7 @@ export function AdminMediaManager() {
       }
 
       setArchiveSelectionIds([]);
-      setIsArchiveSelectionMode(false);
+      setSelectedId(null);
       setNotice(
         `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Files remain in R2.`,
       );
@@ -657,8 +674,8 @@ export function AdminMediaManager() {
       editor={editor}
       fileInputRef={fileInputRef}
       filteredItems={filteredItems}
+      selectedBatchItems={selectedBatchItems}
       isCheckingMove={isCheckingMove}
-      isArchiveSelectionMode={isArchiveSelectionMode}
       isBatchArchiving={isBatchArchiving}
       isLoadingCatalog={isLoadingCatalog}
       isMoving={isMoving}
@@ -704,12 +721,11 @@ export function AdminMediaManager() {
       onRestore={() => void restoreSelected()}
       onSave={() => void saveEditor()}
       onSearchChange={setQuery}
-      onSelectedIdChange={setSelectedId}
+      onSelectedIdChange={selectSingleItem}
       onServiceFilterChange={setServiceFilter}
       onSortModeChange={setSortMode}
       onStatusFilterChange={setStatusFilter}
       onSubCategoryFilterChange={setSubCategoryFilter}
-      onToggleArchiveSelectionMode={toggleArchiveSelectionMode}
       onTriggerRevalidate={triggerRevalidate}
       onUpdateEditor={updateEditor}
       onUploadDrafts={uploadDrafts}

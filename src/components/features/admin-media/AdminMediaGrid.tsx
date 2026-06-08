@@ -9,7 +9,6 @@ interface AdminMediaGridProps {
   archiveSelectionIds: readonly number[];
   items: AdminMediaItem[];
   isLoading: boolean;
-  isArchiveSelectionMode: boolean;
   selectedId: number | null;
   onArchiveSelectionToggle: (id: number) => void;
   onSelect: (id: number) => void;
@@ -19,7 +18,6 @@ export function AdminMediaGrid({
   archiveSelectionIds,
   items,
   isLoading,
-  isArchiveSelectionMode,
   selectedId,
   onArchiveSelectionToggle,
   onSelect,
@@ -61,40 +59,40 @@ export function AdminMediaGrid({
             key={item.id}
             className={`group relative overflow-hidden border bg-white text-left transition ${
               isArchiveSelected
-                ? "border-red-300 ring-2 ring-red-100"
+                ? "border-[var(--brand-strong)] ring-2 ring-[var(--brand-soft)]"
                 : selectedId === item.id
                   ? "border-[var(--brand-strong)] ring-2 ring-[var(--brand-soft)]"
                   : "border-[var(--border)] hover:border-[var(--brand-soft)]"
             }`}
           >
-            {isArchiveSelectionMode && canBatchArchive && (
-              <label className="absolute left-2 top-2 z-10 inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-sm border border-white/80 bg-white/95 shadow-sm">
+            {canBatchArchive && (
+              <span className="pointer-events-none absolute left-2 top-2 z-10 inline-flex h-9 w-9 items-center justify-center rounded-sm border border-white/80 bg-white/95 shadow-sm transition group-hover:opacity-100">
                 <input
                   type="checkbox"
                   checked={isArchiveSelected}
-                  onChange={() => onArchiveSelectionToggle(item.id)}
+                  readOnly
                   className="sr-only"
-                  aria-label={`Select ${item.filename} for batch archive`}
+                  tabIndex={-1}
+                  aria-label={`${item.filename} selected for batch archive`}
                 />
                 <span
                   className={`grid h-5 w-5 place-items-center rounded-[3px] border ${
                     isArchiveSelected
-                      ? "border-red-700 bg-red-700 text-white"
-                      : "border-[var(--text-muted)] text-transparent"
+                      ? "border-[var(--brand-strong)] bg-[var(--brand-strong)] text-white"
+                      : "border-[var(--text-muted)] bg-white text-transparent"
                   }`}
                   aria-hidden
                 >
                   <Check className="h-3.5 w-3.5" />
                 </span>
-              </label>
+              </span>
             )}
             <button
               type="button"
               onClick={() =>
-                isArchiveSelectionMode && canBatchArchive
-                  ? onArchiveSelectionToggle(item.id)
-                  : onSelect(item.id)
+                canBatchArchive ? onArchiveSelectionToggle(item.id) : onSelect(item.id)
               }
+              aria-pressed={canBatchArchive ? isArchiveSelected : selectedId === item.id}
               className="block w-full text-left"
             >
               <div className="relative aspect-[4/3] bg-[var(--background-warm)]">

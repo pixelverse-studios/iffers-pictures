@@ -15,9 +15,10 @@ import {
   type MediaStatus,
   type MediaSubCategory,
 } from "@/lib/media/types";
+import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { STATUS_COPY } from "./constants";
 import { StatusPill } from "./StatusPill";
-import type { EditorState } from "./types";
+import type { BatchArchiveFeedback, EditorState } from "./types";
 import { formatDate } from "./utils";
 
 interface AdminMediaInspectorProps {
@@ -27,14 +28,19 @@ interface AdminMediaInspectorProps {
   isCheckingMove: boolean;
   isMoving: boolean;
   isSaving: boolean;
+  isBatchArchiving: boolean;
   item: AdminMediaItem | null;
   moveDestinationAvailable: boolean | null;
   moveKey: string;
   moveMessage: string;
   publishBlocked: boolean;
+  selectedBatchItems: readonly AdminMediaItem[];
+  batchArchiveFeedback: BatchArchiveFeedback | null;
   onArchive: () => void;
+  onArchiveSelected: () => void;
   onCheckDestination: () => void;
   onClose: () => void;
+  onClearArchiveSelection: () => void;
   onMove: () => void;
   onMoveKeyChange: (value: string) => void;
   onRestore: () => void;
@@ -52,20 +58,42 @@ export function AdminMediaInspector({
   isCheckingMove,
   isMoving,
   isSaving,
+  isBatchArchiving,
   item,
   moveDestinationAvailable,
   moveKey,
   moveMessage,
   publishBlocked,
+  selectedBatchItems,
+  batchArchiveFeedback,
   onArchive,
+  onArchiveSelected,
   onCheckDestination,
   onClose,
+  onClearArchiveSelection,
   onMove,
   onMoveKeyChange,
   onRestore,
   onSave,
   onUpdateEditor,
 }: AdminMediaInspectorProps) {
+  if (selectedBatchItems.length > 1 || batchArchiveFeedback) {
+    return (
+      <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
+        <div className="p-5">
+          <AdminMediaBulkArchiveBar
+            feedback={batchArchiveFeedback}
+            isArchiving={isBatchArchiving}
+            maxSelection={50}
+            selectedItems={selectedBatchItems}
+            onArchiveSelected={onArchiveSelected}
+            onClearSelection={onClearArchiveSelection}
+          />
+        </div>
+      </aside>
+    );
+  }
+
   if (!item || !editor) {
     return (
       <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
