@@ -37,6 +37,7 @@
 - Moved admin media Library and Placements controls into the media navigation, with placement page filters for reviewing assignable slots page by page.
 - Refined admin media navigation into clickable Library and Placements sections where only the active section expands.
 - Added smooth expand and collapse animation when switching between Library and Placements in the admin media navigation.
+- Fixed admin media sidebar nav alignment so long placement page labels wrap under the same text column.
 
 ## Notes for internal team
 
@@ -77,6 +78,7 @@
 - DEV-955: Promoted Library/Placements into sidebar workspace navigation and added placement page filtering based on the backend slot registry page labels.
 - DEV-955: Changed the media sidebar to a two-section accordion-style navigation so Library and Placements act as top-level modes with their own child filters.
 - DEV-955: Added Framer Motion height/opacity transitions for Library and Placements sidebar section enter/exit states.
+- DEV-955: Changed sidebar nav rows to a fixed icon/text grid to keep wrapped labels aligned.
 
 ## Changed URLs
 

@@ -153,14 +153,14 @@ export function AdminMediaSidebar({
       ? "space-y-5 px-5 pb-5"
       : "min-h-0 flex-1 space-y-5 overflow-y-auto px-5 pb-4";
     const parentButtonClassName =
-      "inline-flex min-h-10 w-full items-center gap-3 rounded-sm px-3 text-sm font-semibold transition active:translate-y-[1px]";
+      "grid min-h-10 w-full grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-3 rounded-sm px-3 text-left text-sm font-semibold transition active:translate-y-[1px]";
     const sectionHeaderClassName =
       "group block w-full rounded-sm px-3 pt-2 text-left transition active:translate-y-[1px]";
     const sectionTitleClassName =
       "flex min-h-9 items-center justify-between gap-3 text-[13px] font-bold uppercase tracking-[0.14em]";
     const childListClassName = "mt-1 space-y-1 pl-6";
     const childButtonClassName =
-      "inline-flex min-h-9 w-full items-center rounded-sm px-3 text-xs font-bold";
+      "inline-flex min-h-9 w-full items-center rounded-sm px-3 text-left text-xs font-bold";
     const sectionPanelMotion = {
       animate: { height: "auto", opacity: 1, y: 0 },
       exit: { height: 0, opacity: 0.72, y: -1 },
@@ -240,7 +240,7 @@ export function AdminMediaSidebar({
                       }`}
                     >
                       <Grid2X2 className="h-4 w-4" aria-hidden />
-                      All Media
+                      <span className="min-w-0 leading-snug">All Media</span>
                     </button>
                     {serviceNavItems.map(({ service, subCategories }) => {
                       const hasNestedItems = subCategories.length > 1;
@@ -265,7 +265,7 @@ export function AdminMediaSidebar({
                             }`}
                           >
                             <FileImage className="h-4 w-4" aria-hidden />
-                            {service}
+                            <span className="min-w-0 leading-snug">{service}</span>
                           </button>
                         );
                       }
@@ -282,7 +282,7 @@ export function AdminMediaSidebar({
                             }`}
                           >
                             <FileImage className="h-4 w-4" aria-hidden />
-                            {service}
+                            <span className="min-w-0 leading-snug">{service}</span>
                           </button>
                           <div className={childListClassName}>
                             {subCategories.map((subCategory) => (
@@ -316,7 +316,7 @@ export function AdminMediaSidebar({
                       }`}
                     >
                       <Archive className="h-4 w-4" aria-hidden />
-                      Archive
+                      <span className="min-w-0 leading-snug">Archive</span>
                     </button>
                   </div>
                 </motion.div>
@@ -374,7 +374,7 @@ export function AdminMediaSidebar({
                       }`}
                     >
                       <Grid2X2 className="h-4 w-4" aria-hidden />
-                      All pages
+                      <span className="min-w-0 leading-snug">All pages</span>
                     </button>
                     {placementPageOptions.map((pageLabel) => (
                       <button
@@ -388,7 +388,7 @@ export function AdminMediaSidebar({
                         }`}
                       >
                         <FileImage className="h-4 w-4" aria-hidden />
-                        {pageLabel}
+                        <span className="min-w-0 leading-snug">{pageLabel}</span>
                       </button>
                     ))}
                   </div>
