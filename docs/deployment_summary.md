@@ -28,6 +28,10 @@
 - Standardized pointer cursors across clickable admin media controls.
 - Restored fixed desktop admin media side columns while the image workspace scrolls independently.
 - Redirected the legacy image review page to the admin media manager so there is one clear media-management entry point.
+- Prepared the frontend media layer for explicit image placement assignments across homepage, service, portfolio, investment, FAQ, and admin media workflows.
+- Kept the admin media session and logout details contained at the bottom of the side navigation instead of appearing as a page-wide bottom bar.
+- Added a regular site navigation link to the admin media manager for authenticated media admin sessions.
+- Adjusted the regular site navigation breakpoint so authenticated media admin links do not crowd the tablet-width header.
 
 ## Notes for internal team
 
@@ -57,6 +61,10 @@
 - DEV-920: Added admin media shell cursor rules for active and disabled interactive controls.
 - DEV-920: Changed the desktop admin media shell to viewport-height column scrolling so the sidebar and inspector remain visible.
 - DEV-943: Replaced the `/image-review` implementation with a redirect to `/admin/media` and updated internal mockup/planning references to the media manager.
+- DEV-954: Added typed media placement slot registry, public/admin placement API clients, server-side public placement fallback fetching, gallery conversion helpers, proxy `PUT` forwarding, and placement-specific admin error copy.
+- Admin media sidebar: Changed the desktop sidebar to a full-height flex column so session/logout details stay inside the side navigation and the stray bottom border is removed.
+- Public header: Checks for an active media admin session and shows a `Media` link to `/admin/media` only when authenticated.
+- Public header: Keeps the compact mobile menu active through tablet widths so the authenticated `Media` link does not overflow the desktop nav.
 
 ## Changed URLs
 
@@ -75,3 +83,5 @@
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/image-review
+- https://ifferspictures.com/api/media/iffers-pictures/placements
+- https://ifferspictures.com/api/media/iffers-pictures/admin/placements

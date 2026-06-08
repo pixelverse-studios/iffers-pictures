@@ -1,14 +1,18 @@
 import "server-only";
 
 import { parseMediaApiResponse } from "./errors";
-import { STATIC_PUBLIC_MEDIA_CATALOG } from "./fallback";
+import {
+  STATIC_PUBLIC_MEDIA_CATALOG,
+  STATIC_PUBLIC_MEDIA_PLACEMENTS,
+} from "./fallback";
 import {
   IFFERS_MEDIA_WEBSITE_SLUG,
   type MediaCatalog,
+  type PublicMediaPlacementsResponse,
   type PublicMediaItem,
 } from "./types";
 
-const PUBLIC_CATALOG_REVALIDATE_SECONDS = 60;
+const PUBLIC_MEDIA_REVALIDATE_SECONDS = 60;
 
 export function getMediaApiBaseUrl(): string | null {
   const rawBaseUrl = process.env.PVS_API_URL;
@@ -40,12 +44,33 @@ export async function getPublicMediaCatalogWithFallback(): Promise<
     const response = await fetch(
       `${baseUrl}/api/media/${IFFERS_MEDIA_WEBSITE_SLUG}/catalog`,
       {
-        next: { revalidate: PUBLIC_CATALOG_REVALIDATE_SECONDS },
+        next: { revalidate: PUBLIC_MEDIA_REVALIDATE_SECONDS },
       }
     );
 
     return await parseMediaApiResponse<MediaCatalog<PublicMediaItem>>(response);
   } catch {
     return STATIC_PUBLIC_MEDIA_CATALOG;
+  }
+}
+
+export async function getPublicMediaPlacementsWithFallback(): Promise<PublicMediaPlacementsResponse> {
+  const baseUrl = getMediaApiBaseUrl();
+
+  if (!baseUrl) {
+    return STATIC_PUBLIC_MEDIA_PLACEMENTS;
+  }
+
+  try {
+    const response = await fetch(
+      `${baseUrl}/api/media/${IFFERS_MEDIA_WEBSITE_SLUG}/placements`,
+      {
+        next: { revalidate: PUBLIC_MEDIA_REVALIDATE_SECONDS },
+      }
+    );
+
+    return await parseMediaApiResponse<PublicMediaPlacementsResponse>(response);
+  } catch {
+    return STATIC_PUBLIC_MEDIA_PLACEMENTS;
   }
 }

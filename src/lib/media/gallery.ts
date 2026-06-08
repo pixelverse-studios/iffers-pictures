@@ -4,7 +4,12 @@ import {
   type ServiceFilter,
   type SubCategory,
 } from "@/components/features/portfolio/portfolioData";
-import type { PublicMediaItem } from "./types";
+import type {
+  MediaPlacementSlotKey,
+  PublicMediaItem,
+  PublicMediaPlacement,
+  PublicPlacementMedia,
+} from "./types";
 
 export type PublicGalleryItem = PortfolioItem;
 
@@ -60,6 +65,39 @@ export function toPublicGalleryItems(
       subCategory,
       aspectRatio,
     }));
+}
+
+export function placementMediaToPublicGalleryItem(
+  media: PublicPlacementMedia
+): PublicGalleryItem {
+  const { id, src, alt, service, subCategory, aspectRatio } = media;
+
+  return {
+    id,
+    src,
+    alt,
+    service,
+    subCategory,
+    aspectRatio,
+  };
+}
+
+export function findPlacementBySlotKey(
+  placements: PublicMediaPlacement[],
+  slotKey: MediaPlacementSlotKey
+): PublicMediaPlacement | undefined {
+  return placements.find((placement) => placement.slotKey === slotKey);
+}
+
+export function getPlacementGalleryItem(
+  placements: PublicMediaPlacement[],
+  slotKey: MediaPlacementSlotKey
+): PublicGalleryItem | undefined {
+  const placement = findPlacementBySlotKey(placements, slotKey);
+
+  return placement
+    ? placementMediaToPublicGalleryItem(placement.media)
+    : undefined;
 }
 
 export function getPortfolioForServiceFromItems(

@@ -108,7 +108,7 @@ export function AdminMediaSidebar({
   function renderSidebarContent(isDrawer = false) {
     const navClassName = isDrawer
       ? "space-y-1 px-5 pb-5"
-      : "flex gap-2 overflow-x-auto px-5 pb-4 lg:block lg:max-h-[calc(100vh-14rem)] lg:space-y-1 lg:overflow-y-auto lg:overflow-x-hidden";
+      : "flex min-h-0 flex-1 gap-2 overflow-x-auto px-5 pb-4 lg:block lg:space-y-1 lg:overflow-y-auto lg:overflow-x-hidden";
     const parentButtonClassName = "inline-flex min-h-11 items-center gap-3 rounded-sm px-3 text-sm font-semibold";
     const parentWidthClassName = isDrawer ? "w-full" : "shrink-0 lg:w-full";
     const childListClassName = isDrawer
@@ -121,7 +121,7 @@ export function AdminMediaSidebar({
     return (
       <>
       {!isDrawer && (
-        <div className="flex items-center justify-between px-5 py-5">
+        <div className="flex shrink-0 items-center justify-between px-5 py-5">
           <Link
             href="/"
             className="block w-fit"
@@ -238,7 +238,7 @@ export function AdminMediaSidebar({
         </div>
       )}
 
-      <div className="hidden border-t border-[var(--border)] p-5 lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:block lg:bg-white">
+      <div className="hidden border-t border-[var(--border)] p-5 lg:mt-auto lg:block lg:shrink-0 lg:bg-white">
         <p className="text-sm font-bold text-[var(--foreground)]">
           {session?.email ?? "Administrator"}
         </p>
@@ -260,7 +260,7 @@ export function AdminMediaSidebar({
 
   return (
     <>
-      <aside className="hidden border-b border-[var(--border)] bg-white lg:block lg:h-[100dvh] lg:border-b-0 lg:border-r">
+      <aside className="hidden border-b border-[var(--border)] bg-white lg:flex lg:h-[100dvh] lg:flex-col lg:border-b-0 lg:border-r">
         {renderSidebarContent()}
       </aside>
 

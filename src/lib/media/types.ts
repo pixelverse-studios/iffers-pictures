@@ -31,6 +31,156 @@ export const MEDIA_ASPECT_RATIOS = [
 
 export const MEDIA_STATUSES = ["draft", "published", "archived"] as const;
 
+export const MEDIA_PLACEMENT_SLOT_KEYS = [
+  "home.hero",
+  "home.strip.1",
+  "home.strip.2",
+  "home.meet_jenn",
+  "home.quote_image",
+  "about.hero",
+  "services.hero",
+  "services.events.hero",
+  "services.family.hero",
+  "services.maternity.hero",
+  "services.couples-engagement.hero",
+  "services.portrait.hero",
+  "portfolio.hero",
+  "investment.hero",
+  "investment.detail",
+  "faq.hero",
+] as const;
+
+export const IFFERS_MEDIA_PLACEMENT_SLOTS = [
+  {
+    slotKey: "home.hero",
+    pageLabel: "Home",
+    sectionLabel: "Hero",
+    description: "Primary homepage hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/"],
+  },
+  {
+    slotKey: "home.strip.1",
+    pageLabel: "Home",
+    sectionLabel: "Image Strip 1",
+    description: "First supporting image in the homepage image strip.",
+    expectedAspectRatios: ["portrait", "landscape"],
+    affectedPaths: ["/"],
+  },
+  {
+    slotKey: "home.strip.2",
+    pageLabel: "Home",
+    sectionLabel: "Image Strip 2",
+    description: "Second supporting image in the homepage image strip.",
+    expectedAspectRatios: ["portrait", "landscape"],
+    affectedPaths: ["/"],
+  },
+  {
+    slotKey: "home.meet_jenn",
+    pageLabel: "Home",
+    sectionLabel: "Meet Jenn",
+    description: "Image used beside the homepage introduction to Jenn.",
+    expectedAspectRatios: ["portrait"],
+    affectedPaths: ["/"],
+  },
+  {
+    slotKey: "home.quote_image",
+    pageLabel: "Home",
+    sectionLabel: "Quote Image",
+    description: "Image paired with the homepage quote/testimonial section.",
+    expectedAspectRatios: ["portrait", "landscape"],
+    affectedPaths: ["/"],
+  },
+  {
+    slotKey: "about.hero",
+    pageLabel: "About",
+    sectionLabel: "Hero",
+    description: "Primary about page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/about"],
+  },
+  {
+    slotKey: "services.hero",
+    pageLabel: "Services",
+    sectionLabel: "Hero",
+    description: "Primary services overview hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/services"],
+  },
+  {
+    slotKey: "services.events.hero",
+    pageLabel: "Events",
+    sectionLabel: "Hero",
+    description: "Primary events service page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/services/events"],
+  },
+  {
+    slotKey: "services.family.hero",
+    pageLabel: "Family",
+    sectionLabel: "Hero",
+    description: "Primary family service page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/services/family"],
+  },
+  {
+    slotKey: "services.maternity.hero",
+    pageLabel: "Maternity",
+    sectionLabel: "Hero",
+    description: "Primary maternity service page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/services/maternity"],
+  },
+  {
+    slotKey: "services.couples-engagement.hero",
+    pageLabel: "Couples & Engagement",
+    sectionLabel: "Hero",
+    description: "Primary couples and engagement service page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/services/couples-engagement"],
+  },
+  {
+    slotKey: "services.portrait.hero",
+    pageLabel: "Portrait",
+    sectionLabel: "Hero",
+    description: "Primary portrait service page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/services/portrait"],
+  },
+  {
+    slotKey: "portfolio.hero",
+    pageLabel: "Portfolio",
+    sectionLabel: "Hero",
+    description: "Primary portfolio page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/portfolio"],
+  },
+  {
+    slotKey: "investment.hero",
+    pageLabel: "Investment",
+    sectionLabel: "Hero",
+    description: "Primary investment page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/investment"],
+  },
+  {
+    slotKey: "investment.detail",
+    pageLabel: "Investment",
+    sectionLabel: "Detail",
+    description: "Supporting investment page detail image.",
+    expectedAspectRatios: ["portrait", "landscape"],
+    affectedPaths: ["/investment"],
+  },
+  {
+    slotKey: "faq.hero",
+    pageLabel: "FAQ",
+    sectionLabel: "Hero",
+    description: "Primary FAQ page hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/faq"],
+  },
+] as const satisfies readonly MediaPlacementSlot[];
+
 export const MEDIA_REVALIDATION_REASONS = [
   "manual",
   "published",
@@ -51,6 +201,7 @@ export type MediaService = (typeof MEDIA_SERVICES)[number];
 export type MediaAspectRatio = (typeof MEDIA_ASPECT_RATIOS)[number];
 export type MediaStatus = (typeof MEDIA_STATUSES)[number];
 export type RestorableMediaStatus = Exclude<MediaStatus, "archived">;
+export type MediaPlacementSlotKey = (typeof MEDIA_PLACEMENT_SLOT_KEYS)[number];
 export type MediaRevalidationReason =
   (typeof MEDIA_REVALIDATION_REASONS)[number];
 export type MediaUploadContentType =
@@ -106,6 +257,69 @@ export interface MediaCatalog<TItem extends MediaCatalogItem = PublicMediaItem> 
   publicBaseUrl: string;
   bucket: string;
   items: TItem[];
+}
+
+export interface MediaPlacementSlot {
+  slotKey: MediaPlacementSlotKey;
+  pageLabel: string;
+  sectionLabel: string;
+  description: string;
+  expectedAspectRatios?: readonly MediaAspectRatio[];
+  affectedPaths: readonly string[];
+}
+
+export type PublicPlacementMedia = Omit<PublicMediaItem, "sortOrder">;
+
+export interface AdminPlacementMedia {
+  id: number;
+  key: string;
+  filename: string;
+  src: string;
+  alt: string;
+  service: MediaService | null;
+  subCategory: MediaSubCategory | null;
+  aspectRatio: MediaAspectRatio | null;
+  status: MediaStatus;
+}
+
+export interface PublicMediaPlacement {
+  slotKey: MediaPlacementSlotKey;
+  media: PublicPlacementMedia;
+}
+
+export interface PublicMediaPlacementsResponse {
+  version: 1;
+  publicBaseUrl: string;
+  placements: PublicMediaPlacement[];
+}
+
+export interface AdminMediaPlacementAssignment {
+  id: number;
+  media: AdminPlacementMedia;
+  updatedBy: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminMediaPlacementSlot extends MediaPlacementSlot {
+  assignment: AdminMediaPlacementAssignment | null;
+}
+
+export interface AdminMediaPlacementsResponse {
+  version: 1;
+  publicBaseUrl: string;
+  slots: AdminMediaPlacementSlot[];
+}
+
+export interface AssignMediaPlacementRequest {
+  media_id: number;
+}
+
+export type AssignMediaPlacementResponse = AdminMediaPlacementSlot;
+
+export interface ClearMediaPlacementResponse {
+  cleared: boolean;
+  slotKey: MediaPlacementSlotKey;
 }
 
 export interface MediaAdminSession {
@@ -239,6 +453,12 @@ export function isMediaAspectRatio(value: unknown): value is MediaAspectRatio {
 
 export function isMediaStatus(value: unknown): value is MediaStatus {
   return MEDIA_STATUSES.includes(value as MediaStatus);
+}
+
+export function isMediaPlacementSlotKey(
+  value: unknown
+): value is MediaPlacementSlotKey {
+  return MEDIA_PLACEMENT_SLOT_KEYS.includes(value as MediaPlacementSlotKey);
 }
 
 export function isMediaSubCategory(
