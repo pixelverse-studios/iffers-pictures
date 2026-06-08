@@ -41,6 +41,12 @@
 - Positioned the batch Archive action before Clear all so the primary action leads the selected media controls.
 - Replaced the browser archive prompt with an in-panel confirmation inside Selected Media.
 - Kept the Archive action first in the selected media confirmation state for consistent button placement.
+- Added admin media placement controls so published images can be assigned, replaced, cleared, previewed, and reused across named public page slots.
+- Moved admin media Library and Placements controls into the media navigation, with placement page filters for reviewing assignable slots page by page.
+- Refined admin media navigation into clickable Library and Placements sections where only the active section expands.
+- Added smooth expand and collapse animation when switching between Library and Placements in the admin media navigation.
+- Fixed admin media sidebar nav alignment so long placement page labels wrap under the same text column.
+- Improved admin media filter responsiveness so search, category selectors, status filters, and sorting remain usable on narrower screens.
 
 ## Notes for internal team
 
@@ -85,6 +91,12 @@
 - DEV-959: Flipped the pinned batch action order so `Archive` is the first and wider primary control.
 - DEV-959: Removed the native `window.confirm` batch archive prompt and added a styled inline confirmation state to the bulk archive panel.
 - DEV-959: Matched the confirmation action order to the default action row with `Archive` first and primary.
+- DEV-955: Added a Library/Placements switcher in `/admin/media`, admin slot loading/mutation state, a published-image placement picker, local assignment refresh after assign/clear, friendly placement error aliases, and selected-image `Used in placements` details.
+- DEV-955: Promoted Library/Placements into sidebar workspace navigation and added placement page filtering based on the backend slot registry page labels.
+- DEV-955: Changed the media sidebar to a two-section accordion-style navigation so Library and Placements act as top-level modes with their own child filters.
+- DEV-955: Added Framer Motion height/opacity transitions for Library and Placements sidebar section enter/exit states.
+- DEV-955: Changed sidebar nav rows to a fixed icon/text grid to keep wrapped labels aligned.
+- DEV-955: Reorganized the admin media filter controls into responsive rows so the search input no longer collapses beside status filters.
 
 ## Changed URLs
 

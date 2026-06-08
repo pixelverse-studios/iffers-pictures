@@ -135,6 +135,7 @@ export function AdminMediaFilters({
       <div className="grid gap-3 md:grid-cols-[minmax(240px,1fr)_auto_auto]">
         <TextInput
           type="search"
+          className="min-w-0 md:col-span-2 xl:col-span-1"
           value={query}
           onChange={(event) => onSearchChange(event.currentTarget.value)}
           placeholder="Search media..."

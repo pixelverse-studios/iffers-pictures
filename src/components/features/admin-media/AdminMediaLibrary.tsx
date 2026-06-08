@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, type RefObject } from "react";
+import { useMemo, useState, type RefObject } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import type {
+  AdminMediaPlacementSlot,
   AdminMediaItem,
   MediaAdminSession,
+  MediaPlacementSlotKey,
   MediaService,
   MediaStatus,
   MediaSubCategory,
@@ -16,24 +18,30 @@ import { AdminMediaGrid } from "./AdminMediaGrid";
 import { AdminMediaHeader } from "./AdminMediaHeader";
 import { AdminMediaInspector } from "./AdminMediaInspector";
 import { AdminMediaNotice } from "./AdminMediaNotice";
+import { AdminMediaPlacements } from "./AdminMediaPlacements";
 import { AdminMediaSidebar } from "./AdminMediaSidebar";
 import { AdminMediaUploadPanel } from "./AdminMediaUploadPanel";
 import { AdminMediaUploadQueue } from "./AdminMediaUploadQueue";
 import type {
   BatchArchiveFeedback,
   EditorState,
+  AdminMediaViewMode,
+  MediaPlacementUsage,
+  PlacementPageFilter,
   SortMode,
   StatusFilter,
   UploadQueueItem,
 } from "./types";
 
 interface AdminMediaLibraryProps {
+  activePlacementPickerSlotKey: MediaPlacementSlotKey | null;
   affectedPages: string[];
   canMove: boolean;
   catalogError: string;
   counts: Record<MediaStatus, number>;
   editor: EditorState | null;
   fileInputRef: RefObject<HTMLInputElement | null>;
+  items: AdminMediaItem[];
   filteredItems: AdminMediaItem[];
   archiveSelectionIds: readonly number[];
   batchArchiveFeedback: BatchArchiveFeedback | null;
@@ -41,7 +49,9 @@ interface AdminMediaLibraryProps {
   isCheckingMove: boolean;
   isBatchArchiving: boolean;
   isLoadingCatalog: boolean;
+  isLoadingPlacements: boolean;
   isMoving: boolean;
+  isMutatingPlacement: MediaPlacementSlotKey | null;
   isRevalidating: boolean;
   isSaving: boolean;
   isUploading: boolean;
@@ -49,10 +59,13 @@ interface AdminMediaLibraryProps {
   moveKey: string;
   moveMessage: string;
   notice: string;
+  placementError: string;
+  placementSlots: AdminMediaPlacementSlot[];
   publishBlocked: boolean;
   query: string;
   selectedId: number | null;
   selectedItem: AdminMediaItem | null;
+  selectedPlacementUsages: MediaPlacementUsage[];
   serviceFilter: "all" | MediaService;
   serviceSubCategories: readonly MediaSubCategory[];
   session: MediaAdminSession | null;
@@ -66,7 +79,9 @@ interface AdminMediaLibraryProps {
   onArchive: () => void;
   onArchiveSelected: () => void;
   onArchiveSelectionToggle: (id: number) => void;
+  onAssignPlacement: (slotKey: MediaPlacementSlotKey, mediaId: number) => void;
   onCheckDestination: () => void;
+  onClearPlacement: (slotKey: MediaPlacementSlotKey) => void;
   onClearNotice: () => void;
   onClearArchiveSelection: () => void;
   onFilesSelected: (files: File[]) => void;
@@ -82,6 +97,7 @@ interface AdminMediaLibraryProps {
   onSortModeChange: (value: SortMode) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
   onSubCategoryFilterChange: (value: "all" | MediaSubCategory) => void;
+  onPlacementPickerSlotChange: (slotKey: MediaPlacementSlotKey | null) => void;
   onTriggerRevalidate: () => void;
   onUpdateEditor: <Key extends keyof EditorState>(
     key: Key,
@@ -97,12 +113,14 @@ interface AdminMediaLibraryProps {
 }
 
 export function AdminMediaLibrary({
+  activePlacementPickerSlotKey,
   affectedPages,
   canMove,
   catalogError,
   counts,
   editor,
   fileInputRef,
+  items,
   filteredItems,
   archiveSelectionIds,
   batchArchiveFeedback,
@@ -110,7 +128,9 @@ export function AdminMediaLibrary({
   isCheckingMove,
   isBatchArchiving,
   isLoadingCatalog,
+  isLoadingPlacements,
   isMoving,
+  isMutatingPlacement,
   isRevalidating,
   isSaving,
   isUploading,
@@ -118,10 +138,13 @@ export function AdminMediaLibrary({
   moveKey,
   moveMessage,
   notice,
+  placementError,
+  placementSlots,
   publishBlocked,
   query,
   selectedId,
   selectedItem,
+  selectedPlacementUsages,
   serviceFilter,
   serviceSubCategories,
   session,
@@ -135,7 +158,9 @@ export function AdminMediaLibrary({
   onArchive,
   onArchiveSelected,
   onArchiveSelectionToggle,
+  onAssignPlacement,
   onCheckDestination,
+  onClearPlacement,
   onClearNotice,
   onClearArchiveSelection,
   onFilesSelected,
@@ -151,6 +176,7 @@ export function AdminMediaLibrary({
   onSortModeChange,
   onStatusFilterChange,
   onSubCategoryFilterChange,
+  onPlacementPickerSlotChange,
   onTriggerRevalidate,
   onUpdateEditor,
   onUploadDrafts,
@@ -158,12 +184,38 @@ export function AdminMediaLibrary({
   onUploadTargetChange,
 }: AdminMediaLibraryProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<AdminMediaViewMode>("library");
+  const [placementPageFilter, setPlacementPageFilter] =
+    useState<PlacementPageFilter>("all");
+  const placementPageOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(placementSlots.map((slot) => slot.pageLabel).filter(Boolean)),
+      ),
+    [placementSlots],
+  );
   const activeMobileFilter =
-    subCategoryFilter !== "all"
+    viewMode === "placements"
+      ? placementPageFilter === "all"
+        ? "Placements"
+        : placementPageFilter
+      : subCategoryFilter !== "all"
       ? subCategoryFilter
       : serviceFilter !== "all"
         ? serviceFilter
         : "All Media";
+
+  function handleViewModeChange(mode: AdminMediaViewMode) {
+    setViewMode(mode);
+    if (mode === "library") {
+      onPlacementPickerSlotChange(null);
+    }
+  }
+
+  function handlePlacementPageFilterChange(value: PlacementPageFilter) {
+    setPlacementPageFilter(value);
+    onPlacementPickerSlotChange(null);
+  }
 
   return (
     <main className="admin-media-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)] lg:h-[100dvh] lg:overflow-hidden">
@@ -192,15 +244,20 @@ export function AdminMediaLibrary({
       <div className="grid min-h-screen lg:h-[100dvh] lg:min-h-0 lg:grid-cols-[220px_1fr] lg:overflow-hidden">
         <AdminMediaSidebar
           isMobileOpen={mobileNavOpen}
+          placementPageFilter={placementPageFilter}
+          placementPageOptions={placementPageOptions}
           session={session}
           serviceFilter={serviceFilter}
           statusFilter={statusFilter}
           subCategoryFilter={subCategoryFilter}
+          viewMode={viewMode}
           onCloseMobile={() => setMobileNavOpen(false)}
           onLogout={onLogout}
+          onPlacementPageFilterChange={handlePlacementPageFilterChange}
           onServiceFilterChange={onServiceFilterChange}
           onStatusFilterChange={onStatusFilterChange}
           onSubCategoryFilterChange={onSubCategoryFilterChange}
+          onViewModeChange={handleViewModeChange}
         />
 
         <section className="grid min-w-0 lg:min-h-0 lg:overflow-hidden xl:grid-cols-[1fr_360px]">
@@ -222,47 +279,65 @@ export function AdminMediaLibrary({
                 />
               )}
 
-              <AdminMediaFilters
-                query={query}
-                serviceFilter={serviceFilter}
-                serviceSubCategories={serviceSubCategories}
-                sortMode={sortMode}
-                statusFilter={statusFilter}
-                subCategoryFilter={subCategoryFilter}
-                onSearchChange={onSearchChange}
-                onServiceFilterChange={onServiceFilterChange}
-                onSortModeChange={onSortModeChange}
-                onStatusFilterChange={onStatusFilterChange}
-                onSubCategoryFilterChange={onSubCategoryFilterChange}
-              />
+              {viewMode === "library" ? (
+                <>
+                  <AdminMediaFilters
+                    query={query}
+                    serviceFilter={serviceFilter}
+                    serviceSubCategories={serviceSubCategories}
+                    sortMode={sortMode}
+                    statusFilter={statusFilter}
+                    subCategoryFilter={subCategoryFilter}
+                    onSearchChange={onSearchChange}
+                    onServiceFilterChange={onServiceFilterChange}
+                    onSortModeChange={onSortModeChange}
+                    onStatusFilterChange={onStatusFilterChange}
+                    onSubCategoryFilterChange={onSubCategoryFilterChange}
+                  />
 
-              <AdminMediaUploadPanel
-                fileInputRef={fileInputRef}
-                isUploading={isUploading}
-                uploadReadyCount={uploadReadyCount}
-                uploadService={uploadService}
-                uploadSubCategory={uploadSubCategory}
-                onFilesSelected={onFilesSelected}
-                onUploadDrafts={onUploadDrafts}
-                onUploadTargetChange={onUploadTargetChange}
-              />
+                  <AdminMediaUploadPanel
+                    fileInputRef={fileInputRef}
+                    isUploading={isUploading}
+                    uploadReadyCount={uploadReadyCount}
+                    uploadService={uploadService}
+                    uploadSubCategory={uploadSubCategory}
+                    onFilesSelected={onFilesSelected}
+                    onUploadDrafts={onUploadDrafts}
+                    onUploadTargetChange={onUploadTargetChange}
+                  />
 
-              {uploadQueue.length > 0 && (
-                <AdminMediaUploadQueue
-                  items={uploadQueue}
-                  onRemoveUpload={onRemoveUpload}
-                  onUpdateUploadItemTarget={onUpdateUploadItemTarget}
+                  {uploadQueue.length > 0 && (
+                    <AdminMediaUploadQueue
+                      items={uploadQueue}
+                      onRemoveUpload={onRemoveUpload}
+                      onUpdateUploadItemTarget={onUpdateUploadItemTarget}
+                    />
+                  )}
+
+                  <AdminMediaGrid
+                    archiveSelectionIds={archiveSelectionIds}
+                    items={filteredItems}
+                    isLoading={isLoadingCatalog}
+                    selectedId={selectedId}
+                    onArchiveSelectionToggle={onArchiveSelectionToggle}
+                    onSelect={onSelectedIdChange}
+                  />
+                </>
+              ) : (
+                <AdminMediaPlacements
+                  activePickerSlotKey={activePlacementPickerSlotKey}
+                  error={placementError}
+                  isLoading={isLoadingPlacements}
+                  isMutatingSlotKey={isMutatingPlacement}
+                  items={items}
+                  pageFilter={placementPageFilter}
+                  slots={placementSlots}
+                  onAssign={onAssignPlacement}
+                  onClear={onClearPlacement}
+                  onPickerSlotChange={onPlacementPickerSlotChange}
+                  onSelectMedia={onSelectedIdChange}
                 />
               )}
-
-              <AdminMediaGrid
-                archiveSelectionIds={archiveSelectionIds}
-                items={filteredItems}
-                isLoading={isLoadingCatalog}
-                selectedId={selectedId}
-                onArchiveSelectionToggle={onArchiveSelectionToggle}
-                onSelect={onSelectedIdChange}
-              />
             </div>
           </div>
 
@@ -281,6 +356,7 @@ export function AdminMediaLibrary({
             publishBlocked={publishBlocked}
             selectedBatchItems={selectedBatchItems}
             batchArchiveFeedback={batchArchiveFeedback}
+            placementUsages={selectedPlacementUsages}
             onArchive={onArchive}
             onArchiveSelected={onArchiveSelected}
             onCheckDestination={onCheckDestination}

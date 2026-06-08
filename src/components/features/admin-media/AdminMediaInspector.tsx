@@ -18,7 +18,7 @@ import {
 import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { STATUS_COPY } from "./constants";
 import { StatusPill } from "./StatusPill";
-import type { BatchArchiveFeedback, EditorState } from "./types";
+import type { BatchArchiveFeedback, EditorState, MediaPlacementUsage } from "./types";
 import { formatDate } from "./utils";
 
 interface AdminMediaInspectorProps {
@@ -33,6 +33,7 @@ interface AdminMediaInspectorProps {
   moveDestinationAvailable: boolean | null;
   moveKey: string;
   moveMessage: string;
+  placementUsages: MediaPlacementUsage[];
   publishBlocked: boolean;
   selectedBatchItems: readonly AdminMediaItem[];
   batchArchiveFeedback: BatchArchiveFeedback | null;
@@ -64,6 +65,7 @@ export function AdminMediaInspector({
   moveDestinationAvailable,
   moveKey,
   moveMessage,
+  placementUsages,
   publishBlocked,
   selectedBatchItems,
   batchArchiveFeedback,
@@ -198,6 +200,43 @@ export function AdminMediaInspector({
               Archived media must be restored before normal metadata edits.
             </div>
           )}
+
+          <section className="border border-[var(--border)] p-3">
+            <p className="text-sm font-bold">Used in placements</p>
+            {placementUsages.length > 0 ? (
+              <div className="mt-3 space-y-2">
+                {placementUsages.map((usage) => (
+                  <div
+                    key={usage.slotKey}
+                    className="rounded-sm bg-[var(--background-warm)] px-3 py-2"
+                  >
+                    <p className="text-sm font-bold text-[var(--brand-strong)]">
+                      {usage.pageLabel} · {usage.sectionLabel}
+                    </p>
+                    <p className="mt-1 break-all text-[11px] font-semibold text-[var(--text-muted)]">
+                      {usage.slotKey}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {usage.affectedPaths.map((path) => (
+                        <Link
+                          key={`${usage.slotKey}-${path}`}
+                          href={path}
+                          className="inline-flex items-center gap-1 rounded-sm bg-white px-2 py-1 text-xs font-bold text-[var(--brand-strong)]"
+                        >
+                          {path}
+                          <ExternalLink className="h-3 w-3" aria-hidden />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-2 text-sm text-[var(--text-secondary)]">
+                This image is not assigned to a named page placement.
+              </p>
+            )}
+          </section>
 
           <Textarea
             label="Alt text"
