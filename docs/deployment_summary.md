@@ -33,6 +33,7 @@
 - Added a regular site navigation link to the admin media manager for authenticated media admin sessions.
 - Adjusted the regular site navigation breakpoint so authenticated media admin links do not crowd the tablet-width header.
 - Wired public homepage, about, sessions, service detail, portfolio, investment, and FAQ imagery to explicit media placement assignments with safe fallbacks.
+- Added admin media placement controls so published images can be assigned, replaced, cleared, previewed, and reused across named public page slots.
 
 ## Notes for internal team
 
@@ -69,6 +70,7 @@
 - DEV-956: Public pages now fetch published media placements alongside the catalog and prefer assigned slot media before existing catalog/static fallbacks.
 - DEV-956: Added conditional hero placement rendering on text-only services, portfolio, and FAQ heroes so assigned slots display without changing the empty-placement fallback state.
 - DEV-956: Service detail, services overview cards, and investment session cards share the same service slug to placement slot mapping.
+- DEV-955: Added a Library/Placements switcher in `/admin/media`, admin slot loading/mutation state, a published-image placement picker, local assignment refresh after assign/clear, friendly placement error aliases, and selected-image `Used in placements` details.
 
 ## Changed URLs
 

@@ -1,6 +1,7 @@
 import type {
   AdminMediaItem,
   MediaAspectRatio,
+  MediaPlacementSlotKey,
   MediaService,
   MediaStatus,
   MediaSubCategory,
@@ -29,4 +30,11 @@ export interface UploadQueueItem {
   progress: number;
   message: string;
   createdItem?: AdminMediaItem;
+}
+
+export interface MediaPlacementUsage {
+  slotKey: MediaPlacementSlotKey;
+  pageLabel: string;
+  sectionLabel: string;
+  affectedPaths: readonly string[];
 }

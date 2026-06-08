@@ -4,8 +4,11 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Loader2 } from "lucide-react";
 import {
   checkMediaDestination,
+  assignMediaPlacement,
+  clearMediaPlacement,
   createDraftMediaItem,
   getAdminMediaCatalog,
+  getAdminMediaPlacements,
   getMediaAdminSession,
   logoutMediaAdmin,
   moveDraftMediaItem,
@@ -17,8 +20,10 @@ import {
 } from "@/lib/media/client";
 import {
   MEDIA_SUB_CATEGORIES,
+  type AdminMediaPlacementSlot,
   type AdminMediaItem,
   type MediaAdminSession,
+  type MediaPlacementSlotKey,
   type MediaService,
   type MediaSubCategory,
 } from "@/lib/media/types";
@@ -48,6 +53,13 @@ export function AdminMediaManager() {
   const [loginError, setLoginError] = useState("");
   const [isSendingLink, setIsSendingLink] = useState(false);
   const [items, setItems] = useState<AdminMediaItem[]>([]);
+  const [placementSlots, setPlacementSlots] = useState<AdminMediaPlacementSlot[]>([]);
+  const [isLoadingPlacements, setIsLoadingPlacements] = useState(false);
+  const [placementError, setPlacementError] = useState("");
+  const [activePlacementPickerSlotKey, setActivePlacementPickerSlotKey] =
+    useState<MediaPlacementSlotKey | null>(null);
+  const [mutatingPlacementSlotKey, setMutatingPlacementSlotKey] =
+    useState<MediaPlacementSlotKey | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(false);
   const [catalogError, setCatalogError] = useState("");
@@ -99,6 +111,20 @@ export function AdminMediaManager() {
   const canMove = selectedItem?.status === "draft";
   const uploadReadyCount = uploadQueue.filter((item) => item.status === "queued").length;
   const affectedPages = getAffectedPages(selectedItem);
+  const selectedPlacementUsages = useMemo(
+    () =>
+      selectedItem
+        ? placementSlots
+            .filter((slot) => slot.assignment?.media.id === selectedItem.id)
+            .map((slot) => ({
+              slotKey: slot.slotKey,
+              pageLabel: slot.pageLabel,
+              sectionLabel: slot.sectionLabel,
+              affectedPaths: slot.affectedPaths,
+            }))
+        : [],
+    [placementSlots, selectedItem],
+  );
 
   useEffect(() => {
     let canceled = false;
@@ -121,6 +147,7 @@ export function AdminMediaManager() {
   useEffect(() => {
     if (authState !== "signed-in") return;
     void loadCatalog();
+    void loadPlacements();
   }, [authState]);
 
   useEffect(() => {
@@ -161,6 +188,19 @@ export function AdminMediaManager() {
     }
   }
 
+  async function loadPlacements() {
+    setIsLoadingPlacements(true);
+    setPlacementError("");
+    try {
+      const response = await getAdminMediaPlacements();
+      setPlacementSlots(response.slots);
+    } catch (error) {
+      setPlacementError(getFriendlyError(error));
+    } finally {
+      setIsLoadingPlacements(false);
+    }
+  }
+
   async function sendMagicLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoginError("");
@@ -183,6 +223,7 @@ export function AdminMediaManager() {
     } finally {
       setSession(null);
       setItems([]);
+      setPlacementSlots([]);
       setSelectedId(null);
       setAuthState("signed-out");
     }
@@ -267,6 +308,59 @@ export function AdminMediaManager() {
       current.map((existing) => (existing.id === item.id ? item : existing)),
     );
     setSelectedId(item.id);
+  }
+
+  function upsertPlacementSlot(slot: AdminMediaPlacementSlot) {
+    setPlacementSlots((current) =>
+      current.map((existing) =>
+        existing.slotKey === slot.slotKey ? slot : existing,
+      ),
+    );
+  }
+
+  async function assignPlacement(slotKey: MediaPlacementSlotKey, mediaId: number) {
+    setMutatingPlacementSlotKey(slotKey);
+    setNotice("");
+    setPlacementError("");
+
+    try {
+      const updatedSlot = await assignMediaPlacement(slotKey, {
+        media_id: mediaId,
+      });
+      upsertPlacementSlot(updatedSlot);
+      setActivePlacementPickerSlotKey(null);
+      setSelectedId(mediaId);
+      setNotice(`${updatedSlot.pageLabel} ${updatedSlot.sectionLabel} placement updated.`);
+    } catch (error) {
+      setNotice(getFriendlyError(error));
+    } finally {
+      setMutatingPlacementSlotKey(null);
+    }
+  }
+
+  async function clearPlacement(slotKey: MediaPlacementSlotKey) {
+    const slot = placementSlots.find((candidate) => candidate.slotKey === slotKey);
+    if (!slot?.assignment) return;
+
+    setMutatingPlacementSlotKey(slotKey);
+    setNotice("");
+    setPlacementError("");
+
+    try {
+      await clearMediaPlacement(slotKey);
+      setPlacementSlots((current) =>
+        current.map((existing) =>
+          existing.slotKey === slotKey
+            ? { ...existing, assignment: null }
+            : existing,
+        ),
+      );
+      setNotice(`${slot.pageLabel} ${slot.sectionLabel} placement cleared.`);
+    } catch (error) {
+      setNotice(getFriendlyError(error));
+    } finally {
+      setMutatingPlacementSlotKey(null);
+    }
   }
 
   function queueFiles(files: File[]) {
@@ -488,10 +582,13 @@ export function AdminMediaManager() {
       counts={counts}
       editor={editor}
       fileInputRef={fileInputRef}
+      items={items}
       filteredItems={filteredItems}
       isCheckingMove={isCheckingMove}
       isLoadingCatalog={isLoadingCatalog}
+      isLoadingPlacements={isLoadingPlacements}
       isMoving={isMoving}
+      isMutatingPlacement={mutatingPlacementSlotKey}
       isRevalidating={isRevalidating}
       isSaving={isSaving}
       isUploading={isUploading}
@@ -499,10 +596,14 @@ export function AdminMediaManager() {
       moveKey={moveKey}
       moveMessage={moveMessage}
       notice={notice}
+      placementError={placementError}
+      placementSlots={placementSlots}
+      activePlacementPickerSlotKey={activePlacementPickerSlotKey}
       publishBlocked={Boolean(publishBlocked)}
       query={query}
       selectedId={selectedId}
       selectedItem={selectedItem}
+      selectedPlacementUsages={selectedPlacementUsages}
       serviceFilter={serviceFilter}
       serviceSubCategories={serviceSubCategories}
       session={session}
@@ -514,9 +615,12 @@ export function AdminMediaManager() {
       uploadService={uploadService}
       uploadSubCategory={uploadSubCategory}
       onArchive={() => void saveEditor({ status: "archived" })}
+      onAssignPlacement={(slotKey, mediaId) => void assignPlacement(slotKey, mediaId)}
       onCheckDestination={checkDestination}
+      onClearPlacement={(slotKey) => void clearPlacement(slotKey)}
       onClearNotice={() => {
         setCatalogError("");
+        setPlacementError("");
         setNotice("");
       }}
       onFilesSelected={queueFiles}
@@ -536,6 +640,7 @@ export function AdminMediaManager() {
       onSortModeChange={setSortMode}
       onStatusFilterChange={setStatusFilter}
       onSubCategoryFilterChange={setSubCategoryFilter}
+      onPlacementPickerSlotChange={setActivePlacementPickerSlotKey}
       onTriggerRevalidate={triggerRevalidate}
       onUpdateEditor={updateEditor}
       onUploadDrafts={uploadDrafts}
