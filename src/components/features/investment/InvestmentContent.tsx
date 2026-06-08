@@ -3,13 +3,18 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { PublicGalleryItem } from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 import { BoardInvestmentLayout } from "./BoardInvestmentLayout";
 
 interface InvestmentContentProps {
   mediaItems: PublicGalleryItem[];
+  placements: PublicMediaPlacement[];
 }
 
-export function InvestmentContent({ mediaItems }: InvestmentContentProps) {
+export function InvestmentContent({
+  mediaItems,
+  placements,
+}: InvestmentContentProps) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -29,5 +34,5 @@ export function InvestmentContent({ mediaItems }: InvestmentContentProps) {
     return () => clearTimeout(timer);
   }, [searchParams]);
 
-  return <BoardInvestmentLayout mediaItems={mediaItems} />;
+  return <BoardInvestmentLayout mediaItems={mediaItems} placements={placements} />;
 }

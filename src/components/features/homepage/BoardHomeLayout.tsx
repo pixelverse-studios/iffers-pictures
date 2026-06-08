@@ -9,8 +9,10 @@ import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 import {
   DEFAULT_PUBLIC_GALLERY_ITEMS,
   findPinnedGalleryItem,
+  getPlacementGalleryItem,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 import type { SubCategory } from "@/components/features/portfolio/portfolioData";
 
 const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
@@ -65,6 +67,8 @@ function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
 }
 
+type BoardHomeImage = Pick<PublicGalleryItem, "src" | "alt">;
+
 function BoardHomeHero({ heroImage }: { heroImage?: PublicGalleryItem }) {
   if (!heroImage) return null;
 
@@ -72,7 +76,7 @@ function BoardHomeHero({ heroImage }: { heroImage?: PublicGalleryItem }) {
     <section className="relative min-h-[720px] overflow-hidden bg-[var(--background-warm)] pt-16 md:min-h-[760px] md:pt-[72px]">
       <Image
         src={heroImage.src}
-        alt={HOME_PAGE_COPY.hero.imageAlt}
+        alt={heroImage.alt}
         fill
         priority
         sizes="100vw"
@@ -135,7 +139,7 @@ function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) 
       <div className="grid border-y border-white md:grid-cols-3">
         {stripImages.map((image, index) => (
           <div
-            key={image.id}
+            key={`${image.id}-${index}`}
             className="scroll-reveal scroll-reveal-image relative min-h-[230px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[320px] md:border-b-0 md:border-r md:last:border-r-0"
             data-scroll-reveal
             style={revealStyle(index * 90)}
@@ -169,7 +173,7 @@ function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) 
   );
 }
 
-function BoardMeetJenn() {
+function BoardMeetJenn({ image }: { image: BoardHomeImage }) {
   return (
     <section className="board-band bg-[var(--background)]">
       <div className="board-shell board-gutter grid gap-8 py-12 md:grid-cols-[0.42fr_0.58fr] md:items-center md:py-16">
@@ -178,8 +182,8 @@ function BoardMeetJenn() {
           data-scroll-reveal
         >
           <Image
-            src={jennPortraitImage}
-            alt={HOME_PAGE_COPY.meetJenn.imageAlt}
+            src={image.src}
+            alt={image.alt}
             fill
             sizes="(max-width: 768px) 86vw, 360px"
             className="motion-image-zoom object-cover object-[50%_30%]"
@@ -438,13 +442,15 @@ function BoardFinalCta() {
 
 interface BoardHomeLayoutProps {
   mediaItems?: PublicGalleryItem[];
+  placements?: PublicMediaPlacement[];
 }
 
 export function BoardHomeLayout({
   mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+  placements = [],
 }: BoardHomeLayoutProps) {
   const allItems = mediaItems;
-  const heroImage = findPinnedGalleryItem(allItems, {
+  const heroImage = getPlacementGalleryItem(placements, "home.hero") ?? findPinnedGalleryItem(allItems, {
     id: 99,
     service: "Family",
     subCategory: "Family",
@@ -454,9 +460,20 @@ export function BoardHomeLayout({
     { id: 96, service: "Family", subCategory: "Family" },
     { id: 100, service: "Maternity", subCategory: "Maternity" },
   ] as const;
+  const stripImageSlotKeys = ["home.strip.1", "home.strip.2", undefined] as const;
   const stripImages = stripImageFallbacks
-    .map((fallback) => findPinnedGalleryItem(allItems, fallback))
+    .map(
+      (fallback, index) =>
+        (stripImageSlotKeys[index]
+          ? getPlacementGalleryItem(placements, stripImageSlotKeys[index])
+          : undefined) ?? findPinnedGalleryItem(allItems, fallback)
+    )
     .filter((item): item is PublicGalleryItem => Boolean(item));
+  const meetJennImage = getPlacementGalleryItem(placements, "home.meet_jenn") ?? {
+    src: jennPortraitImage,
+    alt: HOME_PAGE_COPY.meetJenn.imageAlt,
+  };
+  const quoteImage = getPlacementGalleryItem(placements, "home.quote_image") ?? heroImage;
   const sessionItems = heroImage ? SESSIONS.map((session) => {
     const image = getHomepageSessionImage(allItems, session.slug, heroImage);
 
@@ -472,9 +489,9 @@ export function BoardHomeLayout({
       <ScrollRevealObserver />
       <BoardHomeHero heroImage={heroImage} />
       <BoardImageStrip stripImages={stripImages} />
-      <BoardMeetJenn />
+      <BoardMeetJenn image={meetJennImage} />
       <BoardSessionsPreview sessionItems={sessionItems} />
-      <BoardQuotePreview heroImage={heroImage} />
+      <BoardQuotePreview heroImage={quoteImage} />
       <BoardStatsBand />
       <BoardFinalCta />
     </>

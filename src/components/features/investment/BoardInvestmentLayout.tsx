@@ -10,9 +10,12 @@ import {
 import {
   DEFAULT_PUBLIC_GALLERY_ITEMS,
   findPinnedGalleryItem,
+  getPlacementGalleryItem,
+  getServiceHeroPlacementSlotKey,
   type PinnedMediaFallback,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 
@@ -41,8 +44,16 @@ const investmentFactors = [
 
 function getPreviewImage(
   items: PublicGalleryItem[],
-  slug: string
+  slug: string,
+  placements: PublicMediaPlacement[]
 ): PublicGalleryItem | undefined {
+  const slotKey = getServiceHeroPlacementSlotKey(slug);
+  const placementImage = slotKey
+    ? getPlacementGalleryItem(placements, slotKey)
+    : undefined;
+
+  if (placementImage) return placementImage;
+
   const fallback: PinnedMediaFallback =
     slug === "events"
       ? { service: "Events", subCategory: "Bridal Shower" }
@@ -63,22 +74,28 @@ function revealStyle(delay: number): CSSProperties {
 
 interface BoardInvestmentLayoutProps {
   mediaItems?: PublicGalleryItem[];
+  placements?: PublicMediaPlacement[];
 }
 
 export function BoardInvestmentLayout({
   mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+  placements = [],
 }: BoardInvestmentLayoutProps) {
   const allItems = mediaItems;
-  const heroImage = findPinnedGalleryItem(allItems, {
-    id: 99,
-    service: "Family",
-    subCategory: "Family",
-  });
-  const detailImage = findPinnedGalleryItem(allItems, {
-    id: 34,
-    service: "Couples",
-    subCategory: "Engagement",
-  });
+  const heroImage =
+    getPlacementGalleryItem(placements, "investment.hero") ??
+    findPinnedGalleryItem(allItems, {
+      id: 99,
+      service: "Family",
+      subCategory: "Family",
+    });
+  const detailImage =
+    getPlacementGalleryItem(placements, "investment.detail") ??
+    findPinnedGalleryItem(allItems, {
+      id: 34,
+      service: "Couples",
+      subCategory: "Engagement",
+    });
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
@@ -221,7 +238,11 @@ export function BoardInvestmentLayout({
 
             <div className="mt-10 grid gap-3 sm:grid-cols-2">
               {SESSION_INCLUSIONS.map((session) => {
-                const image = getPreviewImage(allItems, session.slug);
+                const image = getPreviewImage(
+                  allItems,
+                  session.slug,
+                  placements
+                );
                 if (!image) return null;
 
                 return (

@@ -3,7 +3,10 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { ServicesHubSchema } from "@/components/features/services-hub";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { SessionsPageContent } from "@/components/features/sessions-hub";
-import { getPublicMediaCatalogWithFallback } from "@/lib/media/server";
+import {
+  getPublicMediaCatalogWithFallback,
+  getPublicMediaPlacementsWithFallback,
+} from "@/lib/media/server";
 import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
@@ -46,7 +49,10 @@ export const metadata: Metadata = {
 };
 
 export default async function SessionsPage() {
-  const catalog = await getPublicMediaCatalogWithFallback();
+  const [catalog, placementsResponse] = await Promise.all([
+    getPublicMediaCatalogWithFallback(),
+    getPublicMediaPlacementsWithFallback(),
+  ]);
   const mediaItems = toPublicGalleryItems(catalog.items);
 
   return (
@@ -59,7 +65,10 @@ export default async function SessionsPage() {
         ]}
       />
 
-      <SessionsPageContent mediaItems={mediaItems} />
+      <SessionsPageContent
+        mediaItems={mediaItems}
+        placements={placementsResponse.placements}
+      />
     </>
   );
 }

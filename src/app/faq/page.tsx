@@ -5,7 +5,10 @@ import { generalFaqs } from "./faqData";
 import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
 import { FAQPageContent } from "./FAQPageContent";
-import { getPublicMediaCatalogWithFallback } from "@/lib/media/server";
+import {
+  getPublicMediaCatalogWithFallback,
+  getPublicMediaPlacementsWithFallback,
+} from "@/lib/media/server";
 import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
@@ -63,7 +66,10 @@ function FAQPageSchema() {
 }
 
 export default async function FAQPage() {
-  const catalog = await getPublicMediaCatalogWithFallback();
+  const [catalog, placementsResponse] = await Promise.all([
+    getPublicMediaCatalogWithFallback(),
+    getPublicMediaPlacementsWithFallback(),
+  ]);
   const mediaItems = toPublicGalleryItems(catalog.items);
 
   return (
@@ -76,7 +82,10 @@ export default async function FAQPage() {
         ]}
       />
 
-      <FAQPageContent mediaItems={mediaItems} />
+      <FAQPageContent
+        mediaItems={mediaItems}
+        placements={placementsResponse.placements}
+      />
     </>
   );
 }

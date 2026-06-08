@@ -3,7 +3,10 @@ import { Suspense } from "react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { BreadcrumbSchema } from "@/components/features/services";
 import { InvestmentContent } from "@/components/features/investment";
-import { getPublicMediaCatalogWithFallback } from "@/lib/media/server";
+import {
+  getPublicMediaCatalogWithFallback,
+  getPublicMediaPlacementsWithFallback,
+} from "@/lib/media/server";
 import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
@@ -23,7 +26,10 @@ export const metadata: Metadata = {
 };
 
 export default async function InvestmentPage() {
-  const catalog = await getPublicMediaCatalogWithFallback();
+  const [catalog, placementsResponse] = await Promise.all([
+    getPublicMediaCatalogWithFallback(),
+    getPublicMediaPlacementsWithFallback(),
+  ]);
   const mediaItems = toPublicGalleryItems(catalog.items);
 
   return (
@@ -36,7 +42,10 @@ export default async function InvestmentPage() {
       />
 
       <Suspense fallback={<div className="min-h-96" aria-hidden />}>
-        <InvestmentContent mediaItems={mediaItems} />
+        <InvestmentContent
+          mediaItems={mediaItems}
+          placements={placementsResponse.placements}
+        />
       </Suspense>
     </>
   );
