@@ -105,15 +105,7 @@ export function AdminMediaBulkArchiveBar({
       </div>
 
       <div className="shrink-0 border-t border-[var(--border)] bg-white pt-4">
-        <div className="grid grid-cols-[1fr_1.25fr] gap-2">
-          <button
-            type="button"
-            onClick={onClearSelection}
-            disabled={isArchiving || selectedCount === 0}
-            className="inline-flex min-h-11 items-center justify-center rounded-sm border border-[var(--border)] px-4 text-sm font-bold text-[var(--text-secondary)] transition hover:border-[var(--brand-strong)] hover:text-[var(--foreground)] active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Clear all
-          </button>
+        <div className="grid grid-cols-[1.25fr_1fr] gap-2">
           <button
             type="button"
             onClick={onArchiveSelected}
@@ -126,6 +118,14 @@ export function AdminMediaBulkArchiveBar({
               <Archive className="h-4 w-4" aria-hidden />
             )}
             Archive
+          </button>
+          <button
+            type="button"
+            onClick={onClearSelection}
+            disabled={isArchiving || selectedCount === 0}
+            className="inline-flex min-h-11 items-center justify-center rounded-sm border border-[var(--border)] px-4 text-sm font-bold text-[var(--text-secondary)] transition hover:border-[var(--brand-strong)] hover:text-[var(--foreground)] active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Clear all
           </button>
         </div>
       </div>
