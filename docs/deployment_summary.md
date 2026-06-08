@@ -33,6 +33,21 @@
 - Added a regular site navigation link to the admin media manager for authenticated media admin sessions.
 - Adjusted the regular site navigation breakpoint so authenticated media admin links do not crowd the tablet-width header.
 - Wired public homepage, about, sessions, service detail, portfolio, investment, and FAQ imagery to explicit media placement assignments with safe fallbacks.
+- Added direct multi-select batch archive controls to the admin media manager, with selected images and archive actions shown in the Selected Media panel.
+- Reworked admin media catalog filters so search stays prominent while category/status filters live in a compact filter panel with visible active filter chips.
+- Changed selected media on smaller admin media screens to open as a prominent full-screen tray instead of falling below the catalog.
+- Refined batch selected media so the archive action stays visible, selected images scroll inside their own list, and individual images can be removed from the selection.
+- Added an explicit Clear all action beside the batch Archive button in the selected media panel.
+- Positioned the batch Archive action before Clear all so the primary action leads the selected media controls.
+- Replaced the browser archive prompt with an in-panel confirmation inside Selected Media.
+- Kept the Archive action first in the selected media confirmation state for consistent button placement.
+- Added admin media placement controls so published images can be assigned, replaced, cleared, previewed, and reused across named public page slots.
+- Moved admin media Library and Placements controls into the media navigation, with placement page filters for reviewing assignable slots page by page.
+- Refined admin media navigation into clickable Library and Placements sections where only the active section expands.
+- Added smooth expand and collapse animation when switching between Library and Placements in the admin media navigation.
+- Fixed admin media sidebar nav alignment so long placement page labels wrap under the same text column.
+- Improved admin media filter responsiveness so search, category selectors, status filters, and sorting remain usable on narrower screens.
+- Fixed the admin media filter panel so service and sub-category choices apply reliably before the panel closes.
 
 ## Notes for internal team
 
@@ -69,6 +84,21 @@
 - DEV-956: Public pages now fetch published media placements alongside the catalog and prefer assigned slot media before existing catalog/static fallbacks.
 - DEV-956: Added conditional hero placement rendering on text-only services, portfolio, and FAQ heroes so assigned slots display without changing the empty-placement fallback state.
 - DEV-956: Service detail, services overview cards, and investment session cards share the same service slug to placement slot mapping.
+- DEV-959: Added client support for `PATCH /api/media/iffers-pictures/admin/items/batch`, including direct card selection, Selected Media batch actions, max-50 guarding, confirmation copy, local catalog updates, and partial-failure feedback.
+- DEV-959: Moved service, sub-category, and status filtering into a responsive admin media filter popover/sheet while preserving visible search and sort controls.
+- DEV-959: Below the `xl` breakpoint, active selected-media and batch archive inspector states now render as fixed full-screen trays; the empty inspector placeholder remains desktop-only.
+- DEV-959: Removed the explanatory batch archive callout, constrained the selected-image list to an internal scroll region, and added per-item removal from the batch selection.
+- DEV-959: Renamed the pinned batch archive button to `Archive` and added a secondary pinned `Clear all` action.
+- DEV-959: Flipped the pinned batch action order so `Archive` is the first and wider primary control.
+- DEV-959: Removed the native `window.confirm` batch archive prompt and added a styled inline confirmation state to the bulk archive panel.
+- DEV-959: Matched the confirmation action order to the default action row with `Archive` first and primary.
+- DEV-955: Added a Library/Placements switcher in `/admin/media`, admin slot loading/mutation state, a published-image placement picker, local assignment refresh after assign/clear, friendly placement error aliases, and selected-image `Used in placements` details.
+- DEV-955: Promoted Library/Placements into sidebar workspace navigation and added placement page filtering based on the backend slot registry page labels.
+- DEV-955: Changed the media sidebar to a two-section accordion-style navigation so Library and Placements act as top-level modes with their own child filters.
+- DEV-955: Added Framer Motion height/opacity transitions for Library and Placements sidebar section enter/exit states.
+- DEV-955: Changed sidebar nav rows to a fixed icon/text grid to keep wrapped labels aligned.
+- DEV-955: Reorganized the admin media filter controls into responsive rows so the search input no longer collapses beside status filters.
+- DEV-959: Kept filter panel service and sub-category dropdowns inside the panel DOM so outside-click handling does not interrupt option selection.
 
 ## Changed URLs
 
@@ -100,3 +130,4 @@
 - https://ifferspictures.com/portfolio
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
+- https://ifferspictures.com/admin/media

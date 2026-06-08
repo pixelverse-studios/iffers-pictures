@@ -5,6 +5,8 @@ import {
   type AdminMediaItem,
   type AssignMediaPlacementRequest,
   type AssignMediaPlacementResponse,
+  type BatchPatchMediaItemsRequest,
+  type BatchPatchMediaItemsResponse,
   type ClearMediaPlacementResponse,
   type CreateDraftMediaItemRequest,
   type DestinationCheckRequest,
@@ -192,6 +194,18 @@ export function patchMediaItem(
     method: "PATCH",
     body: payload,
   });
+}
+
+export function patchMediaItemsBatch(
+  payload: BatchPatchMediaItemsRequest
+): Promise<BatchPatchMediaItemsResponse> {
+  return requestAdminJson<BatchPatchMediaItemsResponse>(
+    `${MEDIA_ROOT}/admin/items/batch`,
+    {
+      method: "PATCH",
+      body: payload,
+    }
+  );
 }
 
 export function listMediaObjects(
