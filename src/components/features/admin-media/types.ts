@@ -11,6 +11,8 @@ export type AuthState = "checking" | "signed-out" | "signed-in";
 export type StatusFilter = "all" | MediaStatus;
 export type SortMode = "newest" | "oldest" | "sortOrder" | "filename";
 export type UploadStatus = "queued" | "uploading" | "created" | "error";
+export type AdminMediaViewMode = "library" | "placements";
+export type PlacementPageFilter = "all" | string;
 
 export interface EditorState {
   alt: string;

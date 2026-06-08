@@ -19,6 +19,7 @@ import {
   type MediaService,
 } from "@/lib/media/types";
 import { StatusPill } from "./StatusPill";
+import type { PlacementPageFilter } from "./types";
 
 interface AdminMediaPlacementsProps {
   activePickerSlotKey: MediaPlacementSlotKey | null;
@@ -26,6 +27,7 @@ interface AdminMediaPlacementsProps {
   isLoading: boolean;
   isMutatingSlotKey: MediaPlacementSlotKey | null;
   items: AdminMediaItem[];
+  pageFilter: PlacementPageFilter;
   slots: AdminMediaPlacementSlot[];
   onAssign: (slotKey: MediaPlacementSlotKey, mediaId: number) => void;
   onClear: (slotKey: MediaPlacementSlotKey) => void;
@@ -46,6 +48,7 @@ export function AdminMediaPlacements({
   isLoading,
   isMutatingSlotKey,
   items,
+  pageFilter,
   slots,
   onAssign,
   onClear,
@@ -67,8 +70,17 @@ export function AdminMediaPlacements({
       }),
     [items, query, serviceFilter],
   );
-  const slotsByPage = groupSlotsByPage(slots);
+  const visibleSlots = useMemo(
+    () =>
+      pageFilter === "all"
+        ? slots
+        : slots.filter((slot) => slot.pageLabel === pageFilter),
+    [pageFilter, slots],
+  );
+  const slotsByPage = groupSlotsByPage(visibleSlots);
   const activeSlot = slots.find((slot) => slot.slotKey === activePickerSlotKey);
+  const heading =
+    pageFilter === "all" ? "Page placements" : `${pageFilter} placements`;
 
   if (isLoading) {
     return (
@@ -102,13 +114,27 @@ export function AdminMediaPlacements({
     );
   }
 
+  if (visibleSlots.length === 0) {
+    return (
+      <section className="border border-[var(--border)] bg-white p-10 text-center">
+        <ImagePlus className="mx-auto h-12 w-12 text-[var(--text-muted)]" />
+        <h2 className="mt-4 font-heading text-2xl font-semibold">
+          No placements for this page
+        </h2>
+        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+          Pick another placement page from the media navigation.
+        </p>
+      </section>
+    );
+  }
+
   return (
     <section className="space-y-6">
       <div className="border border-[var(--border)] bg-white p-4">
         <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
           <div>
             <h2 className="font-heading text-2xl font-semibold text-[var(--foreground)]">
-              Page placements
+              {heading}
             </h2>
             <p className="mt-1 max-w-2xl text-sm font-semibold leading-6 text-[var(--text-secondary)]">
               Assign published catalog images to named frontend slots. Draft and
@@ -116,7 +142,7 @@ export function AdminMediaPlacements({
             </p>
           </div>
           <span className="w-fit rounded-sm bg-[var(--background-warm)] px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)]">
-            {slots.length} slots
+            {visibleSlots.length} slots
           </span>
         </div>
       </div>

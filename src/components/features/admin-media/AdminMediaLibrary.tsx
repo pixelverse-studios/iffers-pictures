@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type RefObject } from "react";
+import { useMemo, useState, type RefObject } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
@@ -24,7 +24,9 @@ import { AdminMediaUploadPanel } from "./AdminMediaUploadPanel";
 import { AdminMediaUploadQueue } from "./AdminMediaUploadQueue";
 import type {
   EditorState,
+  AdminMediaViewMode,
   MediaPlacementUsage,
+  PlacementPageFilter,
   SortMode,
   StatusFilter,
   UploadQueueItem,
@@ -167,13 +169,38 @@ export function AdminMediaLibrary({
   onUploadTargetChange,
 }: AdminMediaLibraryProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<"library" | "placements">("library");
+  const [viewMode, setViewMode] = useState<AdminMediaViewMode>("library");
+  const [placementPageFilter, setPlacementPageFilter] =
+    useState<PlacementPageFilter>("all");
+  const placementPageOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(placementSlots.map((slot) => slot.pageLabel).filter(Boolean)),
+      ),
+    [placementSlots],
+  );
   const activeMobileFilter =
-    subCategoryFilter !== "all"
+    viewMode === "placements"
+      ? placementPageFilter === "all"
+        ? "Placements"
+        : placementPageFilter
+      : subCategoryFilter !== "all"
       ? subCategoryFilter
       : serviceFilter !== "all"
         ? serviceFilter
         : "All Media";
+
+  function handleViewModeChange(mode: AdminMediaViewMode) {
+    setViewMode(mode);
+    if (mode === "library") {
+      onPlacementPickerSlotChange(null);
+    }
+  }
+
+  function handlePlacementPageFilterChange(value: PlacementPageFilter) {
+    setPlacementPageFilter(value);
+    onPlacementPickerSlotChange(null);
+  }
 
   return (
     <main className="admin-media-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)] lg:h-[100dvh] lg:overflow-hidden">
@@ -202,15 +229,20 @@ export function AdminMediaLibrary({
       <div className="grid min-h-screen lg:h-[100dvh] lg:min-h-0 lg:grid-cols-[220px_1fr] lg:overflow-hidden">
         <AdminMediaSidebar
           isMobileOpen={mobileNavOpen}
+          placementPageFilter={placementPageFilter}
+          placementPageOptions={placementPageOptions}
           session={session}
           serviceFilter={serviceFilter}
           statusFilter={statusFilter}
           subCategoryFilter={subCategoryFilter}
+          viewMode={viewMode}
           onCloseMobile={() => setMobileNavOpen(false)}
           onLogout={onLogout}
+          onPlacementPageFilterChange={handlePlacementPageFilterChange}
           onServiceFilterChange={onServiceFilterChange}
           onStatusFilterChange={onStatusFilterChange}
           onSubCategoryFilterChange={onSubCategoryFilterChange}
+          onViewModeChange={handleViewModeChange}
         />
 
         <section className="grid min-w-0 lg:min-h-0 lg:overflow-hidden xl:grid-cols-[1fr_360px]">
@@ -231,26 +263,6 @@ export function AdminMediaLibrary({
                   onClear={onClearNotice}
                 />
               )}
-
-              <div className="flex flex-wrap gap-2 border-b border-[var(--border)] pb-4">
-                {([
-                  ["library", "Library"],
-                  ["placements", "Placements"],
-                ] as const).map(([mode, label]) => (
-                  <button
-                    key={mode}
-                    type="button"
-                    onClick={() => setViewMode(mode)}
-                    className={`min-h-10 rounded-sm border px-4 text-sm font-bold ${
-                      viewMode === mode
-                        ? "border-[var(--brand-strong)] bg-[var(--brand-strong)] text-white"
-                        : "border-[var(--border)] bg-white text-[var(--text-secondary)]"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
 
               {viewMode === "library" ? (
                 <>
@@ -301,6 +313,7 @@ export function AdminMediaLibrary({
                   isLoading={isLoadingPlacements}
                   isMutatingSlotKey={isMutatingPlacement}
                   items={items}
+                  pageFilter={placementPageFilter}
                   slots={placementSlots}
                   onAssign={onAssignPlacement}
                   onClear={onClearPlacement}
