@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Archive,
   ChevronDown,
@@ -160,6 +161,12 @@ export function AdminMediaSidebar({
     const childListClassName = "mt-1 space-y-1 pl-6";
     const childButtonClassName =
       "inline-flex min-h-9 w-full items-center rounded-sm px-3 text-xs font-bold";
+    const sectionPanelMotion = {
+      animate: { height: "auto", opacity: 1, y: 0 },
+      exit: { height: 0, opacity: 0, y: -4 },
+      initial: { height: 0, opacity: 0, y: -4 },
+      transition: { duration: 0.22, ease: "easeOut" as const },
+    };
 
     return (
       <>
@@ -215,94 +222,106 @@ export function AdminMediaSidebar({
               />
             </button>
 
-            {viewMode === "library" && (
-              <div className="mt-3 space-y-1">
-                <button
-                  type="button"
-                  onClick={handleAllMediaClick}
-                  className={`${parentButtonClassName} ${
-                    serviceFilter === "all"
-                      ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
-                      : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
-                  }`}
+            <AnimatePresence initial={false}>
+              {viewMode === "library" && (
+                <motion.div
+                  key="library-navigation"
+                  className="overflow-hidden"
+                  {...sectionPanelMotion}
                 >
-                  <Grid2X2 className="h-4 w-4" aria-hidden />
-                  All Media
-                </button>
-                {serviceNavItems.map(({ service, subCategories }) => {
-                  const hasNestedItems = subCategories.length > 1;
-                  const serviceIsActive =
-                    serviceFilter === service && subCategoryFilter === "all";
-                  const serviceHasActiveChild =
-                    serviceFilter === service && subCategoryFilter !== "all";
+                  <div className="mt-3 space-y-1">
+                    <button
+                      type="button"
+                      onClick={handleAllMediaClick}
+                      className={`${parentButtonClassName} ${
+                        serviceFilter === "all"
+                          ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                      }`}
+                    >
+                      <Grid2X2 className="h-4 w-4" aria-hidden />
+                      All Media
+                    </button>
+                    {serviceNavItems.map(({ service, subCategories }) => {
+                      const hasNestedItems = subCategories.length > 1;
+                      const serviceIsActive =
+                        serviceFilter === service && subCategoryFilter === "all";
+                      const serviceHasActiveChild =
+                        serviceFilter === service && subCategoryFilter !== "all";
 
-                  if (!hasNestedItems) {
-                    const [subCategory] = subCategories;
-                    return (
-                      <button
-                        key={service}
-                        type="button"
-                        onClick={() => handleSubCategoryClick(service, subCategory)}
-                        className={`${parentButtonClassName} ${
-                          serviceFilter === service
-                            ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
-                            : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
-                        }`}
-                      >
-                        <FileImage className="h-4 w-4" aria-hidden />
-                        {service}
-                      </button>
-                    );
-                  }
-
-                  return (
-                    <div key={service}>
-                      <button
-                        type="button"
-                        onClick={() => handleServiceClick(service)}
-                        className={`${parentButtonClassName} ${
-                          serviceIsActive || serviceHasActiveChild
-                            ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
-                            : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
-                        }`}
-                      >
-                        <FileImage className="h-4 w-4" aria-hidden />
-                        {service}
-                      </button>
-                      <div className={childListClassName}>
-                        {subCategories.map((subCategory) => (
+                      if (!hasNestedItems) {
+                        const [subCategory] = subCategories;
+                        return (
                           <button
-                            key={`${service}-${subCategory}`}
+                            key={service}
                             type="button"
-                            onClick={() => handleSubCategoryClick(service, subCategory)}
-                            className={`${childButtonClassName} ${
-                              serviceFilter === service &&
-                              subCategoryFilter === subCategory
-                                ? "bg-[var(--background-warm)] text-[var(--brand-strong)]"
+                            onClick={() =>
+                              handleSubCategoryClick(service, subCategory)
+                            }
+                            className={`${parentButtonClassName} ${
+                              serviceFilter === service
+                                ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
                                 : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
                             }`}
                           >
-                            {subCategory}
+                            <FileImage className="h-4 w-4" aria-hidden />
+                            {service}
                           </button>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-                <button
-                  type="button"
-                  onClick={handleArchiveClick}
-                  className={`${parentButtonClassName} ${
-                    statusFilter === "archived"
-                      ? "bg-red-50 text-red-700"
-                      : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
-                  }`}
-                >
-                  <Archive className="h-4 w-4" aria-hidden />
-                  Archive
-                </button>
-              </div>
-            )}
+                        );
+                      }
+
+                      return (
+                        <div key={service}>
+                          <button
+                            type="button"
+                            onClick={() => handleServiceClick(service)}
+                            className={`${parentButtonClassName} ${
+                              serviceIsActive || serviceHasActiveChild
+                                ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
+                                : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                            }`}
+                          >
+                            <FileImage className="h-4 w-4" aria-hidden />
+                            {service}
+                          </button>
+                          <div className={childListClassName}>
+                            {subCategories.map((subCategory) => (
+                              <button
+                                key={`${service}-${subCategory}`}
+                                type="button"
+                                onClick={() =>
+                                  handleSubCategoryClick(service, subCategory)
+                                }
+                                className={`${childButtonClassName} ${
+                                  serviceFilter === service &&
+                                  subCategoryFilter === subCategory
+                                    ? "bg-[var(--background-warm)] text-[var(--brand-strong)]"
+                                    : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                                }`}
+                              >
+                                {subCategory}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                    <button
+                      type="button"
+                      onClick={handleArchiveClick}
+                      className={`${parentButtonClassName} ${
+                        statusFilter === "archived"
+                          ? "bg-red-50 text-red-700"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                      }`}
+                    >
+                      <Archive className="h-4 w-4" aria-hidden />
+                      Archive
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </section>
 
           <section>
@@ -337,37 +356,45 @@ export function AdminMediaSidebar({
               />
             </button>
 
-            {viewMode === "placements" && (
-              <div className="mt-3 space-y-1">
-                <button
-                  type="button"
-                  onClick={() => handlePlacementPageClick("all")}
-                  className={`${parentButtonClassName} ${
-                    placementPageFilter === "all"
-                      ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
-                      : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
-                  }`}
+            <AnimatePresence initial={false}>
+              {viewMode === "placements" && (
+                <motion.div
+                  key="placement-navigation"
+                  className="overflow-hidden"
+                  {...sectionPanelMotion}
                 >
-                  <Grid2X2 className="h-4 w-4" aria-hidden />
-                  All pages
-                </button>
-                {placementPageOptions.map((pageLabel) => (
-                  <button
-                    key={pageLabel}
-                    type="button"
-                    onClick={() => handlePlacementPageClick(pageLabel)}
-                    className={`${parentButtonClassName} ${
-                      placementPageFilter === pageLabel
-                        ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
-                        : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
-                    }`}
-                  >
-                    <FileImage className="h-4 w-4" aria-hidden />
-                    {pageLabel}
-                  </button>
-                ))}
-              </div>
-            )}
+                  <div className="mt-3 space-y-1">
+                    <button
+                      type="button"
+                      onClick={() => handlePlacementPageClick("all")}
+                      className={`${parentButtonClassName} ${
+                        placementPageFilter === "all"
+                          ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                      }`}
+                    >
+                      <Grid2X2 className="h-4 w-4" aria-hidden />
+                      All pages
+                    </button>
+                    {placementPageOptions.map((pageLabel) => (
+                      <button
+                        key={pageLabel}
+                        type="button"
+                        onClick={() => handlePlacementPageClick(pageLabel)}
+                        className={`${parentButtonClassName} ${
+                          placementPageFilter === pageLabel
+                            ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
+                            : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                        }`}
+                      >
+                        <FileImage className="h-4 w-4" aria-hidden />
+                        {pageLabel}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </section>
         </nav>
 

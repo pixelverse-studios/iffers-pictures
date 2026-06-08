@@ -36,6 +36,7 @@
 - Added admin media placement controls so published images can be assigned, replaced, cleared, previewed, and reused across named public page slots.
 - Moved admin media Library and Placements controls into the media navigation, with placement page filters for reviewing assignable slots page by page.
 - Refined admin media navigation into clickable Library and Placements sections where only the active section expands.
+- Added smooth expand and collapse animation when switching between Library and Placements in the admin media navigation.
 
 ## Notes for internal team
 
@@ -75,6 +76,7 @@
 - DEV-955: Added a Library/Placements switcher in `/admin/media`, admin slot loading/mutation state, a published-image placement picker, local assignment refresh after assign/clear, friendly placement error aliases, and selected-image `Used in placements` details.
 - DEV-955: Promoted Library/Placements into sidebar workspace navigation and added placement page filtering based on the backend slot registry page labels.
 - DEV-955: Changed the media sidebar to a two-section accordion-style navigation so Library and Placements act as top-level modes with their own child filters.
+- DEV-955: Added Framer Motion height/opacity transitions for Library and Placements sidebar section enter/exit states.
 
 ## Changed URLs
 
