@@ -57,10 +57,11 @@ export function AdminMediaFilters({
   ];
 
   return (
-    <section className="grid gap-3 lg:grid-cols-[1fr_auto]">
-      <div className="grid gap-3 md:grid-cols-[1fr_180px_180px]">
+    <section className="space-y-3">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(18rem,1.35fr)_minmax(11rem,0.7fr)_minmax(11rem,0.7fr)_minmax(10rem,0.6fr)]">
         <TextInput
           type="search"
+          className="min-w-0 md:col-span-2 xl:col-span-1"
           value={query}
           onChange={(event) => onSearchChange(event.currentTarget.value)}
           placeholder="Search media..."
@@ -71,6 +72,7 @@ export function AdminMediaFilters({
           }}
         />
         <Select
+          className="min-w-0"
           value={serviceFilter}
           onChange={(value) => {
             onServiceFilterChange((value ?? "all") as "all" | MediaService);
@@ -84,6 +86,7 @@ export function AdminMediaFilters({
           }}
         />
         <Select
+          className="min-w-0"
           value={subCategoryFilter}
           onChange={(value) =>
             onSubCategoryFilterChange((value ?? "all") as "all" | MediaSubCategory)
@@ -96,14 +99,25 @@ export function AdminMediaFilters({
             input: { minHeight: "2.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem", fontWeight: 600 },
           }}
         />
+        <Select
+          className="min-w-0"
+          value={sortMode}
+          onChange={(value) => onSortModeChange((value ?? "newest") as SortMode)}
+          data={sortOptions}
+          allowDeselect={false}
+          radius="sm"
+          styles={{
+            input: { minHeight: "2.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem", fontWeight: 600 },
+          }}
+        />
       </div>
-      <div className="flex gap-2 overflow-x-auto">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:flex xl:flex-wrap">
         {(["all", ...MEDIA_STATUSES] as StatusFilter[]).map((status) => (
           <button
             key={status}
             type="button"
             onClick={() => onStatusFilterChange(status)}
-            className={`min-h-11 shrink-0 rounded-sm border px-4 text-sm font-bold ${
+            className={`min-h-11 rounded-sm border px-4 text-sm font-bold transition active:translate-y-[1px] xl:w-auto ${
               statusFilter === status
                 ? "border-[var(--brand-strong)] bg-[var(--brand-strong)] text-white"
                 : "border-[var(--border)] bg-white text-[var(--text-secondary)]"
@@ -112,17 +126,6 @@ export function AdminMediaFilters({
             {status === "all" ? "All" : STATUS_COPY[status]}
           </button>
         ))}
-        <Select
-          value={sortMode}
-          onChange={(value) => onSortModeChange((value ?? "newest") as SortMode)}
-          data={sortOptions}
-          allowDeselect={false}
-          radius="sm"
-          className="min-w-36"
-          styles={{
-            input: { minHeight: "2.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem", fontWeight: 600 },
-          }}
-        />
       </div>
     </section>
   );

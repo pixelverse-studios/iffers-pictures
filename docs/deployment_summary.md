@@ -38,6 +38,7 @@
 - Refined admin media navigation into clickable Library and Placements sections where only the active section expands.
 - Added smooth expand and collapse animation when switching between Library and Placements in the admin media navigation.
 - Fixed admin media sidebar nav alignment so long placement page labels wrap under the same text column.
+- Improved admin media filter responsiveness so search, category selectors, status filters, and sorting remain usable on narrower screens.
 
 ## Notes for internal team
 
@@ -79,6 +80,7 @@
 - DEV-955: Changed the media sidebar to a two-section accordion-style navigation so Library and Placements act as top-level modes with their own child filters.
 - DEV-955: Added Framer Motion height/opacity transitions for Library and Placements sidebar section enter/exit states.
 - DEV-955: Changed sidebar nav rows to a fixed icon/text grid to keep wrapped labels aligned.
+- DEV-955: Reorganized the admin media filter controls into responsive rows so the search input no longer collapses beside status filters.
 
 ## Changed URLs
 
