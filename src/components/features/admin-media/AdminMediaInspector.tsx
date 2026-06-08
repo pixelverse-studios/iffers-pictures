@@ -43,6 +43,7 @@ interface AdminMediaInspectorProps {
   onClearArchiveSelection: () => void;
   onMove: () => void;
   onMoveKeyChange: (value: string) => void;
+  onRemoveArchiveSelectionItem: (id: number) => void;
   onRestore: () => void;
   onSave: () => void;
   onUpdateEditor: <Key extends keyof EditorState>(
@@ -73,6 +74,7 @@ export function AdminMediaInspector({
   onClearArchiveSelection,
   onMove,
   onMoveKeyChange,
+  onRemoveArchiveSelectionItem,
   onRestore,
   onSave,
   onUpdateEditor,
@@ -80,11 +82,15 @@ export function AdminMediaInspector({
   const activeTrayClass =
     "fixed inset-0 z-50 overflow-y-auto bg-white xl:static xl:z-auto xl:h-[100dvh] xl:border-l xl:border-[var(--border)]";
   const trayInnerClass = "mx-auto w-full max-w-5xl p-5 md:p-7 xl:max-w-none xl:p-5";
+  const batchTrayClass =
+    "fixed inset-0 z-50 overflow-hidden bg-white xl:static xl:z-auto xl:h-[100dvh] xl:border-l xl:border-[var(--border)]";
+  const batchTrayInnerClass =
+    "mx-auto flex h-[100dvh] w-full max-w-5xl flex-col p-5 md:p-7 xl:max-w-none xl:p-5";
 
   if (selectedBatchItems.length > 1 || batchArchiveFeedback) {
     return (
-      <aside className={activeTrayClass}>
-        <div className={trayInnerClass}>
+      <aside className={batchTrayClass}>
+        <div className={batchTrayInnerClass}>
           <AdminMediaBulkArchiveBar
             feedback={batchArchiveFeedback}
             isArchiving={isBatchArchiving}
@@ -92,6 +98,7 @@ export function AdminMediaInspector({
             selectedItems={selectedBatchItems}
             onArchiveSelected={onArchiveSelected}
             onClearSelection={onClearArchiveSelection}
+            onRemoveItem={onRemoveArchiveSelectionItem}
           />
         </div>
       </aside>

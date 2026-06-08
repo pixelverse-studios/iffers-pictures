@@ -288,6 +288,7 @@ export function AdminMediaLibrary({
             onClearArchiveSelection={onClearArchiveSelection}
             onMove={onMove}
             onMoveKeyChange={onMoveKeyChange}
+            onRemoveArchiveSelectionItem={onArchiveSelectionToggle}
             onRestore={onRestore}
             onSave={onSave}
             onUpdateEditor={onUpdateEditor}
