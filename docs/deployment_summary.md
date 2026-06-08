@@ -48,6 +48,8 @@
 - Fixed admin media sidebar nav alignment so long placement page labels wrap under the same text column.
 - Improved admin media filter responsiveness so search, category selectors, status filters, and sorting remain usable on narrower screens.
 - Fixed the admin media filter panel so service and sub-category choices apply reliably before the panel closes.
+- Fixed selected-media batch archive so a single selected published image uses the batch archive confirmation flow.
+- Kept admin placement assignments visually in sync when assigned images are archived.
 
 ## Notes for internal team
 
@@ -99,6 +101,8 @@
 - DEV-955: Changed sidebar nav rows to a fixed icon/text grid to keep wrapped labels aligned.
 - DEV-955: Reorganized the admin media filter controls into responsive rows so the search input no longer collapses beside status filters.
 - DEV-959: Kept filter panel service and sub-category dropdowns inside the panel DOM so outside-click handling does not interrupt option selection.
+- DEV-959: Single published-image selection now renders the Selected Media batch archive panel, so one-image archive QA exercises the batch endpoint.
+- DEV-959/DEV-955: Successful archive updates now clear matching local placement assignments to prevent stale admin placement state after archive.
 
 ## Changed URLs
 

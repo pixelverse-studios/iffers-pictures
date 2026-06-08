@@ -313,6 +313,9 @@ export function AdminMediaManager() {
         sortOrder: Number(nextEditor.sortOrder) || 0,
       });
       upsertItem(updated);
+      if (updated.status === "archived") {
+        removePlacementAssignmentsForMediaIds(new Set([updated.id]));
+      }
       setNotice("Changes saved.");
     } catch (error) {
       setNotice(getFriendlyError(error));
@@ -345,6 +348,18 @@ export function AdminMediaManager() {
       current.map((existing) => (existing.id === item.id ? item : existing)),
     );
     setSelectedId(item.id);
+  }
+
+  function removePlacementAssignmentsForMediaIds(mediaIds: Set<number>) {
+    if (mediaIds.size === 0) return;
+
+    setPlacementSlots((current) =>
+      current.map((slot) =>
+        slot.assignment && mediaIds.has(slot.assignment.media.id)
+          ? { ...slot, assignment: null }
+          : slot,
+      ),
+    );
   }
 
   function clearArchiveSelection() {
@@ -446,6 +461,7 @@ export function AdminMediaManager() {
         setItems((current) =>
           current.map((item) => successfulItems.get(item.id) ?? item),
         );
+        removePlacementAssignmentsForMediaIds(new Set(successfulItems.keys()));
       }
 
       const requested = response.summary.requested ?? uniqueIds.length;

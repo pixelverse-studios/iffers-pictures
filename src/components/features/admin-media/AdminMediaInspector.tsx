@@ -89,7 +89,7 @@ export function AdminMediaInspector({
   const batchTrayInnerClass =
     "mx-auto flex h-[100dvh] w-full max-w-5xl flex-col p-5 md:p-7 xl:max-w-none xl:p-5";
 
-  if (selectedBatchItems.length > 1 || batchArchiveFeedback) {
+  if (selectedBatchItems.length > 0 || batchArchiveFeedback) {
     return (
       <aside className={batchTrayClass}>
         <div className={batchTrayInnerClass}>
