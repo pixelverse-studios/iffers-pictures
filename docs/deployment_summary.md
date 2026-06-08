@@ -32,6 +32,7 @@
 - Kept the admin media session and logout details contained at the bottom of the side navigation instead of appearing as a page-wide bottom bar.
 - Added a regular site navigation link to the admin media manager for authenticated media admin sessions.
 - Adjusted the regular site navigation breakpoint so authenticated media admin links do not crowd the tablet-width header.
+- Wired public homepage, about, sessions, service detail, portfolio, investment, and FAQ imagery to explicit media placement assignments with safe fallbacks.
 
 ## Notes for internal team
 
@@ -65,6 +66,9 @@
 - Admin media sidebar: Changed the desktop sidebar to a full-height flex column so session/logout details stay inside the side navigation and the stray bottom border is removed.
 - Public header: Checks for an active media admin session and shows a `Media` link to `/admin/media` only when authenticated.
 - Public header: Keeps the compact mobile menu active through tablet widths so the authenticated `Media` link does not overflow the desktop nav.
+- DEV-956: Public pages now fetch published media placements alongside the catalog and prefer assigned slot media before existing catalog/static fallbacks.
+- DEV-956: Added conditional hero placement rendering on text-only services, portfolio, and FAQ heroes so assigned slots display without changing the empty-placement fallback state.
+- DEV-956: Service detail, services overview cards, and investment session cards share the same service slug to placement slot mapping.
 
 ## Changed URLs
 
@@ -85,3 +89,14 @@
 - https://ifferspictures.com/image-review
 - https://ifferspictures.com/api/media/iffers-pictures/placements
 - https://ifferspictures.com/api/media/iffers-pictures/admin/placements
+- https://ifferspictures.com/
+- https://ifferspictures.com/about
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/couples-engagement
+- https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/faq

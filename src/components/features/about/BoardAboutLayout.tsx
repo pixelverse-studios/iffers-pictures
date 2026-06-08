@@ -4,6 +4,11 @@ import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 import { ABOUT_PAGE_COPY } from "@/data/page-copy";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
+import {
+  getPlacementGalleryItem,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 
 const JENN_PORTRAIT_IMAGE =
   "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev/portraits/portrait_02.jpg";
@@ -12,7 +17,21 @@ function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
 }
 
-export function BoardAboutLayout() {
+type BoardAboutImage = Pick<PublicGalleryItem, "src" | "alt">;
+
+interface BoardAboutLayoutProps {
+  placements?: PublicMediaPlacement[];
+}
+
+export function BoardAboutLayout({
+  placements = [],
+}: BoardAboutLayoutProps) {
+  const heroImage: BoardAboutImage =
+    getPlacementGalleryItem(placements, "about.hero") ?? {
+      src: JENN_PORTRAIT_IMAGE,
+      alt: ABOUT_PAGE_COPY.hero.imageAlt,
+    };
+
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <ScrollRevealObserver />
@@ -68,8 +87,8 @@ export function BoardAboutLayout() {
               style={revealStyle(180)}
             >
               <Image
-                src={JENN_PORTRAIT_IMAGE}
-                alt={ABOUT_PAGE_COPY.hero.imageAlt}
+                src={heroImage.src}
+                alt={heroImage.alt}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 52vw"

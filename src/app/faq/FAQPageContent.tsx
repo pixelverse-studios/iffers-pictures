@@ -12,8 +12,10 @@ import { serviceDataMap } from "@/data/services";
 import type { FAQItem } from "@/data/services/types";
 import {
   findPinnedGalleryItem,
+  getPlacementGalleryItem,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 import { trackCtaClick, trackEvent } from "@/lib/analytics";
 import { generalFaqs } from "./faqData";
@@ -101,9 +103,11 @@ function BoardFAQItem({
 function BoardFAQContent({
   serviceSections,
   mediaItems,
+  placements,
 }: {
   serviceSections: FAQSection[];
   mediaItems: PublicGalleryItem[];
+  placements: PublicMediaPlacement[];
 }) {
   const sections = [
     { name: FAQ_PAGE_COPY.general.eyebrow, slug: "general", faqs: generalFaqs },
@@ -123,6 +127,7 @@ function BoardFAQContent({
     service: "Family",
     subCategory: "Family",
   });
+  const heroImage = getPlacementGalleryItem(placements, "faq.hero");
 
   function selectSection(slug: string) {
     trackEvent("faq_category_select", { category: slug });
@@ -134,33 +139,57 @@ function BoardFAQContent({
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <ScrollRevealObserver />
       <section className="board-shell board-gutter pb-10 pt-14 md:pb-14 md:pt-20">
-        <div className="max-w-[780px]">
-          <p className="hero-reveal mb-5 text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
-            {FAQ_PAGE_COPY.hero.eyebrow}
-          </p>
-          <h1 className="hero-reveal font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl" style={revealStyle(110)}>
-            {FAQ_PAGE_COPY.hero.title}
-          </h1>
-          <p className="hero-reveal mt-5 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]" style={revealStyle(220)}>
-            {FAQ_PAGE_COPY.hero.introLead} {SITE_CONFIG.name}.{" "}
-            {FAQ_PAGE_COPY.hero.contactPrompt}{" "}
-            <Link
-              href={FAQ_PAGE_COPY.hero.contactHref}
-              className="font-semibold text-[var(--brand-strong)] underline underline-offset-4"
+        <div
+          className={
+            heroImage
+              ? "grid gap-10 lg:grid-cols-[0.9fr_0.72fr] lg:items-center"
+              : ""
+          }
+        >
+          <div className="max-w-[780px]">
+            <p className="hero-reveal mb-5 text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
+              {FAQ_PAGE_COPY.hero.eyebrow}
+            </p>
+            <h1 className="hero-reveal font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl" style={revealStyle(110)}>
+              {FAQ_PAGE_COPY.hero.title}
+            </h1>
+            <p className="hero-reveal mt-5 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]" style={revealStyle(220)}>
+              {FAQ_PAGE_COPY.hero.introLead} {SITE_CONFIG.name}.{" "}
+              {FAQ_PAGE_COPY.hero.contactPrompt}{" "}
+              <Link
+                href={FAQ_PAGE_COPY.hero.contactHref}
+                className="font-semibold text-[var(--brand-strong)] underline underline-offset-4"
+              >
+                {FAQ_PAGE_COPY.hero.contactLabel}
+              </Link>
+              .
+            </p>
+            <div
+              className="hero-reveal mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
+              style={{
+                "--reveal-delay": "320ms",
+                clipPath:
+                  "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
+              } as CSSProperties}
+              aria-hidden
+            />
+          </div>
+
+          {heroImage && (
+            <div
+              className="hero-reveal relative min-h-[320px] overflow-hidden bg-[var(--background-warm)] lg:min-h-[440px]"
+              style={revealStyle(180)}
             >
-              {FAQ_PAGE_COPY.hero.contactLabel}
-            </Link>
-            .
-          </p>
-          <div
-            className="hero-reveal mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
-            style={{
-              "--reveal-delay": "320ms",
-              clipPath:
-                "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
-            } as CSSProperties}
-            aria-hidden
-          />
+              <Image
+                src={heroImage.src}
+                alt={heroImage.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="motion-image-zoom object-cover"
+              />
+            </div>
+          )}
         </div>
 
         <div
@@ -260,11 +289,19 @@ function BoardFAQContent({
 
 interface FAQPageContentProps {
   mediaItems: PublicGalleryItem[];
+  placements: PublicMediaPlacement[];
 }
 
-export function FAQPageContent({ mediaItems }: FAQPageContentProps) {
+export function FAQPageContent({
+  mediaItems,
+  placements,
+}: FAQPageContentProps) {
   const serviceSections = getServiceFAQSections();
   return (
-    <BoardFAQContent serviceSections={serviceSections} mediaItems={mediaItems} />
+    <BoardFAQContent
+      serviceSections={serviceSections}
+      mediaItems={mediaItems}
+      placements={placements}
+    />
   );
 }

@@ -45,6 +45,16 @@ const THUMBNAIL_SLUG_MAP: Record<
   portrait: { service: "Portrait", subCategory: "Portrait" },
 };
 
+const SERVICE_HERO_PLACEMENT_SLOT_MAP: Partial<
+  Record<string, MediaPlacementSlotKey>
+> = {
+  events: "services.events.hero",
+  family: "services.family.hero",
+  maternity: "services.maternity.hero",
+  "couples-engagement": "services.couples-engagement.hero",
+  portrait: "services.portrait.hero",
+};
+
 export interface PinnedMediaFallback {
   id?: number;
   key?: string;
@@ -98,6 +108,12 @@ export function getPlacementGalleryItem(
   return placement
     ? placementMediaToPublicGalleryItem(placement.media)
     : undefined;
+}
+
+export function getServiceHeroPlacementSlotKey(
+  serviceSlug: string
+): MediaPlacementSlotKey | undefined {
+  return SERVICE_HERO_PLACEMENT_SLOT_MAP[serviceSlug];
 }
 
 export function getPortfolioForServiceFromItems(

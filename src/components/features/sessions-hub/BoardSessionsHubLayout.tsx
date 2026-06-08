@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { CSSProperties } from "react";
 import { ArrowRight, Heart } from "lucide-react";
 import { BoardSessionStrip } from "@/components/board";
@@ -9,9 +10,12 @@ import { SESSIONS } from "./data";
 import {
   DEFAULT_PUBLIC_GALLERY_ITEMS,
   findPinnedGalleryItem,
+  getPlacementGalleryItem,
+  getServiceHeroPlacementSlotKey,
   type PinnedMediaFallback,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 
 const CUSTOM_REQUEST_IMAGE = "/selfie.jpg";
 
@@ -33,9 +37,15 @@ function getSessionImage(
   return findPinnedGalleryItem(items, fallback);
 }
 
-function getSessionItems(items: PublicGalleryItem[]): BoardSessionStripItem[] {
+function getSessionItems(
+  items: PublicGalleryItem[],
+  placements: PublicMediaPlacement[]
+): BoardSessionStripItem[] {
   const sessionItems = SESSIONS.flatMap((session): BoardSessionStripItem[] => {
-    const image = getSessionImage(items, session.slug);
+    const slotKey = getServiceHeroPlacementSlotKey(session.slug);
+    const image =
+      (slotKey ? getPlacementGalleryItem(placements, slotKey) : undefined) ??
+      getSessionImage(items, session.slug);
     if (!image) return [];
 
     return [
@@ -112,26 +122,70 @@ function BoardSessionsDivider() {
 
 interface BoardSessionsHubLayoutProps {
   mediaItems?: PublicGalleryItem[];
+  placements?: PublicMediaPlacement[];
 }
 
 export function BoardSessionsHubLayout({
   mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+  placements = [],
 }: BoardSessionsHubLayoutProps) {
   const allItems = mediaItems;
-  const sessionItems = getSessionItems(allItems);
+  const heroImage = getPlacementGalleryItem(placements, "services.hero");
+  const sessionItems = getSessionItems(allItems, placements);
 
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <ScrollRevealObserver />
       <section className="board-shell px-6 py-14 text-center md:px-8 md:py-20">
-        <h1 className="hero-reveal mx-auto max-w-4xl whitespace-pre-line font-heading text-5xl font-semibold leading-[1.02] text-[var(--foreground)] md:text-7xl">
-          {SESSIONS_PAGE_COPY.hero.title}
-        </h1>
-        <p className="hero-reveal mx-auto mt-6 max-w-xl whitespace-pre-line text-lg leading-8 text-[var(--text-secondary)] [--reveal-delay:120ms] md:text-xl">
-          {SESSIONS_PAGE_COPY.hero.description}
-        </p>
-        <div className="hero-reveal [--reveal-delay:220ms]">
-          <BoardSessionsDivider />
+        <div
+          className={
+            heroImage
+              ? "grid gap-10 text-left lg:grid-cols-[0.92fr_0.72fr] lg:items-center"
+              : "text-center"
+          }
+        >
+          <div>
+            <h1
+              className={[
+                "hero-reveal max-w-4xl whitespace-pre-line font-heading text-5xl font-semibold leading-[1.02] text-[var(--foreground)] md:text-7xl",
+                heroImage ? "" : "mx-auto",
+              ].join(" ")}
+            >
+              {SESSIONS_PAGE_COPY.hero.title}
+            </h1>
+            <p
+              className={[
+                "hero-reveal mt-6 max-w-xl whitespace-pre-line text-lg leading-8 text-[var(--text-secondary)] [--reveal-delay:120ms] md:text-xl",
+                heroImage ? "" : "mx-auto",
+              ].join(" ")}
+            >
+              {SESSIONS_PAGE_COPY.hero.description}
+            </p>
+            <div
+              className={[
+                "hero-reveal [--reveal-delay:220ms]",
+                heroImage ? "[&_svg]:mx-0" : "",
+              ].join(" ")}
+            >
+              <BoardSessionsDivider />
+            </div>
+          </div>
+
+          {heroImage && (
+            <div
+              className="hero-reveal relative min-h-[320px] overflow-hidden bg-[var(--background-warm)] lg:min-h-[440px]"
+              style={{ "--reveal-delay": "180ms" } as CSSProperties}
+            >
+              <Image
+                src={heroImage.src}
+                alt={heroImage.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="motion-image-zoom object-cover"
+              />
+            </div>
+          )}
         </div>
       </section>
 

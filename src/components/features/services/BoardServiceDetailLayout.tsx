@@ -8,10 +8,13 @@ import {
 } from "@/components/board";
 import {
   DEFAULT_PUBLIC_GALLERY_ITEMS,
+  getPlacementGalleryItem,
   getPortfolioForServiceFromItems,
+  getServiceHeroPlacementSlotKey,
   getServiceThumbnailFromItems,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 import { Lightbox } from "@/components/features/portfolio/Lightbox";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
@@ -29,6 +32,7 @@ interface BoardServiceDetailLayoutProps {
   serviceData: ServicePageData;
   serviceInfo: SessionInfo;
   mediaItems?: PublicGalleryItem[];
+  placements?: PublicMediaPlacement[];
 }
 
 function formatStepLabel(index: number) {
@@ -66,10 +70,15 @@ export function BoardServiceDetailLayout({
   serviceData,
   serviceInfo,
   mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+  placements = [],
 }: BoardServiceDetailLayoutProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const allItems = mediaItems;
-  const heroImage = getServiceThumbnailFromItems(allItems, serviceData.slug);
+  const heroSlotKey = getServiceHeroPlacementSlotKey(serviceData.slug);
+  const heroImage =
+    (heroSlotKey
+      ? getPlacementGalleryItem(placements, heroSlotKey)
+      : undefined) ?? getServiceThumbnailFromItems(allItems, serviceData.slug);
   const portfolioItems = getPortfolioForServiceFromItems(
     allItems,
     serviceData.slug
