@@ -369,6 +369,39 @@ export interface PatchMediaItemRequest {
   status?: MediaStatus;
 }
 
+export interface BatchPatchMediaItemsRequest {
+  ids: number[];
+  status: "archived";
+}
+
+export interface BatchMediaItemError {
+  status?: number;
+  code?: string;
+  message?: string;
+  details?: Record<string, unknown>;
+}
+
+export type BatchMediaItemResult =
+  | {
+      id: number;
+      ok: true;
+      item: AdminMediaItem;
+    }
+  | {
+      id: number;
+      ok: false;
+      error: BatchMediaItemError;
+    };
+
+export interface BatchPatchMediaItemsResponse {
+  items: BatchMediaItemResult[];
+  summary: {
+    requested: number;
+    succeeded: number;
+    failed: number;
+  };
+}
+
 export interface DestinationCheckRequest {
   destination_key: string;
   exclude_media_id?: number;

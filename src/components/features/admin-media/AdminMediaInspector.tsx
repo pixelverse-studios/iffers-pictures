@@ -15,9 +15,10 @@ import {
   type MediaStatus,
   type MediaSubCategory,
 } from "@/lib/media/types";
+import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { STATUS_COPY } from "./constants";
 import { StatusPill } from "./StatusPill";
-import type { EditorState } from "./types";
+import type { BatchArchiveFeedback, EditorState, MediaPlacementUsage } from "./types";
 import { formatDate } from "./utils";
 
 interface AdminMediaInspectorProps {
@@ -27,16 +28,23 @@ interface AdminMediaInspectorProps {
   isCheckingMove: boolean;
   isMoving: boolean;
   isSaving: boolean;
+  isBatchArchiving: boolean;
   item: AdminMediaItem | null;
   moveDestinationAvailable: boolean | null;
   moveKey: string;
   moveMessage: string;
+  placementUsages: MediaPlacementUsage[];
   publishBlocked: boolean;
+  selectedBatchItems: readonly AdminMediaItem[];
+  batchArchiveFeedback: BatchArchiveFeedback | null;
   onArchive: () => void;
+  onArchiveSelected: () => void;
   onCheckDestination: () => void;
   onClose: () => void;
+  onClearArchiveSelection: () => void;
   onMove: () => void;
   onMoveKeyChange: (value: string) => void;
+  onRemoveArchiveSelectionItem: (id: number) => void;
   onRestore: () => void;
   onSave: () => void;
   onUpdateEditor: <Key extends keyof EditorState>(
@@ -52,23 +60,56 @@ export function AdminMediaInspector({
   isCheckingMove,
   isMoving,
   isSaving,
+  isBatchArchiving,
   item,
   moveDestinationAvailable,
   moveKey,
   moveMessage,
+  placementUsages,
   publishBlocked,
+  selectedBatchItems,
+  batchArchiveFeedback,
   onArchive,
+  onArchiveSelected,
   onCheckDestination,
   onClose,
+  onClearArchiveSelection,
   onMove,
   onMoveKeyChange,
+  onRemoveArchiveSelectionItem,
   onRestore,
   onSave,
   onUpdateEditor,
 }: AdminMediaInspectorProps) {
+  const activeTrayClass =
+    "fixed inset-0 z-50 overflow-y-auto bg-white xl:static xl:z-auto xl:h-[100dvh] xl:border-l xl:border-[var(--border)]";
+  const trayInnerClass = "mx-auto w-full max-w-5xl p-5 md:p-7 xl:max-w-none xl:p-5";
+  const batchTrayClass =
+    "fixed inset-0 z-50 overflow-hidden bg-white xl:static xl:z-auto xl:h-[100dvh] xl:border-l xl:border-[var(--border)]";
+  const batchTrayInnerClass =
+    "mx-auto flex h-[100dvh] w-full max-w-5xl flex-col p-5 md:p-7 xl:max-w-none xl:p-5";
+
+  if (selectedBatchItems.length > 1 || batchArchiveFeedback) {
+    return (
+      <aside className={batchTrayClass}>
+        <div className={batchTrayInnerClass}>
+          <AdminMediaBulkArchiveBar
+            feedback={batchArchiveFeedback}
+            isArchiving={isBatchArchiving}
+            maxSelection={50}
+            selectedItems={selectedBatchItems}
+            onArchiveSelected={onArchiveSelected}
+            onClearSelection={onClearArchiveSelection}
+            onRemoveItem={onRemoveArchiveSelectionItem}
+          />
+        </div>
+      </aside>
+    );
+  }
+
   if (!item || !editor) {
     return (
-      <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
+      <aside className="hidden bg-white xl:block xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-[var(--border)]">
         <div className="p-5">
           <div className="grid min-h-96 place-items-center text-center">
             <div>
@@ -115,8 +156,8 @@ export function AdminMediaInspector({
   }));
 
   return (
-    <aside className="border-t border-[var(--border)] bg-white xl:h-[100dvh] xl:overflow-y-auto xl:border-l xl:border-t-0">
-      <div className="p-5">
+    <aside className={activeTrayClass}>
+      <div className={trayInnerClass}>
         <div className="space-y-5">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -159,6 +200,43 @@ export function AdminMediaInspector({
               Archived media must be restored before normal metadata edits.
             </div>
           )}
+
+          <section className="border border-[var(--border)] p-3">
+            <p className="text-sm font-bold">Used in placements</p>
+            {placementUsages.length > 0 ? (
+              <div className="mt-3 space-y-2">
+                {placementUsages.map((usage) => (
+                  <div
+                    key={usage.slotKey}
+                    className="rounded-sm bg-[var(--background-warm)] px-3 py-2"
+                  >
+                    <p className="text-sm font-bold text-[var(--brand-strong)]">
+                      {usage.pageLabel} · {usage.sectionLabel}
+                    </p>
+                    <p className="mt-1 break-all text-[11px] font-semibold text-[var(--text-muted)]">
+                      {usage.slotKey}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {usage.affectedPaths.map((path) => (
+                        <Link
+                          key={`${usage.slotKey}-${path}`}
+                          href={path}
+                          className="inline-flex items-center gap-1 rounded-sm bg-white px-2 py-1 text-xs font-bold text-[var(--brand-strong)]"
+                        >
+                          {path}
+                          <ExternalLink className="h-3 w-3" aria-hidden />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-2 text-sm text-[var(--text-secondary)]">
+                This image is not assigned to a named page placement.
+              </p>
+            )}
+          </section>
 
           <Textarea
             label="Alt text"

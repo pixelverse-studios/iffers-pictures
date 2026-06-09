@@ -38,7 +38,11 @@ export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.invalid_placement_slot": "Choose a supported placement slot.",
   "media.archived_assignment_forbidden":
     "Archived media cannot be assigned to a placement.",
+  "media.placement_media_archived":
+    "Archived media cannot be assigned to a placement.",
   "media.unpublished_assignment_forbidden":
+    "Publish this media item before assigning it to a placement.",
+  "media.placement_media_not_published":
     "Publish this media item before assigning it to a placement.",
   "media.not_found": "That media item could not be found. Refresh the catalog and try again.",
   "media.website_not_found": "That media website could not be found.",
