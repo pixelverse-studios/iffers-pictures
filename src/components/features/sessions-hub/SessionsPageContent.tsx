@@ -1,7 +1,19 @@
 "use client";
 
 import { BoardSessionsHubLayout } from "./BoardSessionsHubLayout";
+import type { PublicGalleryItem } from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 
-export function SessionsPageContent() {
-  return <BoardSessionsHubLayout />;
+interface SessionsPageContentProps {
+  mediaItems: PublicGalleryItem[];
+  placements: PublicMediaPlacement[];
+}
+
+export function SessionsPageContent({
+  mediaItems,
+  placements,
+}: SessionsPageContentProps) {
+  return (
+    <BoardSessionsHubLayout mediaItems={mediaItems} placements={placements} />
+  );
 }

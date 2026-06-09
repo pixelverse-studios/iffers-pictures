@@ -8,16 +8,16 @@ import {
   WHATS_INCLUDED,
 } from "./data";
 import {
-  PORTFOLIO_ITEMS,
-  type PortfolioItem,
-} from "@/components/features/portfolio/portfolioData";
+  DEFAULT_PUBLIC_GALLERY_ITEMS,
+  findPinnedGalleryItem,
+  getPlacementGalleryItem,
+  getServiceHeroPlacementSlotKey,
+  type PinnedMediaFallback,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
-
-const heroImage =
-  PORTFOLIO_ITEMS.find((item) => item.id === 99) ?? PORTFOLIO_ITEMS[0];
-const detailImage =
-  PORTFOLIO_ITEMS.find((item) => item.id === 34) ?? PORTFOLIO_ITEMS[0];
 
 const investmentFactors = [
   {
@@ -42,29 +42,61 @@ const investmentFactors = [
   },
 ] as const;
 
-function getPreviewImage(slug: string): PortfolioItem {
-  const subCategory =
-    slug === "events"
-      ? "Bridal Shower"
-      : slug === "family"
-        ? "Family"
-        : slug === "maternity"
-          ? "Maternity"
-          : slug === "couples-engagement"
-            ? "Engagement"
-            : "Portrait";
+function getPreviewImage(
+  items: PublicGalleryItem[],
+  slug: string,
+  placements: PublicMediaPlacement[]
+): PublicGalleryItem | undefined {
+  const slotKey = getServiceHeroPlacementSlotKey(slug);
+  const placementImage = slotKey
+    ? getPlacementGalleryItem(placements, slotKey)
+    : undefined;
 
-  return (
-    PORTFOLIO_ITEMS.find((item) => item.subCategory === subCategory) ??
-    heroImage
-  );
+  if (placementImage) return placementImage;
+
+  const fallback: PinnedMediaFallback =
+    slug === "events"
+      ? { service: "Events", subCategory: "Bridal Shower" }
+      : slug === "family"
+        ? { service: "Family", subCategory: "Family" }
+        : slug === "maternity"
+          ? { service: "Maternity", subCategory: "Maternity" }
+          : slug === "couples-engagement"
+            ? { service: "Couples", subCategory: "Engagement" }
+            : { service: "Portrait", subCategory: "Portrait" };
+
+  return findPinnedGalleryItem(items, fallback);
 }
 
 function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
 }
 
-export function BoardInvestmentLayout() {
+interface BoardInvestmentLayoutProps {
+  mediaItems?: PublicGalleryItem[];
+  placements?: PublicMediaPlacement[];
+}
+
+export function BoardInvestmentLayout({
+  mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+  placements = [],
+}: BoardInvestmentLayoutProps) {
+  const allItems = mediaItems;
+  const heroImage =
+    getPlacementGalleryItem(placements, "investment.hero") ??
+    findPinnedGalleryItem(allItems, {
+      id: 99,
+      service: "Family",
+      subCategory: "Family",
+    });
+  const detailImage =
+    getPlacementGalleryItem(placements, "investment.detail") ??
+    findPinnedGalleryItem(allItems, {
+      id: 34,
+      service: "Couples",
+      subCategory: "Engagement",
+    });
+
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <ScrollRevealObserver />
@@ -116,14 +148,16 @@ export function BoardInvestmentLayout() {
         </div>
 
         <div className="hero-reveal relative min-h-[360px] overflow-hidden md:min-h-full" style={revealStyle(180)}>
-          <Image
-            src={heroImage.src}
-            alt={heroImage.alt}
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 54vw"
-            className="motion-image-zoom object-cover object-center"
-          />
+          {heroImage && (
+            <Image
+              src={heroImage.src}
+              alt={heroImage.alt}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 54vw"
+              className="motion-image-zoom object-cover object-center"
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--background)] via-[var(--background)]/70 to-transparent md:from-[var(--background)] md:via-[var(--background)]/42" />
         </div>
       </section>
@@ -204,7 +238,13 @@ export function BoardInvestmentLayout() {
 
             <div className="mt-10 grid gap-3 sm:grid-cols-2">
               {SESSION_INCLUSIONS.map((session) => {
-                const image = getPreviewImage(session.slug);
+                const image = getPreviewImage(
+                  allItems,
+                  session.slug,
+                  placements
+                );
+                if (!image) return null;
+
                 return (
                   <TrackedLink
                     key={session.slug}
@@ -242,15 +282,17 @@ export function BoardInvestmentLayout() {
               })}
             </div>
           </div>
-          <div className="scroll-reveal scroll-reveal-image relative min-h-[320px] overflow-hidden md:min-h-full" data-scroll-reveal>
-            <Image
-              src={detailImage.src}
-              alt={detailImage.alt}
-              fill
-              sizes="(max-width: 768px) 100vw, 42vw"
-              className="motion-image-zoom object-cover"
-            />
-          </div>
+          {detailImage && (
+            <div className="scroll-reveal scroll-reveal-image relative min-h-[320px] overflow-hidden md:min-h-full" data-scroll-reveal>
+              <Image
+                src={detailImage.src}
+                alt={detailImage.alt}
+                fill
+                sizes="(max-width: 768px) 100vw, 42vw"
+                className="motion-image-zoom object-cover"
+              />
+            </div>
+          )}
         </div>
       </section>
     </div>

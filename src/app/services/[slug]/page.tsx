@@ -8,6 +8,11 @@ import {
   FAQSchema,
   BreadcrumbSchema,
 } from "@/components/features/services";
+import {
+  getPublicMediaCatalogWithFallback,
+  getPublicMediaPlacementsWithFallback,
+} from "@/lib/media/server";
+import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 // Return 404 for slugs not in generateStaticParams
 export const dynamicParams = false;
@@ -78,6 +83,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const [catalog, placementsResponse] = await Promise.all([
+    getPublicMediaCatalogWithFallback(),
+    getPublicMediaPlacementsWithFallback(),
+  ]);
+  const mediaItems = toPublicGalleryItems(catalog.items);
+
   const breadcrumbItems = [
     { name: "Home", href: "/" },
     { name: "Sessions", href: "/services" },
@@ -94,6 +105,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <ServicePageContent
         serviceData={serviceData}
         serviceInfo={serviceInfo}
+        mediaItems={mediaItems}
+        placements={placementsResponse.placements}
       />
     </>
   );

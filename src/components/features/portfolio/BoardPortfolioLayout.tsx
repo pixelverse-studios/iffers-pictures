@@ -11,10 +11,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
-  PORTFOLIO_ITEMS,
   SERVICES,
   SUB_CATEGORIES,
-  type PortfolioItem,
   type ServiceFilter,
 } from "./portfolioData";
 import { Lightbox } from "./Lightbox";
@@ -26,25 +24,27 @@ import {
   trackPortfolioLightboxNavigate,
   trackPortfolioLightboxOpen,
 } from "@/lib/analytics";
+import {
+  DEFAULT_PUBLIC_GALLERY_ITEMS,
+  getPlacementGalleryItem,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 
 type PortfolioBoardFilter = "All" | ServiceFilter;
-
-const availableServices = SERVICES.filter((service) =>
-  PORTFOLIO_ITEMS.some((item) => item.service === service)
-);
-const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
 const GALLERY_EXIT_MS = 390;
 const MAX_STAGGER_INDEX = 16;
 const TILE_REVEAL_STAGGER_MS = 34;
 
 function getBoardItems(
+  allItems: PublicGalleryItem[],
   filter: PortfolioBoardFilter,
   subCategory: string | null
-): PortfolioItem[] {
+): PublicGalleryItem[] {
   const serviceItems =
     filter === "All"
-      ? PORTFOLIO_ITEMS
-      : PORTFOLIO_ITEMS.filter((item) => item.service === filter);
+      ? allItems
+      : allItems.filter((item) => item.service === filter);
 
   return subCategory
     ? serviceItems.filter((item) => item.subCategory === subCategory)
@@ -52,7 +52,7 @@ function getBoardItems(
 }
 
 interface PortfolioTileProps {
-  item: PortfolioItem;
+  item: PublicGalleryItem;
   index: number;
   phase: "enter" | "exit";
   onOpen: () => void;
@@ -123,15 +123,29 @@ function PortfolioTile({ item, index, phase, onOpen }: PortfolioTileProps) {
   );
 }
 
-export function BoardPortfolioLayout() {
+interface BoardPortfolioLayoutProps {
+  mediaItems?: PublicGalleryItem[];
+  placements?: PublicMediaPlacement[];
+}
+
+export function BoardPortfolioLayout({
+  mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+  placements = [],
+}: BoardPortfolioLayoutProps) {
+  const allItems = mediaItems;
+  const heroImage = getPlacementGalleryItem(placements, "portfolio.hero");
+  const availableServices = SERVICES.filter((service) =>
+    allItems.some((item) => item.service === service)
+  );
+  const tabLabels: PortfolioBoardFilter[] = ["All", ...availableServices];
   const [activeFilter, setActiveFilter] = useState<PortfolioBoardFilter>("All");
   const [activeSubCategory, setActiveSubCategory] = useState<string | null>(
     null
   );
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const items = useMemo(
-    () => getBoardItems(activeFilter, activeSubCategory),
-    [activeFilter, activeSubCategory]
+    () => getBoardItems(allItems, activeFilter, activeSubCategory),
+    [activeFilter, activeSubCategory, allItems]
   );
   const [displayedItems, setDisplayedItems] = useState(items);
   const [galleryPhase, setGalleryPhase] = useState<"enter" | "exit">("enter");
@@ -139,7 +153,7 @@ export function BoardPortfolioLayout() {
     activeFilter === "All"
       ? []
       : SUB_CATEGORIES[activeFilter].filter((subCategory) =>
-          PORTFOLIO_ITEMS.some(
+          allItems.some(
             (item) =>
               item.service === activeFilter && item.subCategory === subCategory
           )
@@ -214,37 +228,60 @@ export function BoardPortfolioLayout() {
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <ScrollRevealObserver />
       <section className="board-shell px-5 pb-10 pt-14 md:px-8 md:pb-12 md:pt-20">
-        <div className="max-w-[920px]">
-          <p className="hero-reveal mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[var(--brand-strong)]">
-            {PORTFOLIO_PAGE_COPY.hero.eyebrow}
-          </p>
-          <h1
-            className="hero-reveal max-w-[820px] font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl"
-            style={{ "--reveal-delay": "110ms" } as CSSProperties}
-          >
-            {PORTFOLIO_PAGE_COPY.hero.titleLead}
-            <br />
-            <span className="text-[var(--brand-strong)]">
-              {PORTFOLIO_PAGE_COPY.hero.titleAccent}
-            </span>
-          </h1>
-          <div
-            className="hero-reveal mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
-            style={{
-              "--reveal-delay": "210ms",
-              clipPath:
-                "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
-            } as CSSProperties}
-            aria-hidden
-          />
-          <p
-            className="hero-reveal mt-7 max-w-[520px] text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg"
-            style={{ "--reveal-delay": "300ms" } as CSSProperties}
-          >
-            {PORTFOLIO_PAGE_COPY.hero.description}
-          </p>
-        </div>
+        <div
+          className={
+            heroImage
+              ? "grid gap-10 lg:grid-cols-[0.95fr_0.7fr] lg:items-center"
+              : ""
+          }
+        >
+          <div className="max-w-[920px]">
+            <p className="hero-reveal mb-5 text-xs font-bold uppercase tracking-[0.28em] text-[var(--brand-strong)]">
+              {PORTFOLIO_PAGE_COPY.hero.eyebrow}
+            </p>
+            <h1
+              className="hero-reveal max-w-[820px] font-heading text-5xl font-semibold leading-[1.05] text-[var(--foreground)] sm:text-6xl md:text-7xl"
+              style={{ "--reveal-delay": "110ms" } as CSSProperties}
+            >
+              {PORTFOLIO_PAGE_COPY.hero.titleLead}
+              <br />
+              <span className="text-[var(--brand-strong)]">
+                {PORTFOLIO_PAGE_COPY.hero.titleAccent}
+              </span>
+            </h1>
+            <div
+              className="hero-reveal mt-7 h-5 w-44 bg-[var(--brand-strong)] opacity-70"
+              style={{
+                "--reveal-delay": "210ms",
+                clipPath:
+                  "polygon(0 45%, 35% 45%, 35% 32%, 43% 55%, 51% 18%, 58% 58%, 65% 36%, 73% 45%, 100% 45%, 100% 56%, 72% 56%, 72% 72%, 63% 45%, 55% 82%, 48% 40%, 40% 61%, 35% 56%, 0 56%)",
+              } as CSSProperties}
+              aria-hidden
+            />
+            <p
+              className="hero-reveal mt-7 max-w-[520px] text-base font-semibold leading-8 text-[var(--text-secondary)] md:text-lg"
+              style={{ "--reveal-delay": "300ms" } as CSSProperties}
+            >
+              {PORTFOLIO_PAGE_COPY.hero.description}
+            </p>
+          </div>
 
+          {heroImage && (
+            <div
+              className="hero-reveal relative min-h-[320px] overflow-hidden bg-[var(--background-warm)] lg:min-h-[440px]"
+              style={{ "--reveal-delay": "180ms" } as CSSProperties}
+            >
+              <Image
+                src={heroImage.src}
+                alt={heroImage.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="motion-image-zoom object-cover"
+              />
+            </div>
+          )}
+        </div>
       </section>
 
       <section className="board-shell bg-white">

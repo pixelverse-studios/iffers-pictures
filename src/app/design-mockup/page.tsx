@@ -86,11 +86,11 @@ const pageMocks = [
     flow: ["Warm invite", "Form", "What happens next", "Contact/social", "Jenn sign-off"],
   },
   {
-    route: "/image-review",
-    title: "Image Review",
+    route: "/admin/media",
+    title: "Media Manager",
     role: "Internal tool",
-    headline: "Keep this utility functional and visually quieter than the marketing pages.",
-    flow: ["Operational header", "Review queue", "Image state", "Bulk actions", "Status summary"],
+    headline: "Use the managed media catalog for uploads, draft review, metadata, publication, and archive workflows.",
+    flow: ["Library browser", "Upload drafts", "Image metadata", "Publish controls", "Archive and restore"],
   },
 ];
 

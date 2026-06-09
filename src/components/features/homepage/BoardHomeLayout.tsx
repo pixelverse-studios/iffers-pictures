@@ -7,72 +7,58 @@ import { ALL_TESTIMONIALS } from "@/data/testimonials";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
 import {
-  PORTFOLIO_ITEMS,
-  type PortfolioItem,
-} from "@/components/features/portfolio/portfolioData";
+  DEFAULT_PUBLIC_GALLERY_ITEMS,
+  findPinnedGalleryItem,
+  getPlacementGalleryItem,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
+import type { PublicMediaPlacement } from "@/lib/media/types";
+import type { SubCategory } from "@/components/features/portfolio/portfolioData";
 
 const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 const jennPortraitImage = `${R2_BASE}/portraits/portrait_02.jpg`;
 
-const heroImage =
-  PORTFOLIO_ITEMS.find((item) => item.id === 99) ?? PORTFOLIO_ITEMS[0];
-
-const stripImages = [34, 96, 100]
-  .map((id) => PORTFOLIO_ITEMS.find((item) => item.id === id))
-  .filter((item): item is PortfolioItem => Boolean(item));
-
-const sessionImageOverrides: Record<string, { key: string; alt: string }> = {
+const sessionImageOverrides: Record<
+  string,
+  { key: string; service: PublicGalleryItem["service"]; subCategory: SubCategory }
+> = {
   events: {
     key: "events/baby-shower/baby-shower-02.jpg",
-    alt: "Mommy to be chair sign with tulle bow and blue balloon garland at venue",
+    service: "Events",
+    subCategory: "Baby Shower",
   },
   family: {
     key: "family/family-25.jpg",
-    alt: "Toddler on dad's shoulders laughing with mom reaching up in autumn park",
+    service: "Family",
+    subCategory: "Family",
   },
   maternity: {
     key: "maternity/maternity-01.jpg",
-    alt: "Studio maternity portrait with white roses and baby breath against bare bump",
+    service: "Maternity",
+    subCategory: "Maternity",
   },
   "couples-engagement": {
     key: "events/engagement/engagement-14.jpg",
-    alt: "Close-up of engagement ring held in hand with Christmas tree bokeh lights",
+    service: "Couples",
+    subCategory: "Engagement",
   },
   portrait: {
     key: "portraits/portrait_01.jpg",
-    alt: "Portrait session for Iffer's Pictures",
+    service: "Portrait",
+    subCategory: "Portrait",
   },
 };
 
-function getHomepageSessionImage(slug: string) {
+function getHomepageSessionImage(
+  items: PublicGalleryItem[],
+  slug: string,
+  heroImage: PublicGalleryItem
+): PublicGalleryItem {
   const override = sessionImageOverrides[slug];
   if (!override) return heroImage;
 
-  const existing = PORTFOLIO_ITEMS.find((item) =>
-    item.src.endsWith(`/${override.key}`)
-  );
-
-  return (
-    existing ?? {
-      id: `homepage-${slug}`,
-      src: `${R2_BASE}/${override.key}`,
-      alt: override.alt,
-      service: "Portrait",
-      subCategory: "Portrait",
-      aspectRatio: "portrait",
-    }
-  );
+  return findPinnedGalleryItem(items, override) ?? heroImage;
 }
-
-const sessionItems = SESSIONS.map((session) => {
-  const image = getHomepageSessionImage(session.slug);
-
-  return {
-    title: session.shortName,
-    href: `/services/${session.slug}`,
-    image,
-  };
-});
 
 const quote = ALL_TESTIMONIALS.find((item) => item.sessionType === "family") ??
   ALL_TESTIMONIALS[0];
@@ -81,12 +67,16 @@ function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
 }
 
-function BoardHomeHero() {
+type BoardHomeImage = Pick<PublicGalleryItem, "src" | "alt">;
+
+function BoardHomeHero({ heroImage }: { heroImage?: PublicGalleryItem }) {
+  if (!heroImage) return null;
+
   return (
     <section className="relative min-h-[720px] overflow-hidden bg-[var(--background-warm)] pt-16 md:min-h-[760px] md:pt-[72px]">
       <Image
         src={heroImage.src}
-        alt={HOME_PAGE_COPY.hero.imageAlt}
+        alt={heroImage.alt}
         fill
         priority
         sizes="100vw"
@@ -141,13 +131,15 @@ function BoardHomeHero() {
   );
 }
 
-function BoardImageStrip() {
+function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) {
+  if (stripImages.length === 0) return null;
+
   return (
     <section className="bg-white">
       <div className="grid border-y border-white md:grid-cols-3">
         {stripImages.map((image, index) => (
           <div
-            key={image.id}
+            key={`${image.id}-${index}`}
             className="scroll-reveal scroll-reveal-image relative min-h-[230px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[320px] md:border-b-0 md:border-r md:last:border-r-0"
             data-scroll-reveal
             style={revealStyle(index * 90)}
@@ -181,7 +173,7 @@ function BoardImageStrip() {
   );
 }
 
-function BoardMeetJenn() {
+function BoardMeetJenn({ image }: { image: BoardHomeImage }) {
   return (
     <section className="board-band bg-[var(--background)]">
       <div className="board-shell board-gutter grid gap-8 py-12 md:grid-cols-[0.42fr_0.58fr] md:items-center md:py-16">
@@ -190,8 +182,8 @@ function BoardMeetJenn() {
           data-scroll-reveal
         >
           <Image
-            src={jennPortraitImage}
-            alt={HOME_PAGE_COPY.meetJenn.imageAlt}
+            src={image.src}
+            alt={image.alt}
             fill
             sizes="(max-width: 768px) 86vw, 360px"
             className="motion-image-zoom object-cover object-[50%_30%]"
@@ -242,7 +234,17 @@ function BoardMeetJenn() {
   );
 }
 
-function BoardSessionsPreview() {
+function BoardSessionsPreview({
+  sessionItems,
+}: {
+  sessionItems: Array<{
+    title: string;
+    href: string;
+    image: PublicGalleryItem;
+  }>;
+}) {
+  if (sessionItems.length === 0) return null;
+
   return (
     <section className="bg-white px-5 py-8 md:px-8 md:py-10">
       <h2
@@ -285,7 +287,9 @@ function BoardSessionsPreview() {
   );
 }
 
-function BoardQuotePreview() {
+function BoardQuotePreview({ heroImage }: { heroImage?: PublicGalleryItem }) {
+  if (!heroImage) return null;
+
   return (
     <section className="board-band bg-[var(--background-warm)]">
       <div className="board-shell board-gutter grid md:grid-cols-[1.16fr_0.84fr]">
@@ -436,15 +440,58 @@ function BoardFinalCta() {
   );
 }
 
-export function BoardHomeLayout() {
+interface BoardHomeLayoutProps {
+  mediaItems?: PublicGalleryItem[];
+  placements?: PublicMediaPlacement[];
+}
+
+export function BoardHomeLayout({
+  mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
+  placements = [],
+}: BoardHomeLayoutProps) {
+  const allItems = mediaItems;
+  const heroImage = getPlacementGalleryItem(placements, "home.hero") ?? findPinnedGalleryItem(allItems, {
+    id: 99,
+    service: "Family",
+    subCategory: "Family",
+  });
+  const stripImageFallbacks = [
+    { id: 34, service: "Couples", subCategory: "Engagement" },
+    { id: 96, service: "Family", subCategory: "Family" },
+    { id: 100, service: "Maternity", subCategory: "Maternity" },
+  ] as const;
+  const stripImageSlotKeys = ["home.strip.1", "home.strip.2", undefined] as const;
+  const stripImages = stripImageFallbacks
+    .map(
+      (fallback, index) =>
+        (stripImageSlotKeys[index]
+          ? getPlacementGalleryItem(placements, stripImageSlotKeys[index])
+          : undefined) ?? findPinnedGalleryItem(allItems, fallback)
+    )
+    .filter((item): item is PublicGalleryItem => Boolean(item));
+  const meetJennImage = getPlacementGalleryItem(placements, "home.meet_jenn") ?? {
+    src: jennPortraitImage,
+    alt: HOME_PAGE_COPY.meetJenn.imageAlt,
+  };
+  const quoteImage = getPlacementGalleryItem(placements, "home.quote_image") ?? heroImage;
+  const sessionItems = heroImage ? SESSIONS.map((session) => {
+    const image = getHomepageSessionImage(allItems, session.slug, heroImage);
+
+    return {
+      title: session.shortName,
+      href: `/services/${session.slug}`,
+      image,
+    };
+  }) : [];
+
   return (
     <>
       <ScrollRevealObserver />
-      <BoardHomeHero />
-      <BoardImageStrip />
-      <BoardMeetJenn />
-      <BoardSessionsPreview />
-      <BoardQuotePreview />
+      <BoardHomeHero heroImage={heroImage} />
+      <BoardImageStrip stripImages={stripImages} />
+      <BoardMeetJenn image={meetJennImage} />
+      <BoardSessionsPreview sessionItems={sessionItems} />
+      <BoardQuotePreview heroImage={quoteImage} />
       <BoardStatsBand />
       <BoardFinalCta />
     </>
