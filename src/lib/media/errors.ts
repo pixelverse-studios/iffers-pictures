@@ -71,18 +71,67 @@ export async function parseMediaApiResponse<T>(
       });
     }
 
+    const fallbackError = getFallbackResponseError(response, payload);
+
     throw new MediaApiError({
       status: response.status,
-      code: "media.request_failed",
-      message:
-        typeof payload === "string" && payload.length > 0
-          ? payload
-          : `Media request failed with status ${response.status}.`,
+      code: fallbackError.code,
+      message: fallbackError.message,
       payload,
     });
   }
 
   return payload as T;
+}
+
+function getFallbackResponseError(
+  response: Response,
+  payload: unknown
+): { code: string; message: string } {
+  if (response.status === 504) {
+    return {
+      code: "media.gateway_timeout",
+      message:
+        "The media request timed out before the server responded. Try again with fewer images.",
+    };
+  }
+
+  if (response.status === 502 || response.status === 503) {
+    return {
+      code: "media.gateway_unavailable",
+      message: "The media server is temporarily unavailable. Try again in a moment.",
+    };
+  }
+
+  if (typeof payload === "string" && payload.trim().length > 0) {
+    const contentType = response.headers.get("content-type") ?? "";
+    const trimmedPayload = payload.trim();
+
+    if (!contentType.includes("text/html") && !looksLikeHtml(trimmedPayload)) {
+      return {
+        code: "media.request_failed",
+        message:
+          trimmedPayload.length > 300
+            ? `${trimmedPayload.slice(0, 300)}...`
+            : trimmedPayload,
+      };
+    }
+  }
+
+  return {
+    code: "media.request_failed",
+    message: `Media request failed with status ${response.status}.`,
+  };
+}
+
+function looksLikeHtml(value: string): boolean {
+  const lowerValue = value.toLowerCase();
+  return (
+    lowerValue.startsWith("<!doctype html") ||
+    lowerValue.startsWith("<html") ||
+    lowerValue.includes("<body") ||
+    lowerValue.includes("</html>")
+  );
 }
 
 async function readJsonPayload(response: Response): Promise<unknown> {

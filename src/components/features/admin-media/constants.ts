@@ -47,6 +47,10 @@ export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.not_found": "That media item could not be found. Refresh the catalog and try again.",
   "media.website_not_found": "That media website could not be found.",
   "media.r2_not_configured": "Media storage is not configured on the server.",
+  "media.gateway_timeout":
+    "The media request timed out before the server responded. Try archiving fewer images at once.",
+  "media.gateway_unavailable":
+    "The media server is temporarily unavailable. Try again in a moment.",
 };
 
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
