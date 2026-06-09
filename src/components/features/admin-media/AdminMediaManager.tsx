@@ -334,15 +334,15 @@ export function AdminMediaManager() {
     const nextEditor = { ...editor, ...overrides };
 
     if (selectedItem.status === "archived" && nextEditor.status === "archived") {
-      setNotice("Restore this image before editing its metadata.");
+      setNotice("Restore this image before editing its details.");
       return;
     }
 
     if (nextEditor.status === "published" && !canPublish(nextEditor)) {
       setNotice(
         nextEditor.library === "site"
-          ? "Complete alt text, site category, and aspect ratio before publishing."
-          : "Complete alt text, service, sub-category, and aspect ratio before publishing.",
+          ? "Complete image description, site category, and aspect ratio before publishing."
+          : "Complete image description, service, photo type, and aspect ratio before publishing.",
       );
       return;
     }
@@ -547,7 +547,7 @@ export function AdminMediaManager() {
       setArchiveSelectionIds([]);
       setSelectedId(null);
       setNotice(
-        `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Files remain in R2.`,
+        `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Original files are kept.`,
       );
     } catch (error) {
       setBatchArchiveFeedback({
@@ -580,7 +580,7 @@ export function AdminMediaManager() {
       upsertPlacementSlot(updatedSlot);
       setActivePlacementPickerSlotKey(null);
       setSelectedId(mediaId);
-      setNotice(`${updatedSlot.pageLabel} ${updatedSlot.sectionLabel} placement updated.`);
+      setNotice(`${updatedSlot.pageLabel} ${updatedSlot.sectionLabel} image updated.`);
     } catch (error) {
       setNotice(getFriendlyError(error));
     } finally {
@@ -605,7 +605,7 @@ export function AdminMediaManager() {
             : existing,
         ),
       );
-      setNotice(`${slot.pageLabel} ${slot.sectionLabel} placement cleared.`);
+      setNotice(`${slot.pageLabel} ${slot.sectionLabel} image cleared.`);
     } catch (error) {
       setNotice(getFriendlyError(error));
     } finally {
@@ -788,8 +788,8 @@ export function AdminMediaManager() {
       setMoveDestinationAvailable(result.available);
       setMoveMessage(
         result.available
-          ? "Destination is available."
-          : "Destination already exists in the catalog or storage.",
+          ? "This file path is available."
+          : "This file path is already in use.",
       );
     } catch (error) {
       setMoveDestinationAvailable(false);
@@ -802,7 +802,7 @@ export function AdminMediaManager() {
   async function moveSelected() {
     if (!selectedItem || selectedItem.status !== "draft") return;
     if (moveDestinationAvailable !== true) {
-      setMoveMessage("Check destination availability before moving this draft.");
+      setMoveMessage("Check the file path before moving this draft.");
       return;
     }
 
@@ -835,8 +835,8 @@ export function AdminMediaManager() {
         result.triggered
           ? "Public pages queued for refresh."
           : result.configured
-            ? "Revalidation was skipped by the server."
-            : "Revalidation is not configured on the server.",
+            ? "Live site refresh was skipped."
+            : "Live site refresh is not set up yet.",
       );
     } catch (error) {
       setNotice(getFriendlyError(error));
@@ -886,7 +886,7 @@ export function AdminMediaManager() {
       <main className="grid min-h-screen place-items-center bg-[var(--background)] px-6">
         <div className="flex items-center gap-3 text-sm font-semibold text-[var(--brand-strong)]">
           <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
-          Checking media admin session
+          Checking media access
         </div>
       </main>
     );

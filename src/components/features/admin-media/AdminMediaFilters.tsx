@@ -54,7 +54,7 @@ export function AdminMediaFilters({
     ...MEDIA_SERVICES.map((service) => ({ value: service, label: service })),
   ];
   const libraryOptions = [
-    { value: "all", label: "All media" },
+    { value: "all", label: "All Images" },
     ...MEDIA_LIBRARIES.map((library) => ({
       value: library,
       label: library === "site" ? "Site Images" : "Portfolio",
@@ -83,11 +83,11 @@ export function AdminMediaFilters({
         libraryFilter !== "all"
           ? {
               key: "library",
-              label: libraryFilter === "site" ? "Library: Site Images" : "Library: Portfolio",
+              label: libraryFilter === "site" ? "Group: Site Images" : "Group: Portfolio",
             }
           : null,
         subCategoryFilter !== "all"
-          ? { key: "subCategory", label: `Sub-category: ${subCategoryFilter}` }
+          ? { key: "subCategory", label: `Photo type: ${subCategoryFilter}` }
           : null,
         statusFilter !== "all"
           ? { key: "status", label: `Status: ${STATUS_COPY[statusFilter]}` }
@@ -260,7 +260,7 @@ export function AdminMediaFilters({
                     Filter media
                   </h2>
                   <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">
-                    Narrow the catalog by category and publish state.
+                    Narrow images by category and status.
                   </p>
                 </div>
                 <button
@@ -276,7 +276,7 @@ export function AdminMediaFilters({
               <div className="grid gap-4">
                 <label className="grid gap-2">
                   <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--text-muted)]">
-                    Library
+                    Image group
                   </span>
                   <Select
                     value={libraryFilter}
@@ -334,7 +334,7 @@ export function AdminMediaFilters({
 
                     <label className="grid gap-2">
                       <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--text-muted)]">
-                        Sub-category
+                        Photo type
                       </span>
                       <Select
                         value={subCategoryFilter}

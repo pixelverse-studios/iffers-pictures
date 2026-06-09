@@ -227,7 +227,7 @@ export function AdminMediaLibrary({
   const activeMobileFilter =
     viewMode === "placements"
       ? placementPageFilter === "all"
-        ? "Placements"
+        ? "Page images"
         : placementPageFilter
       : libraryFilter === "site"
         ? "Site Images"
@@ -237,7 +237,7 @@ export function AdminMediaLibrary({
             ? serviceFilter
             : libraryFilter === "portfolio"
               ? "Portfolio"
-              : "All Media";
+              : "All Images";
   const hasInspector =
     uploadPanelOpen ||
     Boolean(selectedItem) ||

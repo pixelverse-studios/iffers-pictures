@@ -223,7 +223,7 @@ export function AdminMediaSidebar({
               <span className={sectionTitleClassName}>
                 <span className="inline-flex items-center gap-2">
                   <Layers3 className="h-4 w-4" aria-hidden />
-                  Library
+                  Image library
                 </span>
                 <ChevronDown
                   className={`h-4 w-4 transition-transform duration-200 ${
@@ -260,7 +260,7 @@ export function AdminMediaSidebar({
                       }`}
                     >
                       <Grid2X2 className="h-4 w-4" aria-hidden />
-                      <span className="min-w-0 leading-snug">All Media</span>
+                      <span className="min-w-0 leading-snug">All Images</span>
                     </button>
                     <div className={groupLabelClassName}>Portfolio</div>
                     <button
@@ -392,7 +392,7 @@ export function AdminMediaSidebar({
               <span className={sectionTitleClassName}>
                 <span className="inline-flex items-center gap-2">
                   <ImagePlus className="h-4 w-4" aria-hidden />
-                  Placements
+                  Page images
                 </span>
                 <ChevronDown
                   className={`h-4 w-4 transition-transform duration-200 ${

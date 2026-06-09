@@ -110,7 +110,7 @@ export function AdminMediaUploadPanel({
         </div>
         {uploadLibrary === "portfolio" ? (
           <Select
-            label="Target category"
+            label="Save under"
             value={`${uploadService}|${uploadSubCategory}`}
             onChange={(value) => {
               if (!value) return;
@@ -134,14 +134,13 @@ export function AdminMediaUploadPanel({
           />
         ) : (
           <div className="border border-[var(--border)] bg-[var(--background-warm)] p-3 text-sm font-semibold text-[var(--text-secondary)]">
-            Site image uploads are saved to{" "}
-            <span className="text-[var(--foreground)]">site/misc</span>.
+            Site image uploads are saved with general website images.
           </div>
         )}
         <div className="border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <p className="font-bold">Alt text required after upload</p>
+          <p className="font-bold">Image description required after upload</p>
           <p className="mt-1 leading-6">
-            Uploads are drafts. Complete alt text before publishing.
+            Uploads are drafts. Add an image description before publishing.
           </p>
         </div>
         <button
@@ -151,7 +150,7 @@ export function AdminMediaUploadPanel({
           className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isUploading && <Loader2 className="h-4 w-4 animate-spin" />}
-          Upload drafts ({uploadReadyCount})
+          Upload images ({uploadReadyCount})
         </button>
       </div>
     </section>

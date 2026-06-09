@@ -119,7 +119,7 @@ export function AdminMediaPlacements({
   );
   const slotsByPage = groupSlotsByPage(visibleSlots);
   const heading =
-    pageFilter === "all" ? "Page placements" : `${pageFilter} placements`;
+    pageFilter === "all" ? "Page image spots" : `${pageFilter} image spots`;
 
   if (isLoading) {
     return (
@@ -144,10 +144,10 @@ export function AdminMediaPlacements({
       <section className="border border-[var(--border)] bg-white p-10 text-center">
         <ImagePlus className="mx-auto h-12 w-12 text-[var(--text-muted)]" />
         <h2 className="mt-4 font-heading text-2xl font-semibold">
-          No placement slots available
+          No page image spots available
         </h2>
         <p className="mt-2 text-sm text-[var(--text-secondary)]">
-          Refresh after the placement API slot registry is available.
+          Page image spots are not set up yet.
         </p>
       </section>
     );
@@ -158,10 +158,10 @@ export function AdminMediaPlacements({
       <section className="border border-[var(--border)] bg-white p-10 text-center">
         <ImagePlus className="mx-auto h-12 w-12 text-[var(--text-muted)]" />
         <h2 className="mt-4 font-heading text-2xl font-semibold">
-          No placements for this page
+          No image spots for this page
         </h2>
         <p className="mt-2 text-sm text-[var(--text-secondary)]">
-          Pick another placement page from the media navigation.
+          Pick another page from the media menu.
         </p>
       </section>
     );
@@ -176,12 +176,12 @@ export function AdminMediaPlacements({
               {heading}
             </h2>
             <p className="mt-1 max-w-2xl text-sm font-semibold leading-6 text-[var(--text-secondary)]">
-              Assign published catalog images to named frontend slots. Draft and
-              archived media stay unavailable until they are published.
+              Choose which published images appear in each page section. Draft and
+              archived images stay unavailable until they are published.
             </p>
           </div>
           <span className="w-fit rounded-sm bg-[var(--background-warm)] px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)]">
-            {visibleSlots.length} slots
+            {visibleSlots.length} spots
           </span>
         </div>
       </div>
@@ -237,9 +237,6 @@ export function AdminMediaPlacements({
                             <h4 className="font-heading text-xl font-semibold text-[var(--foreground)]">
                               {slot.sectionLabel}
                             </h4>
-                            <p className="mt-1 break-all text-xs font-bold text-[var(--text-muted)]">
-                              {slot.slotKey}
-                            </p>
                           </div>
                           {media ? (
                             <span className="inline-flex items-center gap-1 rounded-sm bg-[var(--brand-soft)] px-2 py-1 text-[11px] font-bold text-[var(--brand-strong)]">
@@ -332,7 +329,7 @@ export function AdminMediaPlacements({
                 Assign image to {activeSlot.pageLabel} · {activeSlot.sectionLabel}
               </h3>
               <p className="mt-1 text-sm font-semibold text-[var(--text-secondary)]">
-                Published images only. One image can be used in multiple placements.
+                Published images only. One image can be used in multiple places.
               </p>
             </div>
             <button
@@ -340,7 +337,7 @@ export function AdminMediaPlacements({
               onClick={() => onPickerSlotChange(null)}
               className="w-fit rounded-sm border border-[var(--border)] px-3 py-2 text-xs font-bold"
             >
-              Close picker
+              Close image chooser
             </button>
           </div>
 
@@ -354,7 +351,7 @@ export function AdminMediaPlacements({
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.currentTarget.value)}
-                placeholder="Search published media..."
+                placeholder="Search published images..."
                 className="min-h-11 w-full rounded-sm border border-[var(--border)] bg-white pl-10 pr-3 text-sm font-semibold outline-none focus:border-[var(--brand-strong)]"
               />
             </label>
@@ -364,9 +361,9 @@ export function AdminMediaPlacements({
                 setLibraryFilter(event.currentTarget.value as "all" | MediaLibrary)
               }
               className="min-h-11 rounded-sm border border-[var(--border)] bg-white px-3 text-sm font-bold outline-none focus:border-[var(--brand-strong)]"
-              aria-label="Filter assignment media by library"
+              aria-label="Filter images by group"
             >
-              <option value="all">All media</option>
+              <option value="all">All images</option>
               {MEDIA_LIBRARIES.map((library) => (
                 <option key={library} value={library}>
                   {library === "site" ? "Site Images" : "Portfolio"}
@@ -380,7 +377,7 @@ export function AdminMediaPlacements({
               }
               disabled={libraryFilter === "site"}
               className="min-h-11 rounded-sm border border-[var(--border)] bg-white px-3 text-sm font-bold outline-none focus:border-[var(--brand-strong)] disabled:cursor-not-allowed disabled:opacity-60"
-              aria-label="Filter assignment media by portfolio service"
+              aria-label="Filter images by service"
             >
               <option value="all">All services</option>
               {MEDIA_SERVICES.map((service) => (
@@ -393,7 +390,7 @@ export function AdminMediaPlacements({
 
           {publishedItems.length === 0 ? (
             <div className="mt-4 border border-[var(--border)] bg-[var(--background-warm)] p-5 text-center text-sm font-semibold text-[var(--text-secondary)]">
-              No published media matches this picker.
+              No published images match this search.
             </div>
           ) : (
             <div className="mt-4 grid max-h-[45dvh] gap-3 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">

@@ -54,7 +54,7 @@ export function getMediaCategoryLabel(
     return "Site Images";
   }
 
-  return `${item.service ?? "No service"} · ${item.subCategory ?? "No sub-category"}`;
+  return `${item.service ?? "No service"} · ${item.subCategory ?? "No photo type"}`;
 }
 
 export function isValidUploadType(type: string): type is MediaUploadContentType {

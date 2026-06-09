@@ -68,7 +68,7 @@ export function AdminMediaHeader({
             ) : (
               <RefreshCcw className="h-4 w-4" />
             )}
-            Revalidate
+            Refresh live site
           </button>
           <Link
             href="/portfolio"

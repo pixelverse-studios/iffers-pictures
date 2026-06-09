@@ -45,7 +45,7 @@ export function AdminMediaUploadQueue({
   return (
     <section className="border border-[var(--border)] bg-white">
       <div className="border-b border-[var(--border)] px-4 py-3">
-        <h2 className="font-heading text-xl font-semibold">Upload queue</h2>
+        <h2 className="font-heading text-xl font-semibold">Images ready to upload</h2>
       </div>
       <div className="divide-y divide-[var(--border)]">
         {items.map((item) => (
@@ -60,7 +60,7 @@ export function AdminMediaUploadQueue({
               </p>
             </div>
             <Select
-              aria-label={`Library for ${item.file.name}`}
+              aria-label={`Image group for ${item.file.name}`}
               value={item.library}
               onChange={(value) => {
                 const library = (value ?? "portfolio") as MediaLibrary;
@@ -87,11 +87,11 @@ export function AdminMediaUploadQueue({
             />
             {item.library === "site" ? (
               <div className="min-h-9 rounded-sm border border-[var(--border)] bg-[var(--background-warm)] px-3 py-2 text-xs font-bold text-[var(--text-secondary)]">
-                site/misc
+                Website images
               </div>
             ) : (
               <Select
-                aria-label={`Target category for ${item.file.name}`}
+                aria-label={`Save under category for ${item.file.name}`}
                 value={`${item.service}|${item.subCategory}`}
                 onChange={(value) => {
                   if (!value) return;

@@ -3,7 +3,7 @@
 import { NumberInput, Select, Textarea, TextInput, Tooltip } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
-import { Archive, Copy, ExternalLink, Info, Loader2, RotateCcw, X } from "lucide-react";
+import { Archive, ExternalLink, Info, Loader2, RotateCcw, X } from "lucide-react";
 import {
   MEDIA_ASPECT_RATIOS,
   MEDIA_CROP_POSITIONS,
@@ -24,7 +24,7 @@ import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { STATUS_COPY } from "./constants";
 import { StatusPill } from "./StatusPill";
 import type { BatchArchiveFeedback, EditorState, MediaPlacementUsage } from "./types";
-import { formatDate, getMediaCategoryLabel, getMediaLibrary } from "./utils";
+import { formatDate, getMediaLibrary } from "./utils";
 
 interface AdminMediaInspectorProps {
   affectedPages: string[];
@@ -168,8 +168,8 @@ export function AdminMediaInspector({
   const previewAspectClass = getMediaPreviewAspectClass(editor.aspectRatio);
   const publishBlockedMessage =
     editor.library === "site"
-      ? "Add alt text, site category, and aspect ratio before publishing."
-      : "Add alt text, service, sub-category, and aspect ratio before publishing.";
+      ? "Add an image description, site category, and aspect ratio before publishing."
+      : "Add an image description, service, photo type, and aspect ratio before publishing.";
 
   return (
     <aside className={activeTrayClass}>
@@ -224,7 +224,7 @@ export function AdminMediaInspector({
                   </div>
 
                   <section className="p-4 lg:min-w-0">
-                    <p className="text-sm font-bold">Used in placements</p>
+                    <p className="text-sm font-bold">Used on pages</p>
                     {placementUsages.length > 0 ? (
                       <div className="mt-3 space-y-2">
                         {placementUsages.map((usage) => (
@@ -234,9 +234,6 @@ export function AdminMediaInspector({
                           >
                             <p className="text-sm font-bold text-[var(--brand-strong)]">
                               {usage.pageLabel} · {usage.sectionLabel}
-                            </p>
-                            <p className="mt-1 break-all text-[11px] font-semibold text-[var(--text-muted)]">
-                              {usage.slotKey}
                             </p>
                           </div>
                         ))}
@@ -271,7 +268,7 @@ export function AdminMediaInspector({
 
             {archivedLocked && (
               <div className="border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
-                Archived media must be restored before normal metadata edits.
+                Archived images must be restored before normal edits.
               </div>
             )}
 
@@ -286,7 +283,7 @@ export function AdminMediaInspector({
               </div>
 
               <Textarea
-                label="Alt text"
+                label="Image description"
                 value={editor.alt}
                 onChange={(event) => onUpdateEditor("alt", event.currentTarget.value)}
                 disabled={archivedLocked}
@@ -301,7 +298,7 @@ export function AdminMediaInspector({
 
               <div className="grid grid-cols-1 gap-3 2xl:grid-cols-2">
                 <Select
-                  label="Library"
+                  label="Image group"
                   value={editor.library}
                   onChange={(value) =>
                     onUpdateEditor("library", (value ?? editor.library) as MediaLibrary)
@@ -354,7 +351,7 @@ export function AdminMediaInspector({
                     }}
                   />
                   <Select
-                    label="Sub-category"
+                    label="Photo type"
                     value={editor.subCategory}
                     onChange={(value) =>
                       onUpdateEditor("subCategory", (value ?? "") as MediaSubCategory | "")
@@ -490,10 +487,10 @@ export function AdminMediaInspector({
               </div>
             </section>
 
-            <section className="grid gap-3 border-t border-[var(--border)] pt-5 2xl:grid-cols-[1fr_0.82fr]">
+            <section className="border-t border-[var(--border)] pt-5">
               <div className="border border-[var(--border)] p-3">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-bold">Move / rename draft</p>
+                  <p className="text-sm font-bold">Rename draft image</p>
                   {!canMove && (
                     <span className="text-xs font-semibold text-[var(--text-muted)]">
                       Draft only
@@ -504,7 +501,7 @@ export function AdminMediaInspector({
                   value={moveKey}
                   onChange={(event) => onMoveKeyChange(event.currentTarget.value)}
                   disabled={!canMove}
-                  aria-label="Draft destination key"
+                  aria-label="New file path"
                   className="mt-3"
                   radius="sm"
                   styles={{
@@ -523,7 +520,7 @@ export function AdminMediaInspector({
                     disabled={!canMove || isCheckingMove || !trimmedMoveKey}
                     className="inline-flex min-h-10 items-center justify-center rounded-sm border border-[var(--border)] text-xs font-bold disabled:opacity-50"
                   >
-                    {isCheckingMove ? "Checking..." : "Check"}
+                    {isCheckingMove ? "Checking..." : "Check path"}
                   </button>
                   <button
                     type="button"
@@ -536,30 +533,6 @@ export function AdminMediaInspector({
                 </div>
               </div>
 
-              <details className="border border-[var(--border)]">
-                <summary className="cursor-pointer px-3 py-3 text-sm font-bold">
-                  R2 details
-                </summary>
-                <div className="space-y-2 border-t border-[var(--border)] p-3 text-xs text-[var(--text-secondary)]">
-                  <p className="break-all">
-                    <strong>Key:</strong> {item.key}
-                  </p>
-                  <p>
-                    <strong>Category:</strong> {getMediaCategoryLabel(item)}
-                  </p>
-                  <p>
-                    <strong>ID:</strong> {item.id}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => navigator.clipboard.writeText(item.key)}
-                    className="inline-flex items-center gap-2 text-[var(--brand-strong)]"
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                    Copy key
-                  </button>
-                </div>
-              </details>
             </section>
           </div>
         </div>

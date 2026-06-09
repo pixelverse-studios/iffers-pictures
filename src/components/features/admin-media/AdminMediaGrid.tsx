@@ -39,10 +39,10 @@ export function AdminMediaGrid({
       <section className="border border-[var(--border)] bg-white p-10 text-center">
         <FileImage className="mx-auto h-12 w-12 text-[var(--text-muted)]" />
         <h2 className="mt-4 font-heading text-2xl font-semibold">
-          No media matches this view
+          No images match this view
         </h2>
         <p className="mt-2 text-sm text-[var(--text-secondary)]">
-          Try a different filter or upload drafts.
+          Try a different filter or upload images.
         </p>
       </section>
     );
@@ -115,10 +115,10 @@ export function AdminMediaGrid({
                 <div className="flex flex-wrap items-center gap-2">
                   <StatusPill status={item.status} />
                   <span className="text-xs text-[var(--text-muted)]">
-                    {getMediaLibrary(item) === "site" ? "site" : "portfolio"}
+                    {getMediaLibrary(item) === "site" ? "Site Images" : "Portfolio"}
                   </span>
                   <span className="text-xs text-[var(--text-muted)]">
-                    {aspectRatio ?? "unset"}
+                    {aspectRatio ?? "No shape"}
                   </span>
                 </div>
                 <p className="truncate text-xs text-[var(--text-secondary)]">

@@ -39,8 +39,8 @@ export function AdminMediaLogin({
             </p>
             <div className="mt-12 grid gap-7">
               {[
-                ["Upload drafts", "Add new images and keep them private until ready."],
-                ["Edit image details", "Add alt text, set categories, and update status."],
+                ["Upload images", "Add new images and keep them private until ready."],
+                ["Edit image details", "Add image descriptions, set categories, and update status."],
                 ["Archive safely", "Remove images from public view without deleting."],
               ].map(([title, copy]) => (
                 <div key={title} className="flex gap-4">
