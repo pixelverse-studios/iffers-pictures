@@ -454,9 +454,7 @@ export interface CreateDraftMediaItemRequest {
   service?: MediaService | null;
   subCategory?: MediaSubCategory | null;
   aspectRatio?: MediaAspectRatio | null;
-  aspect_ratio?: MediaAspectRatio | null;
   sortOrder?: number;
-  crop_position?: MediaCropPosition;
 }
 
 export interface PatchMediaItemRequest {
@@ -466,9 +464,7 @@ export interface PatchMediaItemRequest {
   service?: MediaService | null;
   subCategory?: MediaSubCategory | null;
   aspectRatio?: MediaAspectRatio | null;
-  aspect_ratio?: MediaAspectRatio | null;
   sortOrder?: number;
-  crop_position?: MediaCropPosition;
   status?: MediaStatus;
 }
 

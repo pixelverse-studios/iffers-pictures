@@ -20,7 +20,6 @@ import {
   uploadToPresignedMediaUrl,
 } from "@/lib/media/client";
 import {
-  DEFAULT_MEDIA_CROP_POSITION,
   MEDIA_SUB_CATEGORIES,
   type AdminMediaPlacementSlot,
   type AdminMediaItem,
@@ -362,10 +361,8 @@ export function AdminMediaManager() {
             ? nextEditor.subCategory || null
             : null,
         aspectRatio: nextEditor.aspectRatio || null,
-        aspect_ratio: nextEditor.aspectRatio || null,
         status: nextEditor.status,
         sortOrder: Number(nextEditor.sortOrder) || 0,
-        crop_position: nextEditor.cropPosition,
       });
       upsertItem(updated);
       if (updated.status === "archived") {
@@ -754,9 +751,7 @@ export function AdminMediaManager() {
           service,
           subCategory,
           aspectRatio,
-          aspect_ratio: aspectRatio,
           sortOrder: startingSortOrder + index,
-          crop_position: DEFAULT_MEDIA_CROP_POSITION,
         });
 
         setItems((current) => [draft, ...current]);
