@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowUpDown, Check, FileImage } from "lucide-react";
 import type { AdminMediaItem } from "@/lib/media/types";
 import { StatusPill } from "./StatusPill";
+import { getMediaCategoryLabel, getMediaLibrary } from "./utils";
 
 interface AdminMediaGridProps {
   archiveSelectionIds: readonly number[];
@@ -112,12 +113,14 @@ export function AdminMediaGrid({
                 <div className="flex flex-wrap items-center gap-2">
                   <StatusPill status={item.status} />
                   <span className="text-xs text-[var(--text-muted)]">
+                    {getMediaLibrary(item) === "site" ? "site" : "portfolio"}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)]">
                     {item.aspectRatio ?? "unset"}
                   </span>
                 </div>
                 <p className="truncate text-xs text-[var(--text-secondary)]">
-                  {item.service ?? "No service"} ·{" "}
-                  {item.subCategory ?? "No sub-category"}
+                  {getMediaCategoryLabel(item)}
                 </p>
               </div>
             </button>

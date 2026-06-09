@@ -12,6 +12,7 @@ import type { PublicMediaPlacement } from "@/lib/media/types";
 
 const JENN_PORTRAIT_IMAGE =
   "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev/portraits/portrait_02.jpg";
+const BEYOND_CAMERA_IMAGE = "/selfie.jpg";
 
 function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
@@ -30,6 +31,11 @@ export function BoardAboutLayout({
     getPlacementGalleryItem(placements, "about.hero") ?? {
       src: JENN_PORTRAIT_IMAGE,
       alt: ABOUT_PAGE_COPY.hero.imageAlt,
+    };
+  const beyondCameraImage: BoardAboutImage =
+    getPlacementGalleryItem(placements, "about.beyond_camera") ?? {
+      src: BEYOND_CAMERA_IMAGE,
+      alt: "Jenn holding a camera",
     };
 
   return (
@@ -115,8 +121,8 @@ export function BoardAboutLayout({
             />
             <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-[var(--background)] shadow-[0_20px_58px_-42px_rgba(26,32,48,0.58)]">
               <Image
-                src="/selfie.jpg"
-                alt="Jenn holding a camera"
+                src={beyondCameraImage.src}
+                alt={beyondCameraImage.alt}
                 fill
                 sizes="(max-width: 768px) 100vw, 46vw"
                 className="motion-image-zoom object-cover object-center"

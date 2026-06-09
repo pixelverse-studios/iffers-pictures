@@ -2,6 +2,7 @@ import {
   MEDIA_SERVICES,
   MEDIA_SUB_CATEGORIES,
   type MediaService,
+  type MediaSiteCategory,
   type MediaStatus,
   type MediaSubCategory,
 } from "@/lib/media/types";
@@ -28,7 +29,10 @@ export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.missing_alt_text": "Add alt text before publishing.",
   "media.missing_service": "Choose a service before publishing.",
   "media.missing_sub_category": "Choose a sub-category before publishing.",
+  "media.missing_site_category": "Choose a site image category before publishing.",
   "media.missing_aspect_ratio": "Choose an aspect ratio before publishing.",
+  "media.invalid_library": "Choose Portfolio or Site Images.",
+  "media.invalid_site_category": "Choose a supported site image category.",
   "media.invalid_service": "Choose a supported service.",
   "media.invalid_sub_category": "Choose a sub-category that belongs to the selected service.",
   "media.invalid_content_type": "Upload JPEG, PNG, or WebP files only.",
@@ -85,6 +89,10 @@ export function getFolderForCategory(
   }
 
   return service.toLowerCase();
+}
+
+export function getFolderForSiteCategory(siteCategory: MediaSiteCategory) {
+  return `site/${siteCategory.toLowerCase()}`;
 }
 
 export const CATEGORY_OPTIONS = MEDIA_SERVICES.flatMap((service) =>

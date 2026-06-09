@@ -12,14 +12,18 @@ import {
   Trash2,
 } from "lucide-react";
 import {
+  MEDIA_LIBRARIES,
   MEDIA_SERVICES,
   type AdminMediaItem,
   type AdminMediaPlacementSlot,
+  type MediaLibrary,
   type MediaPlacementSlotKey,
   type MediaService,
+  type MediaSiteCategory,
 } from "@/lib/media/types";
 import { StatusPill } from "./StatusPill";
 import type { PlacementPageFilter } from "./types";
+import { getMediaCategoryLabel, getMediaLibrary } from "./utils";
 
 interface AdminMediaPlacementsProps {
   activePickerSlotKey: MediaPlacementSlotKey | null;
@@ -42,6 +46,12 @@ function groupSlotsByPage(slots: AdminMediaPlacementSlot[]) {
   }, {});
 }
 
+function getPreferredSiteCategory(pageLabel: string): MediaSiteCategory | null {
+  if (pageLabel === "Home") return "Home";
+  if (pageLabel === "About") return "About";
+  return null;
+}
+
 export function AdminMediaPlacements({
   activePickerSlotKey,
   error,
@@ -56,20 +66,49 @@ export function AdminMediaPlacements({
   onSelectMedia,
 }: AdminMediaPlacementsProps) {
   const [query, setQuery] = useState("");
+  const [libraryFilter, setLibraryFilter] = useState<"all" | MediaLibrary>("all");
   const [serviceFilter, setServiceFilter] = useState<"all" | MediaService>("all");
-  const publishedItems = useMemo(
-    () =>
-      items.filter((item) => {
-        if (item.status !== "published") return false;
-        if (serviceFilter !== "all" && item.service !== serviceFilter) return false;
-        const normalizedQuery = query.trim().toLowerCase();
-        if (!normalizedQuery) return true;
-        return [item.filename, item.key, item.alt, item.service, item.subCategory]
-          .filter(Boolean)
-          .some((value) => String(value).toLowerCase().includes(normalizedQuery));
-      }),
-    [items, query, serviceFilter],
-  );
+  const activeSlot = slots.find((slot) => slot.slotKey === activePickerSlotKey);
+  const activeSlotPageLabel = activeSlot?.pageLabel ?? "";
+  const preferredSiteCategory = getPreferredSiteCategory(activeSlotPageLabel);
+  const normalizedQuery = query.trim().toLowerCase();
+  const publishedItems = items
+    .filter((item) => {
+      if (item.status !== "published") return false;
+      const itemLibrary = getMediaLibrary(item);
+      if (libraryFilter !== "all" && itemLibrary !== libraryFilter) return false;
+      if (
+        itemLibrary === "portfolio" &&
+        serviceFilter !== "all" &&
+        item.service !== serviceFilter
+      ) {
+        return false;
+      }
+      if (!normalizedQuery) return true;
+      return [
+        item.filename,
+        item.key,
+        item.alt,
+        itemLibrary,
+        item.siteCategory,
+        item.service,
+        item.subCategory,
+      ]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase().includes(normalizedQuery));
+    })
+    .sort((a, b) => {
+      if (!preferredSiteCategory) return a.sortOrder - b.sortOrder || a.id - b.id;
+      const aPreferred =
+        getMediaLibrary(a) === "site" && a.siteCategory === preferredSiteCategory;
+      const bPreferred =
+        getMediaLibrary(b) === "site" && b.siteCategory === preferredSiteCategory;
+      if (aPreferred !== bPreferred) return aPreferred ? -1 : 1;
+      if (getMediaLibrary(a) !== getMediaLibrary(b)) {
+        return getMediaLibrary(a) === "site" ? -1 : 1;
+      }
+      return a.sortOrder - b.sortOrder || a.id - b.id;
+    });
   const visibleSlots = useMemo(
     () =>
       pageFilter === "all"
@@ -78,7 +117,6 @@ export function AdminMediaPlacements({
     [pageFilter, slots],
   );
   const slotsByPage = groupSlotsByPage(visibleSlots);
-  const activeSlot = slots.find((slot) => slot.slotKey === activePickerSlotKey);
   const heading =
     pageFilter === "all" ? "Page placements" : `${pageFilter} placements`;
 
@@ -305,7 +343,7 @@ export function AdminMediaPlacements({
             </button>
           </div>
 
-          <div className="mt-4 grid gap-3 md:grid-cols-[1fr_180px]">
+          <div className="mt-4 grid gap-3 md:grid-cols-[1fr_160px_180px]">
             <label className="relative block">
               <Search
                 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]"
@@ -320,12 +358,28 @@ export function AdminMediaPlacements({
               />
             </label>
             <select
+              value={libraryFilter}
+              onChange={(event) =>
+                setLibraryFilter(event.currentTarget.value as "all" | MediaLibrary)
+              }
+              className="min-h-11 rounded-sm border border-[var(--border)] bg-white px-3 text-sm font-bold outline-none focus:border-[var(--brand-strong)]"
+              aria-label="Filter assignment media by library"
+            >
+              <option value="all">All media</option>
+              {MEDIA_LIBRARIES.map((library) => (
+                <option key={library} value={library}>
+                  {library === "site" ? "Site Images" : "Portfolio"}
+                </option>
+              ))}
+            </select>
+            <select
               value={serviceFilter}
               onChange={(event) =>
                 setServiceFilter(event.currentTarget.value as "all" | MediaService)
               }
-              className="min-h-11 rounded-sm border border-[var(--border)] bg-white px-3 text-sm font-bold outline-none focus:border-[var(--brand-strong)]"
-              aria-label="Filter assignment media by service"
+              disabled={libraryFilter === "site"}
+              className="min-h-11 rounded-sm border border-[var(--border)] bg-white px-3 text-sm font-bold outline-none focus:border-[var(--brand-strong)] disabled:cursor-not-allowed disabled:opacity-60"
+              aria-label="Filter assignment media by portfolio service"
             >
               <option value="all">All services</option>
               {MEDIA_SERVICES.map((service) => (
@@ -370,7 +424,7 @@ export function AdminMediaPlacements({
                         </span>
                       </div>
                       <p className="truncate text-xs text-[var(--text-secondary)]">
-                        {item.service ?? "No service"} · {item.subCategory ?? "No sub-category"}
+                        {getMediaCategoryLabel(item)}
                       </p>
                     </div>
                   </button>

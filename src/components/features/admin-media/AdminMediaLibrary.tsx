@@ -7,6 +7,7 @@ import { Menu } from "lucide-react";
 import type {
   AdminMediaPlacementSlot,
   AdminMediaItem,
+  MediaLibrary,
   MediaAdminSession,
   MediaPlacementSlotKey,
   MediaService,
@@ -26,6 +27,7 @@ import type {
   BatchArchiveFeedback,
   EditorState,
   AdminMediaViewMode,
+  LibraryFilter,
   MediaPlacementUsage,
   PlacementPageFilter,
   SortMode,
@@ -66,6 +68,7 @@ interface AdminMediaLibraryProps {
   selectedId: number | null;
   selectedItem: AdminMediaItem | null;
   selectedPlacementUsages: MediaPlacementUsage[];
+  libraryFilter: LibraryFilter;
   serviceFilter: "all" | MediaService;
   serviceSubCategories: readonly MediaSubCategory[];
   session: MediaAdminSession | null;
@@ -73,6 +76,7 @@ interface AdminMediaLibraryProps {
   statusFilter: StatusFilter;
   subCategoryFilter: "all" | MediaSubCategory;
   uploadQueue: UploadQueueItem[];
+  uploadLibrary: MediaLibrary;
   uploadReadyCount: number;
   uploadService: MediaService;
   uploadSubCategory: MediaSubCategory;
@@ -92,6 +96,7 @@ interface AdminMediaLibraryProps {
   onRemoveUpload: (id: string) => void;
   onRestore: () => void;
   onSave: () => void;
+  onLibraryFilterChange: (value: LibraryFilter) => void;
   onSearchChange: (value: string) => void;
   onSelectedIdChange: (id: number | null) => void;
   onServiceFilterChange: (value: "all" | MediaService) => void;
@@ -107,10 +112,27 @@ interface AdminMediaLibraryProps {
   onUploadDrafts: () => void;
   onUpdateUploadItemTarget: (
     id: string,
-    service: MediaService,
-    subCategory: MediaSubCategory,
+    target:
+      | {
+          library: "portfolio";
+          service: MediaService;
+          subCategory: MediaSubCategory;
+        }
+      | {
+          library: "site";
+        },
   ) => void;
-  onUploadTargetChange: (service: MediaService, subCategory: MediaSubCategory) => void;
+  onUploadTargetChange: (
+    target:
+      | {
+          library: "portfolio";
+          service: MediaService;
+          subCategory: MediaSubCategory;
+        }
+      | {
+          library: "site";
+        },
+  ) => void;
 }
 
 export function AdminMediaLibrary({
@@ -146,6 +168,7 @@ export function AdminMediaLibrary({
   selectedId,
   selectedItem,
   selectedPlacementUsages,
+  libraryFilter,
   serviceFilter,
   serviceSubCategories,
   session,
@@ -153,6 +176,7 @@ export function AdminMediaLibrary({
   statusFilter,
   subCategoryFilter,
   uploadQueue,
+  uploadLibrary,
   uploadReadyCount,
   uploadService,
   uploadSubCategory,
@@ -172,6 +196,7 @@ export function AdminMediaLibrary({
   onRemoveUpload,
   onRestore,
   onSave,
+  onLibraryFilterChange,
   onSearchChange,
   onSelectedIdChange,
   onServiceFilterChange,
@@ -201,11 +226,15 @@ export function AdminMediaLibrary({
       ? placementPageFilter === "all"
         ? "Placements"
         : placementPageFilter
-      : subCategoryFilter !== "all"
-      ? subCategoryFilter
-      : serviceFilter !== "all"
-        ? serviceFilter
-        : "All Media";
+      : libraryFilter === "site"
+        ? "Site Images"
+        : subCategoryFilter !== "all"
+          ? subCategoryFilter
+          : serviceFilter !== "all"
+            ? serviceFilter
+            : libraryFilter === "portfolio"
+              ? "Portfolio"
+              : "All Media";
 
   function handleViewModeChange(mode: AdminMediaViewMode) {
     setViewMode(mode);
@@ -249,12 +278,14 @@ export function AdminMediaLibrary({
           placementPageFilter={placementPageFilter}
           placementPageOptions={placementPageOptions}
           session={session}
+          libraryFilter={libraryFilter}
           serviceFilter={serviceFilter}
           statusFilter={statusFilter}
           subCategoryFilter={subCategoryFilter}
           viewMode={viewMode}
           onCloseMobile={() => setMobileNavOpen(false)}
           onLogout={onLogout}
+          onLibraryFilterChange={onLibraryFilterChange}
           onPlacementPageFilterChange={handlePlacementPageFilterChange}
           onServiceFilterChange={onServiceFilterChange}
           onStatusFilterChange={onStatusFilterChange}
@@ -284,12 +315,14 @@ export function AdminMediaLibrary({
               {viewMode === "library" ? (
                 <>
                   <AdminMediaFilters
+                    libraryFilter={libraryFilter}
                     query={query}
                     serviceFilter={serviceFilter}
                     serviceSubCategories={serviceSubCategories}
                     sortMode={sortMode}
                     statusFilter={statusFilter}
                     subCategoryFilter={subCategoryFilter}
+                    onLibraryFilterChange={onLibraryFilterChange}
                     onSearchChange={onSearchChange}
                     onServiceFilterChange={onServiceFilterChange}
                     onSortModeChange={onSortModeChange}
@@ -300,6 +333,7 @@ export function AdminMediaLibrary({
                   <AdminMediaUploadPanel
                     fileInputRef={fileInputRef}
                     isUploading={isUploading}
+                    uploadLibrary={uploadLibrary}
                     uploadReadyCount={uploadReadyCount}
                     uploadService={uploadService}
                     uploadSubCategory={uploadSubCategory}

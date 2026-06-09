@@ -17,12 +17,14 @@ import {
 import {
   MEDIA_SERVICES,
   MEDIA_SUB_CATEGORIES,
+  type MediaLibrary,
   type MediaAdminSession,
   type MediaService,
   type MediaSubCategory,
 } from "@/lib/media/types";
 import type {
   AdminMediaViewMode,
+  LibraryFilter,
   PlacementPageFilter,
   StatusFilter,
 } from "./types";
@@ -30,6 +32,7 @@ import { formatDate } from "./utils";
 
 interface AdminMediaSidebarProps {
   isMobileOpen?: boolean;
+  libraryFilter: LibraryFilter;
   placementPageFilter: PlacementPageFilter;
   placementPageOptions: string[];
   session: MediaAdminSession | null;
@@ -39,6 +42,7 @@ interface AdminMediaSidebarProps {
   viewMode: AdminMediaViewMode;
   onCloseMobile?: () => void;
   onLogout: () => void;
+  onLibraryFilterChange: (value: LibraryFilter) => void;
   onPlacementPageFilterChange: (value: PlacementPageFilter) => void;
   onServiceFilterChange: (value: "all" | MediaService) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
@@ -48,6 +52,7 @@ interface AdminMediaSidebarProps {
 
 export function AdminMediaSidebar({
   isMobileOpen = false,
+  libraryFilter,
   placementPageFilter,
   placementPageOptions,
   session,
@@ -57,6 +62,7 @@ export function AdminMediaSidebar({
   viewMode,
   onCloseMobile,
   onLogout,
+  onLibraryFilterChange,
   onPlacementPageFilterChange,
   onServiceFilterChange,
   onStatusFilterChange,
@@ -100,6 +106,15 @@ export function AdminMediaSidebar({
 
   function handleAllMediaClick() {
     onViewModeChange("library");
+    onLibraryFilterChange("all");
+    onServiceFilterChange("all");
+    onSubCategoryFilterChange("all");
+    requestMobileClose();
+  }
+
+  function handleLibraryClick(library: MediaLibrary) {
+    onViewModeChange("library");
+    onLibraryFilterChange(library);
     onServiceFilterChange("all");
     onSubCategoryFilterChange("all");
     requestMobileClose();
@@ -107,6 +122,7 @@ export function AdminMediaSidebar({
 
   function handleServiceClick(service: MediaService) {
     onViewModeChange("library");
+    onLibraryFilterChange("portfolio");
     onServiceFilterChange(service);
     onSubCategoryFilterChange("all");
     requestMobileClose();
@@ -117,6 +133,7 @@ export function AdminMediaSidebar({
     subCategory: MediaSubCategory,
   ) {
     onViewModeChange("library");
+    onLibraryFilterChange("portfolio");
     onServiceFilterChange(service);
     onSubCategoryFilterChange(subCategory);
     requestMobileClose();
@@ -161,6 +178,8 @@ export function AdminMediaSidebar({
     const childListClassName = "mt-1 space-y-1 pl-6";
     const childButtonClassName =
       "inline-flex min-h-9 w-full items-center rounded-sm px-3 text-left text-xs font-bold";
+    const groupLabelClassName =
+      "px-3 pb-1 pt-3 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--text-muted)]";
     const sectionPanelMotion = {
       animate: { height: "auto", opacity: 1, y: 0 },
       exit: { height: 0, opacity: 0.72, y: -1 },
@@ -234,6 +253,7 @@ export function AdminMediaSidebar({
                       type="button"
                       onClick={handleAllMediaClick}
                       className={`${parentButtonClassName} ${
+                        libraryFilter === "all" &&
                         serviceFilter === "all"
                           ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
                           : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -242,12 +262,31 @@ export function AdminMediaSidebar({
                       <Grid2X2 className="h-4 w-4" aria-hidden />
                       <span className="min-w-0 leading-snug">All Media</span>
                     </button>
+                    <div className={groupLabelClassName}>Portfolio</div>
+                    <button
+                      type="button"
+                      onClick={() => handleLibraryClick("portfolio")}
+                      className={`${parentButtonClassName} ${
+                        libraryFilter === "portfolio" &&
+                        serviceFilter === "all" &&
+                        subCategoryFilter === "all"
+                          ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                      }`}
+                    >
+                      <Grid2X2 className="h-4 w-4" aria-hidden />
+                      <span className="min-w-0 leading-snug">All portfolio</span>
+                    </button>
                     {serviceNavItems.map(({ service, subCategories }) => {
                       const hasNestedItems = subCategories.length > 1;
                       const serviceIsActive =
-                        serviceFilter === service && subCategoryFilter === "all";
+                        libraryFilter === "portfolio" &&
+                        serviceFilter === service &&
+                        subCategoryFilter === "all";
                       const serviceHasActiveChild =
-                        serviceFilter === service && subCategoryFilter !== "all";
+                        libraryFilter === "portfolio" &&
+                        serviceFilter === service &&
+                        subCategoryFilter !== "all";
 
                       if (!hasNestedItems) {
                         const [subCategory] = subCategories;
@@ -259,6 +298,7 @@ export function AdminMediaSidebar({
                               handleSubCategoryClick(service, subCategory)
                             }
                             className={`${parentButtonClassName} ${
+                              libraryFilter === "portfolio" &&
                               serviceFilter === service
                                 ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
                                 : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -294,6 +334,7 @@ export function AdminMediaSidebar({
                                 }
                                 className={`${childButtonClassName} ${
                                   serviceFilter === service &&
+                                  libraryFilter === "portfolio" &&
                                   subCategoryFilter === subCategory
                                     ? "bg-[var(--background-warm)] text-[var(--brand-strong)]"
                                     : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
@@ -306,6 +347,19 @@ export function AdminMediaSidebar({
                         </div>
                       );
                     })}
+                    <div className={groupLabelClassName}>Site Images</div>
+                    <button
+                      type="button"
+                      onClick={() => handleLibraryClick("site")}
+                      className={`${parentButtonClassName} ${
+                        libraryFilter === "site"
+                          ? "bg-[var(--brand-soft)] text-[var(--brand-strong)]"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--background-warm)]"
+                      }`}
+                    >
+                      <Grid2X2 className="h-4 w-4" aria-hidden />
+                      <span className="min-w-0 leading-snug">Site Images</span>
+                    </button>
                     <button
                       type="button"
                       onClick={handleArchiveClick}

@@ -11,7 +11,7 @@ import {
   DEFAULT_PUBLIC_GALLERY_ITEMS,
   findPinnedGalleryItem,
   getPlacementGalleryItem,
-  getServiceHeroPlacementSlotKey,
+  getServiceCardPlacementSlotKey,
   type PinnedMediaFallback,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
@@ -42,9 +42,9 @@ function getSessionItems(
   placements: PublicMediaPlacement[]
 ): BoardSessionStripItem[] {
   const sessionItems = SESSIONS.flatMap((session): BoardSessionStripItem[] => {
-    const slotKey = getServiceHeroPlacementSlotKey(session.slug);
+    const cardSlotKey = getServiceCardPlacementSlotKey(session.slug);
     const image =
-      (slotKey ? getPlacementGalleryItem(placements, slotKey) : undefined) ??
+      (cardSlotKey ? getPlacementGalleryItem(placements, cardSlotKey) : undefined) ??
       getSessionImage(items, session.slug);
     if (!image) return [];
 
@@ -61,14 +61,22 @@ function getSessionItems(
     ];
   });
 
+  const customRequestImage = getPlacementGalleryItem(
+    placements,
+    "services.card.custom_request",
+  ) ?? {
+    src: CUSTOM_REQUEST_IMAGE,
+    alt: "Jenn holding a camera for a custom photography request",
+  };
+
   sessionItems.push({
     title: "Custom Request",
     description:
       "Have something else in mind? Let's create a session tailored to you.",
     href: "/contact",
     image: {
-      src: CUSTOM_REQUEST_IMAGE,
-      alt: "Jenn holding a camera for a custom photography request",
+      src: customRequestImage.src,
+      alt: customRequestImage.alt,
     },
   });
 

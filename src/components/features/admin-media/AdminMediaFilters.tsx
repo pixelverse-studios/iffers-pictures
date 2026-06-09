@@ -5,21 +5,24 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  MEDIA_LIBRARIES,
   MEDIA_SERVICES,
   MEDIA_STATUSES,
   type MediaService,
   type MediaSubCategory,
 } from "@/lib/media/types";
 import { STATUS_COPY } from "./constants";
-import type { SortMode, StatusFilter } from "./types";
+import type { LibraryFilter, SortMode, StatusFilter } from "./types";
 
 interface AdminMediaFiltersProps {
+  libraryFilter: LibraryFilter;
   query: string;
   serviceFilter: "all" | MediaService;
   serviceSubCategories: readonly MediaSubCategory[];
   sortMode: SortMode;
   statusFilter: StatusFilter;
   subCategoryFilter: "all" | MediaSubCategory;
+  onLibraryFilterChange: (value: LibraryFilter) => void;
   onSearchChange: (value: string) => void;
   onServiceFilterChange: (value: "all" | MediaService) => void;
   onSortModeChange: (value: SortMode) => void;
@@ -28,12 +31,14 @@ interface AdminMediaFiltersProps {
 }
 
 export function AdminMediaFilters({
+  libraryFilter,
   query,
   serviceFilter,
   serviceSubCategories,
   sortMode,
   statusFilter,
   subCategoryFilter,
+  onLibraryFilterChange,
   onSearchChange,
   onServiceFilterChange,
   onSortModeChange,
@@ -47,6 +52,13 @@ export function AdminMediaFilters({
   const serviceOptions = [
     { value: "all", label: "All services" },
     ...MEDIA_SERVICES.map((service) => ({ value: service, label: service })),
+  ];
+  const libraryOptions = [
+    { value: "all", label: "All media" },
+    ...MEDIA_LIBRARIES.map((library) => ({
+      value: library,
+      label: library === "site" ? "Site Images" : "Portfolio",
+    })),
   ];
   const subCategoryOptions = [
     { value: "all", label: "All sub-categories" },
@@ -68,6 +80,12 @@ export function AdminMediaFilters({
         serviceFilter !== "all"
           ? { key: "service", label: `Service: ${serviceFilter}` }
           : null,
+        libraryFilter !== "all"
+          ? {
+              key: "library",
+              label: libraryFilter === "site" ? "Library: Site Images" : "Library: Portfolio",
+            }
+          : null,
         subCategoryFilter !== "all"
           ? { key: "subCategory", label: `Sub-category: ${subCategoryFilter}` }
           : null,
@@ -75,7 +93,7 @@ export function AdminMediaFilters({
           ? { key: "status", label: `Status: ${STATUS_COPY[statusFilter]}` }
           : null,
       ].filter((filter): filter is { key: string; label: string } => Boolean(filter)),
-    [serviceFilter, statusFilter, subCategoryFilter],
+    [libraryFilter, serviceFilter, statusFilter, subCategoryFilter],
   );
   const activeFilterCount = activeFilters.length;
 
@@ -114,6 +132,13 @@ export function AdminMediaFilters({
       return;
     }
 
+    if (key === "library") {
+      onLibraryFilterChange("all");
+      onServiceFilterChange("all");
+      onSubCategoryFilterChange("all");
+      return;
+    }
+
     if (key === "subCategory") {
       onSubCategoryFilterChange("all");
       return;
@@ -125,6 +150,7 @@ export function AdminMediaFilters({
   }
 
   function clearAllFilters() {
+    onLibraryFilterChange("all");
     onServiceFilterChange("all");
     onSubCategoryFilterChange("all");
     onStatusFilterChange("all");
@@ -250,43 +276,90 @@ export function AdminMediaFilters({
               <div className="grid gap-4">
                 <label className="grid gap-2">
                   <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--text-muted)]">
-                    Service
+                    Library
                   </span>
                   <Select
-                    value={serviceFilter}
+                    value={libraryFilter}
                     onChange={(value) => {
-                      onServiceFilterChange((value ?? "all") as "all" | MediaService);
-                      onSubCategoryFilterChange("all");
+                      const nextLibrary = (value ?? "all") as LibraryFilter;
+                      onLibraryFilterChange(nextLibrary);
+                      if (nextLibrary === "site") {
+                        onServiceFilterChange("all");
+                        onSubCategoryFilterChange("all");
+                      }
                     }}
-                    data={serviceOptions}
+                    data={libraryOptions}
                     allowDeselect={false}
                     radius="sm"
                     comboboxProps={{ withinPortal: false, zIndex: 80 }}
                     styles={{
-                      input: { minHeight: "2.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem", fontWeight: 600 },
+                      input: {
+                        minHeight: "2.75rem",
+                        backgroundColor: "#ffffff",
+                        fontSize: "0.875rem",
+                        fontWeight: 600,
+                      },
                     }}
                   />
                 </label>
 
-                <label className="grid gap-2">
-                  <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--text-muted)]">
-                    Sub-category
-                  </span>
-                  <Select
-                    value={subCategoryFilter}
-                    onChange={(value) =>
-                      onSubCategoryFilterChange((value ?? "all") as "all" | MediaSubCategory)
-                    }
-                    data={subCategoryOptions}
-                    disabled={serviceFilter === "all"}
-                    allowDeselect={false}
-                    radius="sm"
-                    comboboxProps={{ withinPortal: false, zIndex: 80 }}
-                    styles={{
-                      input: { minHeight: "2.75rem", backgroundColor: "#ffffff", fontSize: "0.875rem", fontWeight: 600 },
-                    }}
-                  />
-                </label>
+                {libraryFilter !== "site" && (
+                  <>
+                    <label className="grid gap-2">
+                      <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--text-muted)]">
+                        Service
+                      </span>
+                      <Select
+                        value={serviceFilter}
+                        onChange={(value) => {
+                          onServiceFilterChange(
+                            (value ?? "all") as "all" | MediaService,
+                          );
+                          onSubCategoryFilterChange("all");
+                        }}
+                        data={serviceOptions}
+                        allowDeselect={false}
+                        radius="sm"
+                        comboboxProps={{ withinPortal: false, zIndex: 80 }}
+                        styles={{
+                          input: {
+                            minHeight: "2.75rem",
+                            backgroundColor: "#ffffff",
+                            fontSize: "0.875rem",
+                            fontWeight: 600,
+                          },
+                        }}
+                      />
+                    </label>
+
+                    <label className="grid gap-2">
+                      <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--text-muted)]">
+                        Sub-category
+                      </span>
+                      <Select
+                        value={subCategoryFilter}
+                        onChange={(value) =>
+                          onSubCategoryFilterChange(
+                            (value ?? "all") as "all" | MediaSubCategory,
+                          )
+                        }
+                        data={subCategoryOptions}
+                        disabled={serviceFilter === "all"}
+                        allowDeselect={false}
+                        radius="sm"
+                        comboboxProps={{ withinPortal: false, zIndex: 80 }}
+                        styles={{
+                          input: {
+                            minHeight: "2.75rem",
+                            backgroundColor: "#ffffff",
+                            fontSize: "0.875rem",
+                            fontWeight: 600,
+                          },
+                        }}
+                      />
+                    </label>
+                  </>
+                )}
 
                 <div className="grid gap-2">
                   <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--text-muted)]">

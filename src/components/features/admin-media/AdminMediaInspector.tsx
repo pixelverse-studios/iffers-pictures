@@ -6,11 +6,13 @@ import Link from "next/link";
 import { Archive, Copy, ExternalLink, FileImage, Loader2, RotateCcw, X } from "lucide-react";
 import {
   MEDIA_ASPECT_RATIOS,
+  MEDIA_LIBRARIES,
   MEDIA_SERVICES,
   MEDIA_STATUSES,
   MEDIA_SUB_CATEGORIES,
   type AdminMediaItem,
   type MediaAspectRatio,
+  type MediaLibrary,
   type MediaService,
   type MediaStatus,
   type MediaSubCategory,
@@ -19,7 +21,7 @@ import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { STATUS_COPY } from "./constants";
 import { StatusPill } from "./StatusPill";
 import type { BatchArchiveFeedback, EditorState, MediaPlacementUsage } from "./types";
-import { formatDate } from "./utils";
+import { formatDate, getMediaCategoryLabel, getMediaLibrary } from "./utils";
 
 interface AdminMediaInspectorProps {
   affectedPages: string[];
@@ -157,6 +159,14 @@ export function AdminMediaInspector({
     value: status,
     label: STATUS_COPY[status],
   }));
+  const libraryOptions = MEDIA_LIBRARIES.map((library) => ({
+    value: library,
+    label: library === "site" ? "Site Images" : "Portfolio",
+  }));
+  const publishBlockedMessage =
+    editor.library === "site"
+      ? "Add alt text, site category, and aspect ratio before publishing."
+      : "Add alt text, service, sub-category, and aspect ratio before publishing.";
 
   return (
     <aside className={activeTrayClass}>
@@ -193,6 +203,9 @@ export function AdminMediaInspector({
 
           <div className="flex flex-wrap items-center gap-2">
             <StatusPill status={item.status} />
+            <span className="rounded-sm bg-[var(--background-warm)] px-2 py-1 text-xs font-bold text-[var(--text-secondary)]">
+              {getMediaLibrary(item) === "site" ? "Site Images" : "Portfolio"}
+            </span>
             <span className="text-xs text-[var(--text-muted)]">
               Updated {formatDate(item.updatedAt)}
             </span>
@@ -255,6 +268,23 @@ export function AdminMediaInspector({
             }}
           />
 
+          <Select
+            label="Library"
+            value={editor.library}
+            onChange={(value) =>
+              onUpdateEditor("library", (value ?? editor.library) as MediaLibrary)
+            }
+            data={libraryOptions}
+            disabled={archivedLocked}
+            allowDeselect={false}
+            radius="sm"
+            styles={{
+              label: { fontWeight: 700 },
+              input: { backgroundColor: "#ffffff", fontSize: "0.875rem" },
+            }}
+          />
+
+          {editor.library === "portfolio" && (
           <div className="grid grid-cols-2 gap-3">
             <Select
               label="Service"
@@ -287,6 +317,7 @@ export function AdminMediaInspector({
               }}
             />
           </div>
+          )}
 
           <div className="grid grid-cols-2 gap-3">
             <Select
@@ -334,7 +365,7 @@ export function AdminMediaInspector({
             />
             {publishBlocked && (
               <span className="mt-2 block text-xs font-semibold text-red-700">
-                Add alt text, service, sub-category, and aspect ratio before publishing.
+                {publishBlockedMessage}
               </span>
             )}
           </div>
@@ -379,6 +410,9 @@ export function AdminMediaInspector({
             <div className="space-y-2 border-t border-[var(--border)] p-3 text-xs text-[var(--text-secondary)]">
               <p className="break-all">
                 <strong>Key:</strong> {item.key}
+              </p>
+              <p>
+                <strong>Category:</strong> {getMediaCategoryLabel(item)}
               </p>
               <p>
                 <strong>ID:</strong> {item.id}

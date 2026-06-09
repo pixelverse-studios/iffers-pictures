@@ -31,6 +31,10 @@ export const MEDIA_ASPECT_RATIOS = [
 
 export const MEDIA_STATUSES = ["draft", "published", "archived"] as const;
 
+export const MEDIA_LIBRARIES = ["portfolio", "site"] as const;
+
+export const MEDIA_SITE_CATEGORIES = ["Home", "About", "Brand", "Misc"] as const;
+
 export const MEDIA_PLACEMENT_SLOT_KEYS = [
   "home.hero",
   "home.strip.1",
@@ -38,7 +42,14 @@ export const MEDIA_PLACEMENT_SLOT_KEYS = [
   "home.meet_jenn",
   "home.quote_image",
   "about.hero",
+  "about.beyond_camera",
   "services.hero",
+  "services.card.events",
+  "services.card.family",
+  "services.card.maternity",
+  "services.card.couples-engagement",
+  "services.card.portrait",
+  "services.card.custom_request",
   "services.events.hero",
   "services.family.hero",
   "services.maternity.hero",
@@ -100,10 +111,66 @@ export const IFFERS_MEDIA_PLACEMENT_SLOTS = [
     affectedPaths: ["/about"],
   },
   {
+    slotKey: "about.beyond_camera",
+    pageLabel: "About",
+    sectionLabel: "Beyond the Camera",
+    description: "Image used beside the Beyond the Camera section on the about page.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/about"],
+  },
+  {
     slotKey: "services.hero",
     pageLabel: "Services",
     sectionLabel: "Hero",
     description: "Primary services overview hero image.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/services"],
+  },
+  {
+    slotKey: "services.card.events",
+    pageLabel: "Services",
+    sectionLabel: "Events Card",
+    description: "Image used for the Events card on the services page.",
+    expectedAspectRatios: ["landscape"],
+    affectedPaths: ["/services"],
+  },
+  {
+    slotKey: "services.card.family",
+    pageLabel: "Services",
+    sectionLabel: "Family Card",
+    description: "Image used for the Family card on the services page.",
+    expectedAspectRatios: ["landscape"],
+    affectedPaths: ["/services"],
+  },
+  {
+    slotKey: "services.card.maternity",
+    pageLabel: "Services",
+    sectionLabel: "Maternity Card",
+    description: "Image used for the Maternity card on the services page.",
+    expectedAspectRatios: ["landscape"],
+    affectedPaths: ["/services"],
+  },
+  {
+    slotKey: "services.card.couples-engagement",
+    pageLabel: "Services",
+    sectionLabel: "Couples & Engagement Card",
+    description: "Image used for the Couples & Engagement card on the services page.",
+    expectedAspectRatios: ["landscape"],
+    affectedPaths: ["/services"],
+  },
+  {
+    slotKey: "services.card.portrait",
+    pageLabel: "Services",
+    sectionLabel: "Portrait Card",
+    description: "Image used for the Portrait card on the services page.",
+    expectedAspectRatios: ["landscape"],
+    affectedPaths: ["/services"],
+  },
+  {
+    slotKey: "services.card.custom_request",
+    pageLabel: "Services",
+    sectionLabel: "Custom Request Card",
+    description: "Image used for the Custom Request card on the services page.",
     expectedAspectRatios: ["landscape", "portrait"],
     affectedPaths: ["/services"],
   },
@@ -200,6 +267,8 @@ export const MEDIA_UPLOAD_CONTENT_TYPES = [
 export type MediaService = (typeof MEDIA_SERVICES)[number];
 export type MediaAspectRatio = (typeof MEDIA_ASPECT_RATIOS)[number];
 export type MediaStatus = (typeof MEDIA_STATUSES)[number];
+export type MediaLibrary = (typeof MEDIA_LIBRARIES)[number];
+export type MediaSiteCategory = (typeof MEDIA_SITE_CATEGORIES)[number];
 export type RestorableMediaStatus = Exclude<MediaStatus, "archived">;
 export type MediaPlacementSlotKey = (typeof MEDIA_PLACEMENT_SLOT_KEYS)[number];
 export type MediaRevalidationReason =
@@ -225,6 +294,8 @@ export interface PublicMediaItem {
   filename: string;
   src: string;
   alt: string;
+  library?: MediaLibrary;
+  siteCategory?: MediaSiteCategory | null;
   service: MediaService;
   subCategory: MediaSubCategory;
   aspectRatio: MediaAspectRatio;
@@ -238,6 +309,8 @@ export interface AdminMediaItem {
   filename: string;
   src: string;
   alt: string;
+  library?: MediaLibrary;
+  siteCategory: MediaSiteCategory | null;
   service: MediaService | null;
   subCategory: MediaSubCategory | null;
   aspectRatio: MediaAspectRatio | null;
@@ -276,6 +349,8 @@ export interface AdminPlacementMedia {
   filename: string;
   src: string;
   alt: string;
+  library?: MediaLibrary;
+  siteCategory: MediaSiteCategory | null;
   service: MediaService | null;
   subCategory: MediaSubCategory | null;
   aspectRatio: MediaAspectRatio | null;
@@ -354,6 +429,8 @@ export interface CreateDraftMediaItemRequest {
   filename?: string;
   src?: string;
   alt?: string;
+  library?: MediaLibrary;
+  siteCategory?: MediaSiteCategory | null;
   service?: MediaService | null;
   subCategory?: MediaSubCategory | null;
   aspectRatio?: MediaAspectRatio | null;
@@ -362,6 +439,8 @@ export interface CreateDraftMediaItemRequest {
 
 export interface PatchMediaItemRequest {
   alt?: string;
+  library?: MediaLibrary;
+  siteCategory?: MediaSiteCategory | null;
   service?: MediaService | null;
   subCategory?: MediaSubCategory | null;
   aspectRatio?: MediaAspectRatio | null;
@@ -486,6 +565,14 @@ export function isMediaAspectRatio(value: unknown): value is MediaAspectRatio {
 
 export function isMediaStatus(value: unknown): value is MediaStatus {
   return MEDIA_STATUSES.includes(value as MediaStatus);
+}
+
+export function isMediaLibrary(value: unknown): value is MediaLibrary {
+  return MEDIA_LIBRARIES.includes(value as MediaLibrary);
+}
+
+export function isMediaSiteCategory(value: unknown): value is MediaSiteCategory {
+  return MEDIA_SITE_CATEGORIES.includes(value as MediaSiteCategory);
 }
 
 export function isMediaPlacementSlotKey(

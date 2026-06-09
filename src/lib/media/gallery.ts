@@ -55,6 +55,16 @@ const SERVICE_HERO_PLACEMENT_SLOT_MAP: Partial<
   portrait: "services.portrait.hero",
 };
 
+const SERVICE_CARD_PLACEMENT_SLOT_MAP: Partial<
+  Record<string, MediaPlacementSlotKey>
+> = {
+  events: "services.card.events",
+  family: "services.card.family",
+  maternity: "services.card.maternity",
+  "couples-engagement": "services.card.couples-engagement",
+  portrait: "services.card.portrait",
+};
+
 export interface PinnedMediaFallback {
   id?: number;
   key?: string;
@@ -66,6 +76,13 @@ export function toPublicGalleryItems(
   items: PublicMediaItem[]
 ): PublicGalleryItem[] {
   return [...items]
+    .filter(
+      (item) =>
+        item.library !== "site" &&
+        Boolean(item.service) &&
+        Boolean(item.subCategory) &&
+        Boolean(item.aspectRatio)
+    )
     .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
     .map(({ id, src, alt, service, subCategory, aspectRatio }) => ({
       id,
@@ -114,6 +131,12 @@ export function getServiceHeroPlacementSlotKey(
   serviceSlug: string
 ): MediaPlacementSlotKey | undefined {
   return SERVICE_HERO_PLACEMENT_SLOT_MAP[serviceSlug];
+}
+
+export function getServiceCardPlacementSlotKey(
+  serviceSlug: string
+): MediaPlacementSlotKey | undefined {
+  return SERVICE_CARD_PLACEMENT_SLOT_MAP[serviceSlug];
 }
 
 export function getPortfolioForServiceFromItems(

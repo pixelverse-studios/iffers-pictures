@@ -23,19 +23,26 @@ import {
   MEDIA_SUB_CATEGORIES,
   type AdminMediaPlacementSlot,
   type AdminMediaItem,
+  type MediaLibrary,
   type MediaAdminSession,
   type MediaPlacementSlotKey,
   type MediaService,
+  type MediaSiteCategory,
   type MediaSubCategory,
 } from "@/lib/media/types";
 import { AdminMediaLibrary } from "./AdminMediaLibrary";
 import { AdminMediaLogin } from "./AdminMediaLogin";
-import { FRIENDLY_ERRORS, getFolderForCategory } from "./constants";
+import {
+  FRIENDLY_ERRORS,
+  getFolderForCategory,
+  getFolderForSiteCategory,
+} from "./constants";
 import type {
   AuthState,
   BatchArchiveFailure,
   BatchArchiveFeedback,
   EditorState,
+  LibraryFilter,
   SortMode,
   StatusFilter,
   UploadQueueItem,
@@ -47,6 +54,7 @@ import {
   getErrorCode,
   getFriendlyError,
   getImageAspectRatio,
+  getSafeUploadFilename,
   getUploadValidationMessage,
   getInitialEditorState,
   getStatusCounts,
@@ -54,6 +62,7 @@ import {
 } from "./utils";
 
 const MAX_BATCH_ARCHIVE_ITEMS = 50;
+const DEFAULT_SITE_CATEGORY: MediaSiteCategory = "Misc";
 
 export function AdminMediaManager() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -75,6 +84,7 @@ export function AdminMediaManager() {
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(false);
   const [catalogError, setCatalogError] = useState("");
   const [notice, setNotice] = useState("");
+  const [libraryFilter, setLibraryFilter] = useState<LibraryFilter>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [serviceFilter, setServiceFilter] = useState<"all" | MediaService>("all");
   const [subCategoryFilter, setSubCategoryFilter] =
@@ -90,6 +100,7 @@ export function AdminMediaManager() {
     boolean | null
   >(null);
   const [isCheckingMove, setIsCheckingMove] = useState(false);
+  const [uploadLibrary, setUploadLibrary] = useState<MediaLibrary>("portfolio");
   const [uploadService, setUploadService] = useState<MediaService>("Events");
   const [uploadSubCategory, setUploadSubCategory] =
     useState<MediaSubCategory>("Baby Shower");
@@ -125,13 +136,22 @@ export function AdminMediaManager() {
     () =>
       filterItems({
         items,
+        library: libraryFilter,
         status: statusFilter,
         service: serviceFilter,
         subCategory: subCategoryFilter,
         query,
         sort: sortMode,
       }),
-    [items, query, serviceFilter, sortMode, statusFilter, subCategoryFilter],
+    [
+      items,
+      libraryFilter,
+      query,
+      serviceFilter,
+      sortMode,
+      statusFilter,
+      subCategoryFilter,
+    ],
   );
 
   const serviceSubCategories =
@@ -273,6 +293,29 @@ export function AdminMediaManager() {
     setEditor((current) => {
       if (!current) return current;
 
+      if (key === "library") {
+        const nextLibrary = value as MediaLibrary;
+        if (nextLibrary === "site") {
+          return {
+            ...current,
+            library: "site",
+            siteCategory: DEFAULT_SITE_CATEGORY,
+            service: "",
+            subCategory: "",
+          };
+        }
+
+        return {
+          ...current,
+          library: "portfolio",
+          siteCategory: "",
+          service: current.service || "Events",
+          subCategory:
+            current.subCategory ||
+            MEDIA_SUB_CATEGORIES[current.service || "Events"][0],
+        };
+      }
+
       if (key === "service") {
         const nextService = value as MediaService | "";
         const nextSubCategory =
@@ -296,7 +339,11 @@ export function AdminMediaManager() {
     }
 
     if (nextEditor.status === "published" && !canPublish(nextEditor)) {
-      setNotice("Complete alt text, service, sub-category, and aspect ratio before publishing.");
+      setNotice(
+        nextEditor.library === "site"
+          ? "Complete alt text, site category, and aspect ratio before publishing."
+          : "Complete alt text, service, sub-category, and aspect ratio before publishing.",
+      );
       return;
     }
 
@@ -306,8 +353,13 @@ export function AdminMediaManager() {
     try {
       const updated = await patchMediaItem(selectedItem.id, {
         alt: nextEditor.alt,
-        service: nextEditor.service || null,
-        subCategory: nextEditor.subCategory || null,
+        library: nextEditor.library,
+        siteCategory: nextEditor.library === "site" ? DEFAULT_SITE_CATEGORY : null,
+        service: nextEditor.library === "portfolio" ? nextEditor.service || null : null,
+        subCategory:
+          nextEditor.library === "portfolio"
+            ? nextEditor.subCategory || null
+            : null,
         aspectRatio: nextEditor.aspectRatio || null,
         status: nextEditor.status,
         sortOrder: Number(nextEditor.sortOrder) || 0,
@@ -568,8 +620,10 @@ export function AdminMediaManager() {
       return {
         id: `${file.name}-${file.lastModified}-${crypto.randomUUID()}`,
         file,
-        service: uploadService,
-        subCategory: uploadSubCategory,
+        library: uploadLibrary,
+        siteCategory: uploadLibrary === "site" ? DEFAULT_SITE_CATEGORY : "",
+        service: uploadLibrary === "portfolio" ? uploadService : "",
+        subCategory: uploadLibrary === "portfolio" ? uploadSubCategory : "",
         status: validationMessage ? "error" : "queued",
         progress: 0,
         message: validationMessage || "Ready",
@@ -586,10 +640,32 @@ export function AdminMediaManager() {
 
   function updateUploadItemTarget(
     id: string,
-    service: MediaService,
-    subCategory: MediaSubCategory,
+    target:
+      | {
+          library: "portfolio";
+          service: MediaService;
+          subCategory: MediaSubCategory;
+        }
+      | {
+          library: "site";
+        },
   ) {
-    setUploadItem(id, { service, subCategory });
+    setUploadItem(
+      id,
+      target.library === "site"
+        ? {
+            library: "site",
+            siteCategory: DEFAULT_SITE_CATEGORY,
+            service: "",
+            subCategory: "",
+          }
+        : {
+            library: "portfolio",
+            siteCategory: "",
+            service: target.service,
+            subCategory: target.subCategory,
+          },
+    );
   }
 
   function setUploadItem(id: string, patch: Partial<UploadQueueItem>) {
@@ -616,7 +692,25 @@ export function AdminMediaManager() {
           throw new Error("JPEG, PNG, or WebP only");
         }
 
-        const folder = getFolderForCategory(queueItem.service, queueItem.subCategory);
+        let folder: string;
+        let siteCategory: MediaSiteCategory | null = null;
+        let service: MediaService | null = null;
+        let subCategory: MediaSubCategory | null = null;
+
+        if (queueItem.library === "site") {
+          if (!queueItem.siteCategory) {
+            throw new Error("Choose a site image category before uploading.");
+          }
+          siteCategory = queueItem.siteCategory;
+          folder = getFolderForSiteCategory(siteCategory);
+        } else {
+          if (!queueItem.service || !queueItem.subCategory) {
+            throw new Error("Choose a portfolio category before uploading.");
+          }
+          service = queueItem.service;
+          subCategory = queueItem.subCategory;
+          folder = getFolderForCategory(service, subCategory);
+        }
 
         setUploadItem(queueItem.id, {
           status: "uploading",
@@ -624,9 +718,10 @@ export function AdminMediaManager() {
           message: "Requesting upload URL",
         });
 
+        const uploadFilename = getSafeUploadFilename(queueItem.file);
         const aspectRatio = await getImageAspectRatio(queueItem.file);
         const presign = await presignMediaUpload({
-          filename: queueItem.file.name,
+          filename: uploadFilename,
           content_type: queueItem.file.type,
           folder,
           size: queueItem.file.size,
@@ -648,11 +743,13 @@ export function AdminMediaManager() {
         });
         const draft = await createDraftMediaItem({
           key: presign.r2_key,
-          filename: queueItem.file.name,
+          filename: uploadFilename,
           src: presign.public_url,
           alt: "",
-          service: queueItem.service,
-          subCategory: queueItem.subCategory,
+          library: queueItem.library,
+          siteCategory,
+          service,
+          subCategory,
           aspectRatio,
           sortOrder: startingSortOrder + index,
         });
@@ -748,6 +845,42 @@ export function AdminMediaManager() {
     }
   }
 
+  function handleLibraryFilterChange(value: LibraryFilter) {
+    setLibraryFilter(value);
+    if (value === "site") {
+      setServiceFilter("all");
+      setSubCategoryFilter("all");
+    }
+  }
+
+  function handleServiceFilterChange(value: "all" | MediaService) {
+    setServiceFilter(value);
+    if (value !== "all") setLibraryFilter("portfolio");
+  }
+
+  function handleSubCategoryFilterChange(value: "all" | MediaSubCategory) {
+    setSubCategoryFilter(value);
+    if (value !== "all") setLibraryFilter("portfolio");
+  }
+
+  function handleUploadTargetChange(
+    target:
+      | {
+          library: "portfolio";
+          service: MediaService;
+          subCategory: MediaSubCategory;
+        }
+      | {
+          library: "site";
+        },
+  ) {
+    setUploadLibrary(target.library);
+    if (target.library === "portfolio") {
+      setUploadService(target.service);
+      setUploadSubCategory(target.subCategory);
+    }
+  }
+
   if (authState === "checking") {
     return (
       <main className="grid min-h-screen place-items-center bg-[var(--background)] px-6">
@@ -806,6 +939,7 @@ export function AdminMediaManager() {
       selectedId={selectedId}
       selectedItem={selectedItem}
       selectedPlacementUsages={selectedPlacementUsages}
+      libraryFilter={libraryFilter}
       serviceFilter={serviceFilter}
       serviceSubCategories={serviceSubCategories}
       session={session}
@@ -813,6 +947,7 @@ export function AdminMediaManager() {
       statusFilter={statusFilter}
       subCategoryFilter={subCategoryFilter}
       uploadQueue={uploadQueue}
+      uploadLibrary={uploadLibrary}
       uploadReadyCount={uploadReadyCount}
       uploadService={uploadService}
       uploadSubCategory={uploadSubCategory}
@@ -840,21 +975,19 @@ export function AdminMediaManager() {
       onRemoveUpload={removeUpload}
       onRestore={() => void restoreSelected()}
       onSave={() => void saveEditor()}
+      onLibraryFilterChange={handleLibraryFilterChange}
       onSearchChange={setQuery}
       onSelectedIdChange={selectSingleItem}
-      onServiceFilterChange={setServiceFilter}
+      onServiceFilterChange={handleServiceFilterChange}
       onSortModeChange={setSortMode}
       onStatusFilterChange={setStatusFilter}
-      onSubCategoryFilterChange={setSubCategoryFilter}
+      onSubCategoryFilterChange={handleSubCategoryFilterChange}
       onPlacementPickerSlotChange={setActivePlacementPickerSlotKey}
       onTriggerRevalidate={triggerRevalidate}
       onUpdateEditor={updateEditor}
       onUploadDrafts={uploadDrafts}
       onUpdateUploadItemTarget={updateUploadItemTarget}
-      onUploadTargetChange={(service, subCategory) => {
-        setUploadService(service);
-        setUploadSubCategory(subCategory);
-      }}
+      onUploadTargetChange={handleUploadTargetChange}
     />
   );
 }
