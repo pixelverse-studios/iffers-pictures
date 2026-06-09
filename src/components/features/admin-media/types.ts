@@ -2,6 +2,7 @@ import type {
   AdminMediaItem,
   MediaAspectRatio,
   MediaLibrary,
+  MediaCropPosition,
   MediaPlacementSlotKey,
   MediaService,
   MediaSiteCategory,
@@ -24,6 +25,7 @@ export interface EditorState {
   service: MediaService | "";
   subCategory: MediaSubCategory | "";
   aspectRatio: MediaAspectRatio | "";
+  cropPosition: MediaCropPosition;
   status: MediaStatus;
   sortOrder: string;
 }

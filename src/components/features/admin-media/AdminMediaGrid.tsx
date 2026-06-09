@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ArrowUpDown, Check, FileImage } from "lucide-react";
+import { getMediaAspectRatio } from "@/lib/media/aspect-ratio";
 import type { AdminMediaItem } from "@/lib/media/types";
 import { StatusPill } from "./StatusPill";
 import { getMediaCategoryLabel, getMediaLibrary } from "./utils";
@@ -54,6 +55,7 @@ export function AdminMediaGrid({
       {items.map((item) => {
         const canBatchArchive = item.status === "published";
         const isArchiveSelected = archiveSelectionSet.has(item.id);
+        const aspectRatio = getMediaAspectRatio(item);
 
         return (
           <article
@@ -116,7 +118,7 @@ export function AdminMediaGrid({
                     {getMediaLibrary(item) === "site" ? "site" : "portfolio"}
                   </span>
                   <span className="text-xs text-[var(--text-muted)]">
-                    {item.aspectRatio ?? "unset"}
+                    {aspectRatio ?? "unset"}
                   </span>
                 </div>
                 <p className="truncate text-xs text-[var(--text-secondary)]">

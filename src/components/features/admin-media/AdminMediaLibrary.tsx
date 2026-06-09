@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState, type RefObject } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import type {
   AdminMediaPlacementSlot,
   AdminMediaItem,
@@ -214,6 +215,8 @@ export function AdminMediaLibrary({
   const [viewMode, setViewMode] = useState<AdminMediaViewMode>("library");
   const [placementPageFilter, setPlacementPageFilter] =
     useState<PlacementPageFilter>("all");
+  const [uploadPanelOpen, setUploadPanelOpen] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
   const placementPageOptions = useMemo(
     () =>
       Array.from(
@@ -235,9 +238,22 @@ export function AdminMediaLibrary({
             : libraryFilter === "portfolio"
               ? "Portfolio"
               : "All Media";
+  const hasInspector =
+    uploadPanelOpen ||
+    Boolean(selectedItem) ||
+    selectedBatchItems.length > 1 ||
+    Boolean(batchArchiveFeedback);
+  const inspectorWidth = "clamp(540px, 42vw, 680px)";
+  const inspectorTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : {
+        width: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
+        opacity: { duration: 0.18, ease: "easeOut" },
+      };
 
   function handleViewModeChange(mode: AdminMediaViewMode) {
     setViewMode(mode);
+    setUploadPanelOpen(false);
     if (mode === "library") {
       onPlacementPickerSlotChange(null);
     }
@@ -245,7 +261,29 @@ export function AdminMediaLibrary({
 
   function handlePlacementPageFilterChange(value: PlacementPageFilter) {
     setPlacementPageFilter(value);
+    setUploadPanelOpen(false);
     onPlacementPickerSlotChange(null);
+  }
+
+  function openUploadPanel() {
+    onClearArchiveSelection();
+    onSelectedIdChange(null);
+    setUploadPanelOpen(true);
+  }
+
+  function handleFilesSelected(files: File[]) {
+    setUploadPanelOpen(true);
+    onFilesSelected(files);
+  }
+
+  function handleMediaSelect(id: number) {
+    setUploadPanelOpen(false);
+    onSelectedIdChange(id);
+  }
+
+  function handleArchiveSelectionToggle(id: number) {
+    setUploadPanelOpen(false);
+    onArchiveSelectionToggle(id);
   }
 
   return (
@@ -293,13 +331,14 @@ export function AdminMediaLibrary({
           onViewModeChange={handleViewModeChange}
         />
 
-        <section className="grid min-w-0 lg:min-h-0 lg:overflow-hidden xl:grid-cols-[1fr_360px]">
+        <section className="grid min-w-0 lg:min-h-0 lg:overflow-hidden xl:grid-cols-[minmax(0,1fr)_auto]">
           <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto">
             <AdminMediaHeader
               counts={counts}
               fileInputRef={fileInputRef}
               isRevalidating={isRevalidating}
-              onFilesSelected={onFilesSelected}
+              onFilesSelected={handleFilesSelected}
+              onOpenUpload={openUploadPanel}
               onTriggerRevalidate={onTriggerRevalidate}
             />
 
@@ -330,33 +369,13 @@ export function AdminMediaLibrary({
                     onSubCategoryFilterChange={onSubCategoryFilterChange}
                   />
 
-                  <AdminMediaUploadPanel
-                    fileInputRef={fileInputRef}
-                    isUploading={isUploading}
-                    uploadLibrary={uploadLibrary}
-                    uploadReadyCount={uploadReadyCount}
-                    uploadService={uploadService}
-                    uploadSubCategory={uploadSubCategory}
-                    onFilesSelected={onFilesSelected}
-                    onUploadDrafts={onUploadDrafts}
-                    onUploadTargetChange={onUploadTargetChange}
-                  />
-
-                  {uploadQueue.length > 0 && (
-                    <AdminMediaUploadQueue
-                      items={uploadQueue}
-                      onRemoveUpload={onRemoveUpload}
-                      onUpdateUploadItemTarget={onUpdateUploadItemTarget}
-                    />
-                  )}
-
                   <AdminMediaGrid
                     archiveSelectionIds={archiveSelectionIds}
                     items={filteredItems}
                     isLoading={isLoadingCatalog}
                     selectedId={selectedId}
-                    onArchiveSelectionToggle={onArchiveSelectionToggle}
-                    onSelect={onSelectedIdChange}
+                    onArchiveSelectionToggle={handleArchiveSelectionToggle}
+                    onSelect={handleMediaSelect}
                   />
                 </>
               ) : (
@@ -371,41 +390,107 @@ export function AdminMediaLibrary({
                   onAssign={onAssignPlacement}
                   onClear={onClearPlacement}
                   onPickerSlotChange={onPlacementPickerSlotChange}
-                  onSelectMedia={onSelectedIdChange}
+                  onSelectMedia={handleMediaSelect}
                 />
               )}
             </div>
           </div>
 
-          <AdminMediaInspector
-            affectedPages={affectedPages}
-            canMove={canMove}
-            editor={editor}
-            isCheckingMove={isCheckingMove}
-            isBatchArchiving={isBatchArchiving}
-            isMoving={isMoving}
-            isSaving={isSaving}
-            item={selectedItem}
-            moveDestinationAvailable={moveDestinationAvailable}
-            moveKey={moveKey}
-            moveMessage={moveMessage}
-            publishBlocked={publishBlocked}
-            selectedBatchItems={selectedBatchItems}
-            batchArchiveFeedback={batchArchiveFeedback}
-            placementUsages={selectedPlacementUsages}
-            onArchive={onArchive}
-            onArchiveSelected={onArchiveSelected}
-            onCheckDestination={onCheckDestination}
-            onClose={() => onSelectedIdChange(null)}
-            onClearArchiveSelection={onClearArchiveSelection}
-            onEditSelectedItem={onEditSelectedArchiveItem}
-            onMove={onMove}
-            onMoveKeyChange={onMoveKeyChange}
-            onRemoveArchiveSelectionItem={onArchiveSelectionToggle}
-            onRestore={onRestore}
-            onSave={onSave}
-            onUpdateEditor={onUpdateEditor}
-          />
+          <AnimatePresence initial={false}>
+            {hasInspector && (
+              <motion.div
+                key="admin-media-inspector"
+                className="min-w-0 overflow-hidden"
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: inspectorWidth, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={inspectorTransition}
+              >
+                <div style={{ width: inspectorWidth }}>
+                  {uploadPanelOpen ? (
+                    <aside className="fixed inset-0 z-50 overflow-y-auto bg-white xl:static xl:z-auto xl:h-[100dvh] xl:border-l xl:border-[var(--border)]">
+                      <div className="mx-auto w-full max-w-5xl space-y-5 p-5 md:p-7 xl:max-w-none xl:p-5">
+                        <div className="flex items-center justify-between gap-3">
+                          <div>
+                            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-strong)]">
+                              Selected media
+                            </p>
+                            <h2 className="mt-1 font-heading text-2xl font-semibold">
+                              Upload media
+                            </h2>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setUploadPanelOpen(false)}
+                            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-[var(--border)]"
+                            aria-label="Close upload panel"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+
+                        <AdminMediaUploadPanel
+                          fileInputRef={fileInputRef}
+                          isUploading={isUploading}
+                          uploadLibrary={uploadLibrary}
+                          uploadReadyCount={uploadReadyCount}
+                          uploadService={uploadService}
+                          uploadSubCategory={uploadSubCategory}
+                          onFilesSelected={handleFilesSelected}
+                          onUploadDrafts={onUploadDrafts}
+                          onUploadTargetChange={onUploadTargetChange}
+                        />
+
+                        {uploadQueue.length > 0 && (
+                          <AdminMediaUploadQueue
+                            items={uploadQueue}
+                            onRemoveUpload={onRemoveUpload}
+                            onUpdateUploadItemTarget={onUpdateUploadItemTarget}
+                          />
+                        )}
+                      </div>
+                    </aside>
+                  ) : (
+                    <AdminMediaInspector
+                    affectedPages={affectedPages}
+                    canMove={canMove}
+                    editor={editor}
+                    isCheckingMove={isCheckingMove}
+                    isBatchArchiving={isBatchArchiving}
+                    isMoving={isMoving}
+                    isSaving={isSaving}
+                    item={selectedItem}
+                    moveDestinationAvailable={moveDestinationAvailable}
+                    moveKey={moveKey}
+                    moveMessage={moveMessage}
+                    publishBlocked={publishBlocked}
+                    selectedBatchItems={selectedBatchItems}
+                    batchArchiveFeedback={batchArchiveFeedback}
+                    placementUsages={selectedPlacementUsages}
+                    onArchive={onArchive}
+                    onArchiveSelected={onArchiveSelected}
+                    onCheckDestination={onCheckDestination}
+                    onClose={() => {
+                      if (archiveSelectionIds.length > 0) {
+                        onClearArchiveSelection();
+                        return;
+                      }
+                      onSelectedIdChange(null);
+                    }}
+                    onClearArchiveSelection={onClearArchiveSelection}
+                    onEditSelectedItem={onEditSelectedArchiveItem}
+                    onMove={onMove}
+                    onMoveKeyChange={onMoveKeyChange}
+                    onRemoveArchiveSelectionItem={onArchiveSelectionToggle}
+                    onRestore={onRestore}
+                    onSave={onSave}
+                    onUpdateEditor={onUpdateEditor}
+                  />
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
       </div>
     </main>

@@ -51,9 +51,9 @@ export function AdminMediaUploadPanel({
     uploadLibrary === "site" ? "Site Images" : uploadSubCategory;
 
   return (
-    <section className="grid gap-4 border border-[var(--border)] bg-white p-4 lg:grid-cols-[1fr_280px]">
+    <section className="space-y-4 border border-[var(--border)] bg-white p-4">
       <div
-        className="flex min-h-52 flex-col items-center justify-center border border-dashed border-[var(--border)] bg-[var(--background-warm)] p-6 text-center"
+        className="flex min-h-64 flex-col items-center justify-center border border-dashed border-[var(--border)] bg-[var(--background-warm)] p-6 text-center"
         onDragOver={(event) => event.preventDefault()}
         onDrop={(event) => {
           event.preventDefault();

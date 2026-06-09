@@ -21,6 +21,7 @@ import {
   type MediaService,
   type MediaSiteCategory,
 } from "@/lib/media/types";
+import { getMediaAspectRatio } from "@/lib/media/aspect-ratio";
 import { StatusPill } from "./StatusPill";
 import type { PlacementPageFilter } from "./types";
 import { getMediaCategoryLabel, getMediaLibrary } from "./utils";
@@ -398,6 +399,7 @@ export function AdminMediaPlacements({
             <div className="mt-4 grid max-h-[45dvh] gap-3 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {publishedItems.map((item) => {
                 const isMutating = isMutatingSlotKey === activeSlot.slotKey;
+                const aspectRatio = getMediaAspectRatio(item);
                 return (
                   <button
                     key={item.id}
@@ -420,7 +422,7 @@ export function AdminMediaPlacements({
                       <div className="flex flex-wrap items-center gap-2">
                         <StatusPill status={item.status} />
                         <span className="text-xs text-[var(--text-muted)]">
-                          {item.aspectRatio ?? "unset"}
+                          {aspectRatio ?? "unset"}
                         </span>
                       </div>
                       <p className="truncate text-xs text-[var(--text-secondary)]">

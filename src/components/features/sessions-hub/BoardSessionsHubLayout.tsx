@@ -15,6 +15,7 @@ import {
   type PinnedMediaFallback,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 
 const CUSTOM_REQUEST_IMAGE = "/selfie.jpg";
@@ -56,6 +57,7 @@ function getSessionItems(
         image: {
           src: image.src,
           alt: image.alt,
+          cropPosition: image.cropPosition,
         },
       },
     ];
@@ -77,6 +79,10 @@ function getSessionItems(
     image: {
       src: customRequestImage.src,
       alt: customRequestImage.alt,
+      cropPosition:
+        "cropPosition" in customRequestImage
+          ? customRequestImage.cropPosition
+          : undefined,
     },
   });
 
@@ -191,6 +197,7 @@ export function BoardSessionsHubLayout({
                 priority
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="motion-image-zoom object-cover"
+                style={{ objectPosition: getMediaCropPosition(heroImage) }}
               />
             </div>
           )}

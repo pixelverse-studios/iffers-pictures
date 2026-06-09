@@ -35,6 +35,16 @@ export const MEDIA_LIBRARIES = ["portfolio", "site"] as const;
 
 export const MEDIA_SITE_CATEGORIES = ["Home", "About", "Brand", "Misc"] as const;
 
+export const MEDIA_CROP_POSITIONS = [
+  "left center",
+  "center top",
+  "center center",
+  "center bottom",
+  "right center",
+] as const;
+
+export const DEFAULT_MEDIA_CROP_POSITION = "center center" as const;
+
 export const MEDIA_PLACEMENT_SLOT_KEYS = [
   "home.hero",
   "home.strip.1",
@@ -269,6 +279,7 @@ export type MediaAspectRatio = (typeof MEDIA_ASPECT_RATIOS)[number];
 export type MediaStatus = (typeof MEDIA_STATUSES)[number];
 export type MediaLibrary = (typeof MEDIA_LIBRARIES)[number];
 export type MediaSiteCategory = (typeof MEDIA_SITE_CATEGORIES)[number];
+export type MediaCropPosition = (typeof MEDIA_CROP_POSITIONS)[number];
 export type RestorableMediaStatus = Exclude<MediaStatus, "archived">;
 export type MediaPlacementSlotKey = (typeof MEDIA_PLACEMENT_SLOT_KEYS)[number];
 export type MediaRevalidationReason =
@@ -299,8 +310,11 @@ export interface PublicMediaItem {
   service: MediaService;
   subCategory: MediaSubCategory;
   aspectRatio: MediaAspectRatio;
+  aspect_ratio?: MediaAspectRatio | null;
   status: "published";
   sortOrder: number;
+  cropPosition?: MediaCropPosition | null;
+  crop_position?: MediaCropPosition | null;
 }
 
 export interface AdminMediaItem {
@@ -314,8 +328,11 @@ export interface AdminMediaItem {
   service: MediaService | null;
   subCategory: MediaSubCategory | null;
   aspectRatio: MediaAspectRatio | null;
+  aspect_ratio?: MediaAspectRatio | null;
   status: MediaStatus;
   sortOrder: number;
+  cropPosition?: MediaCropPosition | null;
+  crop_position?: MediaCropPosition | null;
   createdAt: string;
   updatedAt: string;
   archivedAt: string | null;
@@ -354,7 +371,10 @@ export interface AdminPlacementMedia {
   service: MediaService | null;
   subCategory: MediaSubCategory | null;
   aspectRatio: MediaAspectRatio | null;
+  aspect_ratio?: MediaAspectRatio | null;
   status: MediaStatus;
+  cropPosition?: MediaCropPosition | null;
+  crop_position?: MediaCropPosition | null;
 }
 
 export interface PublicMediaPlacement {
@@ -434,7 +454,9 @@ export interface CreateDraftMediaItemRequest {
   service?: MediaService | null;
   subCategory?: MediaSubCategory | null;
   aspectRatio?: MediaAspectRatio | null;
+  aspect_ratio?: MediaAspectRatio | null;
   sortOrder?: number;
+  crop_position?: MediaCropPosition;
 }
 
 export interface PatchMediaItemRequest {
@@ -444,7 +466,9 @@ export interface PatchMediaItemRequest {
   service?: MediaService | null;
   subCategory?: MediaSubCategory | null;
   aspectRatio?: MediaAspectRatio | null;
+  aspect_ratio?: MediaAspectRatio | null;
   sortOrder?: number;
+  crop_position?: MediaCropPosition;
   status?: MediaStatus;
 }
 

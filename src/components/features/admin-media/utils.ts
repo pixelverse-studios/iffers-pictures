@@ -1,4 +1,6 @@
 import { MediaApiError } from "@/lib/media/errors";
+import { getMediaAspectRatio } from "@/lib/media/aspect-ratio";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import {
   MEDIA_STATUSES,
   MEDIA_SUB_CATEGORIES,
@@ -34,7 +36,8 @@ export function getInitialEditorState(item: AdminMediaItem): EditorState {
     siteCategory: library === "site" ? item.siteCategory ?? "Misc" : "",
     service: library === "portfolio" ? item.service ?? "" : "",
     subCategory: library === "portfolio" ? item.subCategory ?? "" : "",
-    aspectRatio: item.aspectRatio ?? "",
+    aspectRatio: getMediaAspectRatio(item) ?? "",
+    cropPosition: getMediaCropPosition(item),
     status: item.status,
     sortOrder: String(item.sortOrder ?? 0),
   };

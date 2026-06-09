@@ -1,3 +1,5 @@
+import type { MediaCropPosition } from "@/lib/media/types";
+
 /**
  * Portfolio data backed by Cloudflare R2 images.
  * Bucket: iffers-pictures (public)
@@ -41,6 +43,7 @@ export interface PortfolioItem {
   service: ServiceFilter;
   subCategory: SubCategory;
   aspectRatio: PortfolioAspect;
+  cropPosition?: MediaCropPosition;
 }
 
 export const PORTFOLIO_ITEMS: PortfolioItem[] = [

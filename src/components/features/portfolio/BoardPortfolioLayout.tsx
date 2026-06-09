@@ -29,6 +29,7 @@ import {
   getPlacementGalleryItem,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 
 type PortfolioBoardFilter = "All" | ServiceFilter;
@@ -114,6 +115,7 @@ function PortfolioTile({ item, index, phase, onOpen }: PortfolioTileProps) {
         fill
         sizes="(max-width: 640px) 50vw, 33vw"
         className="object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
+        style={{ objectPosition: getMediaCropPosition(item) }}
       />
       <span className="absolute inset-0 bg-[var(--foreground)]/0 transition-colors duration-300 group-hover:bg-[var(--foreground)]/12" />
       <span className="absolute bottom-3 left-3 rounded-sm bg-white/82 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)] opacity-0 shadow-sm backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
