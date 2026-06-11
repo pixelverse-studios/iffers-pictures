@@ -8,16 +8,49 @@ import { completeMediaAdminSignIn } from "@/lib/media/client";
 import { MediaApiError } from "@/lib/media/errors";
 
 type CallbackState = "loading" | "success" | "error";
+type CallbackRecovery = "new-link" | "try-manager";
 
-function getErrorMessage(error: unknown) {
+function getCallbackError(error: unknown): {
+  message: string;
+  recovery: CallbackRecovery;
+} {
   if (error instanceof MediaApiError) {
-    if (error.status === 410) return "This sign-in link expired or was already used.";
-    if (error.status === 401) return "This sign-in link is invalid.";
-    if (error.status === 403) return "This email is no longer approved.";
-    return error.message;
+    if (error.status === 410) {
+      return {
+        message: "This sign-in link expired or was already used.",
+        recovery: "new-link",
+      };
+    }
+
+    if (error.status === 401) {
+      return {
+        message: "This sign-in link is invalid.",
+        recovery: "new-link",
+      };
+    }
+
+    if (error.status === 403) {
+      return {
+        message: "This email is no longer approved for media admin access.",
+        recovery: "new-link",
+      };
+    }
+
+    if (error.status === 502 || error.status === 503 || error.status === 504) {
+      return {
+        message:
+          "The sign-in check timed out. It may have still completed, so try opening the media manager before requesting another link.",
+        recovery: "try-manager",
+      };
+    }
+
+    return { message: error.message, recovery: "new-link" };
   }
 
-  return "We could not finish signing you in.";
+  return {
+    message: "We could not finish signing you in.",
+    recovery: "new-link",
+  };
 }
 
 export function AdminMediaCallback() {
@@ -33,6 +66,7 @@ export function AdminMediaCallback() {
       ? "This sign-in link is missing a token."
       : "Finishing sign in...",
   );
+  const [recovery, setRecovery] = useState<CallbackRecovery>("new-link");
 
   useEffect(() => {
     if (!token) return;
@@ -48,8 +82,10 @@ export function AdminMediaCallback() {
       })
       .catch((error) => {
         if (canceled) return;
+        const nextError = getCallbackError(error);
         setState("error");
-        setMessage(getErrorMessage(error));
+        setMessage(nextError.message);
+        setRecovery(nextError.recovery);
       });
 
     return () => {
@@ -88,12 +124,22 @@ export function AdminMediaCallback() {
               )}
               {state === "error" && (
                 <div className="mt-7 flex flex-wrap gap-3">
-                  <Link
-                    href="/admin/media"
-                    className="inline-flex min-h-11 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white"
-                  >
-                    Send a new link
-                  </Link>
+                  {recovery === "try-manager" && (
+                    <Link
+                      href="/admin/media"
+                      className="inline-flex min-h-11 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white"
+                    >
+                      Open media manager
+                    </Link>
+                  )}
+                  {recovery === "new-link" && (
+                    <Link
+                      href="/admin/media"
+                      className="inline-flex min-h-11 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white"
+                    >
+                      Send a new link
+                    </Link>
+                  )}
                   <Link
                     href="/"
                     className="inline-flex min-h-11 items-center justify-center rounded-sm border border-[var(--border)] px-5 text-sm font-bold text-[var(--brand-strong)]"

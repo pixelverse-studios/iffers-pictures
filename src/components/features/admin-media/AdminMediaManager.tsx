@@ -19,6 +19,7 @@ import {
   revalidateMediaCatalog,
   uploadToPresignedMediaUrl,
 } from "@/lib/media/client";
+import { MediaApiError } from "@/lib/media/errors";
 import {
   MEDIA_SUB_CATEGORIES,
   type AdminMediaPlacementSlot,
@@ -63,6 +64,24 @@ import {
 
 const MAX_BATCH_ARCHIVE_ITEMS = 50;
 const DEFAULT_SITE_CATEGORY: MediaSiteCategory = "Misc";
+
+function getMagicLinkErrorMessage(error: unknown) {
+  if (error instanceof MediaApiError) {
+    if (error.status === 429 || error.code.includes("rate_limited")) {
+      return "Too many sign-in links were requested. Wait a moment, then try again.";
+    }
+
+    if (error.status === 403 || error.code.includes("not_approved")) {
+      return "That email is not approved for media admin access.";
+    }
+
+    if (error.status === 502 || error.status === 503 || error.status === 504) {
+      return "The sign-in service did not respond. Wait a moment, then try again.";
+    }
+  }
+
+  return getFriendlyError(error);
+}
 
 export function AdminMediaManager() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -260,18 +279,37 @@ export function AdminMediaManager() {
 
   async function sendMagicLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isSendingLink) return;
+
+    const trimmedEmail = loginEmail.trim();
+    if (!trimmedEmail) {
+      setLoginMessage("");
+      setLoginError("Enter the approved email address to receive a sign-in link.");
+      return;
+    }
+
     setLoginError("");
     setLoginMessage("");
     setIsSendingLink(true);
 
     try {
-      const response = await requestMediaAdminMagicLink(loginEmail.trim());
-      setLoginMessage(response.message || "Check your email for the sign-in link.");
+      const response = await requestMediaAdminMagicLink(trimmedEmail);
+      setLoginEmail(trimmedEmail);
+      setLoginMessage(
+        response.message ||
+          "Sign-in link sent. Use the newest email link within 15 minutes.",
+      );
     } catch (error) {
-      setLoginError(getFriendlyError(error));
+      setLoginError(getMagicLinkErrorMessage(error));
     } finally {
       setIsSendingLink(false);
     }
+  }
+
+  function handleLoginEmailChange(value: string) {
+    setLoginEmail(value);
+    if (loginError) setLoginError("");
+    if (loginMessage) setLoginMessage("");
   }
 
   async function handleLogout() {
@@ -899,7 +937,7 @@ export function AdminMediaManager() {
         error={loginError}
         isSending={isSendingLink}
         message={loginMessage}
-        onEmailChange={setLoginEmail}
+        onEmailChange={handleLoginEmailChange}
         onSubmit={sendMagicLink}
       />
     );
