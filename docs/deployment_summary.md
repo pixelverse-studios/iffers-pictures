@@ -2,6 +2,7 @@
 
 ## Latest deploy summary
 
+- Improved media admin sign-in feedback so link requests show clearer sending, success, and recovery states.
 - Fixed production media admin saves timing out after the media editor crop controls release.
 - Media metadata edits now use the stable save payload while backend crop-position write support is confirmed.
 - Cleaned up media admin wording so dashboard labels and messages use photographer-friendly language.
@@ -10,6 +11,7 @@
 
 ## Notes for internal team
 
+- DEV-1017: guarded duplicate magic-link requests, clear stale sign-in messages when the email changes, and added timeout-specific callback recovery copy.
 - Hotfix: stopped sending new `aspect_ratio` and `crop_position` fields in admin media create/update requests because production PATCH saves were returning 504 after authentication.
 - Frontend still reads normalized `aspect_ratio` and `crop_position` values when present.
 - Kept photography terms such as aspect ratio, image focus, draft, published, and archived.
