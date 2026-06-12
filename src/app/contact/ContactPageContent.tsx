@@ -8,7 +8,15 @@ import { BUSINESS_INFO } from "@/lib/constants";
 import { CONTACT_PAGE_COPY } from "@/data/page-copy";
 import { TrackedOutboundLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
+import {
+  getPlacementGalleryItem,
+  type PublicGalleryItem,
+} from "@/lib/media/gallery";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
+import type { PublicMediaPlacement } from "@/lib/media/types";
 import { ContactForm } from "./ContactForm";
+
+type ContactPageImage = Pick<PublicGalleryItem, "src" | "alt" | "cropPosition">;
 
 const nextSteps = [
   [
@@ -38,7 +46,17 @@ function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
 }
 
-export function ContactPageContent() {
+export function ContactPageContent({
+  placements,
+}: {
+  placements: PublicMediaPlacement[];
+}) {
+  const nextStepsImage: ContactPageImage =
+    getPlacementGalleryItem(placements, "inquire.what_happens_next") ?? {
+      src: "/selfie.jpg",
+      alt: "Jenn behind the camera",
+    };
+
   return (
     <div className="bg-[var(--background)] pt-16 md:pt-[72px]">
       <ScrollRevealObserver />
@@ -100,11 +118,12 @@ export function ContactPageContent() {
         </div>
         <div className="scroll-reveal scroll-reveal-image relative min-h-[300px] overflow-hidden" data-scroll-reveal>
           <Image
-            src="/selfie.jpg"
-            alt="Jenn behind the camera"
+            src={nextStepsImage.src}
+            alt={nextStepsImage.alt}
             fill
             sizes="(max-width: 768px) 100vw, 36vw"
             className="motion-image-zoom object-cover"
+            style={{ objectPosition: getMediaCropPosition(nextStepsImage) }}
           />
         </div>
         </div>

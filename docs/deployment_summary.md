@@ -2,6 +2,7 @@
 
 ## Latest deploy summary
 
+- Added CMS support for changing the image in the Inquire page "What happens next" section.
 - Increased the height of the three homepage portfolio preview images below the hero.
 - Improved media upload feedback so failed photo uploads can be retried without losing successful drafts.
 - Improved media admin sign-in feedback so link requests show clearer sending, success, and recovery states.
@@ -13,6 +14,7 @@
 
 ## Notes for internal team
 
+- DEV-1023: added the `inquire.what_happens_next` media placement slot, exposed local placement metadata in the admin dashboard, and wired `/contact` to consume public media placements with the existing static selfie image as fallback.
 - DEV-1027: raised homepage image strip minimum heights while preserving the existing three-image layout and CMS placement mapping.
 - DEV-1019: added upload-specific timeout copy, retry controls for failed valid uploads, and partial-success upload summaries.
 - DEV-1017: guarded duplicate magic-link requests, clear stale sign-in messages when the email changes, and added timeout-specific callback recovery copy.

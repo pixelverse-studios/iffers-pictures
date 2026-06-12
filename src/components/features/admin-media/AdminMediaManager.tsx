@@ -21,6 +21,7 @@ import {
 } from "@/lib/media/client";
 import { MediaApiError } from "@/lib/media/errors";
 import {
+  IFFERS_MEDIA_PLACEMENT_SLOTS,
   MEDIA_SUB_CATEGORIES,
   type AdminMediaPlacementSlot,
   type AdminMediaItem,
@@ -64,6 +65,27 @@ import {
 
 const MAX_BATCH_ARCHIVE_ITEMS = 50;
 const DEFAULT_SITE_CATEGORY: MediaSiteCategory = "Misc";
+
+const LOCAL_ADMIN_MEDIA_PLACEMENT_SLOTS: AdminMediaPlacementSlot[] =
+  IFFERS_MEDIA_PLACEMENT_SLOTS.map((slot) => ({
+    ...slot,
+    assignment: null,
+  }));
+
+function mergeKnownPlacementSlots(
+  slots: AdminMediaPlacementSlot[],
+): AdminMediaPlacementSlot[] {
+  const serverSlotsByKey = new Map(slots.map((slot) => [slot.slotKey, slot]));
+  const mergedSlots = LOCAL_ADMIN_MEDIA_PLACEMENT_SLOTS.map(
+    (slot) => serverSlotsByKey.get(slot.slotKey) ?? slot,
+  );
+  const localSlotKeys = new Set(
+    LOCAL_ADMIN_MEDIA_PLACEMENT_SLOTS.map((slot) => slot.slotKey),
+  );
+  const serverOnlySlots = slots.filter((slot) => !localSlotKeys.has(slot.slotKey));
+
+  return [...mergedSlots, ...serverOnlySlots];
+}
 
 function getMagicLinkErrorMessage(error: unknown) {
   if (error instanceof MediaApiError) {
@@ -291,7 +313,7 @@ export function AdminMediaManager() {
     setPlacementError("");
     try {
       const response = await getAdminMediaPlacements();
-      setPlacementSlots(response.slots);
+      setPlacementSlots(mergeKnownPlacementSlots(response.slots));
     } catch (error) {
       setPlacementError(getFriendlyError(error));
     } finally {

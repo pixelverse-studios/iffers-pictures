@@ -69,6 +69,7 @@ export const MEDIA_PLACEMENT_SLOT_KEYS = [
   "investment.hero",
   "investment.detail",
   "faq.hero",
+  "inquire.what_happens_next",
 ] as const;
 
 export const IFFERS_MEDIA_PLACEMENT_SLOTS = [
@@ -255,6 +256,14 @@ export const IFFERS_MEDIA_PLACEMENT_SLOTS = [
     description: "Primary FAQ page hero image.",
     expectedAspectRatios: ["landscape", "portrait"],
     affectedPaths: ["/faq"],
+  },
+  {
+    slotKey: "inquire.what_happens_next",
+    pageLabel: "Inquire",
+    sectionLabel: "What Happens Next",
+    description: "Image paired with the Inquire page next steps section.",
+    expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/contact"],
   },
 ] as const satisfies readonly MediaPlacementSlot[];
 
