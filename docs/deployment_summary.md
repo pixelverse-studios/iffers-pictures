@@ -2,6 +2,7 @@
 
 ## Latest deploy summary
 
+- Increased the height of the three homepage portfolio preview images below the hero.
 - Improved media upload feedback so failed photo uploads can be retried without losing successful drafts.
 - Improved media admin sign-in feedback so link requests show clearer sending, success, and recovery states.
 - Fixed production media admin saves timing out after the media editor crop controls release.
@@ -12,6 +13,7 @@
 
 ## Notes for internal team
 
+- DEV-1027: raised homepage image strip minimum heights while preserving the existing three-image layout and CMS placement mapping.
 - DEV-1019: added upload-specific timeout copy, retry controls for failed valid uploads, and partial-success upload summaries.
 - DEV-1017: guarded duplicate magic-link requests, clear stale sign-in messages when the email changes, and added timeout-specific callback recovery copy.
 - Hotfix: stopped sending new `aspect_ratio` and `crop_position` fields in admin media create/update requests because production PATCH saves were returning 504 after authentication.

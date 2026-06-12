@@ -141,7 +141,7 @@ function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) 
         {stripImages.map((image, index) => (
           <div
             key={`${image.id}-${index}`}
-            className="scroll-reveal scroll-reveal-image relative min-h-[230px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[320px] md:border-b-0 md:border-r md:last:border-r-0"
+            className="scroll-reveal scroll-reveal-image relative min-h-[280px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[400px] md:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[430px]"
             data-scroll-reveal
             style={revealStyle(index * 90)}
           >
