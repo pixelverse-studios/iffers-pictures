@@ -95,6 +95,7 @@ interface AdminMediaLibraryProps {
   onMove: () => void;
   onMoveKeyChange: (value: string) => void;
   onRemoveUpload: (id: string) => void;
+  onRetryUpload: (id: string) => void;
   onRestore: () => void;
   onSave: () => void;
   onLibraryFilterChange: (value: LibraryFilter) => void;
@@ -195,6 +196,7 @@ export function AdminMediaLibrary({
   onMove,
   onMoveKeyChange,
   onRemoveUpload,
+  onRetryUpload,
   onRestore,
   onSave,
   onLibraryFilterChange,
@@ -443,8 +445,10 @@ export function AdminMediaLibrary({
 
                         {uploadQueue.length > 0 && (
                           <AdminMediaUploadQueue
+                            isUploading={isUploading}
                             items={uploadQueue}
                             onRemoveUpload={onRemoveUpload}
+                            onRetryUpload={onRetryUpload}
                             onUpdateUploadItemTarget={onUpdateUploadItemTarget}
                           />
                         )}

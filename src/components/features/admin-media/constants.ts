@@ -52,7 +52,7 @@ export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.website_not_found": "That media website could not be found.",
   "media.r2_not_configured": "Image storage is not set up. Contact support.",
   "media.gateway_timeout":
-    "The image request timed out. Try archiving fewer images at once.",
+    "The image request timed out. Try again in a moment.",
   "media.gateway_unavailable":
     "The image service is temporarily unavailable. Try again in a moment.",
 };
