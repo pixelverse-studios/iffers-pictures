@@ -143,6 +143,12 @@ export function AdminMediaUploadPanel({
             Uploads are drafts. Add an image description before publishing.
           </p>
         </div>
+        <div className="border border-[var(--border)] bg-[var(--background-warm)] p-4 text-sm text-[var(--text-secondary)]">
+          <p className="font-bold text-[var(--foreground)]">If an upload times out</p>
+          <p className="mt-1 leading-6">
+            Uploaded drafts stay saved. Retry only the files marked as needing attention.
+          </p>
+        </div>
         <button
           type="button"
           onClick={onUploadDrafts}

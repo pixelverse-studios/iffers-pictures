@@ -83,6 +83,28 @@ function getMagicLinkErrorMessage(error: unknown) {
   return getFriendlyError(error);
 }
 
+function getUploadErrorMessage(error: unknown) {
+  if (error instanceof MediaApiError) {
+    if (error.code === "media.gateway_timeout" || error.status === 504) {
+      return "Upload timed out. Try this file again in a moment.";
+    }
+
+    if (
+      error.code === "media.gateway_unavailable" ||
+      error.status === 502 ||
+      error.status === 503
+    ) {
+      return "The image service is temporarily unavailable. Try this file again in a moment.";
+    }
+
+    if (error.code === "media.request_failed") {
+      return "The upload did not finish. Try this file again in a moment.";
+    }
+  }
+
+  return getFriendlyError(error);
+}
+
 export function AdminMediaManager() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [authState, setAuthState] = useState<AuthState>("checking");
@@ -676,6 +698,32 @@ export function AdminMediaManager() {
     setUploadQueue((current) => current.filter((item) => item.id !== id));
   }
 
+  function retryUpload(id: string) {
+    setUploadQueue((current) =>
+      current.map((item) => {
+        if (item.id !== id) return item;
+
+        const validationMessage = getUploadValidationMessage(item.file);
+        if (validationMessage) {
+          return {
+            ...item,
+            status: "error",
+            progress: 0,
+            message: validationMessage,
+          };
+        }
+
+        return {
+          ...item,
+          status: "queued",
+          progress: 0,
+          message: "Ready to retry",
+        };
+      }),
+    );
+    setNotice("");
+  }
+
   function updateUploadItemTarget(
     id: string,
     target:
@@ -717,8 +765,11 @@ export function AdminMediaManager() {
     if (readyItems.length === 0) return;
 
     setIsUploading(true);
+    setNotice("");
     const startingSortOrder =
       items.reduce((max, item) => Math.max(max, item.sortOrder), 0) + 1;
+    let succeededCount = 0;
+    let failedCount = 0;
 
     for (const [index, queueItem] of readyItems.entries()) {
       try {
@@ -801,13 +852,25 @@ export function AdminMediaManager() {
           message: "Draft created",
           createdItem: draft,
         });
+        succeededCount += 1;
       } catch (error) {
         setUploadItem(queueItem.id, {
           status: "error",
           progress: 0,
-          message: getFriendlyError(error),
+          message: getUploadErrorMessage(error),
         });
+        failedCount += 1;
       }
+    }
+
+    if (failedCount > 0) {
+      setNotice(
+        succeededCount > 0
+          ? `Uploaded ${succeededCount} of ${readyItems.length} images. Retry the failed uploads when ready.`
+          : "Upload failed. Retry the failed uploads when ready.",
+      );
+    } else if (succeededCount > 0) {
+      setNotice(`Uploaded ${succeededCount} image${succeededCount === 1 ? "" : "s"}.`);
     }
 
     setIsUploading(false);
@@ -1011,6 +1074,7 @@ export function AdminMediaManager() {
         setMoveMessage("");
       }}
       onRemoveUpload={removeUpload}
+      onRetryUpload={retryUpload}
       onRestore={() => void restoreSelected()}
       onSave={() => void saveEditor()}
       onLibraryFilterChange={handleLibraryFilterChange}
