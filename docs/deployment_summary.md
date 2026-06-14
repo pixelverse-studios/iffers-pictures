@@ -2,6 +2,7 @@
 
 ## Latest deploy summary
 
+- Limited page image assignment choices to images that match each spot's supported shape.
 - Added the missing Homepage Image Strip 3 placement to the media admin dashboard.
 - Connected the third homepage image strip position to the CMS placement system while preserving its existing fallback image.
 - Refined the media admin navigation so image groups and nested categories are easier to scan.
@@ -18,6 +19,7 @@
 
 ## Notes for internal team
 
+- Page image picker now filters by `expectedAspectRatios` before assignment to avoid API rejections for unsupported image shapes.
 - DEV-1021: added the `home.strip.3` frontend placement slot and mapped the third homepage strip image to it.
 - Server support for `home.strip.3` must be present for assignment, replacement, and clearing to succeed through the API.
 - Removed redundant item icons from the media sidebar and replaced them with structural hierarchy markers.
