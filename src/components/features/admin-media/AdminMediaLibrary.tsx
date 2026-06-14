@@ -384,6 +384,7 @@ export function AdminMediaLibrary({
                 <AdminMediaPlacements
                   activePickerSlotKey={activePlacementPickerSlotKey}
                   error={placementError}
+                  isInspectorOpen={hasInspector}
                   isLoading={isLoadingPlacements}
                   isMutatingSlotKey={isMutatingPlacement}
                   items={items}
