@@ -29,6 +29,7 @@ import { getMediaCategoryLabel, getMediaLibrary } from "./utils";
 interface AdminMediaPlacementsProps {
   activePickerSlotKey: MediaPlacementSlotKey | null;
   error: string;
+  isInspectorOpen?: boolean;
   isLoading: boolean;
   isMutatingSlotKey: MediaPlacementSlotKey | null;
   items: AdminMediaItem[];
@@ -56,6 +57,7 @@ function getPreferredSiteCategory(pageLabel: string): MediaSiteCategory | null {
 export function AdminMediaPlacements({
   activePickerSlotKey,
   error,
+  isInspectorOpen = false,
   isLoading,
   isMutatingSlotKey,
   items,
@@ -120,6 +122,12 @@ export function AdminMediaPlacements({
   const slotsByPage = groupSlotsByPage(visibleSlots);
   const heading =
     pageFilter === "all" ? "Page image spots" : `${pageFilter} image spots`;
+  const placementGridClassName = isInspectorOpen
+    ? "grid gap-4"
+    : "grid gap-4 2xl:grid-cols-2";
+  const placementCardLayoutClassName = isInspectorOpen
+    ? "grid min-h-52 2xl:grid-cols-[minmax(250px,0.9fr)_minmax(280px,1fr)]"
+    : "grid min-h-52 lg:grid-cols-[minmax(250px,0.9fr)_minmax(280px,1fr)]";
 
   if (isLoading) {
     return (
@@ -191,7 +199,7 @@ export function AdminMediaPlacements({
           <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)]">
             {pageLabel}
           </h3>
-          <div className="grid gap-3 xl:grid-cols-2">
+          <div className={placementGridClassName}>
             {pageSlots.map((slot) => {
               const assignment = slot.assignment;
               const media = assignment?.media;
@@ -203,19 +211,27 @@ export function AdminMediaPlacements({
                   key={slot.slotKey}
                   className="overflow-hidden border border-[var(--border)] bg-white"
                 >
-                  <div className="grid min-h-52 md:grid-cols-[170px_1fr]">
+                  <div className={placementCardLayoutClassName}>
                     <button
                       type="button"
                       onClick={() => media && onSelectMedia(media.id)}
                       disabled={!media}
-                      className="relative min-h-44 bg-[var(--background-warm)] text-left disabled:cursor-default"
+                      className={`relative aspect-[4/3] min-h-56 bg-[var(--background-warm)] text-left disabled:cursor-default ${
+                        isInspectorOpen
+                          ? "2xl:aspect-auto 2xl:min-h-full"
+                          : "lg:aspect-auto lg:min-h-full"
+                      }`}
                     >
                       {media ? (
                         <Image
                           src={media.src}
                           alt={media.alt || media.filename}
                           fill
-                          sizes="170px"
+                          sizes={
+                            isInspectorOpen
+                              ? "(max-width: 1024px) 100vw, 320px"
+                              : "(max-width: 1024px) 100vw, 360px"
+                          }
                           className="object-cover"
                         />
                       ) : (
@@ -286,13 +302,13 @@ export function AdminMediaPlacements({
                             </Link>
                           ))}
                         </div>
-                        <div className="grid gap-2 sm:grid-cols-2">
+                        <div className="flex flex-wrap gap-2">
                           <button
                             type="button"
                             onClick={() =>
                               onPickerSlotChange(isPickerOpen ? null : slot.slotKey)
                             }
-                            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-4 text-sm font-bold text-white"
+                            className="inline-flex min-h-10 min-w-28 flex-1 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-4 text-sm font-bold text-white"
                           >
                             <ImagePlus className="h-4 w-4" aria-hidden />
                             {media ? "Replace" : "Assign"}
@@ -301,7 +317,7 @@ export function AdminMediaPlacements({
                             type="button"
                             onClick={() => onClear(slot.slotKey)}
                             disabled={!media || isMutating}
-                            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-sm border border-red-200 px-4 text-sm font-bold text-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="inline-flex min-h-10 min-w-24 flex-1 items-center justify-center gap-2 rounded-sm border border-red-200 px-4 text-sm font-bold text-red-700 disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             {isMutating ? (
                               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
