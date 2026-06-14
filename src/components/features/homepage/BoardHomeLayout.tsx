@@ -464,7 +464,11 @@ export function BoardHomeLayout({
     { id: 96, service: "Family", subCategory: "Family" },
     { id: 100, service: "Maternity", subCategory: "Maternity" },
   ] as const;
-  const stripImageSlotKeys = ["home.strip.1", "home.strip.2", undefined] as const;
+  const stripImageSlotKeys = [
+    "home.strip.1",
+    "home.strip.2",
+    "home.strip.3",
+  ] as const;
   const stripImages = stripImageFallbacks
     .map(
       (fallback, index) =>
