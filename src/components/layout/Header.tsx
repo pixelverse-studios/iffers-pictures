@@ -295,7 +295,7 @@ export function Header() {
             }}
           >
             <p className="text-[var(--mobile-menu-muted)]">
-              {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
+              Bergen County, {BUSINESS_INFO.address.state}
             </p>
           </div>
         </div>
