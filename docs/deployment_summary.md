@@ -57,6 +57,7 @@
 - Updated admin media upload guidance to recommend high-quality JPG/JPEG photo exports and show the new 25 MB upload limit.
 - Verified CMS-managed public images use optimized responsive Next.js image delivery and added longer caching for optimized media derivatives.
 - Added an editable CMS placement for the FAQ page "Still Have Questions?" image so it can be managed from the media dashboard.
+- Fixed mobile menu spacing, sessions strip reveal timing, and Investment page mobile image layout so key mobile surfaces feel cleaner on phones.
 
 ## Notes for internal team
 
@@ -117,6 +118,7 @@
 - DEV-1029: Raised the frontend admin upload validation constant to 25 MB and added concise JPG/JPEG, PNG, WebP, dimension, quality, and RAW/original-export guidance.
 - DEV-1030: Audited public CMS media usage across homepage, services, portfolio, investment, FAQ, and about; added a 30-day `next/image` optimized derivative cache TTL and documented when server-side derivatives would be the next mitigation.
 - DEV-1032: Added the frontend `faq.cta` placement contract and wired the FAQ bottom CTA image to prefer that placement before falling back to the existing pinned Family image.
+- DEV-1031: Adjusted mobile menu overlay positioning, added eager session-strip reveal behavior, removed hover-only image blur from session strips, and changed the Investment mobile hero image to be full-width without the desktop gradient overlay.
 
 ## Changed URLs
 
@@ -163,3 +165,6 @@
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/about
+- https://ifferspictures.com/
+- https://ifferspictures.com/services
+- https://ifferspictures.com/investment

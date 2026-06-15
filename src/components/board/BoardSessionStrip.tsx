@@ -30,6 +30,7 @@ export function BoardSessionStrip({ items, className }: BoardSessionStripProps) 
           href={item.href}
           className="session-strip-reveal scroll-reveal scroll-reveal-image group relative flex min-h-[150px] items-center overflow-hidden px-6 py-8 text-center md:min-h-[170px]"
           data-scroll-reveal
+          data-scroll-reveal-eager="true"
           style={revealStyle(index * 80)}
         >
           <Image
@@ -37,7 +38,7 @@ export function BoardSessionStrip({ items, className }: BoardSessionStripProps) 
             alt={item.image.alt}
             fill
             sizes="100vw"
-            className="scale-100 transform-gpu object-cover blur-[3px] transition-all duration-700 ease-in-out will-change-[filter,transform] group-hover:scale-[1.035] group-hover:blur-none"
+            className="scale-100 transform-gpu object-cover transition-transform duration-700 ease-in-out will-change-transform motion-safe:group-hover:scale-[1.035]"
           />
           <div className="relative z-10 mx-auto max-w-xl text-white before:absolute before:left-1/2 before:top-1/2 before:-z-10 before:h-32 before:w-[min(90vw,44rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:bg-black/38 before:blur-3xl before:content-['']">
             <h2
