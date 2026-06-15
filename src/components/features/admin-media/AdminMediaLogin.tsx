@@ -22,6 +22,14 @@ export function AdminMediaLogin({
   onEmailChange,
   onSubmit,
 }: AdminMediaLoginProps) {
+  const trimmedEmail = email.trim();
+  const hasSentMessage = Boolean(message);
+  const submitLabel = isSending
+    ? "Sending sign-in link..."
+    : hasSentMessage
+      ? "Send another sign-in link"
+      : "Send sign-in link";
+
   return (
     <main className="min-h-screen bg-[var(--background)] px-5 py-8 text-[var(--foreground)] md:px-8">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
@@ -39,8 +47,8 @@ export function AdminMediaLogin({
             </p>
             <div className="mt-12 grid gap-7">
               {[
-                ["Upload drafts", "Add new images and keep them private until ready."],
-                ["Edit image details", "Add alt text, set categories, and update status."],
+                ["Upload images", "Add new images and keep them private until ready."],
+                ["Edit image details", "Add image descriptions, set categories, and update status."],
                 ["Archive safely", "Remove images from public view without deleting."],
               ].map(([title, copy]) => (
                 <div key={title} className="flex gap-4">
@@ -77,6 +85,7 @@ export function AdminMediaLogin({
               onChange={(event) => onEmailChange(event.currentTarget.value)}
               placeholder="jenn@ifferspictures.com"
               rightSection={<Mail className="h-4 w-4 text-[var(--text-muted)]" aria-hidden />}
+              disabled={isSending}
               required
               radius="sm"
               styles={{
@@ -86,21 +95,34 @@ export function AdminMediaLogin({
             />
 
             {message && (
-              <div className="flex gap-3 border border-green-100 bg-green-50 px-4 py-3 text-sm font-semibold text-green-800">
-                <Check className="h-4 w-4" aria-hidden />
-                {message}
+              <div
+                className="flex gap-3 border border-green-100 bg-green-50 px-4 py-3 text-sm font-semibold text-green-800"
+                role="status"
+                aria-live="polite"
+              >
+                <Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                <div>
+                  <p>{message}</p>
+                  <p className="mt-1 text-xs font-medium leading-5 text-green-900">
+                    If you request another link, use the newest email. Older links may
+                    stop working.
+                  </p>
+                </div>
               </div>
             )}
             {error && (
-              <div className="flex gap-3 border border-red-100 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
-                <CircleAlert className="h-4 w-4" aria-hidden />
+              <div
+                className="flex gap-3 border border-red-100 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"
+                role="alert"
+              >
+                <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
                 {error}
               </div>
             )}
 
             <button
               type="submit"
-              disabled={isSending}
+              disabled={isSending || !trimmedEmail}
               className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-sm bg-[var(--brand-strong)] px-6 text-sm font-bold text-white transition hover:bg-[var(--brand)] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSending ? (
@@ -108,8 +130,12 @@ export function AdminMediaLogin({
               ) : (
                 <Send className="h-4 w-4" aria-hidden />
               )}
-              Send sign-in link
+              {submitLabel}
             </button>
+            <p className="text-xs leading-5 text-[var(--text-muted)]">
+              The button stays locked while the request is sending so only one link is
+              requested at a time.
+            </p>
             <Link
               href="/"
               className="inline-flex text-sm font-semibold text-[var(--brand-strong)] underline underline-offset-4"

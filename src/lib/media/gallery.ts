@@ -10,6 +10,8 @@ import type {
   PublicMediaPlacement,
   PublicPlacementMedia,
 } from "./types";
+import { getMediaAspectRatio } from "./aspect-ratio";
+import { getMediaCropPosition } from "./crop-position";
 
 export type PublicGalleryItem = PortfolioItem;
 
@@ -55,6 +57,16 @@ const SERVICE_HERO_PLACEMENT_SLOT_MAP: Partial<
   portrait: "services.portrait.hero",
 };
 
+const SERVICE_CARD_PLACEMENT_SLOT_MAP: Partial<
+  Record<string, MediaPlacementSlotKey>
+> = {
+  events: "services.card.events",
+  family: "services.card.family",
+  maternity: "services.card.maternity",
+  "couples-engagement": "services.card.couples-engagement",
+  portrait: "services.card.portrait",
+};
+
 export interface PinnedMediaFallback {
   id?: number;
   key?: string;
@@ -66,21 +78,29 @@ export function toPublicGalleryItems(
   items: PublicMediaItem[]
 ): PublicGalleryItem[] {
   return [...items]
+    .filter(
+      (item) =>
+        item.library !== "site" &&
+        Boolean(item.service) &&
+        Boolean(item.subCategory) &&
+        Boolean(getMediaAspectRatio(item))
+    )
     .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
-    .map(({ id, src, alt, service, subCategory, aspectRatio }) => ({
-      id,
-      src,
-      alt,
-      service,
-      subCategory,
-      aspectRatio,
+    .map((item) => ({
+      id: item.id,
+      src: item.src,
+      alt: item.alt,
+      service: item.service,
+      subCategory: item.subCategory,
+      aspectRatio: getMediaAspectRatio(item) ?? "landscape",
+      cropPosition: getMediaCropPosition(item),
     }));
 }
 
 export function placementMediaToPublicGalleryItem(
   media: PublicPlacementMedia
 ): PublicGalleryItem {
-  const { id, src, alt, service, subCategory, aspectRatio } = media;
+  const { id, src, alt, service, subCategory } = media;
 
   return {
     id,
@@ -88,7 +108,8 @@ export function placementMediaToPublicGalleryItem(
     alt,
     service,
     subCategory,
-    aspectRatio,
+    aspectRatio: getMediaAspectRatio(media) ?? "landscape",
+    cropPosition: getMediaCropPosition(media),
   };
 }
 
@@ -116,6 +137,12 @@ export function getServiceHeroPlacementSlotKey(
   return SERVICE_HERO_PLACEMENT_SLOT_MAP[serviceSlug];
 }
 
+export function getServiceCardPlacementSlotKey(
+  serviceSlug: string
+): MediaPlacementSlotKey | undefined {
+  return SERVICE_CARD_PLACEMENT_SLOT_MAP[serviceSlug];
+}
+
 export function getPortfolioForServiceFromItems(
   items: PublicGalleryItem[],
   serviceSlug: string
@@ -139,7 +166,7 @@ export function getPortfolioForServiceFromItems(
 export function getServiceThumbnailFromItems(
   items: PublicGalleryItem[],
   serviceSlug: string
-): Pick<PublicGalleryItem, "src" | "alt"> | undefined {
+): Pick<PublicGalleryItem, "src" | "alt" | "cropPosition"> | undefined {
   const thumbMapping = THUMBNAIL_SLUG_MAP[serviceSlug];
 
   if (thumbMapping) {
@@ -149,13 +176,19 @@ export function getServiceThumbnailFromItems(
         candidate.subCategory === thumbMapping.subCategory
     );
 
-    if (item) return { src: item.src, alt: item.alt };
+    if (item) {
+      return { src: item.src, alt: item.alt, cropPosition: item.cropPosition };
+    }
   }
 
   const serviceItems = getPortfolioForServiceFromItems(items, serviceSlug);
 
   return serviceItems[0]
-    ? { src: serviceItems[0].src, alt: serviceItems[0].alt }
+    ? {
+        src: serviceItems[0].src,
+        alt: serviceItems[0].alt,
+        cropPosition: serviceItems[0].cropPosition,
+      }
     : undefined;
 }
 

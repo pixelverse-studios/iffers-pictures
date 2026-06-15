@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
+import { getPublicMediaPlacementsWithFallback } from "@/lib/media/server";
 import { ContactPageContent } from "./ContactPageContent";
 
 export const metadata: Metadata = {
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
-  return <ContactPageContent />;
+export default async function ContactPage() {
+  const placementsResponse = await getPublicMediaPlacementsWithFallback();
+
+  return <ContactPageContent placements={placementsResponse.placements} />;
 }

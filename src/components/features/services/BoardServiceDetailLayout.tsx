@@ -14,6 +14,7 @@ import {
   getServiceThumbnailFromItems,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 import { Lightbox } from "@/components/features/portfolio/Lightbox";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
@@ -194,6 +195,7 @@ export function BoardServiceDetailLayout({
               priority
               sizes="(max-width: 768px) 100vw, 58vw"
               className="motion-image-zoom object-cover"
+              style={{ objectPosition: getMediaCropPosition(heroImage) }}
             />
           )}
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(90,120,152,0.18),transparent_42%),radial-gradient(circle_at_78%_12%,rgba(255,255,255,0.32),transparent_28%)]" />
@@ -317,6 +319,7 @@ export function BoardServiceDetailLayout({
                 fill
                 sizes="(max-width: 768px) 50vw, 33vw"
                 className="motion-image-zoom object-cover brightness-[1.02] contrast-[1.02]"
+                style={{ objectPosition: getMediaCropPosition(item) }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--foreground)]/36 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <figcaption className="absolute inset-x-0 bottom-0 translate-y-2 px-4 pb-4 text-xs font-bold uppercase tracking-[0.14em] text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
@@ -414,6 +417,7 @@ export function BoardServiceDetailLayout({
               fill
               sizes="(max-width: 768px) 100vw, 44vw"
               className="motion-image-zoom object-cover brightness-[1.03] contrast-[1.02]"
+              style={{ objectPosition: getMediaCropPosition(faqImage) }}
             />
           </div>
         )}

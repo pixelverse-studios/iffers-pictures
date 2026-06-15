@@ -15,6 +15,7 @@ import {
   type PinnedMediaFallback,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
@@ -157,6 +158,7 @@ export function BoardInvestmentLayout({
                 priority
                 sizes="(max-width: 768px) 100vw, 54vw"
                 className="motion-image-zoom object-cover object-center"
+                style={{ objectPosition: getMediaCropPosition(heroImage) }}
               />
             )}
             <div className="absolute inset-0 hidden bg-gradient-to-r from-[var(--background)] via-[var(--background)]/42 to-transparent md:block" />
@@ -269,6 +271,7 @@ export function BoardInvestmentLayout({
                         fill
                         sizes="82px"
                         className="motion-image-zoom object-cover"
+                        style={{ objectPosition: getMediaCropPosition(image) }}
                       />
                     </div>
                     <div>
@@ -292,6 +295,7 @@ export function BoardInvestmentLayout({
                 fill
                 sizes="(max-width: 768px) 100vw, 42vw"
                 className="motion-image-zoom object-cover"
+                style={{ objectPosition: getMediaCropPosition(detailImage) }}
               />
             </div>
           )}

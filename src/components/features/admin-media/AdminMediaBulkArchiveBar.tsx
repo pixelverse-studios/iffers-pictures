@@ -111,7 +111,7 @@ export function AdminMediaBulkArchiveBar({
               </p>
               <p className="mt-1 truncate text-xs text-[var(--text-secondary)]">
                 {item.service ?? "No service"} ·{" "}
-                {item.subCategory ?? "No sub-category"}
+                {item.subCategory ?? "No photo type"}
               </p>
             </div>
             <button
@@ -137,8 +137,8 @@ export function AdminMediaBulkArchiveBar({
                   {selectedCount === 1 ? "" : "s"}?
                 </p>
                 <p className="mt-1 leading-5">
-                  Archived images are removed from public rendering, but files are
-                  not deleted from R2.
+                  Archived images are removed from the website, but the original
+                  files are kept.
                 </p>
               </div>
             </div>

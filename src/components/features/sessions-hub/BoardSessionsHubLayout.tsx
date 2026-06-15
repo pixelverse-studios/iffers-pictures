@@ -11,10 +11,11 @@ import {
   DEFAULT_PUBLIC_GALLERY_ITEMS,
   findPinnedGalleryItem,
   getPlacementGalleryItem,
-  getServiceHeroPlacementSlotKey,
+  getServiceCardPlacementSlotKey,
   type PinnedMediaFallback,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 
 const CUSTOM_REQUEST_IMAGE = "/selfie.jpg";
@@ -42,9 +43,9 @@ function getSessionItems(
   placements: PublicMediaPlacement[]
 ): BoardSessionStripItem[] {
   const sessionItems = SESSIONS.flatMap((session): BoardSessionStripItem[] => {
-    const slotKey = getServiceHeroPlacementSlotKey(session.slug);
+    const cardSlotKey = getServiceCardPlacementSlotKey(session.slug);
     const image =
-      (slotKey ? getPlacementGalleryItem(placements, slotKey) : undefined) ??
+      (cardSlotKey ? getPlacementGalleryItem(placements, cardSlotKey) : undefined) ??
       getSessionImage(items, session.slug);
     if (!image) return [];
 
@@ -56,10 +57,19 @@ function getSessionItems(
         image: {
           src: image.src,
           alt: image.alt,
+          cropPosition: image.cropPosition,
         },
       },
     ];
   });
+
+  const customRequestImage = getPlacementGalleryItem(
+    placements,
+    "services.card.custom_request",
+  ) ?? {
+    src: CUSTOM_REQUEST_IMAGE,
+    alt: "Jenn holding a camera for a custom photography request",
+  };
 
   sessionItems.push({
     title: "Custom Request",
@@ -67,8 +77,12 @@ function getSessionItems(
       "Have something else in mind? Let's create a session tailored to you.",
     href: "/contact",
     image: {
-      src: CUSTOM_REQUEST_IMAGE,
-      alt: "Jenn holding a camera for a custom photography request",
+      src: customRequestImage.src,
+      alt: customRequestImage.alt,
+      cropPosition:
+        "cropPosition" in customRequestImage
+          ? customRequestImage.cropPosition
+          : undefined,
     },
   });
 
@@ -183,6 +197,7 @@ export function BoardSessionsHubLayout({
                 priority
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="motion-image-zoom object-cover"
+                style={{ objectPosition: getMediaCropPosition(heroImage) }}
               />
             </div>
           )}

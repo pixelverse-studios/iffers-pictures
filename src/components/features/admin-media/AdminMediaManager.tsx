@@ -19,24 +19,33 @@ import {
   revalidateMediaCatalog,
   uploadToPresignedMediaUrl,
 } from "@/lib/media/client";
+import { MediaApiError } from "@/lib/media/errors";
 import {
+  IFFERS_MEDIA_PLACEMENT_SLOTS,
   MEDIA_SUB_CATEGORIES,
   type AdminMediaPlacementSlot,
   type AdminMediaItem,
+  type MediaLibrary,
   type MediaAdminSession,
   type MediaPlacementSlotKey,
   type MediaService,
+  type MediaSiteCategory,
   type MediaSubCategory,
 } from "@/lib/media/types";
 import { AdminMediaLibrary } from "./AdminMediaLibrary";
 import { AdminMediaLogin } from "./AdminMediaLogin";
-import { FRIENDLY_ERRORS, getFolderForCategory } from "./constants";
+import {
+  FRIENDLY_ERRORS,
+  getFolderForCategory,
+  getFolderForSiteCategory,
+} from "./constants";
 import type {
   AuthState,
   BatchArchiveFailure,
   BatchArchiveFeedback,
   EditorState,
   MediaMutationOperation,
+  LibraryFilter,
   SortMode,
   StatusFilter,
   UploadQueueItem,
@@ -48,6 +57,7 @@ import {
   getErrorCode,
   getFriendlyError,
   getImageAspectRatio,
+  getSafeUploadFilename,
   getUploadValidationMessage,
   getInitialEditorState,
   getStatusCounts,
@@ -56,6 +66,68 @@ import {
 } from "./utils";
 
 const MAX_BATCH_ARCHIVE_ITEMS = 50;
+const DEFAULT_SITE_CATEGORY: MediaSiteCategory = "Misc";
+
+const LOCAL_ADMIN_MEDIA_PLACEMENT_SLOTS: AdminMediaPlacementSlot[] =
+  IFFERS_MEDIA_PLACEMENT_SLOTS.map((slot) => ({
+    ...slot,
+    assignment: null,
+  }));
+
+function mergeKnownPlacementSlots(
+  slots: AdminMediaPlacementSlot[],
+): AdminMediaPlacementSlot[] {
+  const serverSlotsByKey = new Map(slots.map((slot) => [slot.slotKey, slot]));
+  const mergedSlots = LOCAL_ADMIN_MEDIA_PLACEMENT_SLOTS.map(
+    (slot) => serverSlotsByKey.get(slot.slotKey) ?? slot,
+  );
+  const localSlotKeys = new Set(
+    LOCAL_ADMIN_MEDIA_PLACEMENT_SLOTS.map((slot) => slot.slotKey),
+  );
+  const serverOnlySlots = slots.filter((slot) => !localSlotKeys.has(slot.slotKey));
+
+  return [...mergedSlots, ...serverOnlySlots];
+}
+
+function getMagicLinkErrorMessage(error: unknown) {
+  if (error instanceof MediaApiError) {
+    if (error.status === 429 || error.code.includes("rate_limited")) {
+      return "Too many sign-in links were requested. Wait a moment, then try again.";
+    }
+
+    if (error.status === 403 || error.code.includes("not_approved")) {
+      return "That email is not approved for media admin access.";
+    }
+
+    if (error.status === 502 || error.status === 503 || error.status === 504) {
+      return "The sign-in service did not respond. Wait a moment, then try again.";
+    }
+  }
+
+  return getFriendlyError(error);
+}
+
+function getUploadErrorMessage(error: unknown) {
+  if (error instanceof MediaApiError) {
+    if (error.code === "media.gateway_timeout" || error.status === 504) {
+      return "Upload timed out. Try this file again in a moment.";
+    }
+
+    if (
+      error.code === "media.gateway_unavailable" ||
+      error.status === 502 ||
+      error.status === 503
+    ) {
+      return "The image service is temporarily unavailable. Try this file again in a moment.";
+    }
+
+    if (error.code === "media.request_failed") {
+      return "The upload did not finish. Try this file again in a moment.";
+    }
+  }
+
+  return getFriendlyError(error);
+}
 
 export function AdminMediaManager() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -77,6 +149,7 @@ export function AdminMediaManager() {
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(false);
   const [catalogError, setCatalogError] = useState("");
   const [notice, setNotice] = useState("");
+  const [libraryFilter, setLibraryFilter] = useState<LibraryFilter>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [serviceFilter, setServiceFilter] = useState<"all" | MediaService>("all");
   const [subCategoryFilter, setSubCategoryFilter] =
@@ -93,6 +166,7 @@ export function AdminMediaManager() {
     boolean | null
   >(null);
   const [isCheckingMove, setIsCheckingMove] = useState(false);
+  const [uploadLibrary, setUploadLibrary] = useState<MediaLibrary>("portfolio");
   const [uploadService, setUploadService] = useState<MediaService>("Events");
   const [uploadSubCategory, setUploadSubCategory] =
     useState<MediaSubCategory>("Baby Shower");
@@ -128,13 +202,22 @@ export function AdminMediaManager() {
     () =>
       filterItems({
         items,
+        library: libraryFilter,
         status: statusFilter,
         service: serviceFilter,
         subCategory: subCategoryFilter,
         query,
         sort: sortMode,
       }),
-    [items, query, serviceFilter, sortMode, statusFilter, subCategoryFilter],
+    [
+      items,
+      libraryFilter,
+      query,
+      serviceFilter,
+      sortMode,
+      statusFilter,
+      subCategoryFilter,
+    ],
   );
 
   const serviceSubCategories =
@@ -244,7 +327,7 @@ export function AdminMediaManager() {
     setPlacementError("");
     try {
       const response = await getAdminMediaPlacements();
-      setPlacementSlots(response.slots);
+      setPlacementSlots(mergeKnownPlacementSlots(response.slots));
     } catch (error) {
       setPlacementError(getFriendlyError(error));
     } finally {
@@ -254,18 +337,37 @@ export function AdminMediaManager() {
 
   async function sendMagicLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isSendingLink) return;
+
+    const trimmedEmail = loginEmail.trim();
+    if (!trimmedEmail) {
+      setLoginMessage("");
+      setLoginError("Enter the approved email address to receive a sign-in link.");
+      return;
+    }
+
     setLoginError("");
     setLoginMessage("");
     setIsSendingLink(true);
 
     try {
-      const response = await requestMediaAdminMagicLink(loginEmail.trim());
-      setLoginMessage(response.message || "Check your email for the sign-in link.");
+      const response = await requestMediaAdminMagicLink(trimmedEmail);
+      setLoginEmail(trimmedEmail);
+      setLoginMessage(
+        response.message ||
+          "Sign-in link sent. Use the newest email link within 15 minutes.",
+      );
     } catch (error) {
-      setLoginError(getFriendlyError(error));
+      setLoginError(getMagicLinkErrorMessage(error));
     } finally {
       setIsSendingLink(false);
     }
+  }
+
+  function handleLoginEmailChange(value: string) {
+    setLoginEmail(value);
+    if (loginError) setLoginError("");
+    if (loginMessage) setLoginMessage("");
   }
 
   async function handleLogout() {
@@ -286,6 +388,29 @@ export function AdminMediaManager() {
   ) {
     setEditor((current) => {
       if (!current) return current;
+
+      if (key === "library") {
+        const nextLibrary = value as MediaLibrary;
+        if (nextLibrary === "site") {
+          return {
+            ...current,
+            library: "site",
+            siteCategory: DEFAULT_SITE_CATEGORY,
+            service: "",
+            subCategory: "",
+          };
+        }
+
+        return {
+          ...current,
+          library: "portfolio",
+          siteCategory: "",
+          service: current.service || "Events",
+          subCategory:
+            current.subCategory ||
+            MEDIA_SUB_CATEGORIES[current.service || "Events"][0],
+        };
+      }
 
       if (key === "service") {
         const nextService = value as MediaService | "";
@@ -312,12 +437,16 @@ export function AdminMediaManager() {
           : "save";
 
     if (selectedItem.status === "archived" && nextEditor.status === "archived") {
-      setNotice("Restore this image before editing its metadata.");
+      setNotice("Restore this image before editing its details.");
       return;
     }
 
     if (nextEditor.status === "published" && !canPublish(nextEditor)) {
-      setNotice("Complete alt text, service, sub-category, and aspect ratio before publishing.");
+      setNotice(
+        nextEditor.library === "site"
+          ? "Complete image description, site category, and aspect ratio before publishing."
+          : "Complete image description, service, photo type, and aspect ratio before publishing.",
+      );
       return;
     }
 
@@ -327,8 +456,13 @@ export function AdminMediaManager() {
     try {
       const updated = await patchMediaItem(selectedItem.id, {
         alt: nextEditor.alt,
-        service: nextEditor.service || null,
-        subCategory: nextEditor.subCategory || null,
+        library: nextEditor.library,
+        siteCategory: nextEditor.library === "site" ? DEFAULT_SITE_CATEGORY : null,
+        service: nextEditor.library === "portfolio" ? nextEditor.service || null : null,
+        subCategory:
+          nextEditor.library === "portfolio"
+            ? nextEditor.subCategory || null
+            : null,
         aspectRatio: nextEditor.aspectRatio || null,
         status: nextEditor.status,
         sortOrder: Number(nextEditor.sortOrder) || 0,
@@ -598,7 +732,7 @@ export function AdminMediaManager() {
       setNotice(
         reconciliationFailed
           ? `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}, but the catalog refresh failed. Use Check status before trying again.`
-          : `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Files remain in R2.`,
+          : `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Original files are kept.`,
       );
     } catch (error) {
       setBatchArchiveFeedback({
@@ -633,7 +767,7 @@ export function AdminMediaManager() {
       upsertPlacementSlot(updatedSlot);
       setActivePlacementPickerSlotKey(null);
       setSelectedId(mediaId);
-      setNotice(`${updatedSlot.pageLabel} ${updatedSlot.sectionLabel} placement updated.`);
+      setNotice(`${updatedSlot.pageLabel} ${updatedSlot.sectionLabel} image updated.`);
     } catch (error) {
       setNotice(getFriendlyError(error));
     } finally {
@@ -658,7 +792,7 @@ export function AdminMediaManager() {
             : existing,
         ),
       );
-      setNotice(`${slot.pageLabel} ${slot.sectionLabel} placement cleared.`);
+      setNotice(`${slot.pageLabel} ${slot.sectionLabel} image cleared.`);
     } catch (error) {
       setNotice(getFriendlyError(error));
     } finally {
@@ -673,8 +807,10 @@ export function AdminMediaManager() {
       return {
         id: `${file.name}-${file.lastModified}-${crypto.randomUUID()}`,
         file,
-        service: uploadService,
-        subCategory: uploadSubCategory,
+        library: uploadLibrary,
+        siteCategory: uploadLibrary === "site" ? DEFAULT_SITE_CATEGORY : "",
+        service: uploadLibrary === "portfolio" ? uploadService : "",
+        subCategory: uploadLibrary === "portfolio" ? uploadSubCategory : "",
         status: validationMessage ? "error" : "queued",
         progress: 0,
         message: validationMessage || "Ready",
@@ -689,12 +825,60 @@ export function AdminMediaManager() {
     setUploadQueue((current) => current.filter((item) => item.id !== id));
   }
 
+  function retryUpload(id: string) {
+    setUploadQueue((current) =>
+      current.map((item) => {
+        if (item.id !== id) return item;
+
+        const validationMessage = getUploadValidationMessage(item.file);
+        if (validationMessage) {
+          return {
+            ...item,
+            status: "error",
+            progress: 0,
+            message: validationMessage,
+          };
+        }
+
+        return {
+          ...item,
+          status: "queued",
+          progress: 0,
+          message: "Ready to retry",
+        };
+      }),
+    );
+    setNotice("");
+  }
+
   function updateUploadItemTarget(
     id: string,
-    service: MediaService,
-    subCategory: MediaSubCategory,
+    target:
+      | {
+          library: "portfolio";
+          service: MediaService;
+          subCategory: MediaSubCategory;
+        }
+      | {
+          library: "site";
+        },
   ) {
-    setUploadItem(id, { service, subCategory });
+    setUploadItem(
+      id,
+      target.library === "site"
+        ? {
+            library: "site",
+            siteCategory: DEFAULT_SITE_CATEGORY,
+            service: "",
+            subCategory: "",
+          }
+        : {
+            library: "portfolio",
+            siteCategory: "",
+            service: target.service,
+            subCategory: target.subCategory,
+          },
+    );
   }
 
   function setUploadItem(id: string, patch: Partial<UploadQueueItem>) {
@@ -708,8 +892,11 @@ export function AdminMediaManager() {
     if (readyItems.length === 0) return;
 
     setIsUploading(true);
+    setNotice("");
     const startingSortOrder =
       items.reduce((max, item) => Math.max(max, item.sortOrder), 0) + 1;
+    let succeededCount = 0;
+    let failedCount = 0;
 
     for (const [index, queueItem] of readyItems.entries()) {
       try {
@@ -721,7 +908,25 @@ export function AdminMediaManager() {
           throw new Error("JPEG, PNG, or WebP only");
         }
 
-        const folder = getFolderForCategory(queueItem.service, queueItem.subCategory);
+        let folder: string;
+        let siteCategory: MediaSiteCategory | null = null;
+        let service: MediaService | null = null;
+        let subCategory: MediaSubCategory | null = null;
+
+        if (queueItem.library === "site") {
+          if (!queueItem.siteCategory) {
+            throw new Error("Choose a site image category before uploading.");
+          }
+          siteCategory = queueItem.siteCategory;
+          folder = getFolderForSiteCategory(siteCategory);
+        } else {
+          if (!queueItem.service || !queueItem.subCategory) {
+            throw new Error("Choose a portfolio category before uploading.");
+          }
+          service = queueItem.service;
+          subCategory = queueItem.subCategory;
+          folder = getFolderForCategory(service, subCategory);
+        }
 
         setUploadItem(queueItem.id, {
           status: "uploading",
@@ -729,9 +934,10 @@ export function AdminMediaManager() {
           message: "Requesting upload URL",
         });
 
+        const uploadFilename = getSafeUploadFilename(queueItem.file);
         const aspectRatio = await getImageAspectRatio(queueItem.file);
         const presign = await presignMediaUpload({
-          filename: queueItem.file.name,
+          filename: uploadFilename,
           content_type: queueItem.file.type,
           folder,
           size: queueItem.file.size,
@@ -753,11 +959,13 @@ export function AdminMediaManager() {
         });
         const draft = await createDraftMediaItem({
           key: presign.r2_key,
-          filename: queueItem.file.name,
+          filename: uploadFilename,
           src: presign.public_url,
           alt: "",
-          service: queueItem.service,
-          subCategory: queueItem.subCategory,
+          library: queueItem.library,
+          siteCategory,
+          service,
+          subCategory,
           aspectRatio,
           sortOrder: startingSortOrder + index,
         });
@@ -771,13 +979,25 @@ export function AdminMediaManager() {
           message: "Draft created",
           createdItem: draft,
         });
+        succeededCount += 1;
       } catch (error) {
         setUploadItem(queueItem.id, {
           status: "error",
           progress: 0,
-          message: getFriendlyError(error),
+          message: getUploadErrorMessage(error),
         });
+        failedCount += 1;
       }
+    }
+
+    if (failedCount > 0) {
+      setNotice(
+        succeededCount > 0
+          ? `Uploaded ${succeededCount} of ${readyItems.length} images. Retry the failed uploads when ready.`
+          : "Upload failed. Retry the failed uploads when ready.",
+      );
+    } else if (succeededCount > 0) {
+      setNotice(`Uploaded ${succeededCount} image${succeededCount === 1 ? "" : "s"}.`);
     }
 
     setIsUploading(false);
@@ -796,8 +1016,8 @@ export function AdminMediaManager() {
       setMoveDestinationAvailable(result.available);
       setMoveMessage(
         result.available
-          ? "Destination is available."
-          : "Destination already exists in the catalog or storage.",
+          ? "This file path is available."
+          : "This file path is already in use.",
       );
     } catch (error) {
       setMoveDestinationAvailable(false);
@@ -810,7 +1030,7 @@ export function AdminMediaManager() {
   async function moveSelected() {
     if (!selectedItem || selectedItem.status !== "draft") return;
     if (moveDestinationAvailable !== true) {
-      setMoveMessage("Check destination availability before moving this draft.");
+      setMoveMessage("Check the file path before moving this draft.");
       return;
     }
 
@@ -843,8 +1063,8 @@ export function AdminMediaManager() {
         result.triggered
           ? "Public pages queued for refresh."
           : result.configured
-            ? "Revalidation was skipped by the server."
-            : "Revalidation is not configured on the server.",
+            ? "Live site refresh was skipped."
+            : "Live site refresh is not set up yet.",
       );
     } catch (error) {
       setNotice(getFriendlyError(error));
@@ -853,12 +1073,48 @@ export function AdminMediaManager() {
     }
   }
 
+  function handleLibraryFilterChange(value: LibraryFilter) {
+    setLibraryFilter(value);
+    if (value === "site") {
+      setServiceFilter("all");
+      setSubCategoryFilter("all");
+    }
+  }
+
+  function handleServiceFilterChange(value: "all" | MediaService) {
+    setServiceFilter(value);
+    if (value !== "all") setLibraryFilter("portfolio");
+  }
+
+  function handleSubCategoryFilterChange(value: "all" | MediaSubCategory) {
+    setSubCategoryFilter(value);
+    if (value !== "all") setLibraryFilter("portfolio");
+  }
+
+  function handleUploadTargetChange(
+    target:
+      | {
+          library: "portfolio";
+          service: MediaService;
+          subCategory: MediaSubCategory;
+        }
+      | {
+          library: "site";
+        },
+  ) {
+    setUploadLibrary(target.library);
+    if (target.library === "portfolio") {
+      setUploadService(target.service);
+      setUploadSubCategory(target.subCategory);
+    }
+  }
+
   if (authState === "checking") {
     return (
       <main className="grid min-h-screen place-items-center bg-[var(--background)] px-6">
         <div className="flex items-center gap-3 text-sm font-semibold text-[var(--brand-strong)]">
           <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
-          Checking media admin session
+          Checking media access
         </div>
       </main>
     );
@@ -871,7 +1127,7 @@ export function AdminMediaManager() {
         error={loginError}
         isSending={isSendingLink}
         message={loginMessage}
-        onEmailChange={setLoginEmail}
+        onEmailChange={handleLoginEmailChange}
         onSubmit={sendMagicLink}
       />
     );
@@ -911,6 +1167,7 @@ export function AdminMediaManager() {
       selectedId={selectedId}
       selectedItem={selectedItem}
       selectedPlacementUsages={selectedPlacementUsages}
+      libraryFilter={libraryFilter}
       serviceFilter={serviceFilter}
       serviceSubCategories={serviceSubCategories}
       session={session}
@@ -918,6 +1175,7 @@ export function AdminMediaManager() {
       statusFilter={statusFilter}
       subCategoryFilter={subCategoryFilter}
       uploadQueue={uploadQueue}
+      uploadLibrary={uploadLibrary}
       uploadReadyCount={uploadReadyCount}
       uploadService={uploadService}
       uploadSubCategory={uploadSubCategory}
@@ -944,23 +1202,22 @@ export function AdminMediaManager() {
         setMoveMessage("");
       }}
       onRemoveUpload={removeUpload}
+      onRetryUpload={retryUpload}
       onRestore={() => void restoreSelected()}
       onSave={() => void saveEditor()}
+      onLibraryFilterChange={handleLibraryFilterChange}
       onSearchChange={setQuery}
       onSelectedIdChange={selectSingleItem}
-      onServiceFilterChange={setServiceFilter}
+      onServiceFilterChange={handleServiceFilterChange}
       onSortModeChange={setSortMode}
       onStatusFilterChange={setStatusFilter}
-      onSubCategoryFilterChange={setSubCategoryFilter}
+      onSubCategoryFilterChange={handleSubCategoryFilterChange}
       onPlacementPickerSlotChange={setActivePlacementPickerSlotKey}
       onTriggerRevalidate={triggerRevalidate}
       onUpdateEditor={updateEditor}
       onUploadDrafts={uploadDrafts}
       onUpdateUploadItemTarget={updateUploadItemTarget}
-      onUploadTargetChange={(service, subCategory) => {
-        setUploadService(service);
-        setUploadSubCategory(subCategory);
-      }}
+      onUploadTargetChange={handleUploadTargetChange}
     />
   );
 }

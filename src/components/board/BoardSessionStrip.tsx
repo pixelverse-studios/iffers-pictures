@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { BoardImageAsset } from "./types";
 
 export interface BoardSessionStripItem {
@@ -39,6 +40,7 @@ export function BoardSessionStrip({ items, className }: BoardSessionStripProps) 
             fill
             sizes="100vw"
             className="scale-100 transform-gpu object-cover transition-transform duration-700 ease-in-out will-change-transform motion-safe:group-hover:scale-[1.035]"
+            style={{ objectPosition: getMediaCropPosition(item.image) }}
           />
           <div className="relative z-10 mx-auto max-w-xl text-white before:absolute before:left-1/2 before:top-1/2 before:-z-10 before:h-32 before:w-[min(90vw,44rem)] before:-translate-x-1/2 before:-translate-y-1/2 before:bg-black/38 before:blur-3xl before:content-['']">
             <h2

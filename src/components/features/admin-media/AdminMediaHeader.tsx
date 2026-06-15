@@ -13,6 +13,7 @@ interface AdminMediaHeaderProps {
   fileInputRef: RefObject<HTMLInputElement | null>;
   isRevalidating: boolean;
   onFilesSelected: (files: File[]) => void;
+  onOpenUpload: () => void;
   onTriggerRevalidate: () => void;
 }
 
@@ -21,6 +22,7 @@ export function AdminMediaHeader({
   fileInputRef,
   isRevalidating,
   onFilesSelected,
+  onOpenUpload,
   onTriggerRevalidate,
 }: AdminMediaHeaderProps) {
   return (
@@ -49,7 +51,7 @@ export function AdminMediaHeader({
           />
           <button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={onOpenUpload}
             className="inline-flex min-h-10 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-4 text-sm font-bold text-white"
           >
             <Upload className="h-4 w-4" aria-hidden />
@@ -66,7 +68,7 @@ export function AdminMediaHeader({
             ) : (
               <RefreshCcw className="h-4 w-4" />
             )}
-            Revalidate
+            Refresh live site
           </button>
           <Link
             href="/portfolio"

@@ -2,6 +2,7 @@ import {
   MEDIA_SERVICES,
   MEDIA_SUB_CATEGORIES,
   type MediaService,
+  type MediaSiteCategory,
   type MediaStatus,
   type MediaSubCategory,
 } from "@/lib/media/types";
@@ -21,32 +22,39 @@ export const STATUS_CLASSES: Record<MediaStatus, string> = {
 
 export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.destination_collision":
-    "That destination already has a catalog item or R2 object.",
-  "media.duplicate_key": "That media key is already in the catalog.",
+    "That file path is already in use.",
+  "media.duplicate_key": "That image file path is already in use.",
   "media.published_location_locked": "Published media cannot be moved or renamed.",
   "media.archived_locked": "Restore this item before editing its details.",
-  "media.missing_alt_text": "Add alt text before publishing.",
+  "media.missing_alt_text": "Add an image description before publishing.",
   "media.missing_service": "Choose a service before publishing.",
-  "media.missing_sub_category": "Choose a sub-category before publishing.",
+  "media.missing_sub_category": "Choose a photo type before publishing.",
+  "media.missing_site_category": "Choose a site image category before publishing.",
   "media.missing_aspect_ratio": "Choose an aspect ratio before publishing.",
+  "media.invalid_library": "Choose Portfolio or Site Images.",
+  "media.invalid_site_category": "Choose a supported site image category.",
   "media.invalid_service": "Choose a supported service.",
-  "media.invalid_sub_category": "Choose a sub-category that belongs to the selected service.",
+  "media.invalid_sub_category": "Choose a photo type that belongs to the selected service.",
   "media.invalid_content_type": "Upload JPEG, PNG, or WebP files only.",
   "media.file_too_large": "Upload images up to 25 MB.",
-  "media.destination_key_required": "Enter a destination key before moving this draft.",
+  "media.destination_key_required": "Enter a new file path before moving this draft.",
   "media.invalid_status_transition": "That status change is not allowed.",
-  "media.invalid_placement_slot": "Choose a supported placement slot.",
+  "media.invalid_placement_slot": "Choose a supported page image spot.",
   "media.archived_assignment_forbidden":
-    "Archived media cannot be assigned to a placement.",
+    "Archived images cannot be assigned to a page.",
   "media.placement_media_archived":
-    "Archived media cannot be assigned to a placement.",
+    "Archived images cannot be assigned to a page.",
   "media.unpublished_assignment_forbidden":
-    "Publish this media item before assigning it to a placement.",
+    "Publish this image before assigning it to a page.",
   "media.placement_media_not_published":
-    "Publish this media item before assigning it to a placement.",
-  "media.not_found": "That media item could not be found. Refresh the catalog and try again.",
+    "Publish this image before assigning it to a page.",
+  "media.not_found": "That image could not be found. Refresh the image library and try again.",
   "media.website_not_found": "That media website could not be found.",
-  "media.r2_not_configured": "Media storage is not configured on the server.",
+  "media.r2_not_configured": "Image storage is not set up. Contact support.",
+  "media.gateway_timeout":
+    "The image request timed out. Try again in a moment.",
+  "media.gateway_unavailable":
+    "The image service is temporarily unavailable. Try again in a moment.",
 };
 
 export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
@@ -81,6 +89,10 @@ export function getFolderForCategory(
   }
 
   return service.toLowerCase();
+}
+
+export function getFolderForSiteCategory(siteCategory: MediaSiteCategory) {
+  return `site/${siteCategory.toLowerCase()}`;
 }
 
 export const CATEGORY_OPTIONS = MEDIA_SERVICES.flatMap((service) =>

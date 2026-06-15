@@ -12,6 +12,7 @@ import {
   getPlacementGalleryItem,
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 import type { SubCategory } from "@/components/features/portfolio/portfolioData";
 
@@ -67,7 +68,7 @@ function revealStyle(delay: number): CSSProperties {
   return { "--reveal-delay": `${delay}ms` } as CSSProperties;
 }
 
-type BoardHomeImage = Pick<PublicGalleryItem, "src" | "alt">;
+type BoardHomeImage = Pick<PublicGalleryItem, "src" | "alt" | "cropPosition">;
 
 function BoardHomeHero({ heroImage }: { heroImage?: PublicGalleryItem }) {
   if (!heroImage) return null;
@@ -140,7 +141,7 @@ function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) 
         {stripImages.map((image, index) => (
           <div
             key={`${image.id}-${index}`}
-            className="scroll-reveal scroll-reveal-image relative min-h-[230px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[320px] md:border-b-0 md:border-r md:last:border-r-0"
+            className="scroll-reveal scroll-reveal-image relative min-h-[280px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[400px] md:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[430px]"
             data-scroll-reveal
             style={revealStyle(index * 90)}
           >
@@ -150,6 +151,7 @@ function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) 
               fill
               sizes="(max-width: 768px) 100vw, 33vw"
               className="motion-image-zoom object-cover"
+              style={{ objectPosition: getMediaCropPosition(image) }}
             />
           </div>
         ))}
@@ -275,6 +277,7 @@ function BoardSessionsPreview({
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 className="object-cover transition-transform duration-[1300ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
+                style={{ objectPosition: getMediaCropPosition(item.image) }}
               />
             </div>
             <p className="mt-3 text-xs font-bold uppercase tracking-[0.16em] text-[var(--brand-strong)]">
@@ -340,6 +343,7 @@ function BoardQuotePreview({ heroImage }: { heroImage?: PublicGalleryItem }) {
             fill
             sizes="(max-width: 768px) 100vw, 42vw"
             className="motion-image-zoom object-cover"
+            style={{ objectPosition: getMediaCropPosition(heroImage) }}
           />
         </div>
       </div>
@@ -460,7 +464,11 @@ export function BoardHomeLayout({
     { id: 96, service: "Family", subCategory: "Family" },
     { id: 100, service: "Maternity", subCategory: "Maternity" },
   ] as const;
-  const stripImageSlotKeys = ["home.strip.1", "home.strip.2", undefined] as const;
+  const stripImageSlotKeys = [
+    "home.strip.1",
+    "home.strip.2",
+    "home.strip.3",
+  ] as const;
   const stripImages = stripImageFallbacks
     .map(
       (fallback, index) =>

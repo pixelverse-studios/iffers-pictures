@@ -58,6 +58,20 @@
 - Verified CMS-managed public images use optimized responsive Next.js image delivery and added longer caching for optimized media derivatives.
 - Added an editable CMS placement for the FAQ page "Still Have Questions?" image so it can be managed from the media dashboard.
 - Fixed mobile menu spacing, sessions strip reveal timing, and Investment page mobile image layout so key mobile surfaces feel cleaner on phones.
+- Limited page image assignment choices to images that match each spot's supported shape.
+- Added the missing Homepage Image Strip 3 placement to the media admin dashboard.
+- Connected the third homepage image strip position to the CMS placement system while preserving its existing fallback image.
+- Refined the media admin navigation so image groups and nested categories are easier to scan.
+- Improved page image spot cards so previews and action buttons stay readable when selected media details are open.
+- Added CMS support for changing the image in the Inquire page "What happens next" section.
+- Increased the height of the three homepage portfolio preview images below the hero.
+- Improved media upload feedback so failed photo uploads can be retried without losing successful drafts.
+- Improved media admin sign-in feedback so link requests show clearer sending, success, and recovery states.
+- Fixed production media admin saves timing out after the media editor crop controls release.
+- Media metadata edits now use the stable save payload while backend crop-position write support is confirmed.
+- Cleaned up media admin wording so dashboard labels and messages use photographer-friendly language.
+- Removed the advanced R2/file-details section from selected image editing.
+- Renamed Alt text to Image description throughout media admin flows.
 
 ## Notes for internal team
 
@@ -119,6 +133,19 @@
 - DEV-1030: Audited public CMS media usage across homepage, services, portfolio, investment, FAQ, and about; added a 30-day `next/image` optimized derivative cache TTL and documented when server-side derivatives would be the next mitigation.
 - DEV-1032: Added the frontend `faq.cta` placement contract and wired the FAQ bottom CTA image to prefer that placement before falling back to the existing pinned Family image.
 - DEV-1031: Adjusted mobile menu overlay positioning, added eager session-strip reveal behavior, removed hover-only image blur from session strips, and changed the Investment mobile hero image to be full-width without the desktop gradient overlay.
+- Page image picker now filters by `expectedAspectRatios` before assignment to avoid API rejections for unsupported image shapes.
+- DEV-1021: Added the `home.strip.3` frontend placement slot and mapped the third homepage strip image to it.
+- Server support for `home.strip.3` must be present for assignment, replacement, and clearing to succeed through the API.
+- Removed redundant item icons from the media sidebar and replaced them with structural hierarchy markers.
+- Made the page image spot grid inspector-aware to avoid cramped two-column cards beside the selected media panel.
+- DEV-1023: Added the `inquire.what_happens_next` media placement slot, exposed local placement metadata in the admin dashboard, and wired `/contact` to consume public media placements with the existing static selfie image as fallback.
+- DEV-1027: Raised homepage image strip minimum heights while preserving the existing three-image layout and CMS placement mapping.
+- DEV-1019: Added upload-specific timeout copy, retry controls for failed valid uploads, and partial-success upload summaries.
+- DEV-1017: Guarded duplicate magic-link requests, cleared stale sign-in messages when the email changes, and added timeout-specific callback recovery copy.
+- Hotfix: Stopped sending new `aspect_ratio` and `crop_position` fields in admin media create/update requests because production PATCH saves were returning 504 after authentication.
+- Frontend still reads normalized `aspect_ratio` and `crop_position` values when present.
+- Kept photography terms such as aspect ratio, image focus, draft, published, and archived.
+- Replaced implementation terms like revalidate, catalog, slot, key, and R2 in visible admin copy.
 
 ## Changed URLs
 
@@ -133,6 +160,7 @@
 - https://ifferspictures.com/portfolio
 - https://ifferspictures.com/testimonials
 - https://ifferspictures.com/investment
+- https://ifferspictures.com/contact
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/admin/media

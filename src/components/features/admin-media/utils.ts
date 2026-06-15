@@ -1,10 +1,13 @@
 import { MediaApiError } from "@/lib/media/errors";
+import { getMediaAspectRatio } from "@/lib/media/aspect-ratio";
+import { getMediaCropPosition } from "@/lib/media/crop-position";
 import {
   MEDIA_STATUSES,
   MEDIA_SUB_CATEGORIES,
   MEDIA_UPLOAD_CONTENT_TYPES,
   type AdminMediaItem,
   type MediaAspectRatio,
+  type MediaLibrary,
   type MediaStatus,
   type MediaUploadContentType,
 } from "@/lib/media/types";
@@ -38,14 +41,33 @@ export function isAmbiguousMediaMutationError(error: unknown) {
 }
 
 export function getInitialEditorState(item: AdminMediaItem): EditorState {
+  const library = getMediaLibrary(item);
+
   return {
     alt: item.alt ?? "",
-    service: item.service ?? "",
-    subCategory: item.subCategory ?? "",
-    aspectRatio: item.aspectRatio ?? "",
+    library,
+    siteCategory: library === "site" ? item.siteCategory ?? "Misc" : "",
+    service: library === "portfolio" ? item.service ?? "" : "",
+    subCategory: library === "portfolio" ? item.subCategory ?? "" : "",
+    aspectRatio: getMediaAspectRatio(item) ?? "",
+    cropPosition: getMediaCropPosition(item),
     status: item.status,
     sortOrder: String(item.sortOrder ?? 0),
   };
+}
+
+export function getMediaLibrary(item: Pick<AdminMediaItem, "library">): MediaLibrary {
+  return item.library ?? "portfolio";
+}
+
+export function getMediaCategoryLabel(
+  item: Pick<AdminMediaItem, "library" | "siteCategory" | "service" | "subCategory">,
+) {
+  if (getMediaLibrary(item) === "site") {
+    return "Site Images";
+  }
+
+  return `${item.service ?? "No service"} · ${item.subCategory ?? "No photo type"}`;
 }
 
 export function isValidUploadType(type: string): type is MediaUploadContentType {
@@ -60,7 +82,37 @@ export function getUploadValidationMessage(file: File) {
   return "";
 }
 
+export function getSafeUploadFilename(file: File) {
+  const extensionFromType =
+    file.type === "image/png"
+      ? "png"
+      : file.type === "image/webp"
+        ? "webp"
+        : "jpg";
+  const lastDotIndex = file.name.lastIndexOf(".");
+  const rawBaseName =
+    lastDotIndex > 0 ? file.name.slice(0, lastDotIndex) : file.name;
+  const rawExtension =
+    lastDotIndex > 0 ? file.name.slice(lastDotIndex + 1) : extensionFromType;
+  const safeBaseName = rawBaseName
+    .trim()
+    .toLowerCase()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  const safeExtension = rawExtension
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+
+  return `${safeBaseName || "image"}.${safeExtension || extensionFromType}`;
+}
+
 export function canPublish(state: EditorState) {
+  if (state.library === "site") {
+    return Boolean(state.alt.trim() && state.siteCategory && state.aspectRatio);
+  }
+
   return Boolean(
     state.alt.trim() &&
       state.service &&
@@ -71,6 +123,13 @@ export function canPublish(state: EditorState) {
 }
 
 export function getAffectedPages(item: AdminMediaItem | null) {
+  if (item && getMediaLibrary(item) === "site") {
+    if (item.siteCategory === "Home") return ["/"];
+    if (item.siteCategory === "About") return ["/about"];
+    if (item.siteCategory === "Brand") return ["/", "/about"];
+    return ["/"];
+  }
+
   if (!item?.service) return ["/portfolio"];
 
   const pages = ["/portfolio"];
@@ -93,6 +152,7 @@ export function sortItems(items: AdminMediaItem[], sort: SortMode) {
 
 export function filterItems({
   items,
+  library,
   status,
   service,
   subCategory,
@@ -100,6 +160,7 @@ export function filterItems({
   sort,
 }: {
   items: AdminMediaItem[];
+  library: "all" | MediaLibrary;
   status: StatusFilter;
   service: "all" | AdminMediaItem["service"];
   subCategory: "all" | AdminMediaItem["subCategory"];
@@ -110,12 +171,22 @@ export function filterItems({
 
   return sortItems(
     items.filter((item) => {
+      const itemLibrary = getMediaLibrary(item);
+      if (library !== "all" && itemLibrary !== library) return false;
       if (status !== "all" && item.status !== status) return false;
       if (service !== "all" && item.service !== service) return false;
       if (subCategory !== "all" && item.subCategory !== subCategory) return false;
       if (!normalizedQuery) return true;
 
-      return [item.filename, item.key, item.alt, item.service, item.subCategory]
+      return [
+        item.filename,
+        item.key,
+        item.alt,
+        itemLibrary,
+        item.siteCategory,
+        item.service,
+        item.subCategory,
+      ]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(normalizedQuery));
     }),
