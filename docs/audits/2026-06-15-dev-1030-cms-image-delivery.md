@@ -39,4 +39,3 @@ Verified public delivery behavior for CMS-managed media on the image-heavy publi
 - Static audit of all public CMS media render paths found `next/image` usage rather than raw `<img>` usage.
 - `next.config.ts` remote patterns include both R2 and the custom media domain.
 - Production build should be run after this change to validate the image config.
-
