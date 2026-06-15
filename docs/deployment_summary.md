@@ -55,6 +55,7 @@
 - Added a Check status action so the admin media screen can recover when a network timeout may have hidden a completed change.
 - Aligned and improved the responsive layout for the Inquire page "What happens next" process steps so the longer third heading no longer drops its divider and description when space gets tight.
 - Updated admin media upload guidance to recommend high-quality JPG/JPEG photo exports and show the new 25 MB upload limit.
+- Verified CMS-managed public images use optimized responsive Next.js image delivery and added longer caching for optimized media derivatives.
 
 ## Notes for internal team
 
@@ -113,6 +114,7 @@
 - DEV-1025: Ambiguous timeout/network/proxy failures now warn that the mutation may have completed and guide the admin to check or refresh status before retrying.
 - DEV-1024: Added a desktop minimum heading height and delayed the side-by-side image layout until wider screens so the Inquire process steps stay readable without changing copy or mobile stacking.
 - DEV-1029: Raised the frontend admin upload validation constant to 25 MB and added concise JPG/JPEG, PNG, WebP, dimension, quality, and RAW/original-export guidance.
+- DEV-1030: Audited public CMS media usage across homepage, services, portfolio, investment, FAQ, and about; added a 30-day `next/image` optimized derivative cache TTL and documented when server-side derivatives would be the next mitigation.
 
 ## Changed URLs
 
@@ -148,3 +150,14 @@
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/admin/media
+- https://ifferspictures.com/
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/couples-engagement
+- https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/faq
+- https://ifferspictures.com/about
