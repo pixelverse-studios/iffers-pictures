@@ -53,6 +53,7 @@
 - Restored direct metadata editing access for a single selected published image from the Selected Media panel.
 - Made admin media publish, archive, restore, and save actions show clearer in-progress states and verify status after important changes.
 - Added a Check status action so the admin media screen can recover when a network timeout may have hidden a completed change.
+- Aligned and improved the responsive layout for the Inquire page "What happens next" process steps so the longer third heading no longer drops its divider and description when space gets tight.
 
 ## Notes for internal team
 
@@ -109,6 +110,7 @@
 - DEV-959: Added a single-selection `Edit details` action that exits batch selection and opens the normal media inspector for the selected published image.
 - DEV-1025: Split admin media mutation UI state into save, publish, archive, restore, and check-status operations; status-changing mutations now refetch the admin catalog after success.
 - DEV-1025: Ambiguous timeout/network/proxy failures now warn that the mutation may have completed and guide the admin to check or refresh status before retrying.
+- DEV-1024: Added a desktop minimum heading height and delayed the side-by-side image layout until wider screens so the Inquire process steps stay readable without changing copy or mobile stacking.
 
 ## Changed URLs
 
@@ -142,3 +144,4 @@
 - https://ifferspictures.com/faq
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/admin/media
+- https://ifferspictures.com/contact
