@@ -55,6 +55,7 @@
 - Added a Check status action so the admin media screen can recover when a network timeout may have hidden a completed change.
 - Aligned and improved the responsive layout for the Inquire page "What happens next" process steps so the longer third heading no longer drops its divider and description when space gets tight.
 - Updated admin media upload guidance to recommend high-quality JPG/JPEG photo exports and show the new 25 MB upload limit.
+- Added an editable CMS placement for the FAQ page "Still Have Questions?" image so it can be managed from the media dashboard.
 
 ## Notes for internal team
 
@@ -113,6 +114,7 @@
 - DEV-1025: Ambiguous timeout/network/proxy failures now warn that the mutation may have completed and guide the admin to check or refresh status before retrying.
 - DEV-1024: Added a desktop minimum heading height and delayed the side-by-side image layout until wider screens so the Inquire process steps stay readable without changing copy or mobile stacking.
 - DEV-1029: Raised the frontend admin upload validation constant to 25 MB and added concise JPG/JPEG, PNG, WebP, dimension, quality, and RAW/original-export guidance.
+- DEV-1032: Added the frontend `faq.cta` placement contract and wired the FAQ bottom CTA image to prefer that placement before falling back to the existing pinned Family image.
 
 ## Changed URLs
 
