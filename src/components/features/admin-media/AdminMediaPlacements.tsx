@@ -73,12 +73,20 @@ export function AdminMediaPlacements({
   const [serviceFilter, setServiceFilter] = useState<"all" | MediaService>("all");
   const activeSlot = slots.find((slot) => slot.slotKey === activePickerSlotKey);
   const activeSlotPageLabel = activeSlot?.pageLabel ?? "";
+  const activeSlotExpectedAspectRatios = activeSlot?.expectedAspectRatios ?? [];
   const preferredSiteCategory = getPreferredSiteCategory(activeSlotPageLabel);
   const normalizedQuery = query.trim().toLowerCase();
   const publishedItems = items
     .filter((item) => {
       if (item.status !== "published") return false;
       const itemLibrary = getMediaLibrary(item);
+      const aspectRatio = getMediaAspectRatio(item);
+      if (
+        activeSlotExpectedAspectRatios.length > 0 &&
+        (!aspectRatio || !activeSlotExpectedAspectRatios.includes(aspectRatio))
+      ) {
+        return false;
+      }
       if (libraryFilter !== "all" && itemLibrary !== libraryFilter) return false;
       if (
         itemLibrary === "portfolio" &&
@@ -346,6 +354,9 @@ export function AdminMediaPlacements({
               </h3>
               <p className="mt-1 text-sm font-semibold text-[var(--text-secondary)]">
                 Published images only. One image can be used in multiple places.
+                {activeSlotExpectedAspectRatios.length > 0
+                  ? ` Showing ${activeSlotExpectedAspectRatios.join(" or ")} images for this spot.`
+                  : ""}
               </p>
             </div>
             <button
