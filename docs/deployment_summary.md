@@ -54,6 +54,7 @@
 - Made admin media publish, archive, restore, and save actions show clearer in-progress states and verify status after important changes.
 - Added a Check status action so the admin media screen can recover when a network timeout may have hidden a completed change.
 - Aligned and improved the responsive layout for the Inquire page "What happens next" process steps so the longer third heading no longer drops its divider and description when space gets tight.
+- Updated admin media upload guidance to recommend high-quality JPG/JPEG photo exports and show the new 25 MB upload limit.
 
 ## Notes for internal team
 
@@ -111,6 +112,7 @@
 - DEV-1025: Split admin media mutation UI state into save, publish, archive, restore, and check-status operations; status-changing mutations now refetch the admin catalog after success.
 - DEV-1025: Ambiguous timeout/network/proxy failures now warn that the mutation may have completed and guide the admin to check or refresh status before retrying.
 - DEV-1024: Added a desktop minimum heading height and delayed the side-by-side image layout until wider screens so the Inquire process steps stay readable without changing copy or mobile stacking.
+- DEV-1029: Raised the frontend admin upload validation constant to 25 MB and added concise JPG/JPEG, PNG, WebP, dimension, quality, and RAW/original-export guidance.
 
 ## Changed URLs
 
@@ -145,3 +147,4 @@
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/contact
+- https://ifferspictures.com/admin/media

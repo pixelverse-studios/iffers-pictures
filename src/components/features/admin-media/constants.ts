@@ -32,7 +32,7 @@ export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.invalid_service": "Choose a supported service.",
   "media.invalid_sub_category": "Choose a sub-category that belongs to the selected service.",
   "media.invalid_content_type": "Upload JPEG, PNG, or WebP files only.",
-  "media.file_too_large": "This image is too large for upload.",
+  "media.file_too_large": "Upload images up to 25 MB.",
   "media.destination_key_required": "Enter a destination key before moving this draft.",
   "media.invalid_status_transition": "That status change is not allowed.",
   "media.invalid_placement_slot": "Choose a supported placement slot.",
@@ -49,7 +49,7 @@ export const FRIENDLY_ERRORS: Record<string, string> = {
   "media.r2_not_configured": "Media storage is not configured on the server.",
 };
 
-export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
 export function getFolderForCategory(
   service: MediaService,
