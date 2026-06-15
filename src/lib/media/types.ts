@@ -48,6 +48,7 @@ export const MEDIA_PLACEMENT_SLOT_KEYS = [
   "investment.hero",
   "investment.detail",
   "faq.hero",
+  "faq.cta",
 ] as const;
 
 export const IFFERS_MEDIA_PLACEMENT_SLOTS = [
@@ -177,6 +178,14 @@ export const IFFERS_MEDIA_PLACEMENT_SLOTS = [
     sectionLabel: "Hero",
     description: "Primary FAQ page hero image.",
     expectedAspectRatios: ["landscape", "portrait"],
+    affectedPaths: ["/faq"],
+  },
+  {
+    slotKey: "faq.cta",
+    pageLabel: "FAQ",
+    sectionLabel: "Still Have Questions",
+    description: "Image paired with the FAQ page bottom CTA.",
+    expectedAspectRatios: ["portrait", "landscape"],
     affectedPaths: ["/faq"],
   },
 ] as const satisfies readonly MediaPlacementSlot[];

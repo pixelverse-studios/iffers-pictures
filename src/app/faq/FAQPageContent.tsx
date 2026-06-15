@@ -122,12 +122,14 @@ function BoardFAQContent({
     sections.find((section) => section.slug === activeSectionSlug) ??
     sections[0];
   const allItems = mediaItems;
-  const ctaImage = findPinnedGalleryItem(allItems, {
-    id: 99,
-    service: "Family",
-    subCategory: "Family",
-  });
   const heroImage = getPlacementGalleryItem(placements, "faq.hero");
+  const ctaImage =
+    getPlacementGalleryItem(placements, "faq.cta") ??
+    findPinnedGalleryItem(allItems, {
+      id: 99,
+      service: "Family",
+      subCategory: "Family",
+    });
 
   function selectSection(slug: string) {
     trackEvent("faq_category_select", { category: slug });
