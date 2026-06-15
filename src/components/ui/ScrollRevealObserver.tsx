@@ -28,25 +28,45 @@ export function ScrollRevealObserver() {
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+    const observers: IntersectionObserver[] = [];
 
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        });
+    const revealElement = (entry: IntersectionObserverEntry) => {
+      if (!entry.isIntersecting) return;
+
+      entry.target.classList.add("is-visible");
+      observers.forEach((observer) => observer.unobserve(entry.target));
+    };
+
+    const defaultObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(revealElement);
       },
       {
         rootMargin: "0px 0px -14% 0px",
         threshold: 0.18,
       }
     );
+    const eagerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(revealElement);
+      },
+      {
+        rootMargin: "18% 0px 8% 0px",
+        threshold: 0.05,
+      }
+    );
+
+    const getObserver = (element: HTMLElement) =>
+      element.dataset.scrollRevealEager === "true"
+        ? eagerObserver
+        : defaultObserver;
+
+    observers.push(defaultObserver, eagerObserver);
 
     const revealAfterScroll = new Set<HTMLElement>();
     const startDeferredReveals = () => {
       revealAfterScroll.forEach((element) => {
-        observer.observe(element);
+        getObserver(element).observe(element);
       });
       revealAfterScroll.clear();
     };
@@ -65,7 +85,7 @@ export function ScrollRevealObserver() {
         return;
       }
 
-      observer.observe(element);
+      getObserver(element).observe(element);
     });
 
     if (revealAfterScroll.size > 0) {
@@ -86,7 +106,8 @@ export function ScrollRevealObserver() {
     root.dataset.scrollRevealReady = "true";
 
     return () => {
-      observer.disconnect();
+      defaultObserver.disconnect();
+      eagerObserver.disconnect();
       window.removeEventListener("scroll", startDeferredReveals);
       window.removeEventListener("wheel", startDeferredReveals);
       window.removeEventListener("touchmove", startDeferredReveals);
