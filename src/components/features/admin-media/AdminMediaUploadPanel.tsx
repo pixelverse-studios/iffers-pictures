@@ -4,7 +4,8 @@ import { Select } from "@mantine/core";
 import type { RefObject } from "react";
 import { ImagePlus, Loader2 } from "lucide-react";
 import type { MediaService, MediaSubCategory } from "@/lib/media/types";
-import { CATEGORY_OPTIONS } from "./constants";
+import { CATEGORY_OPTIONS, MAX_UPLOAD_BYTES } from "./constants";
+import { formatBytes } from "./utils";
 
 interface AdminMediaUploadPanelProps {
   fileInputRef: RefObject<HTMLInputElement | null>;
@@ -49,6 +50,9 @@ export function AdminMediaUploadPanel({
         <p className="mt-2 text-sm text-[var(--text-secondary)]">
           New images start as drafts until you publish them.
         </p>
+        <p className="mt-2 max-w-md text-sm font-semibold leading-6 text-[var(--text-secondary)]">
+          JPG/JPEG photos work best. PNG is for graphics or transparency; WebP is fine if already exported cleanly. Max {formatBytes(MAX_UPLOAD_BYTES)}.
+        </p>
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
@@ -81,6 +85,12 @@ export function AdminMediaUploadPanel({
           <p className="font-bold">Alt text required after upload</p>
           <p className="mt-1 leading-6">
             Uploads are drafts. Complete alt text before publishing.
+          </p>
+        </div>
+        <div className="border border-[var(--border)] bg-[var(--background-warm)] p-4 text-sm text-[var(--text-secondary)]">
+          <p className="font-bold text-[var(--brand-strong)]">Recommended export</p>
+          <p className="mt-1 leading-6">
+            Use JPG/JPEG around 3000-4500 px on the long edge at quality 85-90. Skip RAW or oversized originals.
           </p>
         </div>
         <button
