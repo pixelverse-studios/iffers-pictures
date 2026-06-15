@@ -51,6 +51,8 @@
 - Fixed selected-media batch archive so a single selected published image uses the batch archive confirmation flow.
 - Kept admin placement assignments visually in sync when assigned images are archived.
 - Restored direct metadata editing access for a single selected published image from the Selected Media panel.
+- Made admin media publish, archive, restore, and save actions show clearer in-progress states and verify status after important changes.
+- Added a Check status action so the admin media screen can recover when a network timeout may have hidden a completed change.
 
 ## Notes for internal team
 
@@ -105,6 +107,8 @@
 - DEV-959: Single published-image selection now renders the Selected Media batch archive panel, so one-image archive QA exercises the batch endpoint.
 - DEV-959/DEV-955: Successful archive updates now clear matching local placement assignments to prevent stale admin placement state after archive.
 - DEV-959: Added a single-selection `Edit details` action that exits batch selection and opens the normal media inspector for the selected published image.
+- DEV-1025: Split admin media mutation UI state into save, publish, archive, restore, and check-status operations; status-changing mutations now refetch the admin catalog after success.
+- DEV-1025: Ambiguous timeout/network/proxy failures now warn that the mutation may have completed and guide the admin to check or refresh status before retrying.
 
 ## Changed URLs
 
@@ -136,4 +140,5 @@
 - https://ifferspictures.com/portfolio
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/faq
+- https://ifferspictures.com/admin/media
 - https://ifferspictures.com/admin/media
