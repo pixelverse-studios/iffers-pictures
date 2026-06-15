@@ -26,6 +26,7 @@ import type {
   BatchArchiveFeedback,
   EditorState,
   AdminMediaViewMode,
+  MediaMutationOperation,
   MediaPlacementUsage,
   PlacementPageFilter,
   SortMode,
@@ -53,7 +54,7 @@ interface AdminMediaLibraryProps {
   isMoving: boolean;
   isMutatingPlacement: MediaPlacementSlotKey | null;
   isRevalidating: boolean;
-  isSaving: boolean;
+  mediaMutationOperation: MediaMutationOperation | null;
   isUploading: boolean;
   moveDestinationAvailable: boolean | null;
   moveKey: string;
@@ -81,6 +82,7 @@ interface AdminMediaLibraryProps {
   onArchiveSelectionToggle: (id: number) => void;
   onAssignPlacement: (slotKey: MediaPlacementSlotKey, mediaId: number) => void;
   onCheckDestination: () => void;
+  onCheckStatus: () => void;
   onClearPlacement: (slotKey: MediaPlacementSlotKey) => void;
   onClearNotice: () => void;
   onClearArchiveSelection: () => void;
@@ -133,7 +135,7 @@ export function AdminMediaLibrary({
   isMoving,
   isMutatingPlacement,
   isRevalidating,
-  isSaving,
+  mediaMutationOperation,
   isUploading,
   moveDestinationAvailable,
   moveKey,
@@ -161,6 +163,7 @@ export function AdminMediaLibrary({
   onArchiveSelectionToggle,
   onAssignPlacement,
   onCheckDestination,
+  onCheckStatus,
   onClearPlacement,
   onClearNotice,
   onClearArchiveSelection,
@@ -350,7 +353,7 @@ export function AdminMediaLibrary({
             isCheckingMove={isCheckingMove}
             isBatchArchiving={isBatchArchiving}
             isMoving={isMoving}
-            isSaving={isSaving}
+            mediaMutationOperation={mediaMutationOperation}
             item={selectedItem}
             moveDestinationAvailable={moveDestinationAvailable}
             moveKey={moveKey}
@@ -362,6 +365,7 @@ export function AdminMediaLibrary({
             onArchive={onArchive}
             onArchiveSelected={onArchiveSelected}
             onCheckDestination={onCheckDestination}
+            onCheckStatus={onCheckStatus}
             onClose={() => onSelectedIdChange(null)}
             onClearArchiveSelection={onClearArchiveSelection}
             onEditSelectedItem={onEditSelectedArchiveItem}
