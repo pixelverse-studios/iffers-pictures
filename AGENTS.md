@@ -160,6 +160,16 @@ All project documentation belongs in `docs/`.
 - Blog: local venues, tips, seasonal content.
 - Contact: booking and inquiry form.
 
+## Admin CMS and Media Dashboard
+
+Jen is actively testing the CMS, especially the `/admin/media` page. Feedback for this area often requires coordinated changes across the admin UI and the backend API.
+
+- Treat `/admin/media` as an internal admin dashboard for managing uploaded photography assets, media metadata, and CMS-ready image selection.
+- UI changes for the admin media dashboard belong in this Next.js repo unless the relevant component clearly lives elsewhere.
+- Server/API changes for the CMS and media dashboard belong in the separate `pixelverse-studios-server` project, which is not tied to this repo.
+- Do not assume API behavior can be fixed only from this repo. If a media dashboard issue involves uploads, asset listing, metadata persistence, auth, storage, image processing, or response shape, inspect or update `pixelverse-studios-server` as part of the work.
+- Keep frontend and server contracts explicit when changing media dashboard behavior: request payloads, response fields, validation errors, loading states, and empty/error states should stay aligned.
+
 ## Local SEO Targets
 
 Primary towns:
