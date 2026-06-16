@@ -17,6 +17,12 @@ export type SortMode = "newest" | "oldest" | "sortOrder" | "filename";
 export type UploadStatus = "queued" | "uploading" | "created" | "error";
 export type AdminMediaViewMode = "library" | "placements";
 export type PlacementPageFilter = "all" | string;
+export type MediaMutationOperation =
+  | "save"
+  | "publish"
+  | "archive"
+  | "restore"
+  | "check-status";
 
 export interface EditorState {
   alt: string;

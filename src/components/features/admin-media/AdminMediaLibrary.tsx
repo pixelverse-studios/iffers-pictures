@@ -28,6 +28,7 @@ import type {
   BatchArchiveFeedback,
   EditorState,
   AdminMediaViewMode,
+  MediaMutationOperation,
   LibraryFilter,
   MediaPlacementUsage,
   PlacementPageFilter,
@@ -56,7 +57,7 @@ interface AdminMediaLibraryProps {
   isMoving: boolean;
   isMutatingPlacement: MediaPlacementSlotKey | null;
   isRevalidating: boolean;
-  isSaving: boolean;
+  mediaMutationOperation: MediaMutationOperation | null;
   isUploading: boolean;
   moveDestinationAvailable: boolean | null;
   moveKey: string;
@@ -86,6 +87,7 @@ interface AdminMediaLibraryProps {
   onArchiveSelectionToggle: (id: number) => void;
   onAssignPlacement: (slotKey: MediaPlacementSlotKey, mediaId: number) => void;
   onCheckDestination: () => void;
+  onCheckStatus: () => void;
   onClearPlacement: (slotKey: MediaPlacementSlotKey) => void;
   onClearNotice: () => void;
   onClearArchiveSelection: () => void;
@@ -157,7 +159,7 @@ export function AdminMediaLibrary({
   isMoving,
   isMutatingPlacement,
   isRevalidating,
-  isSaving,
+  mediaMutationOperation,
   isUploading,
   moveDestinationAvailable,
   moveKey,
@@ -187,6 +189,7 @@ export function AdminMediaLibrary({
   onArchiveSelectionToggle,
   onAssignPlacement,
   onCheckDestination,
+  onCheckStatus,
   onClearPlacement,
   onClearNotice,
   onClearArchiveSelection,
@@ -457,40 +460,41 @@ export function AdminMediaLibrary({
                     </aside>
                   ) : (
                     <AdminMediaInspector
-                    affectedPages={affectedPages}
-                    canMove={canMove}
-                    editor={editor}
-                    isCheckingMove={isCheckingMove}
-                    isBatchArchiving={isBatchArchiving}
-                    isMoving={isMoving}
-                    isSaving={isSaving}
-                    item={selectedItem}
-                    moveDestinationAvailable={moveDestinationAvailable}
-                    moveKey={moveKey}
-                    moveMessage={moveMessage}
-                    publishBlocked={publishBlocked}
-                    selectedBatchItems={selectedBatchItems}
-                    batchArchiveFeedback={batchArchiveFeedback}
-                    placementUsages={selectedPlacementUsages}
-                    onArchive={onArchive}
-                    onArchiveSelected={onArchiveSelected}
-                    onCheckDestination={onCheckDestination}
-                    onClose={() => {
-                      if (archiveSelectionIds.length > 0) {
-                        onClearArchiveSelection();
-                        return;
-                      }
-                      onSelectedIdChange(null);
-                    }}
-                    onClearArchiveSelection={onClearArchiveSelection}
-                    onEditSelectedItem={onEditSelectedArchiveItem}
-                    onMove={onMove}
-                    onMoveKeyChange={onMoveKeyChange}
-                    onRemoveArchiveSelectionItem={onArchiveSelectionToggle}
-                    onRestore={onRestore}
-                    onSave={onSave}
-                    onUpdateEditor={onUpdateEditor}
-                  />
+                      affectedPages={affectedPages}
+                      canMove={canMove}
+                      editor={editor}
+                      isCheckingMove={isCheckingMove}
+                      isBatchArchiving={isBatchArchiving}
+                      isMoving={isMoving}
+                      mediaMutationOperation={mediaMutationOperation}
+                      item={selectedItem}
+                      moveDestinationAvailable={moveDestinationAvailable}
+                      moveKey={moveKey}
+                      moveMessage={moveMessage}
+                      publishBlocked={publishBlocked}
+                      selectedBatchItems={selectedBatchItems}
+                      batchArchiveFeedback={batchArchiveFeedback}
+                      placementUsages={selectedPlacementUsages}
+                      onArchive={onArchive}
+                      onArchiveSelected={onArchiveSelected}
+                      onCheckDestination={onCheckDestination}
+                      onCheckStatus={onCheckStatus}
+                      onClose={() => {
+                        if (archiveSelectionIds.length > 0) {
+                          onClearArchiveSelection();
+                          return;
+                        }
+                        onSelectedIdChange(null);
+                      }}
+                      onClearArchiveSelection={onClearArchiveSelection}
+                      onEditSelectedItem={onEditSelectedArchiveItem}
+                      onMove={onMove}
+                      onMoveKeyChange={onMoveKeyChange}
+                      onRemoveArchiveSelectionItem={onArchiveSelectionToggle}
+                      onRestore={onRestore}
+                      onSave={onSave}
+                      onUpdateEditor={onUpdateEditor}
+                    />
                   )}
                 </div>
               </motion.div>

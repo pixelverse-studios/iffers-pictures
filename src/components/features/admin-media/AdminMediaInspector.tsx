@@ -23,7 +23,12 @@ import { getMediaPreviewAspectClass } from "@/lib/media/aspect-ratio";
 import { AdminMediaBulkArchiveBar } from "./AdminMediaBulkArchiveBar";
 import { STATUS_COPY } from "./constants";
 import { StatusPill } from "./StatusPill";
-import type { BatchArchiveFeedback, EditorState, MediaPlacementUsage } from "./types";
+import type {
+  BatchArchiveFeedback,
+  EditorState,
+  MediaMutationOperation,
+  MediaPlacementUsage,
+} from "./types";
 import { formatDate, getMediaLibrary } from "./utils";
 
 interface AdminMediaInspectorProps {
@@ -32,7 +37,7 @@ interface AdminMediaInspectorProps {
   editor: EditorState | null;
   isCheckingMove: boolean;
   isMoving: boolean;
-  isSaving: boolean;
+  mediaMutationOperation: MediaMutationOperation | null;
   isBatchArchiving: boolean;
   item: AdminMediaItem | null;
   moveDestinationAvailable: boolean | null;
@@ -45,6 +50,7 @@ interface AdminMediaInspectorProps {
   onArchive: () => void;
   onArchiveSelected: () => void;
   onCheckDestination: () => void;
+  onCheckStatus: () => void;
   onClose: () => void;
   onClearArchiveSelection: () => void;
   onEditSelectedItem: (id: number) => void;
@@ -65,7 +71,7 @@ export function AdminMediaInspector({
   editor,
   isCheckingMove,
   isMoving,
-  isSaving,
+  mediaMutationOperation,
   isBatchArchiving,
   item,
   moveDestinationAvailable,
@@ -78,6 +84,7 @@ export function AdminMediaInspector({
   onArchive,
   onArchiveSelected,
   onCheckDestination,
+  onCheckStatus,
   onClose,
   onClearArchiveSelection,
   onEditSelectedItem,
@@ -96,7 +103,7 @@ export function AdminMediaInspector({
   const batchTrayInnerClass =
     "mx-auto flex h-[100dvh] w-full max-w-5xl flex-col p-5 md:p-7 xl:max-w-none xl:p-5";
 
-  if (selectedBatchItems.length > 1 || batchArchiveFeedback) {
+  if (selectedBatchItems.length > 0 || batchArchiveFeedback) {
     return (
       <aside className={batchTrayClass}>
         <div className={batchTrayInnerClass}>
@@ -120,6 +127,27 @@ export function AdminMediaInspector({
   }
 
   const archivedLocked = item.status === "archived";
+  const isMutatingMedia = mediaMutationOperation !== null;
+  const savePending = mediaMutationOperation === "save";
+  const publishPending = mediaMutationOperation === "publish";
+  const archivePending = mediaMutationOperation === "archive";
+  const restorePending = mediaMutationOperation === "restore";
+  const checkStatusPending = mediaMutationOperation === "check-status";
+  const saveWillPublish = item.status !== "published" && editor.status === "published";
+  const saveWillArchive = item.status !== "archived" && editor.status === "archived";
+  const saveButtonLabel = publishPending
+    ? "Publishing..."
+    : archivePending && saveWillArchive
+      ? "Archiving..."
+      : savePending
+      ? "Saving..."
+      : saveWillPublish
+        ? "Publish image"
+        : saveWillArchive
+          ? "Archive image"
+          : "Save changes";
+  const archiveButtonLabel = archivePending ? "Archiving..." : "Archive image";
+  const restoreButtonLabel = restorePending ? "Restoring..." : "Restore image";
   const trimmedMoveKey = moveKey.trim();
   const canSubmitMove =
     canMove &&
@@ -286,7 +314,7 @@ export function AdminMediaInspector({
                 label="Image description"
                 value={editor.alt}
                 onChange={(event) => onUpdateEditor("alt", event.currentTarget.value)}
-                disabled={archivedLocked}
+                disabled={archivedLocked || isMutatingMedia}
                 rows={3}
                 placeholder="Describe what someone should understand from the image."
                 radius="sm"
@@ -304,7 +332,7 @@ export function AdminMediaInspector({
                     onUpdateEditor("library", (value ?? editor.library) as MediaLibrary)
                   }
                   data={libraryOptions}
-                  disabled={archivedLocked}
+                  disabled={archivedLocked || isMutatingMedia}
                   allowDeselect={false}
                   radius="sm"
                   styles={{
@@ -320,6 +348,7 @@ export function AdminMediaInspector({
                   }
                   data={statusOptions}
                   allowDeselect={false}
+                  disabled={isMutatingMedia}
                   radius="sm"
                   styles={{
                     label: { fontWeight: 700 },
@@ -342,7 +371,7 @@ export function AdminMediaInspector({
                       onUpdateEditor("service", (value ?? "") as MediaService | "")
                     }
                     data={serviceOptions}
-                    disabled={archivedLocked}
+                    disabled={archivedLocked || isMutatingMedia}
                     allowDeselect={false}
                     radius="sm"
                     styles={{
@@ -357,7 +386,7 @@ export function AdminMediaInspector({
                       onUpdateEditor("subCategory", (value ?? "") as MediaSubCategory | "")
                     }
                     data={subCategoryOptions}
-                    disabled={archivedLocked || !editor.service}
+                    disabled={archivedLocked || isMutatingMedia || !editor.service}
                     allowDeselect={false}
                     radius="sm"
                     styles={{
@@ -376,7 +405,7 @@ export function AdminMediaInspector({
                     onUpdateEditor("aspectRatio", (value ?? "") as MediaAspectRatio | "")
                   }
                   data={aspectRatioOptions}
-                  disabled={archivedLocked}
+                  disabled={archivedLocked || isMutatingMedia}
                   allowDeselect={false}
                   radius="sm"
                   styles={{
@@ -413,7 +442,7 @@ export function AdminMediaInspector({
                     )
                   }
                   data={cropPositionOptions}
-                  disabled={archivedLocked}
+                  disabled={archivedLocked || isMutatingMedia}
                   allowDeselect={false}
                   radius="sm"
                   styles={{
@@ -444,7 +473,7 @@ export function AdminMediaInspector({
                   }
                   value={editor.sortOrder}
                   onChange={(value) => onUpdateEditor("sortOrder", String(value))}
-                  disabled={archivedLocked}
+                  disabled={archivedLocked || isMutatingMedia}
                   radius="sm"
                   styles={{
                     label: { fontWeight: 700 },
@@ -457,33 +486,56 @@ export function AdminMediaInspector({
                 <button
                   type="button"
                   onClick={onSave}
-                  disabled={isSaving || publishBlocked}
+                  disabled={isMutatingMedia || publishBlocked}
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Save changes
+                  {(savePending || publishPending) && (
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                  )}
+                  {saveButtonLabel}
                 </button>
                 {item.status === "archived" ? (
                   <button
                     type="button"
                     onClick={onRestore}
-                    disabled={isSaving}
+                    disabled={isMutatingMedia}
                     className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-[var(--border)] px-5 text-sm font-bold text-[var(--brand-strong)]"
                   >
-                    <RotateCcw className="h-4 w-4" />
-                    Restore image
+                    {restorePending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    ) : (
+                      <RotateCcw className="h-4 w-4" aria-hidden />
+                    )}
+                    {restoreButtonLabel}
                   </button>
                 ) : (
                   <button
                     type="button"
                     onClick={onArchive}
-                    disabled={isSaving}
+                    disabled={isMutatingMedia}
                     className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-red-200 px-5 text-sm font-bold text-red-700"
                   >
-                    <Archive className="h-4 w-4" />
-                    Archive image
+                    {archivePending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    ) : (
+                      <Archive className="h-4 w-4" aria-hidden />
+                    )}
+                    {archiveButtonLabel}
                   </button>
                 )}
+                <button
+                  type="button"
+                  onClick={onCheckStatus}
+                  disabled={isMutatingMedia}
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-[var(--border)] px-5 text-sm font-bold text-[var(--brand-strong)] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {checkStatusPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                  ) : (
+                    <RotateCcw className="h-4 w-4" aria-hidden />
+                  )}
+                  {checkStatusPending ? "Checking status..." : "Check status"}
+                </button>
               </div>
             </section>
 

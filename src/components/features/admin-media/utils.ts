@@ -27,6 +27,19 @@ export function getErrorCode(error: unknown) {
   return error instanceof MediaApiError ? error.code : null;
 }
 
+export function isAmbiguousMediaMutationError(error: unknown) {
+  if (error instanceof TypeError) return true;
+
+  if (!(error instanceof MediaApiError)) return false;
+
+  return (
+    error.status === 504 ||
+    error.code === "media.gateway_timeout" ||
+    error.code === "media.gateway_unavailable" ||
+    error.code === "media.frontend_proxy_failed"
+  );
+}
+
 export function getInitialEditorState(item: AdminMediaItem): EditorState {
   const library = getMediaLibrary(item);
 

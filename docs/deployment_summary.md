@@ -2,6 +2,62 @@
 
 ## Latest deploy summary
 
+- Added smooth scroll-activated motion to the homepage, about page, and sessions page, with individual elements revealing as they enter view.
+- Extended the same smooth reveal motion across session detail pages, portfolio, testimonials, investment, FAQ, and inquire pages.
+- Updated Jenn's homepage and about page hero portrait to use the new R2 portrait image.
+- Removed the extra "I’d love to hear what you’re envisioning" line from the inquire page hero.
+- Prepared the site for the managed media catalog by adding the frontend media API/proxy foundation.
+- Added the media revalidation webhook needed to refresh public image pages after catalog changes.
+- Hardened managed media image loading so future approved R2 or media-domain URLs can render through Next.js image optimization.
+- Wired public portfolio, session, investment, FAQ, and homepage imagery to the managed media catalog with static fallback behavior.
+- Added the admin media manager interface for protected catalog browsing, uploads, metadata edits, publishing, archiving, restore, draft rename/move, and manual revalidation.
+- Standardized the admin media manager's visible form fields on the site's Mantine field components.
+- Fixed admin media manager spacing so the fixed site navigation no longer overlaps the admin content.
+- Simplified the admin media sign-in screen by removing the decorative image rail.
+- Updated media API calls to use the shared `PVS_API_URL` configuration.
+- Fixed admin media restore so archived images can be restored before editing metadata.
+- Added safer admin media uploads with per-image queued category selection, early file validation, and clearer server error messages.
+- Added a destination availability guard so draft media can only be moved after the latest target path passes a collision check.
+- Removed the public website navigation from admin media screens and moved the home link into the admin sidebar logo.
+- Fixed the admin media screen crash caused by unsupported nested Mantine style selectors.
+- Allowed the production media domain to render through Next.js image optimization in admin media views.
+- Kept the admin media sidebar visible while scrolling through large image grids.
+- Organized admin media sidebar filters into nested service and sub-category navigation.
+- Replaced the mobile admin media sidebar with a compact top bar and slide-in media menu.
+- Added smooth open and close animation to the mobile admin media menu.
+- Standardized pointer cursors across clickable admin media controls.
+- Restored fixed desktop admin media side columns while the image workspace scrolls independently.
+- Redirected the legacy image review page to the admin media manager so there is one clear media-management entry point.
+- Prepared the frontend media layer for explicit image placement assignments across homepage, service, portfolio, investment, FAQ, and admin media workflows.
+- Kept the admin media session and logout details contained at the bottom of the side navigation instead of appearing as a page-wide bottom bar.
+- Added a regular site navigation link to the admin media manager for authenticated media admin sessions.
+- Adjusted the regular site navigation breakpoint so authenticated media admin links do not crowd the tablet-width header.
+- Wired public homepage, about, sessions, service detail, portfolio, investment, and FAQ imagery to explicit media placement assignments with safe fallbacks.
+- Added direct multi-select batch archive controls to the admin media manager, with selected images and archive actions shown in the Selected Media panel.
+- Reworked admin media catalog filters so search stays prominent while category/status filters live in a compact filter panel with visible active filter chips.
+- Changed selected media on smaller admin media screens to open as a prominent full-screen tray instead of falling below the catalog.
+- Refined batch selected media so the archive action stays visible, selected images scroll inside their own list, and individual images can be removed from the selection.
+- Added an explicit Clear all action beside the batch Archive button in the selected media panel.
+- Positioned the batch Archive action before Clear all so the primary action leads the selected media controls.
+- Replaced the browser archive prompt with an in-panel confirmation inside Selected Media.
+- Kept the Archive action first in the selected media confirmation state for consistent button placement.
+- Added admin media placement controls so published images can be assigned, replaced, cleared, previewed, and reused across named public page slots.
+- Moved admin media Library and Placements controls into the media navigation, with placement page filters for reviewing assignable slots page by page.
+- Refined admin media navigation into clickable Library and Placements sections where only the active section expands.
+- Added smooth expand and collapse animation when switching between Library and Placements in the admin media navigation.
+- Fixed admin media sidebar nav alignment so long placement page labels wrap under the same text column.
+- Improved admin media filter responsiveness so search, category selectors, status filters, and sorting remain usable on narrower screens.
+- Fixed the admin media filter panel so service and sub-category choices apply reliably before the panel closes.
+- Fixed selected-media batch archive so a single selected published image uses the batch archive confirmation flow.
+- Kept admin placement assignments visually in sync when assigned images are archived.
+- Restored direct metadata editing access for a single selected published image from the Selected Media panel.
+- Made admin media publish, archive, restore, and save actions show clearer in-progress states and verify status after important changes.
+- Added a Check status action so the admin media screen can recover when a network timeout may have hidden a completed change.
+- Aligned and improved the responsive layout for the Inquire page "What happens next" process steps so the longer third heading no longer drops its divider and description when space gets tight.
+- Updated admin media upload guidance to recommend high-quality JPG/JPEG photo exports and show the new 25 MB upload limit.
+- Verified CMS-managed public images use optimized responsive Next.js image delivery and added longer caching for optimized media derivatives.
+- Added an editable CMS placement for the FAQ page "Still Have Questions?" image so it can be managed from the media dashboard.
+- Fixed mobile menu spacing, sessions strip reveal timing, and Investment page mobile image layout so key mobile surfaces feel cleaner on phones.
 - Limited page image assignment choices to images that match each spot's supported shape.
 - Added the missing Homepage Image Strip 3 placement to the media admin dashboard.
 - Connected the third homepage image strip position to the CMS placement system while preserving its existing fallback image.
@@ -19,20 +75,124 @@
 
 ## Notes for internal team
 
+- Added a reusable IntersectionObserver scroll reveal helper plus CSS reveal, image zoom, and action hover utilities with reduced-motion fallbacks; applied it to the homepage, about page, and sessions page.
+- Reused the same helper across the remaining public layouts, including shared service detail and FAQ components, so repeated tiles stagger consistently without page-specific animation logic.
+- Swapped `/headshot.jpg` usages in the homepage Meet Jenn section and about hero to `portraits/portrait_02.jpg` from R2.
+- Removed the contact hero description paragraph and copy value.
+- DEV-941: Added typed media API client helpers, public catalog fallback support, and same-origin proxy routes for Pixelverse media/admin endpoints.
+- DEV-942: Added `/api/media/revalidate` with optional bearer-secret validation, site-local path validation, and Next.js `revalidatePath` calls for media catalog updates.
+- DEV-944: Added constrained env-backed media image remote patterns using `MEDIA_PUBLIC_BASE_URL` or `MEDIA_PUBLIC_BASE_URLS`; documented the hosting environment setting.
+- DEV-919: Public media-heavy pages now fetch the published catalog through `GET /api/media/iffers-pictures/catalog` with local static fallbacks and pinned-image category fallback rules.
+- DEV-918: Added `/admin/media` plus the magic-link callback UI backed by the completed Pixelverse media admin auth, admin catalog, upload, lifecycle, move, and revalidation endpoints.
+- DEV-918: Replaced native visible admin media form controls with Mantine TextInput, Textarea, Select, and NumberInput components.
+- DEV-918: Added fixed-header offsets to admin media login, callback, loading, library, and sticky inspector/header states.
+- DEV-918: Removed the decorative image column from the admin media login panel.
+- DEV-918: Removed the media-specific API base URL fallback so media proxy requests resolve through `PVS_API_URL`.
+- DEV-918: Changed archived media restore to use a status-only patch, matching the Pixelverse media API restore contract.
+- DEV-920: Queued uploads now snapshot their service/sub-category and support per-item category edits before upload.
+- DEV-920: Added frontend upload type/size checks, expanded media API error copy, and gated draft move execution on a successful destination check.
+- DEV-920: Added route-aware site chrome so `/admin/*` omits public header/footer, then removed admin fixed-header offsets.
+- DEV-920: Moved Mantine pseudo-selector styling from theme style objects into global CSS classes for React 19 compatibility.
+- DEV-920: Added `https://media.ifferspictures.com` to default Next image remote patterns.
+- DEV-920: Made the desktop admin media sidebar sticky with an internal category scroll region.
+- DEV-920: Replaced the flat media category sidebar with service parent filters and nested child filters for multi-category services.
+- DEV-920: Added a mobile-only media navigation drawer to prevent horizontal overflow on small screens.
+- DEV-920: Kept the mobile drawer mounted during close so overlay opacity and panel transform can animate out.
+- DEV-920: Added admin media shell cursor rules for active and disabled interactive controls.
+- DEV-920: Changed the desktop admin media shell to viewport-height column scrolling so the sidebar and inspector remain visible.
+- DEV-943: Replaced the `/image-review` implementation with a redirect to `/admin/media` and updated internal mockup/planning references to the media manager.
+- DEV-954: Added typed media placement slot registry, public/admin placement API clients, server-side public placement fallback fetching, gallery conversion helpers, proxy `PUT` forwarding, and placement-specific admin error copy.
+- Admin media sidebar: Changed the desktop sidebar to a full-height flex column so session/logout details stay inside the side navigation and the stray bottom border is removed.
+- Public header: Checks for an active media admin session and shows a `Media` link to `/admin/media` only when authenticated.
+- Public header: Keeps the compact mobile menu active through tablet widths so the authenticated `Media` link does not overflow the desktop nav.
+- DEV-956: Public pages now fetch published media placements alongside the catalog and prefer assigned slot media before existing catalog/static fallbacks.
+- DEV-956: Added conditional hero placement rendering on text-only services, portfolio, and FAQ heroes so assigned slots display without changing the empty-placement fallback state.
+- DEV-956: Service detail, services overview cards, and investment session cards share the same service slug to placement slot mapping.
+- DEV-959: Added client support for `PATCH /api/media/iffers-pictures/admin/items/batch`, including direct card selection, Selected Media batch actions, max-50 guarding, confirmation copy, local catalog updates, and partial-failure feedback.
+- DEV-959: Moved service, sub-category, and status filtering into a responsive admin media filter popover/sheet while preserving visible search and sort controls.
+- DEV-959: Below the `xl` breakpoint, active selected-media and batch archive inspector states now render as fixed full-screen trays; the empty inspector placeholder remains desktop-only.
+- DEV-959: Removed the explanatory batch archive callout, constrained the selected-image list to an internal scroll region, and added per-item removal from the batch selection.
+- DEV-959: Renamed the pinned batch archive button to `Archive` and added a secondary pinned `Clear all` action.
+- DEV-959: Flipped the pinned batch action order so `Archive` is the first and wider primary control.
+- DEV-959: Removed the native `window.confirm` batch archive prompt and added a styled inline confirmation state to the bulk archive panel.
+- DEV-959: Matched the confirmation action order to the default action row with `Archive` first and primary.
+- DEV-955: Added a Library/Placements switcher in `/admin/media`, admin slot loading/mutation state, a published-image placement picker, local assignment refresh after assign/clear, friendly placement error aliases, and selected-image `Used in placements` details.
+- DEV-955: Promoted Library/Placements into sidebar workspace navigation and added placement page filtering based on the backend slot registry page labels.
+- DEV-955: Changed the media sidebar to a two-section accordion-style navigation so Library and Placements act as top-level modes with their own child filters.
+- DEV-955: Added Framer Motion height/opacity transitions for Library and Placements sidebar section enter/exit states.
+- DEV-955: Changed sidebar nav rows to a fixed icon/text grid to keep wrapped labels aligned.
+- DEV-955: Reorganized the admin media filter controls into responsive rows so the search input no longer collapses beside status filters.
+- DEV-959: Kept filter panel service and sub-category dropdowns inside the panel DOM so outside-click handling does not interrupt option selection.
+- DEV-959: Single published-image selection now renders the Selected Media batch archive panel, so one-image archive QA exercises the batch endpoint.
+- DEV-959/DEV-955: Successful archive updates now clear matching local placement assignments to prevent stale admin placement state after archive.
+- DEV-959: Added a single-selection `Edit details` action that exits batch selection and opens the normal media inspector for the selected published image.
+- DEV-1025: Split admin media mutation UI state into save, publish, archive, restore, and check-status operations; status-changing mutations now refetch the admin catalog after success.
+- DEV-1025: Ambiguous timeout/network/proxy failures now warn that the mutation may have completed and guide the admin to check or refresh status before retrying.
+- DEV-1024: Added a desktop minimum heading height and delayed the side-by-side image layout until wider screens so the Inquire process steps stay readable without changing copy or mobile stacking.
+- DEV-1029: Raised the frontend admin upload validation constant to 25 MB and added concise JPG/JPEG, PNG, WebP, dimension, quality, and RAW/original-export guidance.
+- DEV-1030: Audited public CMS media usage across homepage, services, portfolio, investment, FAQ, and about; added a 30-day `next/image` optimized derivative cache TTL and documented when server-side derivatives would be the next mitigation.
+- DEV-1032: Added the frontend `faq.cta` placement contract and wired the FAQ bottom CTA image to prefer that placement before falling back to the existing pinned Family image.
+- DEV-1031: Adjusted mobile menu overlay positioning, added eager session-strip reveal behavior, removed hover-only image blur from session strips, and changed the Investment mobile hero image to be full-width without the desktop gradient overlay.
 - Page image picker now filters by `expectedAspectRatios` before assignment to avoid API rejections for unsupported image shapes.
-- DEV-1021: added the `home.strip.3` frontend placement slot and mapped the third homepage strip image to it.
+- DEV-1021: Added the `home.strip.3` frontend placement slot and mapped the third homepage strip image to it.
 - Server support for `home.strip.3` must be present for assignment, replacement, and clearing to succeed through the API.
 - Removed redundant item icons from the media sidebar and replaced them with structural hierarchy markers.
 - Made the page image spot grid inspector-aware to avoid cramped two-column cards beside the selected media panel.
-- DEV-1023: added the `inquire.what_happens_next` media placement slot, exposed local placement metadata in the admin dashboard, and wired `/contact` to consume public media placements with the existing static selfie image as fallback.
-- DEV-1027: raised homepage image strip minimum heights while preserving the existing three-image layout and CMS placement mapping.
-- DEV-1019: added upload-specific timeout copy, retry controls for failed valid uploads, and partial-success upload summaries.
-- DEV-1017: guarded duplicate magic-link requests, clear stale sign-in messages when the email changes, and added timeout-specific callback recovery copy.
-- Hotfix: stopped sending new `aspect_ratio` and `crop_position` fields in admin media create/update requests because production PATCH saves were returning 504 after authentication.
+- DEV-1023: Added the `inquire.what_happens_next` media placement slot, exposed local placement metadata in the admin dashboard, and wired `/contact` to consume public media placements with the existing static selfie image as fallback.
+- DEV-1027: Raised homepage image strip minimum heights while preserving the existing three-image layout and CMS placement mapping.
+- DEV-1019: Added upload-specific timeout copy, retry controls for failed valid uploads, and partial-success upload summaries.
+- DEV-1017: Guarded duplicate magic-link requests, cleared stale sign-in messages when the email changes, and added timeout-specific callback recovery copy.
+- Hotfix: Stopped sending new `aspect_ratio` and `crop_position` fields in admin media create/update requests because production PATCH saves were returning 504 after authentication.
 - Frontend still reads normalized `aspect_ratio` and `crop_position` values when present.
 - Kept photography terms such as aspect ratio, image focus, draft, published, and archived.
 - Replaced implementation terms like revalidate, catalog, slot, key, and R2 in visible admin copy.
 
 ## Changed URLs
 
+- https://ifferspictures.com/
+- https://ifferspictures.com/about
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/couples-engagement
+- https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/testimonials
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/contact
+- https://ifferspictures.com/faq
+- https://ifferspictures.com/contact
 - https://ifferspictures.com/admin/media
+- https://ifferspictures.com/image-review
+- https://ifferspictures.com/api/media/iffers-pictures/placements
+- https://ifferspictures.com/api/media/iffers-pictures/admin/placements
+- https://ifferspictures.com/
+- https://ifferspictures.com/about
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/couples-engagement
+- https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/faq
+- https://ifferspictures.com/admin/media
+- https://ifferspictures.com/admin/media
+- https://ifferspictures.com/contact
+- https://ifferspictures.com/admin/media
+- https://ifferspictures.com/
+- https://ifferspictures.com/services
+- https://ifferspictures.com/services/events
+- https://ifferspictures.com/services/family
+- https://ifferspictures.com/services/maternity
+- https://ifferspictures.com/services/couples-engagement
+- https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/portfolio
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/faq
+- https://ifferspictures.com/about
+- https://ifferspictures.com/
+- https://ifferspictures.com/services
+- https://ifferspictures.com/investment

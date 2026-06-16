@@ -97,7 +97,7 @@ export function ContactPageContent({
       </section>
 
       <section className="board-band border-t border-[var(--border)] bg-white">
-        <div className="board-shell grid md:grid-cols-[1fr_0.56fr]">
+        <div className="board-shell grid 2xl:grid-cols-[1fr_0.4fr]">
         <div className="reveal-tile scroll-reveal px-7 py-11 md:px-12" data-scroll-reveal>
           <h2 className="reveal-tile-copy font-heading text-3xl font-semibold text-[var(--brand-strong)]">
             What happens next
@@ -105,7 +105,7 @@ export function ContactPageContent({
           <div className="mt-9 grid gap-8 md:grid-cols-3">
             {nextSteps.map(([title, description], index) => (
               <div key={title} className="reveal-tile-copy" style={revealStyle(100 + index * 90)}>
-                <h3 className="font-heading text-2xl font-semibold leading-tight text-[var(--brand-strong)]">
+                <h3 className="font-heading text-2xl font-semibold leading-tight text-[var(--brand-strong)] md:min-h-[4rem]">
                   {title}
                 </h3>
                 <div className="mt-4 h-px w-full bg-[var(--border)]" />
@@ -121,7 +121,7 @@ export function ContactPageContent({
             src={nextStepsImage.src}
             alt={nextStepsImage.alt}
             fill
-            sizes="(max-width: 768px) 100vw, 36vw"
+            sizes="(max-width: 1535px) 100vw, 30vw"
             className="motion-image-zoom object-cover"
             style={{ objectPosition: getMediaCropPosition(nextStepsImage) }}
           />

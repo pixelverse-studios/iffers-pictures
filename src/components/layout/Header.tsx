@@ -208,7 +208,7 @@ export function Header() {
         aria-modal="true"
         aria-label="Main menu"
         className={cn(
-          "fixed inset-0 z-40 lg:hidden transition-all duration-500 motion-reduce:transition-none",
+          "fixed inset-x-0 bottom-0 top-16 z-40 lg:hidden transition-all duration-500 motion-reduce:transition-none md:top-[72px]",
           isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -224,7 +224,7 @@ export function Header() {
         />
 
         {/* Menu Content */}
-        <div className="relative h-full flex flex-col justify-center px-8 overflow-y-auto py-24">
+        <div className="relative flex h-full flex-col justify-start overflow-y-auto px-8 pb-10 pt-8 sm:justify-center sm:py-12">
           <nav className="space-y-4">
             {/*
               Stagger intentionally fires only on open (positive delays), not
@@ -295,7 +295,7 @@ export function Header() {
             }}
           >
             <p className="text-[var(--mobile-menu-muted)]">
-              {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}
+              Bergen County, {BUSINESS_INFO.address.state}
             </p>
           </div>
         </div>

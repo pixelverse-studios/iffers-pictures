@@ -44,6 +44,7 @@ import type {
   BatchArchiveFailure,
   BatchArchiveFeedback,
   EditorState,
+  MediaMutationOperation,
   LibraryFilter,
   SortMode,
   StatusFilter,
@@ -60,6 +61,7 @@ import {
   getUploadValidationMessage,
   getInitialEditorState,
   getStatusCounts,
+  isAmbiguousMediaMutationError,
   isValidUploadType,
 } from "./utils";
 
@@ -155,7 +157,8 @@ export function AdminMediaManager() {
   const [query, setQuery] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("newest");
   const [editor, setEditor] = useState<EditorState | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
+  const [mediaMutationOperation, setMediaMutationOperation] =
+    useState<MediaMutationOperation | null>(null);
   const [isMoving, setIsMoving] = useState(false);
   const [moveKey, setMoveKey] = useState("");
   const [moveMessage, setMoveMessage] = useState("");
@@ -308,6 +311,17 @@ export function AdminMediaManager() {
     }
   }
 
+  async function reconcileCatalog(selectedItemId: number) {
+    const catalog = await getAdminMediaCatalog();
+    setItems(catalog.items);
+    setSelectedId(
+      catalog.items.some((item) => item.id === selectedItemId)
+        ? selectedItemId
+        : catalog.items[0]?.id ?? null,
+    );
+    return catalog.items.find((item) => item.id === selectedItemId) ?? null;
+  }
+
   async function loadPlacements() {
     setIsLoadingPlacements(true);
     setPlacementError("");
@@ -414,6 +428,13 @@ export function AdminMediaManager() {
   async function saveEditor(overrides: Partial<EditorState> = {}) {
     if (!selectedItem || !editor) return;
     const nextEditor = { ...editor, ...overrides };
+    const isStatusChange = nextEditor.status !== selectedItem.status;
+    const operation: MediaMutationOperation =
+      isStatusChange && nextEditor.status === "published"
+        ? "publish"
+        : isStatusChange && nextEditor.status === "archived"
+          ? "archive"
+          : "save";
 
     if (selectedItem.status === "archived" && nextEditor.status === "archived") {
       setNotice("Restore this image before editing its details.");
@@ -429,7 +450,7 @@ export function AdminMediaManager() {
       return;
     }
 
-    setIsSaving(true);
+    setMediaMutationOperation(operation);
     setNotice("");
 
     try {
@@ -446,22 +467,52 @@ export function AdminMediaManager() {
         status: nextEditor.status,
         sortOrder: Number(nextEditor.sortOrder) || 0,
       });
-      upsertItem(updated);
-      if (updated.status === "archived") {
-        removePlacementAssignmentsForMediaIds(new Set([updated.id]));
+
+      if (isStatusChange) {
+        upsertItem(updated);
+        let reconciled: AdminMediaItem | null = null;
+        let reconciliationFailed = false;
+
+        try {
+          reconciled = await reconcileCatalog(updated.id);
+        } catch {
+          reconciliationFailed = true;
+        }
+
+        if ((reconciled ?? updated).status === "archived") {
+          removePlacementAssignmentsForMediaIds(new Set([updated.id]));
+        }
+        const finalStatus = reconciled?.status ?? updated.status;
+        setNotice(
+          reconciliationFailed
+            ? "Changes saved, but the status check failed. Use Check status before trying again."
+            : finalStatus === "published"
+              ? "Published and status checked."
+              : finalStatus === "archived"
+                ? "Archived and status checked."
+                : "Status checked.",
+        );
+      } else {
+        upsertItem(updated);
+        setNotice("Changes saved.");
       }
-      setNotice("Changes saved.");
     } catch (error) {
-      setNotice(getFriendlyError(error));
+      if (isStatusChange && isAmbiguousMediaMutationError(error)) {
+        setNotice(
+          "This may have completed. Check status before trying again.",
+        );
+      } else {
+        setNotice(getFriendlyError(error));
+      }
     } finally {
-      setIsSaving(false);
+      setMediaMutationOperation(null);
     }
   }
 
   async function restoreSelected() {
     if (!selectedItem) return;
 
-    setIsSaving(true);
+    setMediaMutationOperation("restore");
     setNotice("");
 
     try {
@@ -469,11 +520,52 @@ export function AdminMediaManager() {
         status: selectedItem.archivedFromStatus ?? "draft",
       });
       upsertItem(updated);
-      setNotice("Image restored.");
+      let reconciled: AdminMediaItem | null = null;
+      let reconciliationFailed = false;
+
+      try {
+        reconciled = await reconcileCatalog(updated.id);
+      } catch {
+        reconciliationFailed = true;
+      }
+
+      const finalStatus = reconciled?.status ?? updated.status;
+      setNotice(
+        reconciliationFailed
+          ? "Image restored, but the status check failed. Use Check status before trying again."
+          : finalStatus === "archived"
+            ? "Status checked. This image is still archived."
+            : "Restored and status checked.",
+      );
+    } catch (error) {
+      if (isAmbiguousMediaMutationError(error)) {
+        setNotice(
+          "This may have completed. Check status before trying again.",
+        );
+      } else {
+        setNotice(getFriendlyError(error));
+      }
+    } finally {
+      setMediaMutationOperation(null);
+    }
+  }
+
+  async function checkSelectedStatus() {
+    if (!selectedItem) return;
+
+    setMediaMutationOperation("check-status");
+    setNotice("");
+    try {
+      const reconciled = await reconcileCatalog(selectedItem.id);
+      setNotice(
+        reconciled
+          ? `Status checked: ${reconciled.status}.`
+          : "Status checked. That image is no longer in the catalog.",
+      );
     } catch (error) {
       setNotice(getFriendlyError(error));
     } finally {
-      setIsSaving(false);
+      setMediaMutationOperation(null);
     }
   }
 
@@ -583,6 +675,7 @@ export function AdminMediaManager() {
       });
       const successfulItems = new Map<number, AdminMediaItem>();
       const failures: BatchArchiveFailure[] = [];
+      let reconciliationFailed = false;
 
       for (const result of response.items) {
         if (result.ok) {
@@ -601,6 +694,12 @@ export function AdminMediaManager() {
         setItems((current) =>
           current.map((item) => successfulItems.get(item.id) ?? item),
         );
+        try {
+          const catalog = await getAdminMediaCatalog();
+          setItems(catalog.items);
+        } catch {
+          reconciliationFailed = true;
+        }
         removePlacementAssignmentsForMediaIds(new Set(successfulItems.keys()));
       }
 
@@ -620,7 +719,9 @@ export function AdminMediaManager() {
         setSelectedId(uniqueIds.find((id) => !successfulIds.has(id)) ?? null);
         setBatchArchiveFeedback({
           tone: "warning",
-          message: `Archived ${succeeded} of ${requested} images.`,
+          message: reconciliationFailed
+            ? `Archived ${succeeded} of ${requested} images, but the catalog refresh failed. Use Check status before trying again.`
+            : `Archived ${succeeded} of ${requested} images.`,
           failures,
         });
         return;
@@ -629,12 +730,16 @@ export function AdminMediaManager() {
       setArchiveSelectionIds([]);
       setSelectedId(null);
       setNotice(
-        `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Original files are kept.`,
+        reconciliationFailed
+          ? `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}, but the catalog refresh failed. Use Check status before trying again.`
+          : `Archived ${succeeded} image${succeeded === 1 ? "" : "s"}. Original files are kept.`,
       );
     } catch (error) {
       setBatchArchiveFeedback({
         tone: "error",
-        message: getFriendlyError(error),
+        message: isAmbiguousMediaMutationError(error)
+          ? "This may have completed. Refresh the catalog before trying again."
+          : getFriendlyError(error),
         failures: [],
       });
     } finally {
@@ -1048,7 +1153,7 @@ export function AdminMediaManager() {
       isMoving={isMoving}
       isMutatingPlacement={mutatingPlacementSlotKey}
       isRevalidating={isRevalidating}
-      isSaving={isSaving}
+      mediaMutationOperation={mediaMutationOperation}
       isUploading={isUploading}
       moveDestinationAvailable={moveDestinationAvailable}
       moveKey={moveKey}
@@ -1079,6 +1184,7 @@ export function AdminMediaManager() {
       onArchiveSelectionToggle={toggleArchiveSelection}
       onAssignPlacement={(slotKey, mediaId) => void assignPlacement(slotKey, mediaId)}
       onCheckDestination={checkDestination}
+      onCheckStatus={() => void checkSelectedStatus()}
       onClearArchiveSelection={clearArchiveSelection}
       onClearPlacement={(slotKey) => void clearPlacement(slotKey)}
       onClearNotice={() => {
