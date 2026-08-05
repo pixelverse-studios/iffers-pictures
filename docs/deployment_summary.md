@@ -3,7 +3,7 @@
 ## Latest deploy summary
 
 -
-- Added a branded social sharing image so Facebook and other link previews display Iffer's Pictures photography instead of a blank thumbnail.
+- Added a branded social sharing image so Facebook and other link previews display Iffer's Pictures branding instead of a blank thumbnail.
 
 ## Notes for internal team
 
