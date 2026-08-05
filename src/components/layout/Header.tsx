@@ -147,10 +147,11 @@ export function Header() {
             <Image
               src="/logo-blue.png"
               alt="Iffer's Pictures"
-              width={149}
-              height={80}
+              width={110}
+              height={56}
               className="h-12 w-auto md:h-14"
-              priority
+              loading="eager"
+              fetchPriority="low"
             />
           </Link>
 
