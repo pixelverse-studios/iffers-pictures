@@ -65,13 +65,12 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 
 ### Required Actions After EVERY Task:
 
-1. **STOP** - Do not proceed to audit files or wait for commit approval
+1. **STOP** - Do not wait for commit approval
 2. **APPEND** to `docs/deployment_summary.md` (add below existing entries):
    - `## Latest deploy summary` - Plain-language bullet points (what changed, not how)
    - `## Notes for internal team` - Technical details, ticket IDs (optional)
    - `## Changed URLs` - Full URLs affected (for Google re-indexing)
-3. **THEN** create the audit file in `docs/audits/`
-4. **THEN** wait for user commit approval
+3. **THEN** wait for user commit approval
 
 ### Quick Reference (Accumulated Example):
 
@@ -281,13 +280,12 @@ Each major page has its own component directory under `/components/` and a route
 
 ## Documentation Requirements
 
-**IMPORTANT: ALL documentation and audit files MUST be created in the `docs/` directory**
+**IMPORTANT: ALL documentation files MUST be created in the `docs/` directory**
 
 ### Directory Structure:
 
 ```
 docs/
-├── audits/             # Change audit files
 ├── features/           # Feature documentation
 ├── technical/          # Technical documentation
 ├── references/         # Reference guides (SEO, blog, implementation plan)
@@ -366,10 +364,9 @@ The file has **three required sections**:
 
 1. Complete your work on a feature/task
 2. **IMMEDIATELY APPEND** to `docs/deployment_summary.md` (add below existing entries)
-3. Create the detailed audit log in `docs/audits/`
-4. Wait for user to review and request commit
-5. Commit and push to feature branch (hook skips - file stays populated)
-6. When PR is merged and `main` is pushed, the pre-push hook will:
+3. Wait for user to review and request commit
+4. Commit and push to feature branch (hook skips - file stays populated)
+5. When PR is merged and `main` is pushed, the pre-push hook will:
    - Read the accumulated deployment_summary.md
    - Send all changes to API
    - Trigger email notification with full summary
@@ -422,71 +419,6 @@ PVS_BASE_URL=     # Production URL (https://ifferspictures.com)
 
 ---
 
-### Audit File Requirements
-
-After completing any task, create an audit file:
-
-#### File Naming Convention:
-
-```
-docs/audits/YYYY-MM-DD-HH-MM-SS-[brief-description].md
-```
-
-Example: `docs/audits/2025-01-15-14-30-45-location-pages.md`
-
-#### Audit File Template:
-
-```markdown
-# Audit Log - [Feature/Task] - [Date Time]
-
-## Prompt Summary
-
-[Summarize what the user asked for]
-
-## Actions Taken
-
-1. [List each action performed]
-2. [Include files created/modified]
-3. [Note any decisions made]
-
-## Files Changed
-
-- `path/to/file1.tsx` - [Brief description of changes]
-- `path/to/file2.ts` - [Brief description of changes]
-
-## Components/Features Affected
-
-- [Component/Feature name]
-- [Related dependencies]
-
-## Testing Considerations
-
-- [What should be tested]
-- [Potential edge cases]
-- [Device/browser testing needs]
-
-## Performance Impact
-
-- [Bundle size changes]
-- [Loading time considerations]
-- [SEO implications]
-
-## Next Steps
-
-- [Suggested follow-up tasks]
-
-## Notes
-
-[Any additional context, warnings, or important information]
-
-## Timestamp
-
-Created: YYYY-MM-DD HH:MM:SS
-Page Section: [section name]
-```
-
----
-
 ## Linear Ticket Creation
 
 When creating Linear tickets for this project:
@@ -524,8 +456,7 @@ When creating Linear tickets for this project:
 6. **Schema Markup**: LocalBusiness, Service, FAQ, Breadcrumb on all relevant pages
 7. **Test Everything**: Data drives decisions
 8. **Accessibility**: WCAG 2.1 AA compliance minimum
-9. **Audit Everything**: Document all changes for history
-10. **Documentation in /docs**: ALL documentation must be in the docs/ directory
+9. **Documentation in /docs**: ALL documentation must be in the docs/ directory
 
 **Content Rule:** Don't change any immediately provided context in work scope. You can add extra where you see fit, but any direct copy given to you needs to remain untouched.
 
@@ -591,8 +522,6 @@ When working on SEO tasks:
 ### SEO Workflow
 
 - Reference full strategy at `docs/references/implementation-plan.md`
-- After each SEO task, log progress and create an audit entry in `docs/audits/`
-- Every SEO change must include patch notes in `docs/audits/` (timestamped)
 
 ---
 

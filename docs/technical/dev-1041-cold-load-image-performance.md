@@ -63,6 +63,11 @@ while retaining a sub-1.5-second LCP. The remaining mobile gap to the 2.5-second
 target is concentrated in Netlify's WebP transformation of the current CMS hero
 and the cold R2 source fetch, rather than image discovery or eager-loading.
 
+The 3.1-second cold-cache lab result is a reasonable interim result for this
+photography-heavy page and a material improvement over the baseline, but it is
+still above the 2.5-second "good" LCP threshold. Production field data at the
+75th percentile should determine whether another image-delivery pass is needed.
+
 ## Cache policy
 
 - Next.js keeps a 30-day minimum cache TTL for optimized variants when its
@@ -74,7 +79,7 @@ and the cold R2 source fetch, rather than image discovery or eager-loading.
   registered, avoiding a new browser upload header or CORS dependency. Generated
   timestamp-and-suffix keys use `public, max-age=31536000, immutable`;
   replaceable legacy keys use `public, max-age=86400,
-  stale-while-revalidate=604800`. The server implementation is tracked in
+  stale-while-revalidate=604800`. The server implementation was merged through
   [pixelverse-studios-server PR #154](https://github.com/pixelverse-studios/pixelverse-studios-server/pull/154).
 - A one-time R2 metadata backfill completed on 2026-08-05. It updated 22
   generated/versioned objects with the immutable policy and 99 replaceable

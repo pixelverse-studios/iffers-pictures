@@ -105,7 +105,9 @@ find ~/Downloads/iffers-pics -name "*.jpg" -size +1500k | wc -l
 Upload via Cloudflare dashboard or Wrangler CLI, preserving the folder structure.
 Prefer a new filename when replacing an image so the public URL changes. Legacy
 stable filenames remain replaceable, but use the shorter revalidating cache
-policy documented in the DEV-1041 audit rather than marking them immutable.
+policy documented in the
+[DEV-1041 performance report](../technical/dev-1041-cold-load-image-performance.md)
+rather than marking them immutable.
 
 ### 6. View images and write alt text
 
