@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run validate:social-image",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "validate:social-image": "node scripts/validate-social-image.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
