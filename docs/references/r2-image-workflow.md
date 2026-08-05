@@ -103,6 +103,9 @@ find ~/Downloads/iffers-pics -name "*.jpg" -size +1500k | wc -l
 ### 5. Upload to R2
 
 Upload via Cloudflare dashboard or Wrangler CLI, preserving the folder structure.
+Prefer a new filename when replacing an image so the public URL changes. Legacy
+stable filenames remain replaceable, but use the shorter revalidating cache
+policy documented in the DEV-1041 audit rather than marking them immutable.
 
 ### 6. View images and write alt text
 
@@ -135,7 +138,7 @@ Each image entry:
 
 ### 8. Clear Next.js image cache
 
-After any image changes (including replacing existing files on R2):
+After any image changes (including replacing existing legacy files on R2):
 
 ```bash
 rm -rf .next/cache/images

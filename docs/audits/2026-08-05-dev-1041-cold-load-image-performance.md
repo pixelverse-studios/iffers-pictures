@@ -70,7 +70,14 @@ and the cold R2 source fetch, rather than image discovery or eager-loading.
 - Production uses Netlify Image CDN, which uniquely caches each transformation
   at the edge. The current transformed browser response was observed with a
   four-hour TTL; Netlify owns that deployed response policy.
-- Source photos use stable R2 object URLs. The R2 custom domain currently sends
-  no browser `Cache-Control` header. This does not prevent Netlify edge reuse,
-  but setting immutable source metadata must be handled in the separate media
-  upload service or Cloudflare configuration, not in this frontend repository.
+- The media service applies cache metadata server-side when an uploaded object is
+  registered, avoiding a new browser upload header or CORS dependency. Generated
+  timestamp-and-suffix keys use `public, max-age=31536000, immutable`;
+  replaceable legacy keys use `public, max-age=86400,
+  stale-while-revalidate=604800`. The server implementation is tracked in
+  [pixelverse-studios-server PR #154](https://github.com/pixelverse-studios/pixelverse-studios-server/pull/154).
+- A one-time R2 metadata backfill completed on 2026-08-05. It updated 22
+  generated/versioned objects with the immutable policy and 99 replaceable
+  objects with the revalidating policy. A second dry run reported all 121 objects
+  unchanged, and the public custom-domain response was verified with the expected
+  revalidating `Cache-Control` header.
