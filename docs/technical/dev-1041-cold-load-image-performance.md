@@ -73,8 +73,10 @@ still above the 2.5-second "good" LCP threshold. Production field data at the
 - Next.js keeps a 30-day minimum cache TTL for optimized variants when its
   optimizer controls caching.
 - Production uses Netlify Image CDN, which uniquely caches each transformation
-  at the edge. The current transformed browser response was observed with a
-  four-hour TTL; Netlify owns that deployed response policy.
+  at the edge. After the source-policy rollout, the transformed response for the
+  current legacy hero was observed with `max-age=86400` and
+  `stale-while-revalidate=604800`, matching its R2 source policy, while Netlify
+  reported the transformed variant as edge-stored.
 - The media service applies cache metadata server-side when an uploaded object is
   registered, avoiding a new browser upload header or CORS dependency. Generated
   timestamp-and-suffix keys use `public, max-age=31536000, immutable`;
