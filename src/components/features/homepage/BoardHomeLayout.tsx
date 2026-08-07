@@ -13,6 +13,10 @@ import {
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
+import {
+  PUBLIC_PHOTO_PLACEHOLDER,
+  PUBLIC_PHOTO_QUALITY,
+} from "@/lib/media/image-delivery";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 import type { SubCategory } from "@/components/features/portfolio/portfolioData";
 
@@ -79,7 +83,10 @@ function BoardHomeHero({ heroImage }: { heroImage?: PublicGalleryItem }) {
         src={heroImage.src}
         alt={heroImage.alt}
         fill
-        priority
+        loading="eager"
+        fetchPriority="high"
+        quality={PUBLIC_PHOTO_QUALITY}
+        {...PUBLIC_PHOTO_PLACEHOLDER}
         sizes="100vw"
         className="object-cover object-[64%_center]"
       />
@@ -149,6 +156,8 @@ function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) 
               src={image.src}
               alt={image.alt}
               fill
+              quality={PUBLIC_PHOTO_QUALITY}
+              {...PUBLIC_PHOTO_PLACEHOLDER}
               sizes="(max-width: 768px) 100vw, 33vw"
               className="motion-image-zoom object-cover"
               style={{ objectPosition: getMediaCropPosition(image) }}
@@ -187,6 +196,8 @@ function BoardMeetJenn({ image }: { image: BoardHomeImage }) {
             src={image.src}
             alt={image.alt}
             fill
+            quality={PUBLIC_PHOTO_QUALITY}
+            {...PUBLIC_PHOTO_PLACEHOLDER}
             sizes="(max-width: 768px) 86vw, 360px"
             className="motion-image-zoom object-cover object-[50%_30%]"
           />
@@ -275,6 +286,8 @@ function BoardSessionsPreview({
                 src={item.image.src}
                 alt={item.image.alt}
                 fill
+                quality={PUBLIC_PHOTO_QUALITY}
+                {...PUBLIC_PHOTO_PLACEHOLDER}
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 className="object-cover transition-transform duration-[1300ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
                 style={{ objectPosition: getMediaCropPosition(item.image) }}
@@ -341,6 +354,8 @@ function BoardQuotePreview({ heroImage }: { heroImage?: PublicGalleryItem }) {
             src={heroImage.src}
             alt={heroImage.alt}
             fill
+            quality={PUBLIC_PHOTO_QUALITY}
+            {...PUBLIC_PHOTO_PLACEHOLDER}
             sizes="(max-width: 768px) 100vw, 42vw"
             className="motion-image-zoom object-cover"
             style={{ objectPosition: getMediaCropPosition(heroImage) }}

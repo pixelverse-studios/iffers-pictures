@@ -138,7 +138,6 @@ public/
     portfolio/
     logo/
 docs/
-  audits/
   features/
   technical/
   references/

@@ -30,6 +30,10 @@ import {
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
+import {
+  PUBLIC_PHOTO_PLACEHOLDER,
+  PUBLIC_PHOTO_QUALITY,
+} from "@/lib/media/image-delivery";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 
 type PortfolioBoardFilter = "All" | ServiceFilter;
@@ -113,6 +117,8 @@ function PortfolioTile({ item, index, phase, onOpen }: PortfolioTileProps) {
         src={item.src}
         alt={item.alt}
         fill
+        quality={PUBLIC_PHOTO_QUALITY}
+        {...PUBLIC_PHOTO_PLACEHOLDER}
         sizes="(max-width: 640px) 50vw, 33vw"
         className="object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
         style={{ objectPosition: getMediaCropPosition(item) }}
@@ -277,7 +283,10 @@ export function BoardPortfolioLayout({
                 src={heroImage.src}
                 alt={heroImage.alt}
                 fill
-                priority
+                loading="eager"
+                fetchPriority="high"
+                quality={PUBLIC_PHOTO_QUALITY}
+                {...PUBLIC_PHOTO_PLACEHOLDER}
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="motion-image-zoom object-cover"
               />

@@ -15,6 +15,10 @@ import {
   type PublicGalleryItem,
 } from "@/lib/media/gallery";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
+import {
+  PUBLIC_PHOTO_PLACEHOLDER,
+  PUBLIC_PHOTO_QUALITY,
+} from "@/lib/media/image-delivery";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 import { Lightbox } from "@/components/features/portfolio/Lightbox";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
@@ -192,7 +196,10 @@ export function BoardServiceDetailLayout({
               src={heroImage.src}
               alt={heroImage.alt}
               fill
-              priority
+              loading="eager"
+              fetchPriority="high"
+              quality={PUBLIC_PHOTO_QUALITY}
+              {...PUBLIC_PHOTO_PLACEHOLDER}
               sizes="(max-width: 768px) 100vw, 58vw"
               className="motion-image-zoom object-cover"
               style={{ objectPosition: getMediaCropPosition(heroImage) }}
@@ -317,6 +324,8 @@ export function BoardServiceDetailLayout({
                 src={item.src}
                 alt={item.alt}
                 fill
+                quality={PUBLIC_PHOTO_QUALITY}
+                {...PUBLIC_PHOTO_PLACEHOLDER}
                 sizes="(max-width: 768px) 50vw, 33vw"
                 className="motion-image-zoom object-cover brightness-[1.02] contrast-[1.02]"
                 style={{ objectPosition: getMediaCropPosition(item) }}
@@ -415,6 +424,8 @@ export function BoardServiceDetailLayout({
               src={faqImage.src}
               alt={faqImage.alt}
               fill
+              quality={PUBLIC_PHOTO_QUALITY}
+              {...PUBLIC_PHOTO_PLACEHOLDER}
               sizes="(max-width: 768px) 100vw, 44vw"
               className="motion-image-zoom object-cover brightness-[1.03] contrast-[1.02]"
               style={{ objectPosition: getMediaCropPosition(faqImage) }}
