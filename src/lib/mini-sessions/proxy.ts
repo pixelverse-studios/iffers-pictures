@@ -2,12 +2,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { buildMiniSessionsApiUrl } from "./server";
 
 type RouteParams = Promise<{ path?: string[] }>;
+const MEDIA_ADMIN_SESSION_COOKIE = "pvs_media_admin_session";
 
 const REQUEST_HEADERS = new Set([
   "accept",
   "accept-language",
   "content-type",
-  "cookie",
   "user-agent",
   "x-request-id",
 ]);
@@ -37,7 +37,7 @@ export async function proxyMiniSessionsApiRequest(
 
     const upstreamResponse = await fetch(upstreamUrl, {
       method: request.method,
-      headers: selectHeaders(request.headers, REQUEST_HEADERS),
+      headers: getForwardHeaders(request),
       body:
         request.method === "GET" || request.method === "HEAD"
           ? undefined
@@ -48,7 +48,7 @@ export async function proxyMiniSessionsApiRequest(
     } as RequestInit & { duplex: "half" });
 
     const headers = selectHeaders(upstreamResponse.headers, RESPONSE_HEADERS);
-    for (const cookie of getSetCookieHeaders(upstreamResponse.headers)) {
+    for (const cookie of getMediaAdminSetCookieHeaders(upstreamResponse.headers)) {
       headers.append("Set-Cookie", cookie);
     }
 
@@ -78,6 +78,18 @@ export async function proxyMiniSessionsApiRequest(
   }
 }
 
+function getForwardHeaders(request: NextRequest): Headers {
+  const headers = selectHeaders(request.headers, REQUEST_HEADERS);
+  const sessionCookie = request.cookies.get(MEDIA_ADMIN_SESSION_COOKIE);
+  if (sessionCookie) {
+    headers.set(
+      "Cookie",
+      `${MEDIA_ADMIN_SESSION_COOKIE}=${sessionCookie.value}`
+    );
+  }
+  return headers;
+}
+
 function selectHeaders(source: Headers, allowed: Set<string>): Headers {
   const selected = new Headers();
   source.forEach((value, key) => {
@@ -86,8 +98,12 @@ function selectHeaders(source: Headers, allowed: Set<string>): Headers {
   return selected;
 }
 
-function getSetCookieHeaders(headers: Headers): string[] {
+function getMediaAdminSetCookieHeaders(headers: Headers): string[] {
   const withGetSetCookie = headers as Headers & { getSetCookie?: () => string[] };
-  return withGetSetCookie.getSetCookie?.() ??
+  const cookies =
+    withGetSetCookie.getSetCookie?.() ??
     (headers.get("set-cookie") ? [headers.get("set-cookie") as string] : []);
+  return cookies.filter((cookie) =>
+    cookie.trimStart().startsWith(`${MEDIA_ADMIN_SESSION_COOKIE}=`)
+  );
 }

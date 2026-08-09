@@ -1,4 +1,8 @@
-import { parseMiniSessionsApiResponse } from "./errors";
+import { z } from "zod";
+import {
+  MiniSessionsApiError,
+  parseMiniSessionsApiResponse,
+} from "./errors";
 import {
   adminCampaignListResponseSchema,
   adminCampaignResponseSchema,
@@ -55,20 +59,26 @@ export function getMiniSessionCampaign(
   );
 }
 
-export function createMiniSessionCampaign(
+export async function createMiniSessionCampaign(
   campaign: MiniSessionCampaignInput
 ): Promise<AdminCampaignResponse> {
-  return requestAdminJson(MINI_SESSIONS_ROOT + "/admin", adminCampaignResponseSchema, {
-    method: "POST",
-    body: { campaign: miniSessionCampaignInputSchema.parse(campaign) },
-  });
+  const parsedCampaign = parseMiniSessionCampaignRequest(campaign);
+  return requestAdminJson(
+    MINI_SESSIONS_ROOT + "/admin",
+    adminCampaignResponseSchema,
+    {
+      method: "POST",
+      body: { campaign: parsedCampaign },
+    }
+  );
 }
 
-export function updateMiniSessionCampaign(
+export async function updateMiniSessionCampaign(
   campaignId: string,
   expectedUpdatedAt: string,
   campaign: MiniSessionCampaignInput
 ): Promise<AdminCampaignResponse> {
+  const parsedCampaign = parseMiniSessionCampaignRequest(campaign);
   return requestAdminJson(
     `${MINI_SESSIONS_ROOT}/admin/${encodeURIComponent(campaignId)}`,
     adminCampaignResponseSchema,
@@ -76,10 +86,28 @@ export function updateMiniSessionCampaign(
       method: "PATCH",
       body: {
         expectedUpdatedAt,
-        campaign: miniSessionCampaignInputSchema.parse(campaign),
+        campaign: parsedCampaign,
       },
     }
   );
+}
+
+function parseMiniSessionCampaignRequest(
+  campaign: MiniSessionCampaignInput
+): MiniSessionCampaignInput {
+  const parsed = miniSessionCampaignInputSchema.safeParse(campaign);
+  if (!parsed.success) {
+    throw new MiniSessionsApiError(
+      400,
+      "mini_sessions.invalid_payload",
+      "Mini Sessions campaign data is invalid.",
+      "validation",
+      false,
+      z.flattenError(parsed.error),
+      campaign
+    );
+  }
+  return parsed.data;
 }
 
 type LifecycleAction =
