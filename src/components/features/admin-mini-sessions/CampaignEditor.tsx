@@ -1,12 +1,13 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AlertTriangle,
   ArrowDown,
   ArrowUp,
   Check,
+  Eye,
   ImageIcon,
   Loader2,
   Plus,
@@ -19,8 +20,13 @@ import type { MiniSessionBookingOptionStatus } from "@/lib/mini-sessions/types";
 import type {
   BookingOptionDraft,
   CampaignEditorState,
+  CampaignLifecycleAction,
   StaleCampaignState,
 } from "./types";
+import { CampaignLifecyclePanel } from "./CampaignLifecyclePanel";
+import { CampaignPreviewDialog } from "./CampaignPreviewDialog";
+import { LifecycleConfirmDialog } from "./LifecycleConfirmDialog";
+import type { PublishReadinessItem } from "./utils";
 import {
   createEmptyBookingOption,
   MAX_BOOKING_OPTIONS,
@@ -31,12 +37,18 @@ interface CampaignEditorProps {
   editor: CampaignEditorState;
   errors: Record<string, string>;
   isDirty: boolean;
+  isLifecycleMutating: boolean;
   isSaving: boolean;
+  lifecycleError: string;
+  lifecycleMessage: string;
+  lifecycleWarning: string;
   message: string;
   publishedMedia: AdminMediaItem[];
   requestError: string;
   stale: StaleCampaignState | null;
+  readiness: PublishReadinessItem[];
   onChange: (editor: CampaignEditorState) => void;
+  onLifecycleAction: (action: CampaignLifecycleAction) => Promise<boolean>;
   onLoadLatest: () => void;
   onSave: () => void;
 }
@@ -45,18 +57,29 @@ export function CampaignEditor({
   editor,
   errors,
   isDirty,
+  isLifecycleMutating,
   isSaving,
+  lifecycleError,
+  lifecycleMessage,
+  lifecycleWarning,
   message,
   publishedMedia,
   requestError,
   stale,
+  readiness,
   onChange,
+  onLifecycleAction,
   onLoadLatest,
   onSave,
 }: CampaignEditorProps) {
   const [inclusion, setInclusion] = useState("");
   const [mediaQuery, setMediaQuery] = useState("");
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [pendingAction, setPendingAction] =
+    useState<CampaignLifecycleAction | null>(null);
+  const previewButtonRef = useRef<HTMLButtonElement>(null);
   const { draft } = editor;
+  const isArchived = editor.sourceStatus === "archived";
   const matchingMedia = useMemo(() => {
     const query = mediaQuery.trim().toLowerCase();
     if (!query) return publishedMedia;
@@ -109,6 +132,10 @@ export function CampaignEditor({
     });
   }
 
+  function requestLifecycleAction(action: CampaignLifecycleAction) {
+    setPendingAction(action);
+  }
+
   return (
     <article className="min-w-0 bg-[var(--background)]">
       <div className="mx-auto max-w-5xl px-4 py-5 md:px-7 md:py-7">
@@ -131,19 +158,29 @@ export function CampaignEditor({
               Save campaign content here. Publishing and live-site controls are handled in the campaign lifecycle view.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={onSave}
-            disabled={isSaving || !isDirty}
-            className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white transition hover:bg-[var(--brand)] disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-strong)]"
-          >
-            {isSaving ? (
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            ) : (
-              <Save className="h-4 w-4" aria-hidden />
-            )}
-            {isSaving ? "Saving…" : "Save draft"}
-          </button>
+          <div className="flex flex-wrap gap-2">
+            <button
+              ref={previewButtonRef}
+              type="button"
+              onClick={() => setIsPreviewOpen(true)}
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-sm font-bold text-[var(--foreground)] hover:border-[var(--brand)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-strong)]"
+            >
+              <Eye className="h-4 w-4" aria-hidden /> Preview
+            </button>
+            <button
+              type="button"
+              onClick={onSave}
+              disabled={isArchived || isSaving || !isDirty}
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white transition hover:bg-[var(--brand)] disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-strong)]"
+            >
+              {isSaving ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              ) : (
+                <Save className="h-4 w-4" aria-hidden />
+              )}
+              {isSaving ? "Saving…" : "Save draft"}
+            </button>
+          </div>
         </div>
 
         <div className="mt-5 space-y-3" aria-live="polite">
@@ -155,6 +192,21 @@ export function CampaignEditor({
           {message && (
             <Notice tone="success" title="Draft saved">
               {message}
+            </Notice>
+          )}
+          {lifecycleMessage && (
+            <Notice tone="success" title="Campaign updated">
+              {lifecycleMessage}
+            </Notice>
+          )}
+          {lifecycleWarning && (
+            <Notice tone="warning" title="Campaign saved; live refresh delayed">
+              {lifecycleWarning}
+            </Notice>
+          )}
+          {lifecycleError && !pendingAction && (
+            <Notice tone="error" title="Lifecycle action failed">
+              {lifecycleError}
             </Notice>
           )}
           {stale && (
@@ -183,7 +235,25 @@ export function CampaignEditor({
           )}
         </div>
 
-        <div className="mt-6 space-y-5">
+        <CampaignLifecyclePanel
+          campaignExists={Boolean(editor.campaignId)}
+          isBusy={isLifecycleMutating}
+          isDirty={isDirty}
+          onAction={requestLifecycleAction}
+          readiness={readiness}
+          status={editor.sourceStatus}
+        />
+
+        {isArchived && (
+          <div className="mt-5 rounded-sm border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">
+            <p className="font-bold">Archived campaigns are read-only.</p>
+            <p className="mt-1">
+              Duplicate this campaign to reuse its content in a new draft.
+            </p>
+          </div>
+        )}
+
+        <fieldset disabled={isArchived} className="mt-6 space-y-5">
           <EditorSection
             eyebrow="Internal setup"
             title="Campaign basics"
@@ -476,18 +546,43 @@ export function CampaignEditor({
               <TextField label="Meta description" value={draft.metaDescription} rows={3} maxLength={320} onChange={(value) => updateDraft({ metaDescription: value })} />
             </div>
           </EditorSection>
-        </div>
+        </fieldset>
 
         <div className="sticky bottom-3 z-20 mt-6 flex flex-col gap-3 rounded-sm border border-[var(--border)] bg-white/95 p-3 shadow-lg backdrop-blur sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-semibold text-[var(--text-secondary)]">
-            {isDirty ? "Unsaved edits are protected before navigation." : "All campaign edits are saved."}
+            {isArchived
+              ? "Archived history is read-only."
+              : isDirty
+                ? "Unsaved edits are protected before navigation."
+                : "All campaign edits are saved."}
           </p>
-          <button type="button" onClick={onSave} disabled={isSaving || !isDirty} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white disabled:opacity-55">
+          <button type="button" onClick={onSave} disabled={isArchived || isSaving || !isDirty} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-[var(--brand-strong)] px-5 text-sm font-bold text-white disabled:opacity-55">
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Save className="h-4 w-4" aria-hidden />}
             {isSaving ? "Saving…" : "Save draft"}
           </button>
         </div>
       </div>
+
+      {isPreviewOpen && (
+        <CampaignPreviewDialog
+          editor={editor}
+          onClose={() => setIsPreviewOpen(false)}
+          publishedMedia={publishedMedia}
+          returnFocusRef={previewButtonRef}
+        />
+      )}
+
+      {pendingAction && (
+        <LifecycleConfirmDialog
+          action={pendingAction}
+          campaignName={draft.internalName}
+          error={lifecycleError}
+          isBusy={isLifecycleMutating}
+          onClose={() => setPendingAction(null)}
+          onConfirm={() => onLifecycleAction(pendingAction)}
+          returnFocusRef={previewButtonRef}
+        />
+      )}
     </article>
   );
 }
@@ -551,9 +646,14 @@ function FieldError({ id, message }: { id?: string; message: string }) {
   return <span id={id} className="mt-1 block text-xs font-semibold text-red-700">{message}</span>;
 }
 
-function Notice({ tone, title, children }: { tone: "success" | "error"; title: string; children: React.ReactNode }) {
+function Notice({ tone, title, children }: { tone: "success" | "error" | "warning"; title: string; children: React.ReactNode }) {
+  const toneClass = {
+    success: "border-emerald-200 bg-emerald-50 text-emerald-900",
+    error: "border-red-200 bg-red-50 text-red-900",
+    warning: "border-amber-300 bg-amber-50 text-amber-950",
+  }[tone];
   return (
-    <div className={`rounded-sm border p-4 text-sm ${tone === "success" ? "border-emerald-200 bg-emerald-50 text-emerald-900" : "border-red-200 bg-red-50 text-red-900"}`}>
+    <div className={`rounded-sm border p-4 text-sm ${toneClass}`}>
       <p className="font-bold">{title}</p>
       <p className="mt-1">{children}</p>
     </div>

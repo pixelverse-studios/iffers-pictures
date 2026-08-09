@@ -5,8 +5,13 @@ import { CalendarDays, FilePlus2 } from "lucide-react";
 import type { AdminMediaItem } from "@/lib/media/types";
 import {
   createMiniSessionCampaign,
+  archiveMiniSessionCampaign,
+  closeMiniSessionCampaign,
+  duplicateMiniSessionCampaign,
   getMiniSessionCampaign,
   listMiniSessionCampaigns,
+  markMiniSessionCampaignSoldOut,
+  publishMiniSessionCampaign,
   updateMiniSessionCampaign,
 } from "@/lib/mini-sessions/client";
 import { MiniSessionsApiError } from "@/lib/mini-sessions/errors";
@@ -16,11 +21,13 @@ import { CampaignList } from "./CampaignList";
 import type {
   CampaignEditorState,
   CampaignFilter,
+  CampaignLifecycleAction,
   StaleCampaignState,
 } from "./types";
 import {
   campaignToDraft,
   createEmptyCampaignDraft,
+  getPublishReadiness,
   validateCampaignDraft,
 } from "./utils";
 
@@ -39,15 +46,23 @@ export function AdminMiniSessionsManager({
   const [isDirty, setIsDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isLifecycleMutating, setIsLifecycleMutating] = useState(false);
   const [loadError, setLoadError] = useState("");
   const [requestError, setRequestError] = useState("");
   const [message, setMessage] = useState("");
+  const [lifecycleError, setLifecycleError] = useState("");
+  const [lifecycleMessage, setLifecycleMessage] = useState("");
+  const [lifecycleWarning, setLifecycleWarning] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [stale, setStale] = useState<StaleCampaignState | null>(null);
   const editorRef = useRef<HTMLDivElement | null>(null);
   const publishedMedia = useMemo(
     () => mediaItems.filter((item) => item.status === "published"),
     [mediaItems]
+  );
+  const readiness = useMemo(
+    () => (editor ? getPublishReadiness(editor.draft, publishedMedia) : []),
+    [editor, publishedMedia]
   );
 
   const loadCampaigns = useCallback(async () => {
@@ -96,6 +111,7 @@ export function AdminMiniSessionsManager({
     if (!confirmDiscard()) return;
     setEditor({
       campaignId: null,
+      sourceStatus: "draft",
       sourceUpdatedAt: null,
       draft: createEmptyCampaignDraft(),
     });
@@ -116,6 +132,9 @@ export function AdminMiniSessionsManager({
     setEditor(nextEditor);
     setIsDirty(true);
     setMessage("");
+    setLifecycleError("");
+    setLifecycleMessage("");
+    setLifecycleWarning("");
     setRequestError("");
     setStale(null);
   }
@@ -127,6 +146,9 @@ export function AdminMiniSessionsManager({
     setMessage("");
     setRequestError("");
     setStale(null);
+    setLifecycleError("");
+    setLifecycleMessage("");
+    setLifecycleWarning("");
     if (!validation.input) {
       setRequestError("Review the highlighted fields before saving.");
       return;
@@ -144,7 +166,7 @@ export function AdminMiniSessionsManager({
       const saved = response.campaign;
       setCampaigns((current) => upsertCampaign(current, saved));
       setEditor(editorFromCampaign(saved));
-      setFilter(saved.status === "draft" ? "draft" : "active");
+      setFilter(filterForCampaign(saved));
       setIsDirty(false);
       setErrors({});
       setMessage(
@@ -184,10 +206,94 @@ export function AdminMiniSessionsManager({
     resetFeedback();
   }
 
+  async function runLifecycleAction(
+    action: CampaignLifecycleAction
+  ): Promise<boolean> {
+    if (
+      !editor?.campaignId ||
+      !editor.sourceUpdatedAt ||
+      isDirty ||
+      isLifecycleMutating
+    ) {
+      setLifecycleError(
+        isDirty
+          ? "Save the current edits before changing campaign status."
+          : "Save this campaign before using lifecycle actions."
+      );
+      return false;
+    }
+
+    if (action === "publish" && readiness.some((item) => !item.ready)) {
+      setLifecycleError("Complete every publish-readiness item first.");
+      return false;
+    }
+
+    setIsLifecycleMutating(true);
+    setLifecycleError("");
+    setLifecycleMessage("");
+    setLifecycleWarning("");
+    setMessage("");
+    setRequestError("");
+    setStale(null);
+
+    try {
+      const mutate = {
+        duplicate: duplicateMiniSessionCampaign,
+        publish: publishMiniSessionCampaign,
+        "mark-sold-out": markMiniSessionCampaignSoldOut,
+        close: closeMiniSessionCampaign,
+        archive: archiveMiniSessionCampaign,
+      }[action];
+      const response = await mutate(
+        editor.campaignId,
+        editor.sourceUpdatedAt
+      );
+      const saved = response.campaign;
+      setCampaigns((current) => upsertCampaign(current, saved));
+      setEditor(editorFromCampaign(saved));
+      setFilter(filterForCampaign(saved));
+      setIsDirty(false);
+      setErrors({});
+      setLifecycleMessage(lifecycleSuccessMessage(action, saved.internalName));
+      if (response.revalidation?.error) {
+        setLifecycleWarning(
+          "The campaign status was persisted successfully, but the immediate live-site cache refresh did not complete. The public site may show its previous state until the normal cache window refreshes."
+        );
+      }
+      return true;
+    } catch (error) {
+      setLifecycleError(getCampaignErrorMessage(error));
+      if (
+        error instanceof MiniSessionsApiError &&
+        error.kind === "stale_conflict"
+      ) {
+        try {
+          const latest = (
+            await getMiniSessionCampaign(editor.campaignId)
+          ).campaign;
+          setCampaigns((current) => upsertCampaign(current, latest));
+          setStale({
+            latest,
+            message:
+              "This campaign changed before the lifecycle action completed. Load the latest saved version, review it, and try again.",
+          });
+        } catch {
+          // Keep the current editor intact when the recovery fetch also fails.
+        }
+      }
+      return false;
+    } finally {
+      setIsLifecycleMutating(false);
+    }
+  }
+
   function resetFeedback() {
     setErrors({});
     setRequestError("");
     setMessage("");
+    setLifecycleError("");
+    setLifecycleMessage("");
+    setLifecycleWarning("");
     setStale(null);
   }
 
@@ -223,12 +329,18 @@ export function AdminMiniSessionsManager({
               editor={editor}
               errors={errors}
               isDirty={isDirty}
+              isLifecycleMutating={isLifecycleMutating}
               isSaving={isSaving}
+              lifecycleError={lifecycleError}
+              lifecycleMessage={lifecycleMessage}
+              lifecycleWarning={lifecycleWarning}
               message={message}
               publishedMedia={publishedMedia}
               requestError={requestError}
               stale={stale}
+              readiness={readiness}
               onChange={changeEditor}
+              onLifecycleAction={runLifecycleAction}
               onLoadLatest={loadLatest}
               onSave={() => void saveCampaign()}
             />
@@ -265,6 +377,7 @@ function editorFromCampaign(
 ): CampaignEditorState {
   return {
     campaignId: campaign.id,
+    sourceStatus: campaign.status,
     sourceUpdatedAt: campaign.updatedAt,
     draft: campaignToDraft(campaign),
   };
@@ -278,6 +391,27 @@ function upsertCampaign(
   return [campaign, ...next].sort((a, b) =>
     b.updatedAt.localeCompare(a.updatedAt)
   );
+}
+
+function filterForCampaign(campaign: MiniSessionAdminCampaign): CampaignFilter {
+  if (campaign.status === "live" || campaign.status === "sold_out") {
+    return "active";
+  }
+  return campaign.status;
+}
+
+function lifecycleSuccessMessage(
+  action: CampaignLifecycleAction,
+  campaignName: string
+): string {
+  const verb = {
+    duplicate: "Created and opened a separate draft for",
+    publish: "Published",
+    "mark-sold-out": "Marked sold out",
+    close: "Closed",
+    archive: "Archived",
+  }[action];
+  return `${verb} ${campaignName}.`;
 }
 
 function getCampaignErrorMessage(error: unknown): string {

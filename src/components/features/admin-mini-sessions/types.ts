@@ -1,10 +1,18 @@
 import type {
   MiniSessionAdminCampaign,
   MiniSessionBookingOptionStatus,
+  MiniSessionCampaignStatus,
   MiniSessionCampaignInput,
 } from "@/lib/mini-sessions/types";
 
 export type CampaignFilter = "active" | "draft" | "closed" | "archived";
+
+export type CampaignLifecycleAction =
+  | "duplicate"
+  | "publish"
+  | "mark-sold-out"
+  | "close"
+  | "archive";
 
 export interface BookingOptionDraft {
   clientKey: string;
@@ -34,6 +42,7 @@ export interface CampaignDraft
 
 export interface CampaignEditorState {
   campaignId: string | null;
+  sourceStatus: MiniSessionCampaignStatus;
   sourceUpdatedAt: string | null;
   draft: CampaignDraft;
 }

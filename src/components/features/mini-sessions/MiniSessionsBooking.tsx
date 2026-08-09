@@ -11,6 +11,7 @@ import { CalBookingEmbed } from "./CalBookingEmbed";
 
 interface MiniSessionsBookingProps {
   campaign: MiniSessionPublicCampaign;
+  previewMode?: boolean;
   utmParams: MiniSessionsUtmParams;
 }
 
@@ -41,6 +42,7 @@ function OptionDetails({ option }: { option: MiniSessionBookingOption }) {
 
 export function MiniSessionsBooking({
   campaign,
+  previewMode = false,
   utmParams,
 }: MiniSessionsBookingProps) {
   const options = useMemo(
@@ -136,7 +138,26 @@ export function MiniSessionsBooking({
           </fieldset>
         )}
 
-        {selectedOption && (
+        {selectedOption && previewMode && (
+          <div className="mt-8 grid min-h-80 place-items-center border border-dashed border-[var(--brand)] bg-white px-6 text-center">
+            <div className="max-w-md">
+              <CalendarDays
+                aria-hidden="true"
+                className="mx-auto h-9 w-9 text-[var(--brand-strong)]"
+              />
+              <p className="mt-4 font-heading text-3xl text-[var(--foreground)]">
+                Cal.com calendar preview
+              </p>
+              <p className="mt-3 leading-7 text-[var(--text-secondary)]">
+                The live calendar for {selectedOption.label} loads only on the
+                public page. This dashboard preview never creates a public URL
+                or contacts Cal.com.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {selectedOption && !previewMode && (
           <div className="mt-8 shadow-sm">
             <CalBookingEmbed
               key={selectedOption.id}
