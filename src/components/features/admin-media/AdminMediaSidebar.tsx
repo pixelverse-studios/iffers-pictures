@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, LogOut, X } from "lucide-react";
+import { CalendarDays, ChevronDown, LogOut, X } from "lucide-react";
 import {
   MEDIA_SERVICES,
   MEDIA_SUB_CATEGORIES,
@@ -38,7 +38,7 @@ interface AdminMediaSidebarProps {
   onServiceFilterChange: (value: "all" | MediaService) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
   onSubCategoryFilterChange: (value: "all" | MediaSubCategory) => void;
-  onViewModeChange: (value: AdminMediaViewMode) => void;
+  onViewModeChange: (value: AdminMediaViewMode) => boolean;
 }
 
 export function AdminMediaSidebar({
@@ -137,12 +137,13 @@ export function AdminMediaSidebar({
   }
 
   function handleViewModeClick(mode: AdminMediaViewMode) {
-    if (mode === viewMode) return;
+    if (mode === viewMode) return true;
 
-    onViewModeChange(mode);
+    if (!onViewModeChange(mode)) return false;
     if (mode === "placements") {
       onPlacementPageFilterChange("all");
     }
+    return true;
   }
 
   function handlePlacementPageClick(page: PlacementPageFilter) {
@@ -509,6 +510,35 @@ export function AdminMediaSidebar({
                 </motion.div>
               )}
             </AnimatePresence>
+          </section>
+
+          <section>
+            <button
+              type="button"
+              onClick={() => {
+                if (handleViewModeClick("campaigns")) requestMobileClose();
+              }}
+              className={`${sectionHeaderClassName} ${
+                viewMode === "campaigns"
+                  ? "text-[var(--brand-strong)]"
+                  : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
+              }`}
+              aria-current={viewMode === "campaigns" ? "page" : undefined}
+            >
+              <span className={sectionTitleClassName}>
+                <span className="inline-flex items-center gap-2">
+                  <CalendarDays className="h-4 w-4" aria-hidden />
+                  Mini Sessions
+                </span>
+              </span>
+              <span
+                className={`mt-2 block h-px w-full transition-colors ${
+                  viewMode === "campaigns"
+                    ? "bg-[var(--brand-strong)]"
+                    : "bg-[var(--border)] group-hover:bg-[var(--text-muted)]"
+                }`}
+              />
+            </button>
           </section>
         </nav>
 
