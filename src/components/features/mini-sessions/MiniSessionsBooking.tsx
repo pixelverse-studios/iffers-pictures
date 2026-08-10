@@ -7,6 +7,10 @@ import type {
   MiniSessionPublicCampaign,
 } from "@/lib/mini-sessions/types";
 import type { MiniSessionsUtmParams } from "@/lib/mini-sessions/utm";
+import {
+  trackMiniSessionOptionSelect,
+  trackMiniSessionSoldOutInquiryClick,
+} from "@/lib/analytics";
 import { CalBookingEmbed } from "./CalBookingEmbed";
 
 interface MiniSessionsBookingProps {
@@ -68,6 +72,13 @@ export function MiniSessionsBooking({
           </p>
           <a
             href="/contact?session=mini-sessions"
+            onClick={() =>
+              trackMiniSessionSoldOutInquiryClick({
+                campaign_id: campaign.id,
+                campaign_status: "sold_out",
+                cta_location: "mini_sessions_sold_out",
+              })
+            }
             className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 text-sm font-bold uppercase tracking-[0.12em] text-[var(--brand-strong)] transition-colors hover:bg-[var(--background-warm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-strong)]"
           >
             Inquire about a session
@@ -118,7 +129,15 @@ export function MiniSessionsBooking({
                       value={option.id}
                       checked={isSelected}
                       disabled={!isOpen}
-                      onChange={() => setSelectedId(option.id)}
+                      onChange={() => {
+                        setSelectedId(option.id);
+                        trackMiniSessionOptionSelect({
+                          campaign_id: campaign.id,
+                          campaign_status: "live",
+                          option_id: option.id,
+                          provider: "cal.com",
+                        });
+                      }}
                       className="absolute right-5 top-5 h-5 w-5 accent-[var(--brand-strong)]"
                     />
                     <span className="pr-8">
@@ -142,6 +161,7 @@ export function MiniSessionsBooking({
               key={selectedOption.id}
               bookingUrl={selectedOption.calBookingUrl}
               campaignId={campaign.id}
+              campaignStatus="live"
               optionId={selectedOption.id}
               optionLabel={selectedOption.label}
               utmParams={utmParams}

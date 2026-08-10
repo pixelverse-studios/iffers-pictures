@@ -7,8 +7,12 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BUSINESS_INFO } from "@/lib/constants";
-import { trackCtaClick } from "@/lib/analytics";
+import {
+  trackCtaClick,
+  trackMiniSessionPromotionClick,
+} from "@/lib/analytics";
 import { getMediaAdminSession } from "@/lib/media/client";
+import type { MiniSessionCampaignStatus } from "@/lib/mini-sessions/types";
 
 // ─── Constants ────────────────────────────────────────────────────────
 const MOBILE_MENU_ID = "header-mobile-menu";
@@ -29,7 +33,14 @@ const MOBILE_BOARD_NAV_LINKS = [
 ] as const;
 
 // ─── Header ───────────────────────────────────────────────────────────
-export function Header() {
+interface HeaderProps {
+  miniSessionsCampaign: {
+    id: string;
+    status: MiniSessionCampaignStatus;
+  } | null;
+}
+
+export function Header({ miniSessionsCampaign }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasMediaAdminSession, setHasMediaAdminSession] = useState(false);
   const pathname = usePathname();
@@ -41,12 +52,40 @@ export function Header() {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(href + "/");
   };
-  const desktopNavLinks = hasMediaAdminSession
-    ? [...BOARD_NAV_LINKS, { label: "Media", href: "/admin/media" }]
-    : BOARD_NAV_LINKS;
-  const mobileNavLinks = hasMediaAdminSession
-    ? [...MOBILE_BOARD_NAV_LINKS, { label: "Media", href: "/admin/media" }]
-    : MOBILE_BOARD_NAV_LINKS;
+  const publicMiniSessionsCampaign =
+    miniSessionsCampaign?.status === "live" ||
+    miniSessionsCampaign?.status === "sold_out"
+      ? {
+          id: miniSessionsCampaign.id,
+          status: miniSessionsCampaign.status,
+        }
+      : null;
+  const miniSessionsLink = publicMiniSessionsCampaign
+    ? [{ label: "Minis", href: "/mini-sessions" }]
+    : [];
+  const desktopNavLinks = [
+    ...BOARD_NAV_LINKS,
+    ...miniSessionsLink,
+    ...(hasMediaAdminSession
+      ? [{ label: "Media", href: "/admin/media" }]
+      : []),
+  ];
+  const mobileNavLinks = [
+    ...MOBILE_BOARD_NAV_LINKS,
+    ...miniSessionsLink,
+    ...(hasMediaAdminSession
+      ? [{ label: "Media", href: "/admin/media" }]
+      : []),
+  ];
+
+  const trackMiniSessionsNavigation = (location: string) => {
+    if (!publicMiniSessionsCampaign) return;
+    trackMiniSessionPromotionClick({
+      campaign_id: publicMiniSessionsCampaign.id,
+      campaign_status: publicMiniSessionsCampaign.status,
+      cta_location: location,
+    });
+  };
 
   useEffect(() => {
     let canceled = false;
@@ -174,6 +213,11 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => {
+                  if (link.href === "/mini-sessions") {
+                    trackMiniSessionsNavigation("header_desktop");
+                  }
+                }}
                 className={cn(
                   "relative py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--brand-strong)] lg:text-[11px] lg:tracking-[0.2em]",
                   "after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[var(--brand-strong)] after:transition-all after:duration-200 hover:after:w-full",
@@ -237,7 +281,12 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  if (link.href === "/mini-sessions") {
+                    trackMiniSessionsNavigation("header_mobile");
+                  }
+                  setIsMobileMenuOpen(false);
+                }}
                 className={cn(
                   "block text-3xl font-heading font-medium text-[var(--mobile-menu-text)]",
                   "opacity-0 translate-x-8 transition-all duration-500 motion-reduce:transition-none motion-reduce:translate-x-0 motion-reduce:opacity-100",

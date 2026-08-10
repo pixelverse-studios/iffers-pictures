@@ -34,6 +34,9 @@ export async function getActiveMiniSessionCampaignResult(): Promise<ActiveMiniSe
       response,
       publicCampaignResponseSchema
     );
+    if (campaign.status !== "live" && campaign.status !== "sold_out") {
+      return { status: "not_found" };
+    }
     return { status: "available", campaign };
   } catch (error) {
     if (error instanceof MiniSessionsApiError && error.kind === "not_found") {

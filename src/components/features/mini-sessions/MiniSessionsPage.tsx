@@ -4,6 +4,7 @@ import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
 import type { MiniSessionsUtmParams } from "@/lib/mini-sessions/utm";
 import { MiniSessionsBooking } from "./MiniSessionsBooking";
+import { MiniSessionsAnalytics } from "./MiniSessionsAnalytics";
 
 interface MiniSessionsPageProps {
   campaign: MiniSessionPublicCampaign;
@@ -31,6 +32,7 @@ export function MiniSessionsPage({ campaign, utmParams }: MiniSessionsPageProps)
 
   return (
     <div className="bg-[var(--background)] pt-hero">
+      <MiniSessionsAnalytics campaign={campaign} />
       <section className="mx-auto grid min-h-[680px] max-w-[1600px] lg:grid-cols-[0.88fr_1.12fr]">
         <div className="flex flex-col justify-center bg-[var(--brand-strong)] px-6 py-14 text-white md:px-12 lg:px-16">
           <p className="text-xs font-bold uppercase tracking-[0.26em] text-white/70">

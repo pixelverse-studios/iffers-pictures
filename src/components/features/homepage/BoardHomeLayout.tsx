@@ -19,6 +19,8 @@ import {
 } from "@/lib/media/image-delivery";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 import type { SubCategory } from "@/components/features/portfolio/portfolioData";
+import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
+import { MiniSessionsPromotion } from "./MiniSessionsPromotion";
 
 const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 const jennPortraitImage = `${R2_BASE}/portraits/portrait_02.jpg`;
@@ -462,11 +464,13 @@ function BoardFinalCta() {
 interface BoardHomeLayoutProps {
   mediaItems?: PublicGalleryItem[];
   placements?: PublicMediaPlacement[];
+  miniSessionCampaign?: MiniSessionPublicCampaign | null;
 }
 
 export function BoardHomeLayout({
   mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
   placements = [],
+  miniSessionCampaign = null,
 }: BoardHomeLayoutProps) {
   const allItems = mediaItems;
   const heroImage = getPlacementGalleryItem(placements, "home.hero") ?? findPinnedGalleryItem(allItems, {
@@ -512,6 +516,9 @@ export function BoardHomeLayout({
       <ScrollRevealObserver />
       <BoardHomeHero heroImage={heroImage} />
       <BoardImageStrip stripImages={stripImages} />
+      {miniSessionCampaign && (
+        <MiniSessionsPromotion campaign={miniSessionCampaign} />
+      )}
       <BoardMeetJenn image={meetJennImage} />
       <BoardSessionsPreview sessionItems={sessionItems} />
       <BoardQuotePreview heroImage={quoteImage} />

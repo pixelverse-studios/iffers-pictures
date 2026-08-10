@@ -1,8 +1,13 @@
 import { MetadataRoute } from "next";
 import { SITE_CONFIG, SERVICES, SERVICE_AREAS } from "@/lib/constants";
+import { getActiveMiniSessionCampaign } from "@/lib/mini-sessions/server";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_CONFIG.url;
+  const miniSessionCampaign = await getActiveMiniSessionCampaign();
+  const hasPublicMiniSessionsCampaign =
+    miniSessionCampaign?.status === "live" ||
+    miniSessionCampaign?.status === "sold_out";
 
   // Static pages
   const staticPages = [
@@ -48,6 +53,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticPages,
+    ...(hasPublicMiniSessionsCampaign
+      ? [
+          {
+            url: `${baseUrl}/mini-sessions`,
+            lastModified: new Date(miniSessionCampaign.updatedAt),
+            changeFrequency: "weekly" as const,
+            priority: 0.9,
+          },
+        ]
+      : []),
     ...servicePages,
     ...primaryLocationPages,
     ...secondaryLocationPages,

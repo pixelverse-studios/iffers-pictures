@@ -6,6 +6,11 @@ import {
   appendMiniSessionsUtmParams,
   type MiniSessionsUtmParams,
 } from "@/lib/mini-sessions/utm";
+import {
+  trackMiniSessionBookingComplete,
+  trackMiniSessionEmbedError,
+  trackMiniSessionEmbedLoad,
+} from "@/lib/analytics";
 
 type CalFunction = ((...args: unknown[]) => void) & {
   loaded?: boolean;
@@ -22,6 +27,7 @@ declare global {
 interface CalBookingEmbedProps {
   bookingUrl: string;
   campaignId: string;
+  campaignStatus: "live" | "sold_out";
   optionId: string;
   optionLabel: string;
   utmParams: MiniSessionsUtmParams;
@@ -86,12 +92,16 @@ function safeNamespace(campaignId: string, optionId: string) {
 export function CalBookingEmbed({
   bookingUrl,
   campaignId,
+  campaignStatus,
   optionId,
   optionLabel,
   utmParams,
 }: CalBookingEmbedProps) {
   const boundaryRef = useRef<HTMLDivElement>(null);
   const embedRef = useRef<HTMLDivElement>(null);
+  const reportedBookingRef = useRef(false);
+  const reportedFailureRef = useRef(false);
+  const reportedLoadRef = useRef(false);
   const [shouldLoad, setShouldLoad] = useState(false);
   const calLink = useMemo(() => getCalLink(bookingUrl), [bookingUrl]);
   const [embedState, setEmbedState] = useState<"loading" | "ready" | "failed">(
@@ -131,30 +141,63 @@ export function CalBookingEmbed({
     embedElement.replaceChildren();
     const namespace = safeNamespace(campaignId, optionId);
     const cal = installCalLoader();
+    let active = true;
     cal("init", namespace, { origin: "https://cal.com" });
     const api = cal.ns?.[namespace];
+    const analyticsParams = {
+      campaign_id: campaignId,
+      campaign_status: campaignStatus,
+      option_id: optionId,
+      provider: "cal.com" as const,
+    };
+    const reportFailure = () => {
+      if (!active || reportedFailureRef.current) return;
+      reportedFailureRef.current = true;
+      trackMiniSessionEmbedError(analyticsParams);
+    };
 
     if (!api) {
       const failureTimeoutId = window.setTimeout(
-        () => setEmbedState("failed"),
+        () => {
+          reportFailure();
+          setEmbedState("failed");
+        },
         0
       );
       return () => window.clearTimeout(failureTimeoutId);
     }
 
-    const timeoutId = window.setTimeout(() => setEmbedState("failed"), 15000);
+    const timeoutId = window.setTimeout(() => {
+      reportFailure();
+      setEmbedState("failed");
+    }, 15000);
     api("on", {
       action: "linkReady",
       callback: () => {
+        if (!active) return;
         window.clearTimeout(timeoutId);
+        if (!reportedLoadRef.current) {
+          reportedLoadRef.current = true;
+          trackMiniSessionEmbedLoad(analyticsParams);
+        }
         setEmbedState("ready");
       },
     });
     api("on", {
       action: "linkFailed",
       callback: () => {
+        if (!active) return;
         window.clearTimeout(timeoutId);
+        reportFailure();
         setEmbedState("failed");
+      },
+    });
+    api("on", {
+      action: "bookingSuccessfulV2",
+      callback: () => {
+        if (!active || reportedBookingRef.current) return;
+        reportedBookingRef.current = true;
+        trackMiniSessionBookingComplete(analyticsParams);
       },
     });
     api("ui", {
@@ -169,10 +212,11 @@ export function CalBookingEmbed({
     });
 
     return () => {
+      active = false;
       window.clearTimeout(timeoutId);
       embedElement.replaceChildren();
     };
-  }, [calLink, campaignId, optionId, shouldLoad, utmParams]);
+  }, [calLink, campaignId, campaignStatus, optionId, shouldLoad, utmParams]);
 
   return (
     <div ref={boundaryRef} className="relative min-h-[680px]" aria-live="polite">
