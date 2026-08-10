@@ -11,6 +11,7 @@
 - Sold-out Mini Sessions campaigns now replace booking controls with a clear inquiry path.
 - Live and sold-out Mini Sessions can now be featured on the homepage and in site navigation, then disappear automatically when the campaign closes.
 - Mini Sessions visibility now stays aligned across search engines and the website when campaign availability changes.
+- Added a repeatable launch and operations checklist for seasonal Mini Sessions, including booking, sold-out, close, and refund handling.
 
 ## Notes for internal team
 
@@ -21,6 +22,8 @@
 - DEV-1041 baseline and post-change measurements are recorded in `docs/technical/dev-1041-cold-load-image-performance.md`.
 - DEV-1104: Added the server-rendered `/mini-sessions` campaign route, campaign-driven metadata and schema, allowlisted UTM forwarding, lazy Cal.com initialization, and fail-closed availability handling.
 - DEV-1105: Added campaign-aware homepage and navigation promotion, conditional sitemap output, layout/path revalidation, and non-PII GA4 funnel events for Mini Sessions discovery and booking.
+- DEV-1106: Added Jenn-facing and internal Mini Sessions runbooks covering Cal.com/Stripe setup, 20-minute sessions with a 10-minute turnover buffer, release order, migration safety, QA evidence, payments, refunds, and troubleshooting.
+- DEV-1106 rollout note: The linked Supabase project did not yet contain migration `20260809143427` and has pre-existing migration-history drift; reconcile and apply only in an approved release window.
 
 ## Changed URLs
 
