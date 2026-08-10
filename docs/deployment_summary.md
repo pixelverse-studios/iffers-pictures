@@ -3,26 +3,14 @@
 ## Latest deploy summary
 
 -
-- Added a branded social sharing image so Facebook and other link previews display Iffer's Pictures branding instead of a blank thumbnail.
-- Reduced first-visit photography download sizes and prioritized the main page image so galleries appear sooner on mobile and desktop.
-- Added lightweight image placeholders so new visitors see an intentional visual treatment while photos finish loading.
+- Removed the unfinished Service Areas link so visitors are no longer sent to a missing page; the towns served remain visible in the footer.
 
 ## Notes for internal team
 
 -
-- DEV-1040: Added a 1200 × 630 JPEG social asset and a build-time validation check for the configured Open Graph and Twitter image.
-- DEV-1041: Added explicit LCP fetch priority, quality-65 photo delivery, responsive logo sizing, and shared remote-image placeholders across the homepage, portfolio, and service detail layouts.
-- DEV-1041: The media API now applies one-year immutable caching to versioned uploads and a shorter revalidating policy to replaceable legacy image paths; existing R2 objects were backfilled safely.
-- DEV-1041 baseline and post-change measurements are recorded in `docs/technical/dev-1041-cold-load-image-performance.md`.
+- Release hotfix: Removed unpublished `/locations` routes from navigation and the sitemap until the planned local SEO work is implemented.
 
 ## Changed URLs
 
 -
-- https://ifferspictures.com/
-- https://ifferspictures.com/og-image.jpg
-- https://ifferspictures.com/portfolio
-- https://ifferspictures.com/services/events
-- https://ifferspictures.com/services/family
-- https://ifferspictures.com/services/maternity
-- https://ifferspictures.com/services/couples-engagement
-- https://ifferspictures.com/services/portrait
+- https://ifferspictures.com/sitemap.xml

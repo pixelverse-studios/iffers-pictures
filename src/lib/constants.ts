@@ -168,7 +168,6 @@ export const FOOTER_LINKS = {
     { label: "Investment", href: "/investment" },
   ],
   resources: [
-    { label: "Service Areas", href: "/locations" },
     { label: "FAQ", href: "/faq" },
   ],
 };
