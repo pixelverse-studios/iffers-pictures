@@ -68,12 +68,16 @@ the entire FAQ section when the policy meaning or wording differs:
 
 ```text
 Cancellation: A nonrefundable <formatted deposit> booking fee is required to secure your date and time.
+Balance: The remaining <formatted total minus deposit> is due before your session.
 Weather: If severe weather forces us to reschedule, your session fee transfers directly to our rain date.
 Lateness: Mini sessions are booked back-to-back, therefore I’m not able to extend your session time if you arrive late. Please plan to arrive at least 5–10 minutes early.
 ```
 
 For the planned $100 deposit, the cancellation value is
-`A nonrefundable $100 booking fee is required to secure your date and time.`
+`A nonrefundable $100 booking fee is required to secure your date and time.` The
+planned $225 total also requires the balance value
+`The remaining $125 is due before your session.` A full-price deposit suppresses
+the Autumn FAQ set because Jen's final answer specifies a remaining balance.
 
 The frontend currently authenticates both media and site-content revalidation
 through `MEDIA_REVALIDATION_SECRET`. The server supports the older media webhook

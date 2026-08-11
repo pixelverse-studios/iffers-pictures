@@ -28,6 +28,7 @@
 - DEV-1107: Added ten code-managed Autumn Keepsake FAQs, campaign-value substitution, fail-closed seasonal gating, and matching FAQPage schema without expanding CMS or API scope.
 - DEV-1107 review: FAQ ownership now uses the stable campaign ID from `AUTUMN_KEEPSAKE_CAMPAIGN_ID`; finalized venue copy no longer says the location is still pending, and focused tests run through the repository's Node 20-compatible npm script.
 - DEV-1107 policy review: Jen's final refund, rain-date, and late-arrival terms are now enforced as approved campaign policy summaries; contradictory CMS wording suppresses the FAQs instead of publishing conflicting guidance.
+- DEV-1107 payment review: The FAQ now verifies that the displayed remaining balance equals the campaign total minus its deposit and fails closed when payment copy conflicts.
 
 ## Changed URLs
 

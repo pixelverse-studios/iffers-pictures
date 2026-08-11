@@ -114,6 +114,32 @@ test("fails closed when CMS policies contradict the final FAQ wording", () => {
   );
 });
 
+test("fails closed when the stated balance contradicts total minus deposit", () => {
+  assert.deepEqual(
+    getMiniSessionFaqs(
+      {
+        ...autumnCampaign,
+        balanceDueText: "The remaining $200 is due before your session.",
+      },
+      autumnCampaignId
+    ),
+    []
+  );
+  assert.deepEqual(
+    getMiniSessionFaqs(
+      {
+        ...autumnCampaign,
+        depositCents: autumnCampaign.totalPriceCents,
+        cancellationPolicy:
+          "A nonrefundable $225 booking fee is required to secure your date and time.",
+        balanceDueText: "No remaining balance is due before your session.",
+      },
+      autumnCampaignId
+    ),
+    []
+  );
+});
+
 test("uses campaign-controlled values in operational answers", () => {
   const faqs = getMiniSessionFaqs(
     {
@@ -123,8 +149,7 @@ test("uses campaign-controlled values in operational answers", () => {
       depositCents: 12500,
       cancellationPolicy:
         "A nonrefundable $125 booking fee is required to secure your date and time.",
-      balanceDueText:
-        "The remaining $125 is collected one week before the session.",
+      balanceDueText: "The remaining $125 is due before your session.",
       locationSummary: "Cliffside Park, NJ",
       inclusions: [
         "12 edited digital images",
@@ -137,7 +162,7 @@ test("uses campaign-controlled values in operational answers", () => {
   assert.match(faqs[0]?.answer ?? "", /12 edited digital images/);
   assert.match(faqs[1]?.answer ?? "", /\$250/);
   assert.match(faqs[1]?.answer ?? "", /\$125/);
-  assert.match(faqs[1]?.answer ?? "", /collected one week before/);
+  assert.match(faqs[1]?.answer ?? "", /remaining \$125 is due before/);
   assert.match(faqs[2]?.answer ?? "", /Cliffside Park, NJ/);
   assert.doesNotMatch(faqs[2]?.answer ?? "", /final location will be announced/i);
   assert.match(faqs[3]?.answer ?? "", /7-10 days/);

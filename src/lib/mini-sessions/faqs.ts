@@ -85,13 +85,18 @@ export function getMiniSessionFaqs(
   const latenessPolicy = campaign.latenessPolicy.trim();
   const totalPrice = formatCurrency(campaign.totalPriceCents);
   const deposit = formatCurrency(campaign.depositCents);
+  const remainingBalance = formatCurrency(
+    campaign.totalPriceCents - campaign.depositCents
+  );
   const expectedCancellationPolicy = `A nonrefundable ${deposit} booking fee is required to secure your date and time.`;
+  const expectedBalanceDueText = `The remaining ${remainingBalance} is due before your session.`;
 
   if (
     !editedImagesMatch ||
     !deliveryMatch ||
     !location ||
-    !balanceDueText ||
+    normalizePolicy(balanceDueText) !==
+      normalizePolicy(expectedBalanceDueText) ||
     normalizePolicy(cancellationPolicy) !==
       normalizePolicy(expectedCancellationPolicy) ||
     normalizePolicy(weatherPolicy) !==
@@ -101,7 +106,7 @@ export function getMiniSessionFaqs(
     campaign.durationMinutes <= 0 ||
     campaign.totalPriceCents <= 0 ||
     campaign.depositCents <= 0 ||
-    campaign.depositCents > campaign.totalPriceCents
+    campaign.depositCents >= campaign.totalPriceCents
   ) {
     return [];
   }
