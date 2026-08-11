@@ -1,4 +1,5 @@
 export interface MiniSessionFaqCampaign {
+  id: string;
   publicLabel: string;
   durationMinutes: number;
   totalPriceCents: number;
@@ -29,7 +30,7 @@ interface FaqPageSchema {
   }>;
 }
 
-const AUTUMN_KEEPSAKE_PUBLIC_LABEL = "Autumn Keepsake Sessions";
+const AUTUMN_KEEPSAKE_LOCATION_SUMMARY = "North Jersey/Bergen County";
 const EDITED_IMAGES_PATTERN = /\b(\d+)\s+edited digital images?\b/i;
 const DELIVERY_PATTERN = /\bwithin\s+(\d+)\s*[-–]\s*(\d+)\s+days?\b/i;
 const NONREFUNDABLE_PATTERN = /\bnon[- ]?refundable\b/i;
@@ -58,9 +59,10 @@ function findInclusionMatch(inclusions: string[], pattern: RegExp) {
 }
 
 export function getMiniSessionFaqs(
-  campaign: MiniSessionFaqCampaign
+  campaign: MiniSessionFaqCampaign,
+  intendedCampaignId = process.env.AUTUMN_KEEPSAKE_CAMPAIGN_ID?.trim()
 ): MiniSessionFaqItem[] {
-  if (campaign.publicLabel.trim() !== AUTUMN_KEEPSAKE_PUBLIC_LABEL) {
+  if (!intendedCampaignId || campaign.id !== intendedCampaignId) {
     return [];
   }
 
@@ -99,6 +101,11 @@ export function getMiniSessionFaqs(
   const deliveryWindow = `${deliveryMatch[1]}-${deliveryMatch[2]} days`;
   const totalPrice = formatCurrency(campaign.totalPriceCents);
   const deposit = formatCurrency(campaign.depositCents);
+  const locationTiming =
+    location.toLocaleLowerCase() ===
+    AUTUMN_KEEPSAKE_LOCATION_SUMMARY.toLocaleLowerCase()
+      ? " The final location will be announced as the session gets closer to take into account the parks with the most beautiful fall foliage."
+      : "";
 
   return [
     {
@@ -111,7 +118,7 @@ export function getMiniSessionFaqs(
     },
     {
       question: "Where will the session take place?",
-      answer: `Autumn Keepsake Sessions will take place in ${location}. The final location will be announced as the session gets closer to take into account the parks with the most beautiful fall foliage.`,
+      answer: `Autumn Keepsake Sessions will take place in ${location}.${locationTiming}`,
     },
     {
       question: "When will we receive our photos?",

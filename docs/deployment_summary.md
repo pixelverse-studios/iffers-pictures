@@ -26,6 +26,7 @@
 - DEV-1106: Added Jenn-facing and internal Mini Sessions runbooks covering Cal.com/Stripe setup, 20-minute sessions with a 10-minute turnover buffer, release order, migration safety, QA evidence, payments, refunds, and troubleshooting.
 - DEV-1106 rollout note: The linked Supabase project did not yet contain migration `20260809143427` and has pre-existing migration-history drift; reconcile and apply only in an approved release window.
 - DEV-1107: Added ten code-managed Autumn Keepsake FAQs, campaign-value substitution, fail-closed seasonal gating, and matching FAQPage schema without expanding CMS or API scope.
+- DEV-1107 review: FAQ ownership now uses the stable campaign ID from `AUTUMN_KEEPSAKE_CAMPAIGN_ID`; finalized venue copy no longer says the location is still pending, and focused tests run through the repository's Node 20-compatible npm script.
 
 ## Changed URLs
 

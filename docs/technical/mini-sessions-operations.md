@@ -54,7 +54,13 @@ Iffer's Pictures website:
 PVS_API_URL=<deployed Pixelverse API origin>
 MEDIA_REVALIDATION_SECRET=<same shared random secret>
 NEXT_PUBLIC_GA_MEASUREMENT_ID=<public GA4 measurement ID>
+AUTUMN_KEEPSAKE_CAMPAIGN_ID=<stable ID of the Autumn Keepsake campaign>
 ```
+
+The Autumn Keepsake FAQ section fails closed unless
+`AUTUMN_KEEPSAKE_CAMPAIGN_ID` exactly matches the active campaign ID. Set this
+after the final campaign is created and before publishing it; do not use its
+editable public label as the identifier.
 
 The frontend currently authenticates both media and site-content revalidation
 through `MEDIA_REVALIDATION_SECRET`. The server supports the older media webhook
@@ -251,4 +257,3 @@ Pending owner/approved release work:
 - verify mobile production behavior, real Cal.com embed callbacks, email delivery,
   calendar records, slot removal, GA4 receipt, and refund/cancellation behavior;
 - deploy only after separate authorization.
-
