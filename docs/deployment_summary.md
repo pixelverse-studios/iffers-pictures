@@ -13,6 +13,10 @@
 - Sold-out Mini Sessions campaigns now replace booking controls with a clear inquiry path.
 - Added an authenticated, unsaved campaign preview plus guided controls to duplicate, publish, mark sold out, close, and archive Mini Sessions campaigns.
 - Campaign launches now include a readiness checklist and explicit Cal.com verification, while archived campaigns remain available as read-only history.
+- Live and sold-out Mini Sessions can now be featured on the homepage and in site navigation, then disappear automatically when the campaign closes.
+- Mini Sessions visibility now stays aligned across search engines and the website when campaign availability changes.
+- Added a repeatable launch and operations checklist for seasonal Mini Sessions, including booking, sold-out, close, and refund handling.
+- Added Jen's Autumn Keepsake Sessions FAQs to the Mini Sessions page with accessible question-and-answer controls and search-friendly structured data.
 
 ## Notes for internal team
 
@@ -24,6 +28,13 @@
 - DEV-1102: Added the focused admin Mini Sessions feature module, campaign filters, cents-safe currency editing, published-media selection, bounded/reorderable booking options, and stale-write recovery while preserving the existing library and page-image workflows.
 - DEV-1104: Added the server-rendered `/mini-sessions` campaign route, campaign-driven metadata and schema, allowlisted UTM forwarding, lazy Cal.com initialization, and fail-closed availability handling.
 - DEV-1103: Added shared-component draft preview, server-authoritative lifecycle confirmations, dirty-state protection, revalidation warnings distinct from mutation success, stale-state recovery, and accessible dialog focus restoration.
+- DEV-1105: Added campaign-aware homepage and navigation promotion, conditional sitemap output, layout/path revalidation, and non-PII GA4 funnel events for Mini Sessions discovery and booking.
+- DEV-1106: Added Jenn-facing and internal Mini Sessions runbooks covering Cal.com/Stripe setup, 20-minute sessions with a 10-minute turnover buffer, release order, migration safety, QA evidence, payments, refunds, and troubleshooting.
+- DEV-1106 rollout note: The linked Supabase project did not yet contain migration `20260809143427` and has pre-existing migration-history drift; reconcile and apply only in an approved release window.
+- DEV-1107: Added ten code-managed Autumn Keepsake FAQs, campaign-value substitution, fail-closed seasonal gating, and matching FAQPage schema without expanding CMS or API scope.
+- DEV-1107 review: FAQ ownership now uses the stable campaign ID from `AUTUMN_KEEPSAKE_CAMPAIGN_ID`; finalized venue copy no longer says the location is still pending, and focused tests run through the repository's Node 20-compatible npm script.
+- DEV-1107 policy review: Jen's final refund, rain-date, and late-arrival terms are now enforced as approved campaign policy summaries; contradictory CMS wording suppresses the FAQs instead of publishing conflicting guidance.
+- DEV-1107 payment review: The FAQ now verifies that the displayed remaining balance equals the campaign total minus its deposit and fails closed when payment copy conflicts.
 
 ## Changed URLs
 

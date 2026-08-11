@@ -3,12 +3,17 @@
 import { usePathname } from "next/navigation";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import type { MiniSessionCampaignStatus } from "@/lib/mini-sessions/types";
 
 interface SiteChromeProps {
   children: React.ReactNode;
+  miniSessionsCampaign: {
+    id: string;
+    status: MiniSessionCampaignStatus;
+  } | null;
 }
 
-export function SiteChrome({ children }: SiteChromeProps) {
+export function SiteChrome({ children, miniSessionsCampaign }: SiteChromeProps) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
 
@@ -18,7 +23,7 @@ export function SiteChrome({ children }: SiteChromeProps) {
 
   return (
     <>
-      <Header />
+      <Header miniSessionsCampaign={miniSessionsCampaign} />
       <main className="flex-1">{children}</main>
       <Footer />
     </>

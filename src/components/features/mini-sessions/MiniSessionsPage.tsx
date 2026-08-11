@@ -2,8 +2,11 @@ import Image from "next/image";
 import { CalendarDays, Camera, Check, Clock3, MapPin } from "lucide-react";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
+import { getMiniSessionFaqs } from "@/lib/mini-sessions/faqs";
 import type { MiniSessionsUtmParams } from "@/lib/mini-sessions/utm";
 import { MiniSessionsBooking } from "./MiniSessionsBooking";
+import { MiniSessionsAnalytics } from "./MiniSessionsAnalytics";
+import { MiniSessionsFaqs } from "./MiniSessionsFaqs";
 
 interface MiniSessionsPageProps {
   campaign: MiniSessionPublicCampaign;
@@ -28,6 +31,7 @@ export function MiniSessionsPage({
   previewMode = false,
   utmParams,
 }: MiniSessionsPageProps) {
+  const faqs = getMiniSessionFaqs(campaign);
   const policyItems = [
     ["Cancellation", campaign.cancellationPolicy],
     ["Weather", campaign.weatherPolicy],
@@ -38,6 +42,7 @@ export function MiniSessionsPage({
     <div
       className={`bg-[var(--background)] ${previewMode ? "" : "pt-hero"}`}
     >
+      {!previewMode && <MiniSessionsAnalytics campaign={campaign} />}
       <section className="mx-auto grid min-h-[680px] max-w-[1600px] lg:grid-cols-[0.88fr_1.12fr]">
         <div className="flex flex-col justify-center bg-[var(--brand-strong)] px-6 py-14 text-white md:px-12 lg:px-16">
           <p className="text-xs font-bold uppercase tracking-[0.26em] text-white/70">
@@ -162,6 +167,8 @@ export function MiniSessionsPage({
         previewMode={previewMode}
         utmParams={utmParams}
       />
+
+      <MiniSessionsFaqs faqs={faqs} />
 
       <section className="bg-[var(--foreground)] px-6 py-16 text-center text-white md:px-8 md:py-20">
         <h2 className="font-heading text-4xl font-semibold md:text-5xl">Still have a question?</h2>
