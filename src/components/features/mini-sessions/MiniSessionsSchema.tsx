@@ -1,4 +1,8 @@
 import { SERVICE_AREAS, SITE_CONFIG } from "@/lib/constants";
+import {
+  buildFaqPageSchema,
+  getMiniSessionFaqs,
+} from "@/lib/mini-sessions/faqs";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
 
 interface MiniSessionsSchemaProps {
@@ -15,6 +19,7 @@ export function MiniSessionsSchema({ campaign }: MiniSessionsSchemaProps) {
       ? "https://schema.org/LimitedAvailability"
       : "https://schema.org/SoldOut";
 
+  const faqSchema = buildFaqPageSchema(getMiniSessionFaqs(campaign));
   const schema = [
     {
       "@context": "https://schema.org",
@@ -58,6 +63,7 @@ export function MiniSessionsSchema({ campaign }: MiniSessionsSchemaProps) {
         description: campaign.balanceDueText,
       },
     },
+    ...(faqSchema ? [faqSchema] : []),
   ];
 
   return (

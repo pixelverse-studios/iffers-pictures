@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:mini-session-faqs": "node --import tsx --test scripts/test-mini-session-faqs.mjs",
     "validate:social-image": "node scripts/validate-social-image.mjs"
   },
   "dependencies": {
@@ -34,6 +35,7 @@
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }
