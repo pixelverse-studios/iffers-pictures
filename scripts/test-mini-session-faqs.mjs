@@ -17,9 +17,12 @@ const autumnCampaign = {
     "10 edited digital images",
     "An online gallery delivered within 10-14 days",
   ],
-  cancellationPolicy: "The $100 booking fee is nonrefundable.",
-  weatherPolicy: "Severe weather moves your booking to the published rain date.",
-  latenessPolicy: "Sessions cannot be extended for late arrivals.",
+  cancellationPolicy:
+    "A nonrefundable $100 booking fee is required to secure your date and time.",
+  weatherPolicy:
+    "If severe weather forces us to reschedule, your session fee transfers directly to our rain date.",
+  latenessPolicy:
+    "Mini sessions are booked back-to-back, therefore I’m not able to extend your session time if you arrive late. Please plan to arrive at least 5–10 minutes early.",
 };
 
 const autumnCampaignId = autumnCampaign.id;
@@ -75,6 +78,42 @@ test("fails closed for unrelated or incomplete campaigns", () => {
   );
 });
 
+test("fails closed when CMS policies contradict the final FAQ wording", () => {
+  assert.deepEqual(
+    getMiniSessionFaqs(
+      {
+        ...autumnCampaign,
+        cancellationPolicy:
+          "The full session is nonrefundable, but the booking fee is refundable.",
+      },
+      autumnCampaignId
+    ),
+    []
+  );
+  assert.deepEqual(
+    getMiniSessionFaqs(
+      {
+        ...autumnCampaign,
+        weatherPolicy:
+          "Rain sessions are never rescheduled and there is no rain date.",
+      },
+      autumnCampaignId
+    ),
+    []
+  );
+  assert.deepEqual(
+    getMiniSessionFaqs(
+      {
+        ...autumnCampaign,
+        latenessPolicy:
+          "Late sessions cannot be shortened because the full time is extended.",
+      },
+      autumnCampaignId
+    ),
+    []
+  );
+});
+
 test("uses campaign-controlled values in operational answers", () => {
   const faqs = getMiniSessionFaqs(
     {
@@ -82,6 +121,8 @@ test("uses campaign-controlled values in operational answers", () => {
       durationMinutes: 25,
       totalPriceCents: 25000,
       depositCents: 12500,
+      cancellationPolicy:
+        "A nonrefundable $125 booking fee is required to secure your date and time.",
       balanceDueText:
         "The remaining $125 is collected one week before the session.",
       locationSummary: "Cliffside Park, NJ",

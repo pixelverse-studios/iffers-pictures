@@ -33,10 +33,10 @@ interface FaqPageSchema {
 const AUTUMN_KEEPSAKE_LOCATION_SUMMARY = "North Jersey/Bergen County";
 const EDITED_IMAGES_PATTERN = /\b(\d+)\s+edited digital images?\b/i;
 const DELIVERY_PATTERN = /\bwithin\s+(\d+)\s*[-–]\s*(\d+)\s+days?\b/i;
-const NONREFUNDABLE_PATTERN = /\bnon[- ]?refundable\b/i;
-const WEATHER_PATTERN = /\b(rain|weather|reschedul|rain date)\b/i;
-const LATENESS_PATTERN = /\b(late|lateness|arrival)\b/i;
-const NO_EXTENSION_PATTERN = /\b(cannot|can't|unable|not able|no extension)\b/i;
+const AUTUMN_KEEPSAKE_WEATHER_POLICY =
+  "If severe weather forces us to reschedule, your session fee transfers directly to our rain date.";
+const AUTUMN_KEEPSAKE_LATENESS_POLICY =
+  "Mini sessions are booked back-to-back, therefore I’m not able to extend your session time if you arrive late. Please plan to arrive at least 5–10 minutes early.";
 
 function formatCurrency(cents: number) {
   return new Intl.NumberFormat("en-US", {
@@ -56,6 +56,10 @@ function findInclusionMatch(inclusions: string[], pattern: RegExp) {
   }
 
   return null;
+}
+
+function normalizePolicy(value: string) {
+  return value.trim().replace(/\s+/g, " ").toLocaleLowerCase();
 }
 
 export function getMiniSessionFaqs(
@@ -79,16 +83,21 @@ export function getMiniSessionFaqs(
   const cancellationPolicy = campaign.cancellationPolicy.trim();
   const weatherPolicy = campaign.weatherPolicy.trim();
   const latenessPolicy = campaign.latenessPolicy.trim();
+  const totalPrice = formatCurrency(campaign.totalPriceCents);
+  const deposit = formatCurrency(campaign.depositCents);
+  const expectedCancellationPolicy = `A nonrefundable ${deposit} booking fee is required to secure your date and time.`;
 
   if (
     !editedImagesMatch ||
     !deliveryMatch ||
     !location ||
     !balanceDueText ||
-    !NONREFUNDABLE_PATTERN.test(cancellationPolicy) ||
-    !WEATHER_PATTERN.test(weatherPolicy) ||
-    !LATENESS_PATTERN.test(latenessPolicy) ||
-    !NO_EXTENSION_PATTERN.test(latenessPolicy) ||
+    normalizePolicy(cancellationPolicy) !==
+      normalizePolicy(expectedCancellationPolicy) ||
+    normalizePolicy(weatherPolicy) !==
+      normalizePolicy(AUTUMN_KEEPSAKE_WEATHER_POLICY) ||
+    normalizePolicy(latenessPolicy) !==
+      normalizePolicy(AUTUMN_KEEPSAKE_LATENESS_POLICY) ||
     campaign.durationMinutes <= 0 ||
     campaign.totalPriceCents <= 0 ||
     campaign.depositCents <= 0 ||
@@ -99,8 +108,6 @@ export function getMiniSessionFaqs(
 
   const editedImageCount = editedImagesMatch[1];
   const deliveryWindow = `${deliveryMatch[1]}-${deliveryMatch[2]} days`;
-  const totalPrice = formatCurrency(campaign.totalPriceCents);
-  const deposit = formatCurrency(campaign.depositCents);
   const locationTiming =
     location.toLocaleLowerCase() ===
     AUTUMN_KEEPSAKE_LOCATION_SUMMARY.toLocaleLowerCase()

@@ -62,6 +62,19 @@ The Autumn Keepsake FAQ section fails closed unless
 after the final campaign is created and before publishing it; do not use its
 editable public label as the identifier.
 
+Enter these approved policy summaries exactly on the Autumn Keepsake campaign.
+The frontend normalizes capitalization and repeated whitespace, but suppresses
+the entire FAQ section when the policy meaning or wording differs:
+
+```text
+Cancellation: A nonrefundable <formatted deposit> booking fee is required to secure your date and time.
+Weather: If severe weather forces us to reschedule, your session fee transfers directly to our rain date.
+Lateness: Mini sessions are booked back-to-back, therefore I’m not able to extend your session time if you arrive late. Please plan to arrive at least 5–10 minutes early.
+```
+
+For the planned $100 deposit, the cancellation value is
+`A nonrefundable $100 booking fee is required to secure your date and time.`
+
 The frontend currently authenticates both media and site-content revalidation
 through `MEDIA_REVALIDATION_SECRET`. The server supports the older media webhook
 variables as rollout fallbacks, but new Mini Sessions deployments should use the
