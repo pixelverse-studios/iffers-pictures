@@ -28,11 +28,20 @@ export interface PortfolioAnalyticsParams {
   direction?: "previous" | "next";
 }
 
+export interface MiniSessionAnalyticsParams {
+  campaign_id: string;
+  campaign_status: "live" | "sold_out";
+  option_id?: string;
+  cta_location?: string;
+  provider?: "cal.com";
+}
+
 declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
     __ga4Configured?: boolean;
+    __ga4MeasurementId?: string;
   }
 }
 
@@ -48,7 +57,10 @@ function cleanParams(params: AnalyticsParams = {}) {
 }
 
 function getGtag() {
-  if (typeof window === "undefined" || !GA_MEASUREMENT_ID) return null;
+  if (typeof window === "undefined") return null;
+
+  const measurementId = GA_MEASUREMENT_ID || window.__ga4MeasurementId;
+  if (!measurementId) return null;
 
   window.dataLayer = window.dataLayer || [];
 
@@ -60,7 +72,7 @@ function getGtag() {
 
   if (!window.__ga4Configured) {
     window.gtag("js", new Date());
-    window.gtag("config", GA_MEASUREMENT_ID, { send_page_view: false });
+    window.gtag("config", measurementId, { send_page_view: false });
     window.__ga4Configured = true;
   }
 
@@ -168,4 +180,42 @@ export function trackServicePageView(params: {
   service_name: string;
 }) {
   trackEvent("service_page_view", params);
+}
+
+export function trackMiniSessionCampaignView(
+  params: MiniSessionAnalyticsParams
+) {
+  trackEvent("mini_session_campaign_view", { ...params });
+}
+
+export function trackMiniSessionPromotionClick(
+  params: MiniSessionAnalyticsParams
+) {
+  trackEvent("mini_session_promotion_click", { ...params });
+}
+
+export function trackMiniSessionOptionSelect(
+  params: MiniSessionAnalyticsParams
+) {
+  trackEvent("mini_session_option_select", { ...params });
+}
+
+export function trackMiniSessionEmbedLoad(params: MiniSessionAnalyticsParams) {
+  trackEvent("mini_session_embed_load", { ...params });
+}
+
+export function trackMiniSessionEmbedError(params: MiniSessionAnalyticsParams) {
+  trackEvent("mini_session_embed_error", { ...params });
+}
+
+export function trackMiniSessionBookingComplete(
+  params: MiniSessionAnalyticsParams
+) {
+  trackEvent("mini_session_booking_complete", { ...params });
+}
+
+export function trackMiniSessionSoldOutInquiryClick(
+  params: MiniSessionAnalyticsParams
+) {
+  trackEvent("mini_session_sold_out_inquiry_click", { ...params });
 }

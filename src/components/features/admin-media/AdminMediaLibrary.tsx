@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { AdminMiniSessionsManager } from "@/components/features/admin-mini-sessions/AdminMiniSessionsManager";
 import type {
   AdminMediaPlacementSlot,
   AdminMediaItem,
@@ -218,6 +219,7 @@ export function AdminMediaLibrary({
 }: AdminMediaLibraryProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [viewMode, setViewMode] = useState<AdminMediaViewMode>("library");
+  const [campaignDirty, setCampaignDirty] = useState(false);
   const [placementPageFilter, setPlacementPageFilter] =
     useState<PlacementPageFilter>("all");
   const [uploadPanelOpen, setUploadPanelOpen] = useState(false);
@@ -230,7 +232,9 @@ export function AdminMediaLibrary({
     [placementSlots],
   );
   const activeMobileFilter =
-    viewMode === "placements"
+    viewMode === "campaigns"
+      ? "Mini Sessions"
+      : viewMode === "placements"
       ? placementPageFilter === "all"
         ? "Page images"
         : placementPageFilter
@@ -244,10 +248,11 @@ export function AdminMediaLibrary({
               ? "Portfolio"
               : "All Images";
   const hasInspector =
-    uploadPanelOpen ||
-    Boolean(selectedItem) ||
-    selectedBatchItems.length > 1 ||
-    Boolean(batchArchiveFeedback);
+    viewMode !== "campaigns" &&
+    (uploadPanelOpen ||
+      Boolean(selectedItem) ||
+      selectedBatchItems.length > 1 ||
+      Boolean(batchArchiveFeedback));
   const inspectorWidth = "clamp(540px, 42vw, 680px)";
   const inspectorTransition = prefersReducedMotion
     ? { duration: 0 }
@@ -256,12 +261,25 @@ export function AdminMediaLibrary({
         opacity: { duration: 0.18, ease: "easeOut" },
       };
 
-  function handleViewModeChange(mode: AdminMediaViewMode) {
+  function handleViewModeChange(mode: AdminMediaViewMode): boolean {
+    if (mode === viewMode) return true;
+    if (
+      viewMode === "campaigns" &&
+      campaignDirty &&
+      !window.confirm("Discard unsaved campaign changes?")
+    ) {
+      return false;
+    }
     setViewMode(mode);
     setUploadPanelOpen(false);
     if (mode === "library") {
       onPlacementPickerSlotChange(null);
     }
+    if (mode === "campaigns") {
+      onClearArchiveSelection();
+      onSelectedIdChange(null);
+    }
+    return true;
   }
 
   function handlePlacementPageFilterChange(value: PlacementPageFilter) {
@@ -338,26 +356,33 @@ export function AdminMediaLibrary({
 
         <section className="grid min-w-0 lg:min-h-0 lg:overflow-hidden xl:grid-cols-[minmax(0,1fr)_auto]">
           <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto">
-            <AdminMediaHeader
-              counts={counts}
-              fileInputRef={fileInputRef}
-              isRevalidating={isRevalidating}
-              onFilesSelected={handleFilesSelected}
-              onOpenUpload={openUploadPanel}
-              onTriggerRevalidate={onTriggerRevalidate}
-            />
-
-            <div className="space-y-5 px-5 py-5 md:px-7">
-              {(notice || catalogError) && (
-                <AdminMediaNotice
-                  catalogError={catalogError}
-                  notice={notice}
-                  onClear={onClearNotice}
+            {viewMode === "campaigns" ? (
+              <AdminMiniSessionsManager
+                mediaItems={items}
+                onDirtyChange={setCampaignDirty}
+              />
+            ) : (
+              <>
+                <AdminMediaHeader
+                  counts={counts}
+                  fileInputRef={fileInputRef}
+                  isRevalidating={isRevalidating}
+                  onFilesSelected={handleFilesSelected}
+                  onOpenUpload={openUploadPanel}
+                  onTriggerRevalidate={onTriggerRevalidate}
                 />
-              )}
 
-              {viewMode === "library" ? (
-                <>
+                <div className="space-y-5 px-5 py-5 md:px-7">
+                  {(notice || catalogError) && (
+                    <AdminMediaNotice
+                      catalogError={catalogError}
+                      notice={notice}
+                      onClear={onClearNotice}
+                    />
+                  )}
+
+                  {viewMode === "library" ? (
+                    <>
                   <AdminMediaFilters
                     libraryFilter={libraryFilter}
                     query={query}
@@ -382,24 +407,26 @@ export function AdminMediaLibrary({
                     onArchiveSelectionToggle={handleArchiveSelectionToggle}
                     onSelect={handleMediaSelect}
                   />
-                </>
-              ) : (
-                <AdminMediaPlacements
-                  activePickerSlotKey={activePlacementPickerSlotKey}
-                  error={placementError}
-                  isInspectorOpen={hasInspector}
-                  isLoading={isLoadingPlacements}
-                  isMutatingSlotKey={isMutatingPlacement}
-                  items={items}
-                  pageFilter={placementPageFilter}
-                  slots={placementSlots}
-                  onAssign={onAssignPlacement}
-                  onClear={onClearPlacement}
-                  onPickerSlotChange={onPlacementPickerSlotChange}
-                  onSelectMedia={handleMediaSelect}
-                />
-              )}
-            </div>
+                    </>
+                  ) : (
+                    <AdminMediaPlacements
+                      activePickerSlotKey={activePlacementPickerSlotKey}
+                      error={placementError}
+                      isInspectorOpen={hasInspector}
+                      isLoading={isLoadingPlacements}
+                      isMutatingSlotKey={isMutatingPlacement}
+                      items={items}
+                      pageFilter={placementPageFilter}
+                      slots={placementSlots}
+                      onAssign={onAssignPlacement}
+                      onClear={onClearPlacement}
+                      onPickerSlotChange={onPlacementPickerSlotChange}
+                      onSelectMedia={handleMediaSelect}
+                    />
+                  )}
+                </div>
+              </>
+            )}
           </div>
 
           <AnimatePresence initial={false}>

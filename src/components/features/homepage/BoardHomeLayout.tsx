@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight, CalendarDays } from "lucide-react";
 import { SESSIONS } from "@/lib/constants";
 import { HOME_PAGE_COPY } from "@/data/page-copy";
 import { ALL_TESTIMONIALS } from "@/data/testimonials";
@@ -19,6 +19,8 @@ import {
 } from "@/lib/media/image-delivery";
 import type { PublicMediaPlacement } from "@/lib/media/types";
 import type { SubCategory } from "@/components/features/portfolio/portfolioData";
+import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
+import { MiniSessionsPromotion } from "./MiniSessionsPromotion";
 
 const R2_BASE = "https://pub-537ca6ef78984d5e9c262aa7ef7afdf0.r2.dev";
 const jennPortraitImage = `${R2_BASE}/portraits/portrait_02.jpg`;
@@ -74,7 +76,13 @@ function revealStyle(delay: number): CSSProperties {
 
 type BoardHomeImage = Pick<PublicGalleryItem, "src" | "alt" | "cropPosition">;
 
-function BoardHomeHero({ heroImage }: { heroImage?: PublicGalleryItem }) {
+function BoardHomeHero({
+  heroImage,
+  miniSessionCampaign,
+}: {
+  heroImage?: PublicGalleryItem;
+  miniSessionCampaign: MiniSessionPublicCampaign | null;
+}) {
   if (!heroImage) return null;
 
   return (
@@ -106,6 +114,28 @@ function BoardHomeHero({ heroImage }: { heroImage?: PublicGalleryItem }) {
           >
             {HOME_PAGE_COPY.boardHero.description}
           </p>
+          {miniSessionCampaign?.homepageFeatured && (
+            <TrackedLink
+              href="#mini-sessions"
+              tracking={{
+                cta_label: "See Mini Sessions",
+                cta_location: "home_hero_mini_sessions",
+                destination: "#mini-sessions",
+              }}
+              className="hero-reveal mt-7 inline-flex min-h-11 items-center gap-3 rounded-full border border-[var(--brand)]/45 bg-white/88 px-4 text-sm font-bold text-[var(--brand-strong)] shadow-[0_8px_24px_-18px_rgba(38,63,82,0.55)] backdrop-blur-sm transition duration-200 hover:border-[var(--brand)] hover:bg-white active:translate-y-px"
+              style={revealStyle(200)}
+            >
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-[var(--brand-soft)]">
+                <CalendarDays className="h-4 w-4" aria-hidden />
+              </span>
+              <span>
+                {miniSessionCampaign.status === "sold_out"
+                  ? "See the latest Mini Sessions"
+                  : "Mini Sessions now booking"}
+              </span>
+              <ArrowDown className="h-4 w-4" aria-hidden />
+            </TrackedLink>
+          )}
           <div className="mt-8 flex flex-wrap items-center gap-5">
             <TrackedLink
               href={HOME_PAGE_COPY.boardHero.primaryHref}
@@ -462,11 +492,13 @@ function BoardFinalCta() {
 interface BoardHomeLayoutProps {
   mediaItems?: PublicGalleryItem[];
   placements?: PublicMediaPlacement[];
+  miniSessionCampaign?: MiniSessionPublicCampaign | null;
 }
 
 export function BoardHomeLayout({
   mediaItems = DEFAULT_PUBLIC_GALLERY_ITEMS,
   placements = [],
+  miniSessionCampaign = null,
 }: BoardHomeLayoutProps) {
   const allItems = mediaItems;
   const heroImage = getPlacementGalleryItem(placements, "home.hero") ?? findPinnedGalleryItem(allItems, {
@@ -510,8 +542,14 @@ export function BoardHomeLayout({
   return (
     <>
       <ScrollRevealObserver />
-      <BoardHomeHero heroImage={heroImage} />
+      <BoardHomeHero
+        heroImage={heroImage}
+        miniSessionCampaign={miniSessionCampaign}
+      />
       <BoardImageStrip stripImages={stripImages} />
+      {miniSessionCampaign && (
+        <MiniSessionsPromotion campaign={miniSessionCampaign} />
+      )}
       <BoardMeetJenn image={meetJennImage} />
       <BoardSessionsPreview sessionItems={sessionItems} />
       <BoardQuotePreview heroImage={quoteImage} />
