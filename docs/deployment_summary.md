@@ -2,6 +2,8 @@
 
 ## Latest deploy summary
 
+- Updated the reusable Mini Sessions booking connection to Jen's new permanent Cal.com `/minis` link.
+
 - Combined Mini Sessions payment details and the booking calendar so clients can see the deposit, total price, payment timing, location, and policies while choosing a time.
 
 - Removed the unfinished Service Areas link so visitors are no longer sent to a missing page; the towns served remain visible in the footer.
@@ -37,6 +39,8 @@
 - Extended unsaved-change protection to the dashboard home and logout actions.
 
 ## Notes for internal team
+
+- DEV-1083: Changed the CMS booking-link default and operating guide from `/mini-sessions` to `/minis`.
 
 - DEV-1083: Refined the public Mini Sessions booking layout with a sticky desktop payment summary and an expandable mobile booking summary.
 

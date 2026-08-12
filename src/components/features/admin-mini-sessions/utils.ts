@@ -14,7 +14,7 @@ import type {
 
 export const MAX_INCLUSIONS = 12;
 export const MINI_SESSIONS_CAL_URL =
-  "https://cal.com/ifferspictures/mini-sessions";
+  "https://cal.com/ifferspictures/minis";
 export const CAL_AVAILABILITY_NOTE =
   "Live dates and times are shown in the booking calendar.";
 export const DEFAULT_LOCATION_SUMMARY = "Bergen County, NJ";

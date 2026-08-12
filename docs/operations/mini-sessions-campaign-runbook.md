@@ -73,7 +73,7 @@ and policies.
 2. Open **Mini Sessions** and select **New campaign**.
 3. Enter the public copy, total price, deposit, balance wording, general
    location, inclusions, and policies.
-4. Confirm the reusable `https://cal.com/ifferspictures/mini-sessions` booking
+4. Confirm the reusable `https://cal.com/ifferspictures/minis` booking
    URL is present. Set the campaign dates and available times in Cal.com.
 5. Add the homepage promotion copy only if this release should be featured.
 6. Select **Save draft**, then **Preview**. The preview is private, does not
