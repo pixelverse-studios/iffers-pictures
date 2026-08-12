@@ -1,6 +1,7 @@
 export interface MiniSessionFaqCampaign {
   id: string;
   publicLabel: string;
+  durationMinutes: number;
   totalPriceCents: number;
   depositCents: number;
   balanceDueText: string;
@@ -151,8 +152,7 @@ export function getMiniSessionFaqs(
     },
     {
       question: "Can we bring grandparents or extended family members?",
-      answer:
-        "Grandparents are always welcome to join in on the fun. Please keep in mind that Autumn Keepsake Sessions move quickly. Because our time together is brief, bringing a larger group means we will focus primarily on group poses and key combinations (like grandparents with the grandkids!).\n\nIf you are hoping for an extensive variety of individual portraits, subgroup combinations, and solo shots, we recommend booking two back-to-back time slots so everyone gets plenty of camera time.",
+      answer: `Grandparents are always welcome to join in on the fun. Please keep in mind that Autumn Keepsake Sessions are ${campaign.durationMinutes} minutes long. Because our time together is quick, bringing a larger group means we will focus primarily on group poses and key combinations (like grandparents with the grandkids!).\n\nIf you are hoping for an extensive variety of individual portraits, subgroup combinations, and solo shots, we recommend booking two back-to-back time slots so everyone gets plenty of camera time.`,
     },
     {
       question: "What if we’re late?",

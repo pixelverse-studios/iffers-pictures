@@ -8,6 +8,7 @@ import {
 const autumnCampaign = {
   id: "autumn-keepsake-2026",
   publicLabel: "Autumn Keepsake Sessions",
+  durationMinutes: 20,
   totalPriceCents: 22500,
   depositCents: 10000,
   balanceDueText: "The remaining $125 is due before your session.",
@@ -40,8 +41,7 @@ test("returns all ten FAQs for a complete Autumn Keepsake campaign", () => {
   assert.match(faqs[1]?.answer ?? "", /remaining \$125/);
   assert.match(faqs[2]?.answer ?? "", /North Jersey\/Bergen County/);
   assert.match(faqs[3]?.answer ?? "", /10-14 days/);
-  assert.match(faqs[6]?.answer ?? "", /move quickly/);
-  assert.doesNotMatch(faqs[6]?.answer ?? "", /minutes long/);
+  assert.match(faqs[6]?.answer ?? "", /20 minutes long/);
 });
 
 test("fails closed for unrelated or incomplete campaigns", () => {
@@ -157,6 +157,7 @@ test("uses campaign-controlled values in operational answers", () => {
   const faqs = getMiniSessionFaqs(
     {
       ...autumnCampaign,
+      durationMinutes: 25,
       totalPriceCents: 25000,
       depositCents: 12500,
       cancellationPolicy:
@@ -178,6 +179,7 @@ test("uses campaign-controlled values in operational answers", () => {
   assert.match(faqs[2]?.answer ?? "", /Cliffside Park, NJ/);
   assert.doesNotMatch(faqs[2]?.answer ?? "", /final location will be announced/i);
   assert.match(faqs[3]?.answer ?? "", /7-10 days/);
+  assert.match(faqs[6]?.answer ?? "", /25 minutes long/);
 });
 
 test("builds FAQPage schema from the same visible FAQ source", () => {
