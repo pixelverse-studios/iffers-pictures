@@ -172,7 +172,7 @@ export function AdminMiniSessionsManager({
       setMessage(
         response.revalidation?.error
           ? "Campaign saved. The live-site refresh needs another attempt."
-          : `Saved ${saved.internalName}.`
+          : `Saved ${saved.headline}.`
       );
     } catch (error) {
       setRequestError(getCampaignErrorMessage(error));
@@ -224,7 +224,7 @@ export function AdminMiniSessionsManager({
     }
 
     if (action === "publish" && readiness.some((item) => !item.ready)) {
-      setLifecycleError("Complete every publish-readiness item first.");
+      setLifecycleError("Finish the items listed in the publish section first.");
       return false;
     }
 
@@ -254,10 +254,10 @@ export function AdminMiniSessionsManager({
       setFilter(filterForCampaign(saved));
       setIsDirty(false);
       setErrors({});
-      setLifecycleMessage(lifecycleSuccessMessage(action, saved.internalName));
+      setLifecycleMessage(lifecycleSuccessMessage(action, saved.headline));
       if (response.revalidation?.error) {
         setLifecycleWarning(
-          "The campaign status was persisted successfully, but the immediate live-site cache refresh did not complete. The public site may show its previous state until the normal cache window refreshes."
+          "Your change was saved. The public website may take a few minutes to catch up."
         );
       }
       return true;
@@ -306,7 +306,7 @@ export function AdminMiniSessionsManager({
           </p>
           <h1 className="mt-1 font-heading text-3xl font-semibold">Mini Sessions</h1>
           <p className="mt-1 text-sm text-[var(--text-secondary)]">
-            Build campaign content, offers, imagery, and Cal.com booking options.
+            Create, preview, and publish seasonal session offers.
           </p>
         </div>
       </header>
@@ -353,7 +353,7 @@ export function AdminMiniSessionsManager({
                     Start a Mini Sessions campaign
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
-                    Create a draft to add campaign copy, pricing, a published hero image, and booking options.
+                    Create a draft and add the details clients need before they book.
                   </p>
                   <button
                     type="button"

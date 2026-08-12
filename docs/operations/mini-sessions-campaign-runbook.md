@@ -8,11 +8,12 @@ this document.
 
 ## What each system controls
 
-- **Cal.com** controls real availability, conflict checking, bookings,
+- **Cal.com** controls dates, real availability, conflict checking, bookings,
   confirmation messages, and the deposit checkout.
 - **Stripe** receives the deposit and handles refunds and payouts.
 - **Iffer's Pictures CMS** controls the public campaign copy, image, displayed
-  price/deposit, booking links, homepage promotion, and campaign status.
+  price/deposit, broad public location, booking links, homepage promotion, and
+  campaign status.
 
 The CMS does not create Cal.com slots or charge cards. Changing CMS text does
 not change Cal.com or Stripe, so the two systems must be compared before every
@@ -36,8 +37,8 @@ Cal.com's current setup guidance is available in [account onboarding](https://ca
 
 ## Standard event configuration
 
-Use a separate Cal.com event type for each public CMS booking option when its
-date, location, or availability differs.
+Use the reusable Mini Sessions Cal.com event type. Campaign dates and available
+times are managed only in Cal.com; do not duplicate them in the CMS.
 
 - Event name: match the customer-facing CMS option label.
 - Duration: **20 minutes of photographed session time**.
@@ -49,8 +50,9 @@ date, location, or availability differs.
 - Availability: use the exact campaign date and bookable window. Check date
   overrides, slot interval, minimum notice, future-booking limit, and booking
   frequency before launch.
-- Location: match the CMS location text. Use only details Jenn is comfortable
-  showing before booking.
+- Location: the CMS defaults to the broad public area, `Bergen County, NJ`.
+  Cal.com owns the exact event location used during booking and in booking
+  communications. Use only details Jenn is comfortable showing before booking.
 - Payment: charge only the booking deposit. The remaining balance is collected
   manually; this release does not auto-charge it.
 - Questions: keep to information needed to prepare for the session. Do not ask
@@ -69,10 +71,10 @@ and policies.
 
 1. In `/admin/media`, publish the hero image first.
 2. Open **Mini Sessions** and select **New campaign**.
-3. Enter the internal name, public copy, 20-minute duration, total price,
-   deposit, balance wording, date, location, inclusions, and policies.
-4. Add one booking option for each Cal.com event type. Copy the public
-   `https://cal.com/...` URL and use a clear label for its date or location.
+3. Enter the public copy, total price, deposit, balance wording, general
+   location, inclusions, and policies.
+4. Confirm the reusable `https://cal.com/ifferspictures/mini-sessions` booking
+   URL is present. Set the campaign dates and available times in Cal.com.
 5. Add the homepage promotion copy only if this release should be featured.
 6. Select **Save draft**, then **Preview**. The preview is private, does not
    create a public URL, and does not load Cal.com.
@@ -87,8 +89,8 @@ and policies.
 | Customer-facing name | Headline and option label | Event name |
 | Session length | Duration | Event duration: 20 minutes |
 | Turnover | Not part of customer duration | 10-minute after-buffer |
-| Dates and times | Date summary and option labels | Availability/date overrides |
-| Location | Campaign and option location | Event location |
+| Dates and times | Shown through the embedded booking calendar | Availability/date overrides |
+| Location | Broad public area (`Bergen County, NJ`) | Exact event location |
 | Total price | Total price | Internal reference only |
 | Deposit | Deposit and balance text | Stripe amount charged by Cal.com |
 | Policies | Campaign policy fields | Event description/questions/messages |
@@ -102,8 +104,8 @@ and policies.
    wait 60 seconds and refresh again. Escalate using the troubleshooting section
    if the old state remains.
 
-Never change the displayed deposit, date, location, or duration without making
-the same change in Cal.com.
+Never change the displayed deposit or location without checking the matching
+Cal.com setup. Date and time changes belong in Cal.com only.
 
 ## Sell out, close, duplicate, and archive
 
@@ -125,8 +127,8 @@ the same change in Cal.com.
 ### Duplicate
 
 1. Select **Duplicate as draft** on the previous campaign.
-2. Update every date, location, price, deposit, policy, image, promotion field,
-   and Cal.com URL.
+2. Update every location, price, deposit, policy, image, and promotion field,
+   then set the new dates and availability in Cal.com.
 3. Save, preview, and run the full pre-publish comparison again.
 
 ### Archive
@@ -182,4 +184,3 @@ payment details. Do not record those details in project tools.
   changes again.
 - **Refund is pending or failed:** follow the payment status in Stripe. Do not
   promise a completion date beyond Stripe's displayed status.
-

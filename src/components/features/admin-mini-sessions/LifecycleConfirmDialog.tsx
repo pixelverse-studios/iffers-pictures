@@ -9,34 +9,34 @@ const ACTION_COPY: Record<
   { title: string; consequence: string; confirmLabel: string }
 > = {
   duplicate: {
-    title: "Duplicate this campaign?",
+    title: "Make a copy?",
     consequence:
       "A separate draft will be created and opened. The original campaign will not change.",
-    confirmLabel: "Create duplicate",
+    confirmLabel: "Make a copy",
   },
   publish: {
-    title: "Publish this campaign?",
+    title: "Publish this Mini Session?",
     consequence:
-      "This campaign will become the active public Mini Sessions offer. Any currently active campaign will be closed.",
-    confirmLabel: "Publish campaign",
+      "Clients will be able to see this page and use its booking link. If another Mini Session is live, it will be removed from the website.",
+    confirmLabel: "Publish to website",
   },
   "mark-sold-out": {
     title: "Mark this campaign sold out?",
     consequence:
-      "The public page will remain available, but booking controls will be replaced by the inquiry path.",
+      "The page will stay visible, but clients will no longer be able to use the booking button.",
     confirmLabel: "Mark sold out",
   },
   close: {
-    title: "Close this campaign?",
+    title: "Remove this Mini Session from the website?",
     consequence:
-      "The public Mini Sessions page and promotional surfaces will stop showing this campaign after cache refresh.",
-    confirmLabel: "Close campaign",
+      "Clients will no longer see this Mini Session page or its homepage feature.",
+    confirmLabel: "Remove from website",
   },
   archive: {
     title: "Archive this campaign?",
     consequence:
-      "The campaign will move to read-only history and disappear from normal editing. It will not be deleted.",
-    confirmLabel: "Archive campaign",
+      "It will move to your saved history and can no longer be edited. It will not be deleted.",
+    confirmLabel: "Archive",
   },
 };
 
@@ -85,7 +85,7 @@ export function LifecycleConfirmDialog({
     >
       <div className="p-5 md:p-7">
         <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[var(--brand-strong)]">
-          Confirm lifecycle action
+          Please confirm
         </p>
         <h2 id="lifecycle-confirm-title" className="mt-2 font-heading text-3xl font-semibold">
           {copy.title}
@@ -106,8 +106,8 @@ export function LifecycleConfirmDialog({
               className="mt-1 h-4 w-4 shrink-0 accent-[var(--brand-strong)]"
             />
             <span>
-              I verified the Cal.com event name, date, duration, location,
-              availability, and required deposit match this campaign.
+              I checked that the available times, session length, buffer time,
+              and deposit are correct in Cal.com.
             </span>
           </label>
         )}

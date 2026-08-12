@@ -201,9 +201,21 @@ export function CalBookingEmbed({
       },
     });
     api("ui", {
-      hideEventTypeDetails: false,
+      hideEventTypeDetails: true,
+      showTimezoneWhenEventDetailsHidden: true,
       layout: "month_view",
-      styles: { branding: { brandColor: "#5a7898" } },
+      styles: {
+        body: { background: "#ffffff" },
+        branding: { brandColor: "#5a7898" },
+      },
+      cssVarsPerTheme: {
+        light: {
+          "cal-brand": "#5a7898",
+          "cal-brand-emphasis": "#476783",
+          "cal-brand-text": "#ffffff",
+          spacing: "3px",
+        },
+      },
     });
     api("inline", {
       elementOrSelector: embedElement,
@@ -219,9 +231,9 @@ export function CalBookingEmbed({
   }, [calLink, campaignId, campaignStatus, optionId, shouldLoad, utmParams]);
 
   return (
-    <div ref={boundaryRef} className="relative min-h-[680px]" aria-live="polite">
+    <div ref={boundaryRef} className="relative min-h-[560px] md:min-h-[620px]" aria-live="polite">
       {embedState !== "ready" && embedState !== "failed" && (
-        <div className="absolute inset-0 z-10 flex min-h-[680px] flex-col items-center justify-center border border-[var(--border)] bg-white px-6 text-center">
+        <div className="absolute inset-0 z-10 flex min-h-[560px] flex-col items-center justify-center bg-white px-6 text-center md:min-h-[620px]">
           <div className="h-10 w-10 animate-pulse rounded-full bg-[var(--brand-soft)] motion-reduce:animate-none" />
           <p className="mt-5 font-heading text-2xl text-[var(--foreground)]">
             Loading available times…
@@ -233,7 +245,7 @@ export function CalBookingEmbed({
       )}
 
       {embedState === "failed" && (
-        <div className="absolute inset-0 z-10 flex min-h-[680px] flex-col items-center justify-center border border-[var(--border)] bg-[var(--background-warm)] px-6 text-center">
+        <div className="absolute inset-0 z-10 flex min-h-[560px] flex-col items-center justify-center bg-[var(--background-warm)] px-6 text-center md:min-h-[620px]">
           <p className="font-heading text-3xl text-[var(--foreground)]">
             The calendar is taking a little longer.
           </p>
@@ -254,7 +266,7 @@ export function CalBookingEmbed({
 
       <div
         ref={embedRef}
-        className="min-h-[680px] overflow-hidden bg-white"
+        className="min-h-[560px] overflow-hidden bg-white md:min-h-[620px]"
         aria-label={`Booking calendar for ${optionLabel}`}
       />
     </div>

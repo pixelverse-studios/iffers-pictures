@@ -53,7 +53,7 @@ export function CampaignPreviewDialog({
               id="mini-sessions-preview-title"
               className="mt-1 font-heading text-2xl font-semibold"
             >
-              {editor.draft.internalName || "Untitled Mini Session"}
+              {editor.draft.headline || "Untitled Mini Session"}
             </h2>
           </div>
           <button

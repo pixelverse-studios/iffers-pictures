@@ -32,10 +32,6 @@ function OptionDetails({ option }: { option: MiniSessionBookingOption }) {
       )}
       <span className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--text-secondary)]">
         <span className="inline-flex items-center gap-2">
-          <CalendarDays aria-hidden="true" className="h-4 w-4" />
-          {option.dateTimeLabel}
-        </span>
-        <span className="inline-flex items-center gap-2">
           <MapPin aria-hidden="true" className="h-4 w-4" />
           {option.locationLabel}
         </span>
@@ -91,7 +87,7 @@ export function MiniSessionsBooking({
   }
 
   return (
-    <section id="booking" className="bg-[var(--background-warm)] py-16 md:py-24">
+    <section id="booking" className="bg-[var(--background-warm)] py-12 md:py-16">
       <div className="mx-auto max-w-5xl px-6 md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">
@@ -177,7 +173,7 @@ export function MiniSessionsBooking({
         )}
 
         {selectedOption && !previewMode && (
-          <div className="mt-8 shadow-sm">
+          <div className="mt-6 overflow-hidden border border-[var(--border)] bg-white shadow-sm">
             <CalBookingEmbed
               key={selectedOption.id}
               bookingUrl={selectedOption.calBookingUrl}

@@ -17,6 +17,18 @@
 - Mini Sessions visibility now stays aligned across search engines and the website when campaign availability changes.
 - Added a repeatable launch and operations checklist for seasonal Mini Sessions, including booking, sold-out, close, and refund handling.
 - Added Jen's Autumn Keepsake Sessions FAQs to the Mini Sessions page with accessible question-and-answer controls and search-friendly structured data.
+- Simplified the Mini Sessions editor with plain-language guidance, automatic internal and search details, and a clearer publishing workflow.
+- Replaced duplicate scheduling controls with Jen's reusable Cal.com booking link and clarified which settings stay in Cal.com.
+- Combined saving, previewing, validation guidance, and publishing into one responsive action bar that remains available while editing.
+- Improved selected Mini Session campaign contrast so draft titles, summaries, and timestamps remain easy to read.
+- Kept Image Library, Page Images, and Mini Sessions visible at the top of the admin menu so Jen can move between them without scrolling through portfolio categories.
+- Removed duplicate campaign date entry from the Mini Sessions editor; Cal.com now remains the single place where Jen manages dates and available times.
+- New and previously blank Mini Sessions campaigns now default to Bergen County, NJ as the broad website location, while Cal.com remains responsible for the exact booking location.
+- Moved campaign copy and archive controls into the always-available action bar, removing the unnecessary More menu from the editor header.
+- New Mini Sessions campaigns now start with Jen's expected $225 total and $100 deposit, while keeping both prices editable.
+- Added a homepage-hero Mini Sessions callout that jumps directly to the seasonal promotion when a featured campaign is available.
+- Tightened the embedded booking section, removed its repeated event-details panel, and reduced Cal.com spacing so the calendar uses the page more efficiently.
+- Improved Mini Sessions editor typing responsiveness by preventing the full published-photo picker from rebuilding after every keystroke.
 
 ## Notes for internal team
 
@@ -35,6 +47,13 @@
 - DEV-1107 review: FAQ ownership now uses the stable campaign ID from `AUTUMN_KEEPSAKE_CAMPAIGN_ID`; finalized venue copy no longer says the location is still pending, and focused tests run through the repository's Node 20-compatible npm script.
 - DEV-1107 policy review: Jen's final refund, rain-date, and late-arrival terms are now enforced as approved campaign policy summaries; contradictory CMS wording suppresses the FAQs instead of publishing conflicting guidance.
 - DEV-1107 payment review: The FAQ now verifies that the displayed remaining balance equals the campaign total minus its deposit and fails closed when payment copy conflicts.
+- Mini Sessions usability pass: internal naming, public labels, session length, CTA text, and SEO metadata are derived automatically; validation links jump to the relevant form section.
+- Admin navigation usability pass: replaced the long stacked section menu with a pinned three-workspace switcher and contextual navigation that scrolls independently on desktop and mobile.
+- Mini Sessions availability pass: retained the legacy date fields internally for API compatibility, populated them with neutral availability guidance, and removed copied dates from the editor and public promotional surfaces until a Cal.com API integration is added.
+- Mini Sessions location ownership: the website stores only the broad Bergen County service area; exact addresses stay in Cal.com for booking and confirmation use.
+- Mini Sessions action-bar pass: duplicate and archive now share the persistent responsive toolbar with preview, save, and publishing controls.
+- Editor performance pass: moved media search and rendering into a memoized component and stabilized draft mutation callbacks so unrelated text updates avoid rerendering the image collection.
+- Cal.com embed pass: uses supported UI variables for tighter spacing; Cal.com branding remains visible because official white-label removal requires a paid Teams plan.
 
 ## Changed URLs
 

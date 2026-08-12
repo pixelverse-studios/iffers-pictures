@@ -12,14 +12,21 @@ import type {
   CampaignValidationResult,
 } from "./types";
 
-export const MAX_BOOKING_OPTIONS = 6;
 export const MAX_INCLUSIONS = 12;
+export const MINI_SESSIONS_CAL_URL =
+  "https://cal.com/ifferspictures/mini-sessions";
+export const CAL_AVAILABILITY_NOTE =
+  "Live dates and times are shown in the booking calendar.";
+export const DEFAULT_LOCATION_SUMMARY = "Bergen County, NJ";
+export const DEFAULT_BALANCE_DUE_TEXT =
+  "Final payment is due 48 hours prior to event";
 
 export interface PublishReadinessItem {
   key: string;
   label: string;
   ready: boolean;
   blocker: string;
+  targetId: string;
 }
 
 export function createEmptyCampaignDraft(): CampaignDraft {
@@ -30,11 +37,11 @@ export function createEmptyCampaignDraft(): CampaignDraft {
     summary: "",
     description: "",
     durationMinutes: "20",
-    totalPrice: "0.00",
-    deposit: "0.00",
-    balanceDueText: "",
-    dateSummary: "",
-    locationSummary: "",
+    totalPrice: "225.00",
+    deposit: "100.00",
+    balanceDueText: DEFAULT_BALANCE_DUE_TEXT,
+    dateSummary: CAL_AVAILABILITY_NOTE,
+    locationSummary: DEFAULT_LOCATION_SUMMARY,
     inclusions: [],
     cancellationPolicy: "",
     weatherPolicy: "",
@@ -49,11 +56,12 @@ export function createEmptyCampaignDraft(): CampaignDraft {
     promoCtaLabel: "",
     metaTitle: "",
     metaDescription: "",
-    bookingOptions: [],
+    bookingOptions: [createEmptyBookingOption(0)],
   };
 }
 
 export function campaignToDraft(campaign: MiniSessionAdminCampaign): CampaignDraft {
+  const bookingOption = campaign.bookingOptions[0];
   return {
     internalName: campaign.internalName,
     publicLabel: campaign.publicLabel,
@@ -63,9 +71,9 @@ export function campaignToDraft(campaign: MiniSessionAdminCampaign): CampaignDra
     durationMinutes: String(campaign.durationMinutes),
     totalPrice: centsToCurrency(campaign.totalPriceCents),
     deposit: centsToCurrency(campaign.depositCents),
-    balanceDueText: campaign.balanceDueText,
-    dateSummary: campaign.dateSummary,
-    locationSummary: campaign.locationSummary,
+    balanceDueText: campaign.balanceDueText || DEFAULT_BALANCE_DUE_TEXT,
+    dateSummary: CAL_AVAILABILITY_NOTE,
+    locationSummary: campaign.locationSummary || DEFAULT_LOCATION_SUMMARY,
     inclusions: [...campaign.inclusions],
     cancellationPolicy: campaign.cancellationPolicy,
     weatherPolicy: campaign.weatherPolicy,
@@ -80,17 +88,21 @@ export function campaignToDraft(campaign: MiniSessionAdminCampaign): CampaignDra
     promoCtaLabel: campaign.promoCtaLabel,
     metaTitle: campaign.metaTitle,
     metaDescription: campaign.metaDescription,
-    bookingOptions: campaign.bookingOptions.map((option) => ({
-      id: option.id,
-      clientKey: option.id,
-      label: option.label,
-      description: option.description,
-      dateTimeLabel: option.dateTimeLabel,
-      locationLabel: option.locationLabel,
-      calBookingUrl: option.calBookingUrl,
-      status: option.status,
-      sortOrder: option.sortOrder,
-    })),
+    bookingOptions: bookingOption
+      ? [
+          {
+            id: bookingOption.id,
+            clientKey: bookingOption.id,
+            label: bookingOption.label,
+            description: bookingOption.description,
+            dateTimeLabel: bookingOption.dateTimeLabel,
+            locationLabel: bookingOption.locationLabel,
+            calBookingUrl: bookingOption.calBookingUrl,
+            status: bookingOption.status,
+            sortOrder: 0,
+          },
+        ]
+      : [createEmptyBookingOption(0)],
   };
 }
 
@@ -99,9 +111,9 @@ export function createEmptyBookingOption(sortOrder: number): BookingOptionDraft 
     clientKey: crypto.randomUUID(),
     label: "",
     description: "",
-    dateTimeLabel: "",
+    dateTimeLabel: CAL_AVAILABILITY_NOTE,
     locationLabel: "",
-    calBookingUrl: "",
+    calBookingUrl: MINI_SESSIONS_CAL_URL,
     status: "open",
     sortOrder,
   };
@@ -111,15 +123,12 @@ export function validateCampaignDraft(
   draft: CampaignDraft
 ): CampaignValidationResult {
   const errors: Record<string, string> = {};
-  const durationMinutes = Number(draft.durationMinutes);
   const totalPriceCents = currencyToCents(draft.totalPrice);
   const depositCents = currencyToCents(draft.deposit);
+  const headline = draft.headline.trim();
+  const bookingOption = draft.bookingOptions[0] ?? createEmptyBookingOption(0);
 
-  if (!draft.internalName.trim()) errors.internalName = "Add an internal name.";
-  if (!draft.ctaLabel.trim()) errors.ctaLabel = "Add a booking button label.";
-  if (!Number.isInteger(durationMinutes) || durationMinutes < 1 || durationMinutes > 480) {
-    errors.durationMinutes = "Use a whole number from 1 to 480.";
-  }
+  if (!headline) errors.headline = "Add a headline for this Mini Session.";
   if (totalPriceCents === null) errors.totalPrice = "Use dollars and up to two decimals.";
   if (depositCents === null) errors.deposit = "Use dollars and up to two decimals.";
   if (
@@ -132,32 +141,26 @@ export function validateCampaignDraft(
   if (draft.inclusions.length > MAX_INCLUSIONS) {
     errors.inclusions = `Use no more than ${MAX_INCLUSIONS} inclusions.`;
   }
-  if (draft.bookingOptions.length > MAX_BOOKING_OPTIONS) {
-    errors.bookingOptions = `Use no more than ${MAX_BOOKING_OPTIONS} booking options.`;
+  if (!isSafeCalUrl(bookingOption.calBookingUrl)) {
+    errors.bookingUrl = "Use an HTTPS booking link from cal.com.";
   }
-
-  draft.bookingOptions.forEach((option, index) => {
-    if (!option.label.trim()) errors[`bookingOptions.${index}.label`] = "Add a label.";
-    if (!isSafeCalUrl(option.calBookingUrl)) {
-      errors[`bookingOptions.${index}.calBookingUrl`] =
-        "Use an HTTPS booking link from cal.com.";
-    }
-  });
 
   if (Object.keys(errors).length > 0 || totalPriceCents === null || depositCents === null) {
     return { input: null, errors };
   }
 
-  const bookingOptions = draft.bookingOptions.map((option, index) => ({
-      ...(option.id ? { id: option.id } : {}),
-      label: option.label.trim(),
-      description: option.description,
-      dateTimeLabel: option.dateTimeLabel,
-      locationLabel: option.locationLabel,
-      calBookingUrl: option.calBookingUrl.trim(),
-      status: option.status,
-      sortOrder: index,
-    }));
+  const bookingOptions = [
+    {
+      ...(bookingOption.id ? { id: bookingOption.id } : {}),
+      label: headline,
+      description: draft.summary.trim(),
+      dateTimeLabel: CAL_AVAILABILITY_NOTE,
+      locationLabel: draft.locationSummary.trim(),
+      calBookingUrl: bookingOption.calBookingUrl.trim(),
+      status: "open" as const,
+      sortOrder: 0,
+    },
+  ];
 
   const {
     durationMinutes: _durationMinutes,
@@ -173,12 +176,17 @@ export function validateCampaignDraft(
 
   const input: MiniSessionCampaignInput = {
     ...campaignFields,
-    internalName: draft.internalName.trim(),
-    ctaLabel: draft.ctaLabel.trim(),
-    durationMinutes,
+    internalName: slugifyCampaignName(headline),
+    publicLabel: headline,
+    headline,
+    ctaLabel: "Choose your time",
+    dateSummary: CAL_AVAILABILITY_NOTE,
+    durationMinutes: 20,
     totalPriceCents,
     depositCents,
     inclusions: draft.inclusions.map((item) => item.trim()).filter(Boolean),
+    metaTitle: headline,
+    metaDescription: draft.summary.trim(),
     bookingOptions,
   };
 
@@ -194,28 +202,27 @@ export function getPublishReadiness(
   const hasPublishedHero = publishedMedia.some(
     (item) => item.id === draft.heroMediaId && item.status === "published"
   );
-  const hasOpenOption = draft.bookingOptions.some(
-    (option) => option.status === "open"
+  const hasBookingLink = isSafeCalUrl(
+    draft.bookingOptions[0]?.calBookingUrl ?? ""
   );
-  const requiredText = [
-    draft.headline,
-    draft.summary,
-    draft.description,
-    draft.balanceDueText,
-    draft.dateSummary,
-    draft.locationSummary,
-    draft.cancellationPolicy,
-    draft.latenessPolicy,
-    draft.ctaLabel,
-  ];
+  const sessionCopy = [draft.headline, draft.summary, draft.description];
+  const offerDetails = [draft.balanceDueText, draft.locationSummary];
+  const policies = [draft.cancellationPolicy, draft.latenessPolicy];
 
   return [
     {
       key: "content",
-      label: "Public campaign copy",
-      ready: requiredText.every((value) => value.trim().length > 0),
-      blocker:
-        "Complete the headline, summary, description, date, location, balance note, cancellation and lateness policies, and booking button label.",
+      label: "Session details",
+      ready: sessionCopy.every((value) => value.trim().length > 0),
+      blocker: "Add the headline, summary, and full description.",
+      targetId: "mini-session-details",
+    },
+    {
+      key: "offer",
+      label: "Location and payment note",
+      ready: offerDetails.every((value) => value.trim().length > 0),
+      blocker: "Add the location and final-payment note.",
+      targetId: "mini-session-offer",
     },
     {
       key: "pricing",
@@ -226,24 +233,35 @@ export function getPublishReadiness(
         depositCents <= totalPriceCents,
       blocker:
         "Add a positive total and deposit, with the deposit no greater than the total.",
+      targetId: "mini-session-offer",
     },
     {
       key: "hero",
-      label: "Published hero image",
+      label: "Main photo",
       ready: hasPublishedHero,
       blocker: "Select a published image from this website.",
+      targetId: "mini-session-photo",
     },
     {
       key: "inclusions",
-      label: "Session inclusions",
+      label: "What's included",
       ready: draft.inclusions.some((item) => item.trim().length > 0),
       blocker: "Add at least one client-facing inclusion.",
+      targetId: "mini-session-inclusions",
+    },
+    {
+      key: "policies",
+      label: "Policies",
+      ready: policies.every((value) => value.trim().length > 0),
+      blocker: "Add the cancellation and lateness policies.",
+      targetId: "mini-session-policies",
     },
     {
       key: "booking",
-      label: "Open Cal.com booking option",
-      ready: hasOpenOption,
-      blocker: "Add or reopen at least one Cal.com booking option.",
+      label: "Cal.com booking link",
+      ready: hasBookingLink,
+      blocker: "Add the reusable Cal.com booking link.",
+      targetId: "mini-session-booking",
     },
   ];
 }
@@ -261,18 +279,18 @@ export function draftToPreviewCampaign(
   return {
     id: editor.campaignId ?? "unsaved-preview",
     status: editor.sourceStatus === "sold_out" ? "sold_out" : "live",
-    publicLabel: draft.publicLabel || "Mini Sessions preview",
+    publicLabel: draft.headline || "Mini Sessions preview",
     headline: draft.headline || "Add your campaign headline",
     summary: draft.summary || "Add a short campaign summary in the editor.",
     description:
       draft.description ||
       "Add the full campaign description to preview the client experience.",
-    durationMinutes: Number(draft.durationMinutes) || 0,
+    durationMinutes: 20,
     totalPriceCents: currencyToCents(draft.totalPrice) ?? 0,
     depositCents: currencyToCents(draft.deposit) ?? 0,
     balanceDueText:
       draft.balanceDueText || "Add the remaining-balance terms in the editor.",
-    dateSummary: draft.dateSummary || "Add campaign dates",
+    dateSummary: CAL_AVAILABILITY_NOTE,
     locationSummary: draft.locationSummary || "Add the session location",
     inclusions:
       draft.inclusions.length > 0
@@ -294,27 +312,31 @@ export function draftToPreviewCampaign(
             selectedMedia.cropPosition ?? selectedMedia.crop_position ?? null,
         }
       : null,
-    ctaLabel: draft.ctaLabel || "Choose your time",
+    ctaLabel: "Choose your time",
     homepageFeatured: draft.homepageFeatured,
     promoLabel: draft.promoLabel,
     promoHeadline: draft.promoHeadline,
     promoCopy: draft.promoCopy,
     promoCtaLabel: draft.promoCtaLabel,
-    metaTitle: draft.metaTitle,
-    metaDescription: draft.metaDescription,
-    bookingOptions: draft.bookingOptions
-      .filter((option) => option.status !== "hidden")
-      .map((option, index) => ({
-        id: option.id ?? option.clientKey,
-        label: option.label || `Booking option ${index + 1}`,
-        description: option.description,
-        dateTimeLabel: option.dateTimeLabel || "Add a date and time",
-        locationLabel: option.locationLabel || "Add a location",
-        calBookingUrl: option.calBookingUrl,
-        status: option.status,
-        sortOrder: option.sortOrder,
+    metaTitle: draft.headline,
+    metaDescription: draft.summary,
+    bookingOptions: [
+      {
+        id:
+          draft.bookingOptions[0]?.id ??
+          draft.bookingOptions[0]?.clientKey ??
+          "preview-booking-link",
+        label: draft.headline || "Mini Sessions",
+        description: draft.summary,
+        dateTimeLabel: CAL_AVAILABILITY_NOTE,
+        locationLabel: draft.locationSummary || "Add the session location",
+        calBookingUrl:
+          draft.bookingOptions[0]?.calBookingUrl ?? MINI_SESSIONS_CAL_URL,
+        status: "open",
+        sortOrder: 0,
         updatedAt: editor.sourceUpdatedAt ?? now,
-      })),
+      },
+    ],
     publishedAt: null,
     createdAt: now,
     updatedAt: editor.sourceUpdatedAt ?? now,
@@ -363,4 +385,16 @@ function isSafeCalUrl(value: string): boolean {
   } catch {
     return false;
   }
+}
+
+export function slugifyCampaignName(value: string): string {
+  return (
+    value
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 120) || "mini-session"
+  );
 }

@@ -110,43 +110,40 @@ export function CampaignList({
 
         {!isLoading &&
           !error &&
-          filtered.map((campaign) => (
-            <button
-              key={campaign.id}
-              type="button"
-              onClick={() => onSelect(campaign)}
-              aria-pressed={selectedId === campaign.id}
-              className={`w-full rounded-sm border p-4 text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-strong)] ${
-                selectedId === campaign.id
-                  ? "border-[var(--brand)] bg-[var(--brand-soft)]"
-                  : "border-[var(--border)] bg-white hover:border-[var(--brand)]"
-              }`}
-            >
+          filtered.map((campaign) => {
+            const selected = selectedId === campaign.id;
+
+            return (
+              <button
+                key={campaign.id}
+                type="button"
+                onClick={() => onSelect(campaign)}
+                aria-pressed={selected}
+                className={`w-full rounded-sm border p-4 text-left transition active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-strong)] ${
+                  selected
+                    ? "border-[var(--brand-strong)] bg-[#e4edf4] shadow-[inset_3px_0_0_var(--brand-strong)]"
+                    : "border-[var(--border)] bg-white hover:border-[var(--brand)]"
+                }`}
+              >
               <span className="flex items-start justify-between gap-3">
                 <span className="min-w-0">
-                  <span className="block truncate text-sm font-bold text-[var(--foreground)]">
-                    {campaign.internalName}
-                  </span>
-                  <span className="mt-1 block truncate text-sm text-[var(--text-secondary)]">
-                    {campaign.headline || "No public headline yet"}
+                  <span className={`block truncate text-sm font-bold ${selected ? "text-[#1f3041]" : "text-[var(--foreground)]"}`}>
+                    {campaign.headline || "Untitled Mini Session"}
                   </span>
                 </span>
                 <StatusBadge status={campaign.status} />
               </span>
               {campaign.summary && (
-                <span className="mt-3 line-clamp-2 block text-xs leading-relaxed text-[var(--text-muted)]">
+                <span className={`mt-3 line-clamp-2 block text-xs leading-relaxed ${selected ? "text-[#43586c]" : "text-[var(--text-muted)]"}`}>
                   {campaign.summary}
                 </span>
               )}
-              <span className="mt-3 flex flex-wrap justify-between gap-2 text-[11px] font-semibold text-[var(--text-muted)]">
-                <span>
-                  {campaign.bookingOptions.length} booking option
-                  {campaign.bookingOptions.length === 1 ? "" : "s"}
-                </span>
+              <span className={`mt-3 flex flex-wrap justify-end gap-2 text-[11px] font-semibold ${selected ? "text-[#43586c]" : "text-[var(--text-muted)]"}`}>
                 <span>{formatCampaignTimestamp(campaign.updatedAt)}</span>
               </span>
-            </button>
-          ))}
+              </button>
+            );
+          })}
       </div>
     </aside>
   );

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CalendarDays, Camera, Check, Clock3, MapPin } from "lucide-react";
+import { Camera, Check, Clock3, MapPin } from "lucide-react";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
 import { getMiniSessionFaqs } from "@/lib/mini-sessions/faqs";
@@ -83,14 +83,13 @@ export function MiniSessionsPage({
       </section>
 
       <section aria-label="Session details" className="border-b border-[var(--border)]">
-        <dl className="mx-auto grid max-w-7xl grid-cols-2 px-6 md:grid-cols-4 md:px-8">
+        <dl className="mx-auto grid max-w-7xl px-6 sm:grid-cols-3 md:px-8">
           {[
             { Icon: Clock3, label: "Duration", value: `${campaign.durationMinutes} minutes` },
-            { Icon: CalendarDays, label: "Dates", value: campaign.dateSummary },
             { Icon: MapPin, label: "Location", value: campaign.locationSummary },
             { Icon: Camera, label: "Session price", value: formatCurrency(campaign.totalPriceCents) },
           ].map(({ Icon, label, value }) => (
-            <div key={label} className="border-[var(--border)] px-3 py-7 odd:border-r md:border-r md:px-6 md:last:border-r-0">
+            <div key={label} className="border-b border-[var(--border)] px-3 py-7 last:border-b-0 sm:border-b-0 sm:border-r sm:px-6 sm:last:border-r-0">
               <dt className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--brand-strong)]">
                 <Icon aria-hidden="true" className="h-4 w-4" />
                 {label}

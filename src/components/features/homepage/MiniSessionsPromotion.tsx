@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Clock3, MapPin } from "lucide-react";
+import { ArrowRight, Clock3, MapPin } from "lucide-react";
 import { trackMiniSessionPromotionClick } from "@/lib/analytics";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
@@ -25,7 +25,7 @@ export function MiniSessionsPromotion({
     (status === "sold_out" ? "View sold-out release" : "View mini sessions");
 
   return (
-    <section className="bg-[var(--background-warm)] py-10 md:py-14">
+    <section id="mini-sessions" className="scroll-mt-20 bg-[var(--background-warm)] py-10 md:py-14">
       <div className="board-shell board-gutter">
         <div className="grid overflow-hidden border border-[var(--border)] bg-white md:grid-cols-[0.44fr_0.56fr]">
           {campaign.heroMedia && (
@@ -63,10 +63,6 @@ export function MiniSessionsPromotion({
               {campaign.promoCopy || campaign.summary}
             </p>
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--text-secondary)]">
-              <span className="inline-flex items-center gap-2">
-                <CalendarDays className="h-4 w-4" aria-hidden />
-                {campaign.dateSummary}
-              </span>
               <span className="inline-flex items-center gap-2">
                 <Clock3 className="h-4 w-4" aria-hidden />
                 {campaign.durationMinutes} minutes
