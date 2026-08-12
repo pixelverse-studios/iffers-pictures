@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock3, MapPin } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import { trackMiniSessionPromotionClick } from "@/lib/analytics";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
@@ -63,10 +63,6 @@ export function MiniSessionsPromotion({
               {campaign.promoCopy || campaign.summary}
             </p>
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--text-secondary)]">
-              <span className="inline-flex items-center gap-2">
-                <Clock3 className="h-4 w-4" aria-hidden />
-                {campaign.durationMinutes} minutes
-              </span>
               <span className="inline-flex items-center gap-2">
                 <MapPin className="h-4 w-4" aria-hidden />
                 {campaign.locationSummary}

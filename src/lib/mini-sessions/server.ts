@@ -9,6 +9,7 @@ import {
 } from "./types";
 
 export const PUBLIC_MINI_SESSIONS_REVALIDATE_SECONDS = 60;
+export const PUBLIC_MINI_SESSIONS_TIMEOUT_MS = 5_000;
 
 export function getMiniSessionsApiBaseUrl(): string | null {
   const rawBaseUrl = process.env.PVS_API_URL;
@@ -28,7 +29,10 @@ export async function getActiveMiniSessionCampaignResult(): Promise<ActiveMiniSe
   try {
     const response = await fetch(
       `${baseUrl}/api/mini-session-campaigns/${IFFERS_MINI_SESSIONS_WEBSITE_SLUG}/active`,
-      { next: { revalidate: PUBLIC_MINI_SESSIONS_REVALIDATE_SECONDS } }
+      {
+        next: { revalidate: PUBLIC_MINI_SESSIONS_REVALIDATE_SECONDS },
+        signal: AbortSignal.timeout(PUBLIC_MINI_SESSIONS_TIMEOUT_MS),
+      }
     );
     const { campaign } = await parseMiniSessionsApiResponse(
       response,

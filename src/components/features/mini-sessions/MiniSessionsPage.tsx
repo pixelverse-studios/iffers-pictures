@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Camera, Check, Clock3, MapPin } from "lucide-react";
+import { Camera, Check, MapPin } from "lucide-react";
 import { getMediaCropPosition } from "@/lib/media/crop-position";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
 import { getMiniSessionFaqs } from "@/lib/mini-sessions/faqs";
@@ -83,9 +83,8 @@ export function MiniSessionsPage({
       </section>
 
       <section aria-label="Session details" className="border-b border-[var(--border)]">
-        <dl className="mx-auto grid max-w-7xl px-6 sm:grid-cols-3 md:px-8">
+        <dl className="mx-auto grid max-w-5xl px-6 sm:grid-cols-2 md:px-8">
           {[
-            { Icon: Clock3, label: "Duration", value: `${campaign.durationMinutes} minutes` },
             { Icon: MapPin, label: "Location", value: campaign.locationSummary },
             { Icon: Camera, label: "Session price", value: formatCurrency(campaign.totalPriceCents) },
           ].map(({ Icon, label, value }) => (

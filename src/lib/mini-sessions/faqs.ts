@@ -1,7 +1,6 @@
 export interface MiniSessionFaqCampaign {
   id: string;
   publicLabel: string;
-  durationMinutes: number;
   totalPriceCents: number;
   depositCents: number;
   balanceDueText: string;
@@ -37,6 +36,8 @@ const AUTUMN_KEEPSAKE_WEATHER_POLICY =
   "If severe weather forces us to reschedule, your session fee transfers directly to our rain date.";
 const AUTUMN_KEEPSAKE_LATENESS_POLICY =
   "Mini sessions are booked back-to-back, therefore I’m not able to extend your session time if you arrive late. Please plan to arrive at least 5–10 minutes early.";
+const APPROVED_BALANCE_DUE_TEXT =
+  "Final payment is due 48 hours prior to event";
 
 function formatCurrency(cents: number) {
   return new Intl.NumberFormat("en-US", {
@@ -90,20 +91,22 @@ export function getMiniSessionFaqs(
   );
   const expectedCancellationPolicy = `A nonrefundable ${deposit} booking fee is required to secure your date and time.`;
   const expectedBalanceDueText = `The remaining ${remainingBalance} is due before your session.`;
+  const normalizedBalanceDueText = normalizePolicy(balanceDueText);
+  const hasApprovedBalanceDueText =
+    normalizedBalanceDueText === normalizePolicy(expectedBalanceDueText) ||
+    normalizedBalanceDueText === normalizePolicy(APPROVED_BALANCE_DUE_TEXT);
 
   if (
     !editedImagesMatch ||
     !deliveryMatch ||
     !location ||
-    normalizePolicy(balanceDueText) !==
-      normalizePolicy(expectedBalanceDueText) ||
+    !hasApprovedBalanceDueText ||
     normalizePolicy(cancellationPolicy) !==
       normalizePolicy(expectedCancellationPolicy) ||
     normalizePolicy(weatherPolicy) !==
       normalizePolicy(AUTUMN_KEEPSAKE_WEATHER_POLICY) ||
     normalizePolicy(latenessPolicy) !==
       normalizePolicy(AUTUMN_KEEPSAKE_LATENESS_POLICY) ||
-    campaign.durationMinutes <= 0 ||
     campaign.totalPriceCents <= 0 ||
     campaign.depositCents <= 0 ||
     campaign.depositCents >= campaign.totalPriceCents
@@ -148,7 +151,8 @@ export function getMiniSessionFaqs(
     },
     {
       question: "Can we bring grandparents or extended family members?",
-      answer: `Grandparents are always welcome to join in on the fun. Please keep in mind that Autumn Keepsake Sessions are ${campaign.durationMinutes} minutes long. Because our time together is quick, bringing a larger group means we will focus primarily on group poses and key combinations (like grandparents with the grandkids!).\n\nIf you are hoping for an extensive variety of individual portraits, subgroup combinations, and solo shots, we recommend booking two back-to-back time slots so everyone gets plenty of camera time.`,
+      answer:
+        "Grandparents are always welcome to join in on the fun. Please keep in mind that Autumn Keepsake Sessions move quickly. Because our time together is brief, bringing a larger group means we will focus primarily on group poses and key combinations (like grandparents with the grandkids!).\n\nIf you are hoping for an extensive variety of individual portraits, subgroup combinations, and solo shots, we recommend booking two back-to-back time slots so everyone gets plenty of camera time.",
     },
     {
       question: "What if we’re late?",

@@ -179,6 +179,7 @@ export function AdminMediaSidebar({
   }
 
   function handleLogoutClick() {
+    if (!onViewModeChange("library")) return;
     onLogout();
     requestMobileClose();
   }
@@ -210,6 +211,9 @@ export function AdminMediaSidebar({
               href="/"
               className="block w-fit"
               aria-label="Iffer's Pictures home"
+              onClick={(event) => {
+                if (!onViewModeChange("library")) event.preventDefault();
+              }}
             >
               <Image
                 src="/logo-black.png"

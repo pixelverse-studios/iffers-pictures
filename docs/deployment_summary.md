@@ -29,6 +29,10 @@
 - Added a homepage-hero Mini Sessions callout that jumps directly to the seasonal promotion when a featured campaign is available.
 - Tightened the embedded booking section, removed its repeated event-details panel, and reduced Cal.com spacing so the calendar uses the page more efficiently.
 - Improved Mini Sessions editor typing responsiveness by preventing the full published-photo picker from rebuilding after every keystroke.
+- Added a short timeout to Mini Sessions availability checks so a slow campaign service cannot hold up the rest of the website or dashboard.
+- Kept the approved 48-hour final-payment wording compatible with the Autumn Keepsake FAQs.
+- Removed duplicated session-length claims from the website so Cal.com remains the source of truth for duration.
+- Extended unsaved-change protection to the dashboard home and logout actions.
 
 ## Notes for internal team
 
@@ -54,6 +58,7 @@
 - Mini Sessions action-bar pass: duplicate and archive now share the persistent responsive toolbar with preview, save, and publishing controls.
 - Editor performance pass: moved media search and rendering into a memoized component and stabilized draft mutation callbacks so unrelated text updates avoid rerendering the image collection.
 - Cal.com embed pass: uses supported UI variables for tighter spacing; Cal.com branding remains visible because official white-label removal requires a paid Teams plan.
+- DEV-1083 frontend review fixes: bounded the public campaign request, aligned FAQ payment validation with approved copy, removed Cal.com-owned duration claims, and guarded dashboard exits with unsaved edits.
 
 ## Changed URLs
 
