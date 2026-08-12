@@ -2,6 +2,8 @@
 
 ## Latest deploy summary
 
+- Combined Mini Sessions payment details and the booking calendar so clients can see the deposit, total price, payment timing, location, and policies while choosing a time.
+
 - Removed the unfinished Service Areas link so visitors are no longer sent to a missing page; the towns served remain visible in the footer.
 - Added a branded social sharing image so Facebook and other link previews display Iffer's Pictures branding instead of a blank thumbnail.
 - Reduced first-visit photography download sizes and prioritized the main page image so galleries appear sooner on mobile and desktop.
@@ -35,6 +37,8 @@
 - Extended unsaved-change protection to the dashboard home and logout actions.
 
 ## Notes for internal team
+
+- DEV-1083: Refined the public Mini Sessions booking layout with a sticky desktop payment summary and an expandable mobile booking summary.
 
 - Release hotfix: Removed unpublished `/locations` routes from navigation and the sitemap until the planned local SEO work is implemented.
 - DEV-1040: Added a 1200 × 630 JPEG social asset and a build-time validation check for the configured Open Graph and Twitter image.

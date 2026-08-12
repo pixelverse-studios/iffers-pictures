@@ -32,12 +32,6 @@ export function MiniSessionsPage({
   utmParams,
 }: MiniSessionsPageProps) {
   const faqs = getMiniSessionFaqs(campaign);
-  const policyItems = [
-    ["Cancellation", campaign.cancellationPolicy],
-    ["Weather", campaign.weatherPolicy],
-    ["Lateness", campaign.latenessPolicy],
-  ].filter(([, copy]) => copy);
-
   return (
     <div
       className={`bg-[var(--background)] ${previewMode ? "" : "pt-hero"}`}
@@ -127,36 +121,6 @@ export function MiniSessionsPage({
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-24">
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">Before you reserve</p>
-            <h2 className="mt-4 font-heading text-4xl font-semibold text-[var(--foreground)] md:text-5xl">A clear, simple booking.</h2>
-            {policyItems.length > 0 && (
-              <dl className="mt-8 divide-y divide-[var(--border)] border-y border-[var(--border)]">
-                {policyItems.map(([label, copy]) => (
-                  <div key={label} className="grid gap-2 py-5 sm:grid-cols-[130px_1fr]">
-                    <dt className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)]">{label}</dt>
-                    <dd className="leading-7 text-[var(--text-secondary)]">{copy}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-            {campaign.termsNote && <p className="mt-5 text-sm leading-6 text-[var(--text-muted)]">{campaign.termsNote}</p>}
-          </div>
-          <aside className="border border-[var(--border)] bg-[var(--background-warm)] p-7 md:p-9">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-strong)]">Payment</p>
-            <p className="mt-5 font-heading text-4xl text-[var(--foreground)]">
-              {formatCurrency(campaign.depositCents)} deposit
-            </p>
-            <p className="mt-3 leading-7 text-[var(--text-secondary)]">{campaign.balanceDueText}</p>
-            <p className="mt-7 border-t border-[var(--border)] pt-5 text-sm text-[var(--text-secondary)]">
-              Total session price: <strong className="text-[var(--foreground)]">{formatCurrency(campaign.totalPriceCents)}</strong>
-            </p>
-          </aside>
         </div>
       </section>
 
