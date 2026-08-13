@@ -2,6 +2,8 @@
 
 ## Latest deploy summary
 
+- Fixed the Mini Sessions campaign list so publishing a new campaign immediately moves the previous public campaign to Closed instead of temporarily showing two Live cards.
+
 - Pre-populated the approved Mini Sessions FAQs in every existing campaign while keeping each campaign’s questions fully editable, reorderable, addable, and removable.
 - Upgraded What’s Included reordering with a lifted drag preview, animated movement, a visible drop target, and keyboard-accessible controls.
 
@@ -47,6 +49,8 @@
 - Extended unsaved-change protection to the dashboard home and logout actions.
 
 ## Notes for internal team
+
+- DEV-1083 lifecycle follow-up: reconcile mutually exclusive public statuses locally and refetch the authoritative campaign list after publish; the existing database partial unique index remains the final invariant.
 
 - DEV-1083 feedback follow-up: applied migration `20260813143436` to backfill only legacy campaigns with empty FAQ arrays; added `@dnd-kit` sortable behavior for campaign inclusions.
 

@@ -9,6 +9,7 @@ import {
   slugifyCampaignName,
   validateCampaignDraft,
 } from "../src/components/features/admin-mini-sessions/utils.ts";
+import { reconcileCampaignsAfterLifecycle } from "../src/components/features/admin-mini-sessions/AdminMiniSessionsManager.tsx";
 
 test("new drafts include the agreed booking and balance defaults", () => {
   const draft = createEmptyCampaignDraft();
@@ -51,4 +52,18 @@ test("saving requires the visible headline and a Cal.com link", () => {
 
 test("campaign names use a stable URL-friendly value", () => {
   assert.equal(slugifyCampaignName("  Jen’s Fall Minis!  "), "jen-s-fall-minis");
+});
+
+test("publishing immediately closes the previous public campaign in the dashboard list", () => {
+  const previous = { id: "previous", status: "live", updatedAt: "2026-08-12T10:00:00.000Z" };
+  const saved = { id: "new", status: "live", updatedAt: "2026-08-13T10:00:00.000Z" };
+  const campaigns = reconcileCampaignsAfterLifecycle(
+    [previous, { id: "draft", status: "draft", updatedAt: "2026-08-11T10:00:00.000Z" }],
+    saved,
+    "publish"
+  );
+
+  assert.equal(campaigns.find((campaign) => campaign.id === "new")?.status, "live");
+  assert.equal(campaigns.find((campaign) => campaign.id === "previous")?.status, "closed");
+  assert.equal(campaigns.find((campaign) => campaign.id === "draft")?.status, "draft");
 });

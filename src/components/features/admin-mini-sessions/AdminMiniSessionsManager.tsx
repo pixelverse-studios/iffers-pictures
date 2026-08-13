@@ -65,6 +65,11 @@ export function AdminMiniSessionsManager({
     [editor, publishedMedia]
   );
 
+  const refreshCampaigns = useCallback(async () => {
+    const response = await listMiniSessionCampaigns(true);
+    setCampaigns(response.campaigns);
+  }, []);
+
   const loadCampaigns = useCallback(async () => {
     setIsLoading(true);
     setLoadError("");
@@ -249,7 +254,9 @@ export function AdminMiniSessionsManager({
         editor.sourceUpdatedAt
       );
       const saved = response.campaign;
-      setCampaigns((current) => upsertCampaign(current, saved));
+      setCampaigns((current) =>
+        reconcileCampaignsAfterLifecycle(current, saved, action)
+      );
       setEditor(editorFromCampaign(saved));
       setFilter(filterForCampaign(saved));
       setIsDirty(false);
@@ -259,6 +266,17 @@ export function AdminMiniSessionsManager({
         setLifecycleWarning(
           "Your change was saved. The public website may take a few minutes to catch up."
         );
+      }
+      if (action === "publish") {
+        try {
+          await refreshCampaigns();
+        } catch {
+          setLifecycleWarning((current) =>
+            current
+              ? `${current} Reload this dashboard to refresh the campaign list.`
+              : "Published successfully, but the campaign list could not be refreshed. Reload this dashboard to see the latest statuses."
+          );
+        }
       }
       return true;
     } catch (error) {
@@ -370,6 +388,24 @@ export function AdminMiniSessionsManager({
       </div>
     </section>
   );
+}
+
+export function reconcileCampaignsAfterLifecycle(
+  campaigns: MiniSessionAdminCampaign[],
+  saved: MiniSessionAdminCampaign,
+  action: CampaignLifecycleAction
+): MiniSessionAdminCampaign[] {
+  const reconciled =
+    action === "publish"
+      ? campaigns.map((campaign) =>
+          campaign.id !== saved.id &&
+          (campaign.status === "live" || campaign.status === "sold_out")
+            ? { ...campaign, status: "closed" as const, updatedAt: saved.updatedAt }
+            : campaign
+        )
+      : campaigns;
+
+  return upsertCampaign(reconciled, saved);
 }
 
 function editorFromCampaign(
