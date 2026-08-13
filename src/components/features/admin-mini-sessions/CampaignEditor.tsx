@@ -23,6 +23,7 @@ import { CampaignLifecyclePanel } from "./CampaignLifecyclePanel";
 import { CampaignPreviewDialog } from "./CampaignPreviewDialog";
 import { LifecycleConfirmDialog } from "./LifecycleConfirmDialog";
 import { RichTextEditor } from "./RichTextEditor";
+import { SortableInclusions } from "./SortableInclusions";
 import type { PublishReadinessItem } from "./utils";
 import {
   createEmptyBookingOption,
@@ -101,14 +102,6 @@ export function CampaignEditor({
     if (!value || draft.inclusions.length >= MAX_INCLUSIONS) return;
     updateDraft({ inclusions: [...draft.inclusions, value] });
     setInclusion("");
-  }
-
-  function moveInclusion(from: number, to: number) {
-    if (to < 0 || to >= draft.inclusions.length || from === to) return;
-    const next = [...draft.inclusions];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
-    updateDraft({ inclusions: next });
   }
 
   function updateFaq(index: number, patch: Partial<(typeof draft.faqs)[number]>) {
@@ -329,28 +322,10 @@ export function CampaignEditor({
                 <Plus className="h-4 w-4" aria-hidden /> Add item
               </button>
             </div>
-            <ul className="mt-4 space-y-2">
-              {draft.inclusions.map((item, index) => (
-                <li key={`${item}-${index}`} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveInclusion(Number(event.dataTransfer.getData("text/plain")), index); }} className="flex items-center gap-3 rounded-sm bg-[var(--background-warm)] px-3 py-2 text-sm">
-                  <span draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", String(index))} className="cursor-grab touch-none" aria-label={`Drag to reorder ${item}`} title="Drag to reorder">
-                    <GripVertical className="h-4 w-4 text-[var(--text-muted)]" aria-hidden />
-                  </span>
-                  <span className="flex-1">{item}</span>
-                  <div className="flex gap-1">
-                    <button type="button" onClick={() => moveInclusion(index, index - 1)} disabled={index === 0} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move ${item} up`}>↑</button>
-                    <button type="button" onClick={() => moveInclusion(index, index + 1)} disabled={index === draft.inclusions.length - 1} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move ${item} down`}>↓</button>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => updateDraft({ inclusions: draft.inclusions.filter((_, itemIndex) => itemIndex !== index) })}
-                    className="grid h-9 w-9 place-items-center rounded-sm text-red-700 hover:bg-red-50"
-                    aria-label={`Remove inclusion ${item}`}
-                  >
-                    <Trash2 className="h-4 w-4" aria-hidden />
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <SortableInclusions
+              items={draft.inclusions}
+              onChange={(inclusions) => updateDraft({ inclusions })}
+            />
           </EditorSection>
 
           <EditorSection id="mini-session-vibe" eyebrow="The vibe" title="Set the tone" description="This section appears beneath the Experience and What's Included columns.">

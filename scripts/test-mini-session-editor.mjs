@@ -20,6 +20,8 @@ test("new drafts include the agreed booking and balance defaults", () => {
   assert.equal(draft.dateSummary, CAL_AVAILABILITY_NOTE);
   assert.equal(draft.locationSummary, DEFAULT_LOCATION_SUMMARY);
   assert.equal(draft.bookingOptions[0]?.dateTimeLabel, CAL_AVAILABILITY_NOTE);
+  assert.equal(draft.faqs.length, 10);
+  assert.ok(draft.faqs.every((faq, index) => faq.sortOrder === index));
 });
 
 test("hidden fields are derived while the hero label stays campaign controlled", () => {
