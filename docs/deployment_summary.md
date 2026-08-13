@@ -2,6 +2,11 @@
 
 ## Latest deploy summary
 
+- Redesigned the Mini Sessions page with a full-width hero, a more compact Experience and What’s Included layout, an editable Vibe section, and booking details that stay close to the calendar.
+- Made the Mini Sessions hero label, Experience heading and formatted story, Vibe content, inclusions order, and page-only FAQs fully manageable from the dashboard.
+- Added separate dashboard controls for the Mini Sessions button in the homepage hero and the larger seasonal promotion button so each displays Jen’s chosen wording.
+- Fixed homepage photography that could disappear after the initial load and restored the main FAQ page to its original general and session questions.
+
 - Updated the reusable Mini Sessions booking connection to Jen's new permanent Cal.com `/minis` link.
 
 - Combined Mini Sessions payment details and the booking calendar so clients can see the deposit, total price, payment timing, location, and policies while choosing a time.
@@ -39,6 +44,9 @@
 - Extended unsaved-change protection to the dashboard home and logout actions.
 
 ## Notes for internal team
+
+- DEV-1083 client feedback pass: added sanitized rich-content fields and campaign-owned FAQs across the API, database, dashboard, public page, and FAQ schema; applied migrations `20260813011847`, `20260813013345`, and `20260813014656` to the linked Supabase project.
+- DEV-1083 layout pass: moved Mini Sessions FAQs out of the centralized FAQ page, combined Experience and inclusions, added the campaign Vibe section, separated homepage CTA ownership, and removed reveal behavior that could leave homepage and FAQ content invisible.
 
 - DEV-1083: Changed the CMS booking-link default and operating guide from `/mini-sessions` to `/minis`.
 

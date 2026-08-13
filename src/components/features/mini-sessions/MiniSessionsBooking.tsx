@@ -247,7 +247,7 @@ export function MiniSessionsBooking({
   }
 
   return (
-    <section id="booking" className="bg-[var(--background-warm)] py-16 md:py-24">
+    <section id="booking" className="bg-[var(--background-warm)] py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <div className="max-w-2xl">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">

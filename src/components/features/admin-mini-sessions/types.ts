@@ -26,6 +26,13 @@ export interface BookingOptionDraft {
   sortOrder: number;
 }
 
+export interface FaqDraft {
+  id: string;
+  question: string;
+  answerHtml: string;
+  sortOrder: number;
+}
+
 export interface CampaignDraft
   extends Omit<
     MiniSessionCampaignInput,

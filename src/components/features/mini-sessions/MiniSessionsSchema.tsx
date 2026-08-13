@@ -1,8 +1,4 @@
 import { SERVICE_AREAS, SITE_CONFIG } from "@/lib/constants";
-import {
-  buildFaqPageSchema,
-  getMiniSessionFaqs,
-} from "@/lib/mini-sessions/faqs";
 import type { MiniSessionPublicCampaign } from "@/lib/mini-sessions/types";
 
 interface MiniSessionsSchemaProps {
@@ -19,7 +15,18 @@ export function MiniSessionsSchema({ campaign }: MiniSessionsSchemaProps) {
       ? "https://schema.org/LimitedAvailability"
       : "https://schema.org/SoldOut";
 
-  const faqSchema = buildFaqPageSchema(getMiniSessionFaqs(campaign));
+  const faqSchema = campaign.faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: campaign.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answerHtml.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim(),
+      },
+    })),
+  } : null;
   const schema = [
     {
       "@context": "https://schema.org",

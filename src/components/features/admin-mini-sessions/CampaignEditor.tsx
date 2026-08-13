@@ -7,6 +7,7 @@ import {
   CalendarDays,
   Check,
   ExternalLink,
+  GripVertical,
   ImageIcon,
   Plus,
   Search,
@@ -21,6 +22,7 @@ import type {
 import { CampaignLifecyclePanel } from "./CampaignLifecyclePanel";
 import { CampaignPreviewDialog } from "./CampaignPreviewDialog";
 import { LifecycleConfirmDialog } from "./LifecycleConfirmDialog";
+import { RichTextEditor } from "./RichTextEditor";
 import type { PublishReadinessItem } from "./utils";
 import {
   createEmptyBookingOption,
@@ -99,6 +101,30 @@ export function CampaignEditor({
     if (!value || draft.inclusions.length >= MAX_INCLUSIONS) return;
     updateDraft({ inclusions: [...draft.inclusions, value] });
     setInclusion("");
+  }
+
+  function moveInclusion(from: number, to: number) {
+    if (to < 0 || to >= draft.inclusions.length || from === to) return;
+    const next = [...draft.inclusions];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    updateDraft({ inclusions: next });
+  }
+
+  function updateFaq(index: number, patch: Partial<(typeof draft.faqs)[number]>) {
+    updateDraft({
+      faqs: draft.faqs.map((faq, faqIndex) =>
+        faqIndex === index ? { ...faq, ...patch } : faq
+      ),
+    });
+  }
+
+  function moveFaq(from: number, to: number) {
+    if (to < 0 || to >= draft.faqs.length || from === to) return;
+    const next = [...draft.faqs];
+    const [faq] = next.splice(from, 1);
+    next.splice(to, 0, faq);
+    updateDraft({ faqs: next.map((item, sortOrder) => ({ ...item, sortOrder })) });
   }
 
   function updateBookingUrl(value: string) {
@@ -201,6 +227,12 @@ export function CampaignEditor({
           <EditorSection id="mini-session-details" eyebrow="Session details" title="Tell clients about this Mini Session" description="This is the main information clients will see on the page.">
             <div className="space-y-4">
               <Field
+                label="Small label above the headline"
+                value={draft.publicLabel}
+                onChange={(value) => updateDraft({ publicLabel: value })}
+                placeholder="Mini Sessions"
+              />
+              <Field
                 label="Headline"
                 value={draft.headline}
                 error={errors.headline}
@@ -215,13 +247,8 @@ export function CampaignEditor({
                 rows={3}
                 onChange={(value) => updateDraft({ summary: value })}
               />
-              <TextField
-                label="Full description"
-                value={draft.description}
-                maxLength={5000}
-                rows={7}
-                onChange={(value) => updateDraft({ description: value })}
-              />
+              <Field label="Experience heading" value={draft.experienceHeadline} onChange={(value) => updateDraft({ experienceHeadline: value })} />
+              <RichTextEditor label="Experience" value={draft.description} onChange={(value) => updateDraft({ description: value })} helperText="Use formatting and lists when they make the story easier to read." />
             </div>
           </EditorSection>
 
@@ -304,8 +331,15 @@ export function CampaignEditor({
             </div>
             <ul className="mt-4 space-y-2">
               {draft.inclusions.map((item, index) => (
-                <li key={`${item}-${index}`} className="flex items-center gap-3 rounded-sm bg-[var(--background-warm)] px-3 py-2 text-sm">
+                <li key={`${item}-${index}`} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveInclusion(Number(event.dataTransfer.getData("text/plain")), index); }} className="flex items-center gap-3 rounded-sm bg-[var(--background-warm)] px-3 py-2 text-sm">
+                  <span draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", String(index))} className="cursor-grab touch-none" aria-label={`Drag to reorder ${item}`} title="Drag to reorder">
+                    <GripVertical className="h-4 w-4 text-[var(--text-muted)]" aria-hidden />
+                  </span>
                   <span className="flex-1">{item}</span>
+                  <div className="flex gap-1">
+                    <button type="button" onClick={() => moveInclusion(index, index - 1)} disabled={index === 0} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move ${item} up`}>↑</button>
+                    <button type="button" onClick={() => moveInclusion(index, index + 1)} disabled={index === draft.inclusions.length - 1} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move ${item} down`}>↓</button>
+                  </div>
                   <button
                     type="button"
                     onClick={() => updateDraft({ inclusions: draft.inclusions.filter((_, itemIndex) => itemIndex !== index) })}
@@ -317,6 +351,39 @@ export function CampaignEditor({
                 </li>
               ))}
             </ul>
+          </EditorSection>
+
+          <EditorSection id="mini-session-vibe" eyebrow="The vibe" title="Set the tone" description="This section appears beneath the Experience and What's Included columns.">
+            <div className="space-y-4">
+              <Field label="Vibe heading" value={draft.vibeHeadline} onChange={(value) => updateDraft({ vibeHeadline: value })} />
+              <RichTextEditor label="Vibe content" value={draft.vibeContent} onChange={(value) => updateDraft({ vibeContent: value })} />
+            </div>
+          </EditorSection>
+
+          <EditorSection id="mini-session-faqs" eyebrow="Questions" title="Mini Sessions FAQs" description="These questions appear only on the Mini Sessions page. Drag them into the order you want clients to see.">
+            <div className="space-y-4">
+              {errors.faqs && <p className="text-sm font-bold text-red-700">{errors.faqs}</p>}
+              {draft.faqs.map((faq, index) => (
+                <div key={faq.id} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveFaq(Number(event.dataTransfer.getData("text/plain")), index); }} className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4">
+                  <div className="mb-4 flex items-center gap-3">
+                    <span draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", String(index))} className="cursor-grab touch-none" aria-label={`Drag question ${index + 1} to reorder`} title="Drag to reorder">
+                      <GripVertical className="h-5 w-5 text-[var(--text-muted)]" aria-hidden />
+                    </span>
+                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)]">Question {index + 1}</span>
+                    <div className="ml-auto flex gap-1">
+                      <button type="button" onClick={() => moveFaq(index, index - 1)} disabled={index === 0} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} up`}>↑</button>
+                      <button type="button" onClick={() => moveFaq(index, index + 1)} disabled={index === draft.faqs.length - 1} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} down`}>↓</button>
+                      <button type="button" onClick={() => updateDraft({ faqs: draft.faqs.filter((_, faqIndex) => faqIndex !== index).map((item, sortOrder) => ({ ...item, sortOrder })) })} className="grid h-8 w-8 place-items-center text-red-700" aria-label={`Remove question ${index + 1}`}><Trash2 className="h-4 w-4" aria-hidden /></button>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <Field label="Question" value={faq.question} onChange={(value) => updateFaq(index, { question: value })} />
+                    <RichTextEditor label="Answer" value={faq.answerHtml} onChange={(value) => updateFaq(index, { answerHtml: value })} />
+                  </div>
+                </div>
+              ))}
+              <button type="button" onClick={() => updateDraft({ faqs: [...draft.faqs, { id: crypto.randomUUID(), question: "", answerHtml: "", sortOrder: draft.faqs.length }] })} className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-sm font-bold"><Plus className="h-4 w-4" aria-hidden /> Add question</button>
+            </div>
           </EditorSection>
 
           <EditorSection id="mini-session-booking" eyebrow="Booking" title="Cal.com booking link" description="Clients will use this link to choose and pay for an available time.">
@@ -348,7 +415,8 @@ export function CampaignEditor({
                 <Field label="Small label" value={draft.promoLabel} onChange={(value) => updateDraft({ promoLabel: value })} placeholder="Limited dates" />
                 <Field label="Homepage headline" value={draft.promoHeadline} onChange={(value) => updateDraft({ promoHeadline: value })} placeholder={draft.headline || "Fall Mini Sessions"} />
                 <div className="md:col-span-2"><TextField label="Short description" value={draft.promoCopy} rows={3} onChange={(value) => updateDraft({ promoCopy: value })} /></div>
-                <Field label="Button text" value={draft.promoCtaLabel} onChange={(value) => updateDraft({ promoCtaLabel: value })} placeholder="View Mini Sessions" />
+                <Field label="Homepage hero button text" value={draft.homepageHeroCtaLabel} onChange={(value) => updateDraft({ homepageHeroCtaLabel: value })} placeholder="Mini Sessions now booking" />
+                <Field label="Promotion section button text" value={draft.promoCtaLabel} onChange={(value) => updateDraft({ promoCtaLabel: value })} placeholder="View Mini Sessions" />
               </div>
             )}
           </EditorSection>

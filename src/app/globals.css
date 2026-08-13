@@ -641,6 +641,41 @@ html[data-scroll-reveal-ready="true"] .scroll-reveal.is-visible {
   --reveal-duration: 1180ms;
 }
 
+.mini-rich-editor p + p,
+.mini-rich-content p + p {
+  margin-top: 1rem;
+}
+
+.mini-rich-editor ul,
+.mini-rich-editor ol,
+.mini-rich-content ul,
+.mini-rich-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.mini-rich-editor ul,
+.mini-rich-content ul {
+  list-style: disc;
+}
+
+.mini-rich-editor ol,
+.mini-rich-content ol {
+  list-style: decimal;
+}
+
+.mini-rich-editor li + li,
+.mini-rich-content li + li {
+  margin-top: 0.4rem;
+}
+
+.mini-rich-content a {
+  color: var(--brand-strong);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .session-strip-reveal {
   --reveal-distance: 18px;
   --reveal-scale: 0.99;

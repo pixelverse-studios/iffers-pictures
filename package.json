@@ -8,7 +8,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:mini-session-faqs": "node --import tsx --test scripts/test-mini-session-faqs.mjs",
     "test:mini-session-editor": "node --import tsx --test scripts/test-mini-session-editor.mjs",
     "validate:social-image": "node scripts/validate-social-image.mjs"
   },

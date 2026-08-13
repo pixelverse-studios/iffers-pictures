@@ -28,6 +28,13 @@ export const miniSessionBookingOptionSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const miniSessionFaqSchema = z.object({
+  id: z.string(),
+  question: z.string(),
+  answerHtml: z.string(),
+  sortOrder: z.number().int(),
+});
+
 export const miniSessionHeroMediaSchema = z.object({
   id: z.number().int().positive(),
   key: z.string(),
@@ -44,6 +51,9 @@ const campaignFields = {
   headline: z.string(),
   summary: z.string(),
   description: z.string(),
+  experienceHeadline: z.string(),
+  vibeHeadline: z.string(),
+  vibeContent: z.string(),
   durationMinutes: z.number().int(),
   totalPriceCents: z.number().int(),
   depositCents: z.number().int(),
@@ -62,6 +72,8 @@ const campaignFields = {
   promoHeadline: z.string(),
   promoCopy: z.string(),
   promoCtaLabel: z.string(),
+  homepageHeroCtaLabel: z.string(),
+  faqs: z.array(miniSessionFaqSchema),
   metaTitle: z.string(),
   metaDescription: z.string(),
   bookingOptions: z.array(miniSessionBookingOptionSchema),
@@ -98,6 +110,9 @@ export const miniSessionCampaignInputSchema = z
     headline: z.string(),
     summary: z.string(),
     description: z.string(),
+    experienceHeadline: z.string(),
+    vibeHeadline: z.string(),
+    vibeContent: z.string(),
     durationMinutes: z.number().int(),
     totalPriceCents: z.number().int(),
     depositCents: z.number().int(),
@@ -116,6 +131,8 @@ export const miniSessionCampaignInputSchema = z
     promoHeadline: z.string(),
     promoCopy: z.string(),
     promoCtaLabel: z.string(),
+    homepageHeroCtaLabel: z.string(),
+    faqs: z.array(miniSessionFaqSchema),
     metaTitle: z.string(),
     metaDescription: z.string(),
     bookingOptions: z.array(bookingOptionInputSchema),

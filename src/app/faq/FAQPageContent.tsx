@@ -56,9 +56,7 @@ function BoardFAQItem({
 }) {
   return (
     <article
-      className="scroll-reveal scroll-reveal-soft border border-[var(--border)] bg-white"
-      data-scroll-reveal
-      style={revealStyle(Math.min(index, 8) * 55)}
+      className="border border-[var(--border)] bg-white"
     >
       <button
         type="button"

@@ -22,13 +22,13 @@ test("new drafts include the agreed booking and balance defaults", () => {
   assert.equal(draft.bookingOptions[0]?.dateTimeLabel, CAL_AVAILABILITY_NOTE);
 });
 
-test("hidden campaign fields are derived from client-facing content", () => {
+test("hidden fields are derived while the hero label stays campaign controlled", () => {
   const draft = createEmptyCampaignDraft();
   Object.assign(draft, { headline: "Autumn Keepsake Sessions 2026", summary: "A short seasonal session for families.", locationSummary: "Bergen County, NJ", totalPrice: "225.00", deposit: "100.00" });
   const result = validateCampaignDraft(draft);
   assert.deepEqual(result.errors, {});
   assert.equal(result.input?.internalName, "autumn-keepsake-sessions-2026");
-  assert.equal(result.input?.publicLabel, draft.headline);
+  assert.equal(result.input?.publicLabel, "Mini Sessions");
   assert.equal(result.input?.metaTitle, draft.headline);
   assert.equal(result.input?.metaDescription, draft.summary);
   assert.equal(result.input?.durationMinutes, 20);

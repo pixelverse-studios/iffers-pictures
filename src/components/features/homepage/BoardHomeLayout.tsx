@@ -114,28 +114,6 @@ function BoardHomeHero({
           >
             {HOME_PAGE_COPY.boardHero.description}
           </p>
-          {miniSessionCampaign?.homepageFeatured && (
-            <TrackedLink
-              href="#mini-sessions"
-              tracking={{
-                cta_label: "See Mini Sessions",
-                cta_location: "home_hero_mini_sessions",
-                destination: "#mini-sessions",
-              }}
-              className="hero-reveal mt-7 inline-flex min-h-11 items-center gap-3 rounded-full border border-[var(--brand)]/45 bg-white/88 px-4 text-sm font-bold text-[var(--brand-strong)] shadow-[0_8px_24px_-18px_rgba(38,63,82,0.55)] backdrop-blur-sm transition duration-200 hover:border-[var(--brand)] hover:bg-white active:translate-y-px"
-              style={revealStyle(200)}
-            >
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-[var(--brand-soft)]">
-                <CalendarDays className="h-4 w-4" aria-hidden />
-              </span>
-              <span>
-                {miniSessionCampaign.status === "sold_out"
-                  ? "See the latest Mini Sessions"
-                  : "Mini Sessions now booking"}
-              </span>
-              <ArrowDown className="h-4 w-4" aria-hidden />
-            </TrackedLink>
-          )}
           <div className="mt-8 flex flex-wrap items-center gap-5">
             <TrackedLink
               href={HOME_PAGE_COPY.boardHero.primaryHref}
@@ -163,6 +141,24 @@ function BoardHomeHero({
               <ArrowRight className="h-4 w-4" />
             </TrackedLink>
           </div>
+          {miniSessionCampaign?.homepageFeatured && (
+            <TrackedLink
+              href="#mini-sessions"
+              tracking={{
+                cta_label: miniSessionCampaign.homepageHeroCtaLabel,
+                cta_location: "home_hero_mini_sessions",
+                destination: "#mini-sessions",
+              }}
+              className="hero-reveal mt-6 inline-flex min-h-14 items-center gap-3 rounded-full border border-[var(--brand)]/45 bg-white/92 px-6 font-heading text-lg font-semibold text-[var(--brand-strong)] shadow-[0_8px_24px_-18px_rgba(38,63,82,0.55)] backdrop-blur-sm transition duration-200 hover:border-[var(--brand)] hover:bg-white active:translate-y-px"
+              style={revealStyle(420)}
+            >
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--brand-soft)]">
+                <CalendarDays className="h-4 w-4" aria-hidden />
+              </span>
+              <span>{miniSessionCampaign.homepageHeroCtaLabel || "Mini Sessions now booking"}</span>
+              <ArrowDown className="h-4 w-4" aria-hidden />
+            </TrackedLink>
+          )}
         </div>
       </div>
     </section>
@@ -178,9 +174,7 @@ function BoardImageStrip({ stripImages }: { stripImages: PublicGalleryItem[] }) 
         {stripImages.map((image, index) => (
           <div
             key={`${image.id}-${index}`}
-            className="scroll-reveal scroll-reveal-image relative min-h-[280px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[400px] md:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[430px]"
-            data-scroll-reveal
-            style={revealStyle(index * 90)}
+            className="relative min-h-[280px] overflow-hidden border-b border-white last:border-b-0 md:min-h-[400px] md:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[430px]"
           >
             <Image
               src={image.src}
