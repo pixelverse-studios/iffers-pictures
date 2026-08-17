@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
-import { Loader2 } from "lucide-react";
+import { AlertTriangle, Loader2 } from "lucide-react";
 import {
   checkMediaDestination,
   assignMediaPlacement,
@@ -17,6 +17,7 @@ import {
   presignMediaUpload,
   requestMediaAdminMagicLink,
   revalidateMediaCatalog,
+  reorderMediaItems,
   uploadToPresignedMediaUrl,
 } from "@/lib/media/client";
 import { MediaApiError } from "@/lib/media/errors";
@@ -174,6 +175,13 @@ export function AdminMediaManager() {
   const [isUploading, setIsUploading] = useState(false);
   const [isRevalidating, setIsRevalidating] = useState(false);
   const [archiveSelectionIds, setArchiveSelectionIds] = useState<number[]>([]);
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [isReorderingSelection, setIsReorderingSelection] = useState(false);
+  const [pendingDiscardAction, setPendingDiscardAction] = useState<
+    | { type: "select"; id: number | null }
+    | { type: "selection-mode" }
+    | null
+  >(null);
   const [isBatchArchiving, setIsBatchArchiving] = useState(false);
   const [batchArchiveFeedback, setBatchArchiveFeedback] =
     useState<BatchArchiveFeedback | null>(null);
@@ -190,12 +198,14 @@ export function AdminMediaManager() {
   );
 
   const selectedItem = useMemo(
-    () =>
-      selectedBatchItems.length === 1
-        ? selectedBatchItems[0]
-        : items.find((item) => item.id === selectedId) ?? null,
-    [items, selectedBatchItems, selectedId],
+    () => items.find((item) => item.id === selectedId) ?? null,
+    [items, selectedId],
   );
+
+  const editorDirty = useMemo(() => {
+    if (!selectedItem || !editor) return false;
+    return JSON.stringify(editor) !== JSON.stringify(getInitialEditorState(selectedItem));
+  }, [editor, selectedItem]);
 
   const counts = useMemo(() => getStatusCounts(items), [items]);
   const filteredItems = useMemo(
@@ -280,7 +290,7 @@ export function AdminMediaManager() {
 
   useEffect(() => {
     if (selectedId === null || items.some((item) => item.id === selectedId)) return;
-    setSelectedId(items[0]?.id ?? null);
+    setSelectedId(null);
   }, [items, selectedId]);
 
   useEffect(() => {
@@ -291,6 +301,17 @@ export function AdminMediaManager() {
     );
   }, [items]);
 
+  useEffect(() => {
+    if (!editorDirty) return;
+
+    function warnBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+    }
+
+    window.addEventListener("beforeunload", warnBeforeUnload);
+    return () => window.removeEventListener("beforeunload", warnBeforeUnload);
+  }, [editorDirty]);
+
   async function loadCatalog() {
     setIsLoadingCatalog(true);
     setCatalogError("");
@@ -299,7 +320,7 @@ export function AdminMediaManager() {
       setItems(catalog.items);
       setSelectedId((current) => {
         if (current && catalog.items.some((item) => item.id === current)) return current;
-        return catalog.items[0]?.id ?? null;
+        return null;
       });
     } catch (error) {
       setCatalogError(getFriendlyError(error));
@@ -317,7 +338,7 @@ export function AdminMediaManager() {
     setSelectedId(
       catalog.items.some((item) => item.id === selectedItemId)
         ? selectedItemId
-        : catalog.items[0]?.id ?? null,
+        : null,
     );
     return catalog.items.find((item) => item.id === selectedItemId) ?? null;
   }
@@ -594,12 +615,6 @@ export function AdminMediaManager() {
     setSelectedId(null);
   }
 
-  function editSelectedArchiveItem(id: number) {
-    setArchiveSelectionIds([]);
-    setBatchArchiveFeedback(null);
-    setSelectedId(id);
-  }
-
   function toggleArchiveSelection(id: number) {
     const item = items.find((current) => current.id === id);
     if (!item) return;
@@ -633,9 +648,66 @@ export function AdminMediaManager() {
   }
 
   function selectSingleItem(id: number | null) {
+    if (id !== selectedId && editorDirty) {
+      setPendingDiscardAction({ type: "select", id });
+      return;
+    }
+    applySingleItemSelection(id);
+  }
+
+  function applySingleItemSelection(id: number | null) {
     setArchiveSelectionIds([]);
     setBatchArchiveFeedback(null);
     setSelectedId(id);
+  }
+
+  function setBulkSelectionMode(active: boolean) {
+    if (active === selectionMode) return;
+    if (active && editorDirty) {
+      setPendingDiscardAction({ type: "selection-mode" });
+      return;
+    }
+
+    applyBulkSelectionMode(active);
+  }
+
+  function applyBulkSelectionMode(active: boolean) {
+    setSelectionMode(active);
+    setArchiveSelectionIds([]);
+    setBatchArchiveFeedback(null);
+    setSelectedId(null);
+  }
+
+  function discardEditorAndContinue() {
+    const action = pendingDiscardAction;
+    setPendingDiscardAction(null);
+    if (!action) return;
+
+    if (action.type === "selection-mode") {
+      applyBulkSelectionMode(true);
+      return;
+    }
+
+    applySingleItemSelection(action.id);
+  }
+
+  async function reorderSelectedItems(orderedIds: number[]) {
+    if (orderedIds.length < 2) return;
+    setIsReorderingSelection(true);
+    setNotice("");
+
+    try {
+      const response = await reorderMediaItems({ orderedIds });
+      const updatedById = new Map(response.items.map((item) => [item.id, item]));
+      setItems((current) =>
+        current.map((item) => updatedById.get(item.id) ?? item),
+      );
+      setNotice("Portfolio order saved. All positions were updated automatically.");
+    } catch (error) {
+      setNotice(getFriendlyError(error));
+    } finally {
+      setIsReorderingSelection(false);
+    }
   }
 
   function getBatchArchiveFailureMessage(error: {
@@ -1134,7 +1206,8 @@ export function AdminMediaManager() {
   }
 
   return (
-    <AdminMediaLibrary
+    <>
+      <AdminMediaLibrary
       affectedPages={affectedPages}
       archiveSelectionIds={archiveSelectionIds}
       batchArchiveFeedback={batchArchiveFeedback}
@@ -1153,6 +1226,7 @@ export function AdminMediaManager() {
       isMoving={isMoving}
       isMutatingPlacement={mutatingPlacementSlotKey}
       isRevalidating={isRevalidating}
+      isReorderingSelection={isReorderingSelection}
       mediaMutationOperation={mediaMutationOperation}
       isUploading={isUploading}
       moveDestinationAvailable={moveDestinationAvailable}
@@ -1167,6 +1241,7 @@ export function AdminMediaManager() {
       selectedId={selectedId}
       selectedItem={selectedItem}
       selectedPlacementUsages={selectedPlacementUsages}
+      selectionMode={selectionMode}
       libraryFilter={libraryFilter}
       serviceFilter={serviceFilter}
       serviceSubCategories={serviceSubCategories}
@@ -1192,7 +1267,6 @@ export function AdminMediaManager() {
         setPlacementError("");
         setNotice("");
       }}
-      onEditSelectedArchiveItem={editSelectedArchiveItem}
       onFilesSelected={queueFiles}
       onLogout={handleLogout}
       onMove={moveSelected}
@@ -1202,6 +1276,7 @@ export function AdminMediaManager() {
         setMoveMessage("");
       }}
       onRemoveUpload={removeUpload}
+      onReorderSelectedItems={(orderedIds) => void reorderSelectedItems(orderedIds)}
       onRetryUpload={retryUpload}
       onRestore={() => void restoreSelected()}
       onSave={() => void saveEditor()}
@@ -1213,11 +1288,56 @@ export function AdminMediaManager() {
       onStatusFilterChange={setStatusFilter}
       onSubCategoryFilterChange={handleSubCategoryFilterChange}
       onPlacementPickerSlotChange={setActivePlacementPickerSlotKey}
+      onSelectionModeChange={setBulkSelectionMode}
       onTriggerRevalidate={triggerRevalidate}
       onUpdateEditor={updateEditor}
       onUploadDrafts={uploadDrafts}
       onUpdateUploadItemTarget={updateUploadItemTarget}
       onUploadTargetChange={handleUploadTargetChange}
-    />
+      />
+      {pendingDiscardAction && (
+        <div
+          className="fixed inset-0 z-[100] grid place-items-center bg-slate-950/35 px-5 backdrop-blur-[2px]"
+          role="presentation"
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="unsaved-media-title"
+            className="w-full max-w-md border border-[var(--border)] bg-white p-6 shadow-2xl"
+          >
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-amber-50 text-amber-800">
+              <AlertTriangle className="h-5 w-5" aria-hidden />
+            </div>
+            <h2
+              id="unsaved-media-title"
+              className="mt-5 text-xl font-extrabold text-[var(--foreground)]"
+            >
+              Leave without saving?
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+              You have unsaved changes to this image. They will be lost if you
+              continue.
+            </p>
+            <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setPendingDiscardAction(null)}
+                className="min-h-11 rounded-sm border border-[var(--border)] px-4 text-sm font-bold text-[var(--foreground)] transition active:translate-y-px"
+              >
+                Keep editing
+              </button>
+              <button
+                type="button"
+                onClick={discardEditorAndContinue}
+                className="min-h-11 rounded-sm bg-red-700 px-4 text-sm font-bold text-white transition active:translate-y-px"
+              >
+                Discard and continue
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+    </>
   );
 }

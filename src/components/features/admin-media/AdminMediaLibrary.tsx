@@ -58,6 +58,7 @@ interface AdminMediaLibraryProps {
   isMoving: boolean;
   isMutatingPlacement: MediaPlacementSlotKey | null;
   isRevalidating: boolean;
+  isReorderingSelection: boolean;
   mediaMutationOperation: MediaMutationOperation | null;
   isUploading: boolean;
   moveDestinationAvailable: boolean | null;
@@ -71,6 +72,7 @@ interface AdminMediaLibraryProps {
   selectedId: number | null;
   selectedItem: AdminMediaItem | null;
   selectedPlacementUsages: MediaPlacementUsage[];
+  selectionMode: boolean;
   libraryFilter: LibraryFilter;
   serviceFilter: "all" | MediaService;
   serviceSubCategories: readonly MediaSubCategory[];
@@ -92,12 +94,12 @@ interface AdminMediaLibraryProps {
   onClearPlacement: (slotKey: MediaPlacementSlotKey) => void;
   onClearNotice: () => void;
   onClearArchiveSelection: () => void;
-  onEditSelectedArchiveItem: (id: number) => void;
   onFilesSelected: (files: File[]) => void;
   onLogout: () => void;
   onMove: () => void;
   onMoveKeyChange: (value: string) => void;
   onRemoveUpload: (id: string) => void;
+  onReorderSelectedItems: (orderedIds: number[]) => void;
   onRetryUpload: (id: string) => void;
   onRestore: () => void;
   onSave: () => void;
@@ -109,6 +111,7 @@ interface AdminMediaLibraryProps {
   onStatusFilterChange: (value: StatusFilter) => void;
   onSubCategoryFilterChange: (value: "all" | MediaSubCategory) => void;
   onPlacementPickerSlotChange: (slotKey: MediaPlacementSlotKey | null) => void;
+  onSelectionModeChange: (active: boolean) => void;
   onTriggerRevalidate: () => void;
   onUpdateEditor: <Key extends keyof EditorState>(
     key: Key,
@@ -160,6 +163,7 @@ export function AdminMediaLibrary({
   isMoving,
   isMutatingPlacement,
   isRevalidating,
+  isReorderingSelection,
   mediaMutationOperation,
   isUploading,
   moveDestinationAvailable,
@@ -173,6 +177,7 @@ export function AdminMediaLibrary({
   selectedId,
   selectedItem,
   selectedPlacementUsages,
+  selectionMode,
   libraryFilter,
   serviceFilter,
   serviceSubCategories,
@@ -194,12 +199,12 @@ export function AdminMediaLibrary({
   onClearPlacement,
   onClearNotice,
   onClearArchiveSelection,
-  onEditSelectedArchiveItem,
   onFilesSelected,
   onLogout,
   onMove,
   onMoveKeyChange,
   onRemoveUpload,
+  onReorderSelectedItems,
   onRetryUpload,
   onRestore,
   onSave,
@@ -211,6 +216,7 @@ export function AdminMediaLibrary({
   onStatusFilterChange,
   onSubCategoryFilterChange,
   onPlacementPickerSlotChange,
+  onSelectionModeChange,
   onTriggerRevalidate,
   onUpdateEditor,
   onUploadDrafts,
@@ -251,7 +257,7 @@ export function AdminMediaLibrary({
     viewMode !== "campaigns" &&
     (uploadPanelOpen ||
       Boolean(selectedItem) ||
-      selectedBatchItems.length > 1 ||
+      (selectionMode && selectedBatchItems.length > 0) ||
       Boolean(batchArchiveFeedback));
   const inspectorWidth = "clamp(540px, 42vw, 680px)";
   const inspectorTransition = prefersReducedMotion
@@ -391,12 +397,14 @@ export function AdminMediaLibrary({
                     sortMode={sortMode}
                     statusFilter={statusFilter}
                     subCategoryFilter={subCategoryFilter}
+                    selectionMode={selectionMode}
                     onLibraryFilterChange={onLibraryFilterChange}
                     onSearchChange={onSearchChange}
                     onServiceFilterChange={onServiceFilterChange}
                     onSortModeChange={onSortModeChange}
                     onStatusFilterChange={onStatusFilterChange}
                     onSubCategoryFilterChange={onSubCategoryFilterChange}
+                    onSelectionModeChange={onSelectionModeChange}
                   />
 
                   <AdminMediaGrid
@@ -404,6 +412,7 @@ export function AdminMediaLibrary({
                     items={filteredItems}
                     isLoading={isLoadingCatalog}
                     selectedId={selectedId}
+                    selectionMode={selectionMode}
                     onArchiveSelectionToggle={handleArchiveSelectionToggle}
                     onSelect={handleMediaSelect}
                   />
@@ -492,6 +501,7 @@ export function AdminMediaLibrary({
                       editor={editor}
                       isCheckingMove={isCheckingMove}
                       isBatchArchiving={isBatchArchiving}
+                      isReorderingSelection={isReorderingSelection}
                       isMoving={isMoving}
                       mediaMutationOperation={mediaMutationOperation}
                       item={selectedItem}
@@ -514,10 +524,10 @@ export function AdminMediaLibrary({
                         onSelectedIdChange(null);
                       }}
                       onClearArchiveSelection={onClearArchiveSelection}
-                      onEditSelectedItem={onEditSelectedArchiveItem}
                       onMove={onMove}
                       onMoveKeyChange={onMoveKeyChange}
                       onRemoveArchiveSelectionItem={onArchiveSelectionToggle}
+                      onReorderSelectedItems={onReorderSelectedItems}
                       onRestore={onRestore}
                       onSave={onSave}
                       onUpdateEditor={onUpdateEditor}

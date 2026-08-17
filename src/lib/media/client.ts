@@ -26,6 +26,8 @@ import {
   type R2ObjectListResponse,
   type RevalidateMediaRequest,
   type RevalidateMediaResponse,
+  type ReorderMediaItemsRequest,
+  type ReorderMediaItemsResponse,
 } from "./types";
 
 const MEDIA_ROOT = `/api/media/${IFFERS_MEDIA_WEBSITE_SLUG}`;
@@ -201,6 +203,18 @@ export function patchMediaItemsBatch(
 ): Promise<BatchPatchMediaItemsResponse> {
   return requestAdminJson<BatchPatchMediaItemsResponse>(
     `${MEDIA_ROOT}/admin/items/batch`,
+    {
+      method: "PATCH",
+      body: payload,
+    }
+  );
+}
+
+export function reorderMediaItems(
+  payload: ReorderMediaItemsRequest
+): Promise<ReorderMediaItemsResponse> {
+  return requestAdminJson<ReorderMediaItemsResponse>(
+    `${MEDIA_ROOT}/admin/items/reorder`,
     {
       method: "PATCH",
       body: payload,

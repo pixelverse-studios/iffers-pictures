@@ -12,6 +12,7 @@ interface AdminMediaGridProps {
   items: AdminMediaItem[];
   isLoading: boolean;
   selectedId: number | null;
+  selectionMode: boolean;
   onArchiveSelectionToggle: (id: number) => void;
   onSelect: (id: number) => void;
 }
@@ -21,6 +22,7 @@ export function AdminMediaGrid({
   items,
   isLoading,
   selectedId,
+  selectionMode,
   onArchiveSelectionToggle,
   onSelect,
 }: AdminMediaGridProps) {
@@ -68,7 +70,7 @@ export function AdminMediaGrid({
                   : "border-[var(--border)] hover:border-[var(--brand-soft)]"
             }`}
           >
-            {canBatchArchive && (
+            {selectionMode && canBatchArchive && (
               <span className="pointer-events-none absolute left-2 top-2 z-10 inline-flex h-9 w-9 items-center justify-center rounded-sm border border-white/80 bg-white/95 shadow-sm transition group-hover:opacity-100">
                 <input
                   type="checkbox"
@@ -92,11 +94,18 @@ export function AdminMediaGrid({
             )}
             <button
               type="button"
-              onClick={() =>
-                canBatchArchive ? onArchiveSelectionToggle(item.id) : onSelect(item.id)
-              }
-              aria-pressed={canBatchArchive ? isArchiveSelected : selectedId === item.id}
-              className="block w-full text-left"
+              onClick={() => {
+                if (selectionMode) {
+                  if (canBatchArchive) onArchiveSelectionToggle(item.id);
+                  return;
+                }
+                onSelect(item.id);
+              }}
+              aria-pressed={selectionMode ? isArchiveSelected : selectedId === item.id}
+              aria-disabled={selectionMode && !canBatchArchive}
+              className={`block w-full text-left ${
+                selectionMode && !canBatchArchive ? "cursor-not-allowed opacity-55" : ""
+              }`}
             >
               <div className="relative aspect-[4/3] bg-[var(--background-warm)]">
                 <Image

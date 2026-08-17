@@ -2,7 +2,7 @@
 
 import { Select, TextInput } from "@mantine/core";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { CheckSquare, Search, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   MEDIA_LIBRARIES,
@@ -22,12 +22,14 @@ interface AdminMediaFiltersProps {
   sortMode: SortMode;
   statusFilter: StatusFilter;
   subCategoryFilter: "all" | MediaSubCategory;
+  selectionMode: boolean;
   onLibraryFilterChange: (value: LibraryFilter) => void;
   onSearchChange: (value: string) => void;
   onServiceFilterChange: (value: "all" | MediaService) => void;
   onSortModeChange: (value: SortMode) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
   onSubCategoryFilterChange: (value: "all" | MediaSubCategory) => void;
+  onSelectionModeChange: (active: boolean) => void;
 }
 
 export function AdminMediaFilters({
@@ -38,12 +40,14 @@ export function AdminMediaFilters({
   sortMode,
   statusFilter,
   subCategoryFilter,
+  selectionMode,
   onLibraryFilterChange,
   onSearchChange,
   onServiceFilterChange,
   onSortModeChange,
   onStatusFilterChange,
   onSubCategoryFilterChange,
+  onSelectionModeChange,
 }: AdminMediaFiltersProps) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filterPanelRef = useRef<HTMLDivElement | null>(null);
@@ -158,7 +162,7 @@ export function AdminMediaFilters({
 
   return (
     <section className="relative space-y-3">
-      <div className="grid gap-3 md:grid-cols-[minmax(240px,1fr)_auto_auto]">
+      <div className="grid gap-3 md:grid-cols-[minmax(240px,1fr)_auto_auto_auto]">
         <TextInput
           type="search"
           className="min-w-0 md:col-span-2 xl:col-span-1"
@@ -196,6 +200,19 @@ export function AdminMediaFilters({
               {activeFilterCount}
             </span>
           )}
+        </button>
+        <button
+          type="button"
+          onClick={() => onSelectionModeChange(!selectionMode)}
+          className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border px-4 text-sm font-bold transition duration-200 ease-out active:translate-y-px ${
+            selectionMode
+              ? "border-[var(--brand-strong)] bg-[var(--brand-soft)] text-[var(--brand-strong)]"
+              : "border-[var(--border)] bg-white text-[var(--foreground)] hover:border-[var(--brand-strong)]"
+          }`}
+          aria-pressed={selectionMode}
+        >
+          <CheckSquare className="h-4 w-4" aria-hidden />
+          {selectionMode ? "Done selecting" : "Select images"}
         </button>
         <Select
           value={sortMode}

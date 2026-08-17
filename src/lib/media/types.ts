@@ -500,6 +500,14 @@ export interface BatchPatchMediaItemsRequest {
   status: "archived";
 }
 
+export interface ReorderMediaItemsRequest {
+  orderedIds: number[];
+}
+
+export interface ReorderMediaItemsResponse {
+  items: AdminMediaItem[];
+}
+
 export interface BatchMediaItemError {
   status?: number;
   code?: string;

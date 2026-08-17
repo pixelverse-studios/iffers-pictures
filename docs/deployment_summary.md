@@ -4,6 +4,11 @@
 
 - Fixed the Mini Sessions campaign list so publishing a new campaign immediately moves the previous public campaign to Closed instead of temporarily showing two Live cards.
 
+- Made individual image editing one click from the media library while preserving every existing image field and action.
+- Added a dedicated image-selection mode for bulk archiving and portfolio reordering.
+- Added drag-and-drop portfolio ordering with automatic, duplicate-free position updates.
+- Added a warning before unsaved image edits are discarded.
+
 - Pre-populated the approved Mini Sessions FAQs in every existing campaign while keeping each campaign’s questions fully editable, reorderable, addable, and removable.
 - Upgraded What’s Included reordering with a lifted drag preview, animated movement, a visible drop target, and keyboard-accessible controls.
 
@@ -84,6 +89,7 @@
 - Editor performance pass: moved media search and rendering into a memoized component and stabilized draft mutation callbacks so unrelated text updates avoid rerendering the image collection.
 - Cal.com embed pass: uses supported UI variables for tighter spacing; Cal.com branding remains visible because official white-label removal requires a paid Teams plan.
 - DEV-1083 frontend review fixes: bounded the public campaign request, aligned FAQ payment validation with approved copy, removed redundant duration callouts outside the finalized FAQ, and guarded dashboard exits with unsaved edits.
+- Media ordering now saves through one authenticated, atomic server operation and normalizes published portfolio positions.
 
 ## Changed URLs
 
