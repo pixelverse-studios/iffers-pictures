@@ -2,6 +2,8 @@
 
 ## Latest deploy summary
 
+- Made the heading above the Mini Sessions "What's Included" list editable from the campaign dashboard, with "Session Details" as the default for existing and new campaigns.
+
 - Fixed the Mini Sessions campaign list so publishing a new campaign immediately moves the previous public campaign to Closed instead of temporarily showing two Live cards.
 
 - Made individual image editing one click from the media library while preserving every existing image field and action.
@@ -58,6 +60,8 @@
 - Updated every session page with its approved starting investment and a clearer Let’s Plan It! action, including the corrected $550 Event Sessions starting price.
 
 ## Notes for internal team
+
+- DEV-1116: Added `inclusionsHeadline` across the Mini Sessions database, API, dashboard editor, preview, duplication flow, and public page. Apply the database migration and deploy the server before or alongside the frontend.
 
 - Pre-merge environment audit: removed the obsolete `AUTUMN_KEEPSAKE_CAMPAIGN_ID` setup from the active runbook; Mini Sessions FAQs are campaign-managed, and production revalidation uses the shared server `SITE_REVALIDATION_SECRET` / website `MEDIA_REVALIDATION_SECRET` value.
 

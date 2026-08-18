@@ -299,7 +299,16 @@ export function CampaignEditor({
           </EditorSection>
 
           <EditorSection id="mini-session-inclusions" eyebrow="What clients receive" title="What&apos;s included" description="Add what clients receive with this session.">
-            <div className="flex flex-col gap-2 sm:flex-row">
+            <Field
+              label="Section heading"
+              value={draft.inclusionsHeadline}
+              error={errors.inclusionsHeadline}
+              required
+              maxLength={200}
+              onChange={(value) => updateDraft({ inclusionsHeadline: value })}
+              placeholder="Session Details"
+            />
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
               <input
                 value={inclusion}
                 onChange={(event) => setInclusion(event.target.value)}
@@ -520,14 +529,14 @@ function EditorSection({ id, eyebrow, title, description, action, children }: { 
   );
 }
 
-function Field({ label, value, onChange, error, required = false, prefix, inputMode, placeholder }: { label: string; value: string; onChange: (value: string) => void; error?: string; required?: boolean; prefix?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"]; placeholder?: string }) {
+function Field({ label, value, onChange, error, required = false, prefix, inputMode, placeholder, maxLength }: { label: string; value: string; onChange: (value: string) => void; error?: string; required?: boolean; prefix?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"]; placeholder?: string; maxLength?: number }) {
   const id = useId();
   return (
     <label className="block text-sm font-bold" htmlFor={id}>
       <span>{label}{required && <span className="text-red-700"> *</span>}</span>
       <span className="relative mt-2 block">
         {prefix && <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">{prefix}</span>}
-        <input id={id} value={value} onChange={(event) => onChange(event.target.value)} inputMode={inputMode} placeholder={placeholder} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} className={`min-h-11 w-full rounded-sm border bg-white pr-3 text-sm outline-none focus:ring-2 focus:ring-[var(--brand-soft)] ${prefix ? "pl-7" : "pl-3"} ${error ? "border-red-500" : "border-[var(--border)] focus:border-[var(--brand)]"}`} />
+        <input id={id} value={value} onChange={(event) => onChange(event.target.value)} inputMode={inputMode} placeholder={placeholder} maxLength={maxLength} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} className={`min-h-11 w-full rounded-sm border bg-white pr-3 text-sm outline-none focus:ring-2 focus:ring-[var(--brand-soft)] ${prefix ? "pl-7" : "pl-3"} ${error ? "border-red-500" : "border-[var(--border)] focus:border-[var(--brand)]"}`} />
       </span>
       {error && <FieldError id={`${id}-error`} message={error} />}
     </label>

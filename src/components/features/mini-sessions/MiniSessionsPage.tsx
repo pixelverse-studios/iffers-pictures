@@ -97,7 +97,7 @@ export function MiniSessionsPage({
         </div>
         <div className="min-w-0 border-t border-[var(--border)] pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">What’s included</p>
-          <h2 className="mt-4 font-heading text-4xl font-semibold text-[var(--foreground)] md:text-5xl">Everything you need.</h2>
+          <h2 className="mt-4 font-heading text-4xl font-semibold text-[var(--foreground)] md:text-5xl">{campaign.inclusionsHeadline}</h2>
           <ul className="mt-6">
             {campaign.inclusions.map((inclusion) => (
               <li key={inclusion} className="flex gap-3 border-t border-[var(--border)] py-3.5 text-[var(--foreground)]">
