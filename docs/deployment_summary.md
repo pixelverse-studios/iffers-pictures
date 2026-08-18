@@ -52,6 +52,8 @@
 - Kept the approved 48-hour final-payment wording compatible with the Autumn Keepsake FAQs.
 - Removed duplicated session-length callouts from general website surfaces while preserving Jen's finalized FAQ wording.
 - Extended unsaved-change protection to the dashboard home and logout actions.
+- Prevented unsaved image edits from being lost when switching between Library, Page Images, and Mini Sessions.
+- Portfolio position edits now immediately refresh every shifted image, so the dashboard always shows the saved sequence.
 
 ## Notes for internal team
 

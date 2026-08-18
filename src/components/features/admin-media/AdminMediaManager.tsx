@@ -475,6 +475,8 @@ export function AdminMediaManager() {
     setNotice("");
 
     try {
+      const requestedSortOrder = Number(nextEditor.sortOrder) || 0;
+      const positionChanged = requestedSortOrder !== selectedItem.sortOrder;
       const updated = await patchMediaItem(selectedItem.id, {
         alt: nextEditor.alt,
         library: nextEditor.library,
@@ -486,7 +488,7 @@ export function AdminMediaManager() {
             : null,
         aspectRatio: nextEditor.aspectRatio || null,
         status: nextEditor.status,
-        sortOrder: Number(nextEditor.sortOrder) || 0,
+        ...(positionChanged ? { sortOrder: requestedSortOrder } : {}),
       });
 
       if (isStatusChange) {
@@ -515,7 +517,22 @@ export function AdminMediaManager() {
         );
       } else {
         upsertItem(updated);
-        setNotice("Changes saved.");
+        if (
+          positionChanged &&
+          updated.status === "published" &&
+          nextEditor.library === "portfolio"
+        ) {
+          try {
+            await reconcileCatalog(updated.id);
+            setNotice("Changes saved. Portfolio positions were refreshed.");
+          } catch {
+            setNotice(
+              "Changes saved, but the updated portfolio order could not be refreshed. Reload before changing another position.",
+            );
+          }
+        } else {
+          setNotice("Changes saved.");
+        }
       }
     } catch (error) {
       if (isStatusChange && isAmbiguousMediaMutationError(error)) {
@@ -1218,6 +1235,7 @@ export function AdminMediaManager() {
       fileInputRef={fileInputRef}
       items={items}
       filteredItems={filteredItems}
+      hasUnsavedImageChanges={editorDirty}
       selectedBatchItems={selectedBatchItems}
       isCheckingMove={isCheckingMove}
       isBatchArchiving={isBatchArchiving}

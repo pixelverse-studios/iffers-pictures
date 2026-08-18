@@ -48,6 +48,7 @@ interface AdminMediaLibraryProps {
   fileInputRef: RefObject<HTMLInputElement | null>;
   items: AdminMediaItem[];
   filteredItems: AdminMediaItem[];
+  hasUnsavedImageChanges: boolean;
   archiveSelectionIds: readonly number[];
   batchArchiveFeedback: BatchArchiveFeedback | null;
   selectedBatchItems: readonly AdminMediaItem[];
@@ -153,6 +154,7 @@ export function AdminMediaLibrary({
   fileInputRef,
   items,
   filteredItems,
+  hasUnsavedImageChanges,
   archiveSelectionIds,
   batchArchiveFeedback,
   selectedBatchItems,
@@ -267,8 +269,7 @@ export function AdminMediaLibrary({
         opacity: { duration: 0.18, ease: "easeOut" },
       };
 
-  function handleViewModeChange(mode: AdminMediaViewMode): boolean {
-    if (mode === viewMode) return true;
+  function confirmDiscardedWork(): boolean {
     if (
       viewMode === "campaigns" &&
       campaignDirty &&
@@ -276,6 +277,19 @@ export function AdminMediaLibrary({
     ) {
       return false;
     }
+    if (
+      viewMode !== "campaigns" &&
+      hasUnsavedImageChanges &&
+      !window.confirm("Discard unsaved image changes?")
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  function handleViewModeChange(mode: AdminMediaViewMode): boolean {
+    if (mode === viewMode) return true;
+    if (!confirmDiscardedWork()) return false;
     setViewMode(mode);
     setUploadPanelOpen(false);
     if (mode === "library") {
@@ -318,7 +332,14 @@ export function AdminMediaLibrary({
   return (
     <main className="admin-media-shell min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)] lg:h-[100dvh] lg:overflow-hidden">
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[var(--border)] bg-white/96 px-4 py-3 backdrop-blur lg:hidden">
-        <Link href="/" aria-label="Iffer's Pictures home" className="block">
+        <Link
+          href="/"
+          aria-label="Iffer's Pictures home"
+          className="block"
+          onClick={(event) => {
+            if (!confirmDiscardedWork()) event.preventDefault();
+          }}
+        >
           <Image
             src="/logo-black.png"
             alt="Iffer's Pictures"
@@ -350,6 +371,7 @@ export function AdminMediaLibrary({
           statusFilter={statusFilter}
           subCategoryFilter={subCategoryFilter}
           viewMode={viewMode}
+          onBeforeLeave={confirmDiscardedWork}
           onCloseMobile={() => setMobileNavOpen(false)}
           onLogout={onLogout}
           onLibraryFilterChange={onLibraryFilterChange}

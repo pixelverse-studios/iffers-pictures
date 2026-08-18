@@ -32,6 +32,7 @@ interface AdminMediaSidebarProps {
   subCategoryFilter: "all" | MediaSubCategory;
   viewMode: AdminMediaViewMode;
   onCloseMobile?: () => void;
+  onBeforeLeave: () => boolean;
   onLogout: () => void;
   onLibraryFilterChange: (value: LibraryFilter) => void;
   onPlacementPageFilterChange: (value: PlacementPageFilter) => void;
@@ -77,6 +78,7 @@ export function AdminMediaSidebar({
   statusFilter,
   subCategoryFilter,
   viewMode,
+  onBeforeLeave,
   onCloseMobile,
   onLogout,
   onLibraryFilterChange,
@@ -122,7 +124,7 @@ export function AdminMediaSidebar({
   }, []);
 
   function handleAllMediaClick() {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange("all");
     onServiceFilterChange("all");
     onSubCategoryFilterChange("all");
@@ -130,7 +132,7 @@ export function AdminMediaSidebar({
   }
 
   function handleLibraryClick(library: MediaLibrary) {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange(library);
     onServiceFilterChange("all");
     onSubCategoryFilterChange("all");
@@ -138,7 +140,7 @@ export function AdminMediaSidebar({
   }
 
   function handleServiceClick(service: MediaService) {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange("portfolio");
     onServiceFilterChange(service);
     onSubCategoryFilterChange("all");
@@ -149,7 +151,7 @@ export function AdminMediaSidebar({
     service: MediaService,
     subCategory: MediaSubCategory,
   ) {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange("portfolio");
     onServiceFilterChange(service);
     onSubCategoryFilterChange(subCategory);
@@ -157,7 +159,7 @@ export function AdminMediaSidebar({
   }
 
   function handleArchiveClick() {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onStatusFilterChange("archived");
     requestMobileClose();
   }
@@ -173,13 +175,13 @@ export function AdminMediaSidebar({
   }
 
   function handlePlacementPageClick(page: PlacementPageFilter) {
-    onViewModeChange("placements");
+    if (!onViewModeChange("placements")) return;
     onPlacementPageFilterChange(page);
     requestMobileClose();
   }
 
   function handleLogoutClick() {
-    if (!onViewModeChange("library")) return;
+    if (!onBeforeLeave()) return;
     onLogout();
     requestMobileClose();
   }
@@ -212,7 +214,7 @@ export function AdminMediaSidebar({
               className="block w-fit"
               aria-label="Iffer's Pictures home"
               onClick={(event) => {
-                if (!onViewModeChange("library")) event.preventDefault();
+                if (!onBeforeLeave()) event.preventDefault();
               }}
             >
               <Image
