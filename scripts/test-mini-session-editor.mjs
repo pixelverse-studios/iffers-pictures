@@ -3,6 +3,9 @@ import test from "node:test";
 import {
   DEFAULT_BALANCE_DUE_TEXT,
   DEFAULT_INCLUSIONS_HEADLINE,
+  DEFAULT_FAQ_EYEBROW,
+  DEFAULT_FAQ_HEADLINE,
+  DEFAULT_FAQ_INTRO,
   CAL_AVAILABILITY_NOTE,
   DEFAULT_LOCATION_SUMMARY,
   MINI_SESSIONS_CAL_URL,
@@ -16,6 +19,9 @@ test("new drafts include the agreed booking and balance defaults", () => {
   const draft = createEmptyCampaignDraft();
   assert.equal(draft.balanceDueText, DEFAULT_BALANCE_DUE_TEXT);
   assert.equal(draft.inclusionsHeadline, DEFAULT_INCLUSIONS_HEADLINE);
+  assert.equal(draft.faqEyebrow, DEFAULT_FAQ_EYEBROW);
+  assert.equal(draft.faqHeadline, DEFAULT_FAQ_HEADLINE);
+  assert.equal(draft.faqIntro, DEFAULT_FAQ_INTRO);
   assert.equal(draft.bookingOptions[0]?.calBookingUrl, MINI_SESSIONS_CAL_URL);
   assert.equal(draft.durationMinutes, "20");
   assert.equal(draft.totalPrice, "225.00");
@@ -35,6 +41,9 @@ test("hidden fields are derived while the hero label stays campaign controlled",
   assert.equal(result.input?.internalName, "autumn-keepsake-sessions-2026");
   assert.equal(result.input?.publicLabel, "Mini Sessions");
   assert.equal(result.input?.inclusionsHeadline, DEFAULT_INCLUSIONS_HEADLINE);
+  assert.equal(result.input?.faqEyebrow, DEFAULT_FAQ_EYEBROW);
+  assert.equal(result.input?.faqHeadline, DEFAULT_FAQ_HEADLINE);
+  assert.equal(result.input?.faqIntro, DEFAULT_FAQ_INTRO);
   assert.equal(result.input?.metaTitle, draft.headline);
   assert.equal(result.input?.metaDescription, draft.summary);
   assert.equal(result.input?.durationMinutes, 20);
@@ -62,6 +71,15 @@ test("saving requires a client-facing inclusions heading", () => {
     result.errors.inclusionsHeadline,
     "Add a heading for what clients receive."
   );
+});
+
+test("saving requires all FAQ section intro copy", () => {
+  const draft = createEmptyCampaignDraft();
+  draft.headline = "Autumn Keepsake Sessions";
+  draft.faqHeadline = "   ";
+  const result = validateCampaignDraft(draft);
+  assert.equal(result.input, null);
+  assert.equal(result.errors.faqHeadline, "Add the FAQ section heading.");
 });
 
 test("campaign names use a stable URL-friendly value", () => {

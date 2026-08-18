@@ -24,6 +24,10 @@ export const DEFAULT_EXPERIENCE_HEADLINE =
   "A small session with room for real connection.";
 export const DEFAULT_INCLUSIONS_HEADLINE = "Session Details";
 export const DEFAULT_VIBE_HEADLINE = "Relax and Enjoy the Moment";
+export const DEFAULT_FAQ_EYEBROW = "Good to know";
+export const DEFAULT_FAQ_HEADLINE = "Mini Session questions.";
+export const DEFAULT_FAQ_INTRO =
+  "Everything you need to arrive prepared and enjoy a relaxed, beautiful session.";
 export const DEFAULT_VIBE_CONTENT =
   "<p>There is zero pressure for your kids (or adults!) to act perfectly. Real laughter, cozy hugs, and playful moments always make for the best photos. My goal is to capture your family naturally, not force stiff poses.</p><p>Feel free to bring a favorite small toy, comfort item, or non-messy snack to help keep little ones happy. I will gently guide you through a mix of easy prompts and candid moments so you never have to worry about how to stand or what to do with your hands. Even in just 15 to 20 minutes, we'll capture a full gallery of genuine, heartwarming memories.</p>";
 
@@ -85,6 +89,9 @@ export function createEmptyCampaignDraft(): CampaignDraft {
     promoCopy: "",
     promoCtaLabel: "",
     homepageHeroCtaLabel: "Mini Sessions now booking",
+    faqEyebrow: DEFAULT_FAQ_EYEBROW,
+    faqHeadline: DEFAULT_FAQ_HEADLINE,
+    faqIntro: DEFAULT_FAQ_INTRO,
     faqs: createApprovedFaqs(),
     metaTitle: "",
     metaDescription: "",
@@ -124,6 +131,9 @@ export function campaignToDraft(campaign: MiniSessionAdminCampaign): CampaignDra
     promoCopy: campaign.promoCopy,
     promoCtaLabel: campaign.promoCtaLabel,
     homepageHeroCtaLabel: campaign.homepageHeroCtaLabel,
+    faqEyebrow: campaign.faqEyebrow || DEFAULT_FAQ_EYEBROW,
+    faqHeadline: campaign.faqHeadline || DEFAULT_FAQ_HEADLINE,
+    faqIntro: campaign.faqIntro || DEFAULT_FAQ_INTRO,
     faqs: campaign.faqs.map((faq) => ({ ...faq })),
     metaTitle: campaign.metaTitle,
     metaDescription: campaign.metaDescription,
@@ -166,6 +176,9 @@ export function validateCampaignDraft(
   const depositCents = currencyToCents(draft.deposit);
   const headline = draft.headline.trim();
   const inclusionsHeadline = draft.inclusionsHeadline.trim();
+  const faqEyebrow = draft.faqEyebrow.trim();
+  const faqHeadline = draft.faqHeadline.trim();
+  const faqIntro = draft.faqIntro.trim();
   const bookingOption = draft.bookingOptions[0] ?? createEmptyBookingOption(0);
 
   if (!headline) errors.headline = "Add a headline for this Mini Session.";
@@ -174,6 +187,18 @@ export function validateCampaignDraft(
   }
   if (inclusionsHeadline.length > 200) {
     errors.inclusionsHeadline = "Keep this heading to 200 characters or fewer.";
+  }
+  if (!faqEyebrow) errors.faqEyebrow = "Add the small label above the FAQs.";
+  if (faqEyebrow.length > 80) {
+    errors.faqEyebrow = "Keep this label to 80 characters or fewer.";
+  }
+  if (!faqHeadline) errors.faqHeadline = "Add the FAQ section heading.";
+  if (faqHeadline.length > 200) {
+    errors.faqHeadline = "Keep this heading to 200 characters or fewer.";
+  }
+  if (!faqIntro) errors.faqIntro = "Add the FAQ section introduction.";
+  if (faqIntro.length > 600) {
+    errors.faqIntro = "Keep this introduction to 600 characters or fewer.";
   }
   if (totalPriceCents === null) errors.totalPrice = "Use dollars and up to two decimals.";
   if (depositCents === null) errors.deposit = "Use dollars and up to two decimals.";
@@ -235,6 +260,9 @@ export function validateCampaignDraft(
     publicLabel: draft.publicLabel.trim() || "Mini Sessions",
     headline,
     inclusionsHeadline,
+    faqEyebrow,
+    faqHeadline,
+    faqIntro,
     ctaLabel: "Choose your time",
     dateSummary: CAL_AVAILABILITY_NOTE,
     durationMinutes: 20,
@@ -283,11 +311,14 @@ export function getPublishReadiness(
       key: "faqs",
       label: "Mini Sessions FAQs",
       ready:
+        draft.faqEyebrow.trim().length > 0 &&
+        draft.faqHeadline.trim().length > 0 &&
+        draft.faqIntro.trim().length > 0 &&
         draft.faqs.length > 0 &&
         draft.faqs.every(
           (faq) => faq.question.trim().length > 0 && richTextHasContent(faq.answerHtml)
         ),
-      blocker: "Add at least one complete question and answer.",
+      blocker: "Complete the FAQ introduction and add at least one question and answer.",
       targetId: "mini-session-faqs",
     },
     {
@@ -403,6 +434,9 @@ export function draftToPreviewCampaign(
     promoCopy: draft.promoCopy,
     promoCtaLabel: draft.promoCtaLabel,
     homepageHeroCtaLabel: draft.homepageHeroCtaLabel,
+    faqEyebrow: draft.faqEyebrow || DEFAULT_FAQ_EYEBROW,
+    faqHeadline: draft.faqHeadline || DEFAULT_FAQ_HEADLINE,
+    faqIntro: draft.faqIntro || DEFAULT_FAQ_INTRO,
     faqs: draft.faqs.map((faq) => ({
       ...faq,
       answerHtml: sanitizePreviewRichText(faq.answerHtml),

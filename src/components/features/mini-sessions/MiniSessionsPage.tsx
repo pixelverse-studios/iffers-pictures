@@ -125,7 +125,12 @@ export function MiniSessionsPage({
         utmParams={utmParams}
       />
 
-      <MiniSessionsFaqs faqs={campaign.faqs} />
+      <MiniSessionsFaqs
+        eyebrow={campaign.faqEyebrow}
+        headline={campaign.faqHeadline}
+        intro={campaign.faqIntro}
+        faqs={campaign.faqs}
+      />
 
       <section className="bg-[var(--foreground)] px-6 py-12 text-center text-white md:px-8 md:py-16">
         <h2 className="font-heading text-4xl font-semibold md:text-5xl">Still have a question?</h2>
