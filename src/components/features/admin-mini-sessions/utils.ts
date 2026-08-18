@@ -28,6 +28,8 @@ export const DEFAULT_FAQ_EYEBROW = "Good to know";
 export const DEFAULT_FAQ_HEADLINE = "Mini Session questions.";
 export const DEFAULT_FAQ_INTRO =
   "Everything you need to arrive prepared and enjoy a relaxed, beautiful session.";
+export const DEFAULT_BOOKING_EYEBROW = "Reserve your session";
+export const DEFAULT_BOOKING_HEADLINE = "Choose your time.";
 export const DEFAULT_VIBE_CONTENT =
   "<p>There is zero pressure for your kids (or adults!) to act perfectly. Real laughter, cozy hugs, and playful moments always make for the best photos. My goal is to capture your family naturally, not force stiff poses.</p><p>Feel free to bring a favorite small toy, comfort item, or non-messy snack to help keep little ones happy. I will gently guide you through a mix of easy prompts and candid moments so you never have to worry about how to stand or what to do with your hands. Even in just 15 to 20 minutes, we'll capture a full gallery of genuine, heartwarming memories.</p>";
 
@@ -92,6 +94,8 @@ export function createEmptyCampaignDraft(): CampaignDraft {
     faqEyebrow: DEFAULT_FAQ_EYEBROW,
     faqHeadline: DEFAULT_FAQ_HEADLINE,
     faqIntro: DEFAULT_FAQ_INTRO,
+    bookingEyebrow: DEFAULT_BOOKING_EYEBROW,
+    bookingHeadline: DEFAULT_BOOKING_HEADLINE,
     faqs: createApprovedFaqs(),
     metaTitle: "",
     metaDescription: "",
@@ -134,6 +138,8 @@ export function campaignToDraft(campaign: MiniSessionAdminCampaign): CampaignDra
     faqEyebrow: campaign.faqEyebrow || DEFAULT_FAQ_EYEBROW,
     faqHeadline: campaign.faqHeadline || DEFAULT_FAQ_HEADLINE,
     faqIntro: campaign.faqIntro || DEFAULT_FAQ_INTRO,
+    bookingEyebrow: campaign.bookingEyebrow || DEFAULT_BOOKING_EYEBROW,
+    bookingHeadline: campaign.bookingHeadline || DEFAULT_BOOKING_HEADLINE,
     faqs: campaign.faqs.map((faq) => ({ ...faq })),
     metaTitle: campaign.metaTitle,
     metaDescription: campaign.metaDescription,
@@ -179,6 +185,8 @@ export function validateCampaignDraft(
   const faqEyebrow = draft.faqEyebrow.trim();
   const faqHeadline = draft.faqHeadline.trim();
   const faqIntro = draft.faqIntro.trim();
+  const bookingEyebrow = draft.bookingEyebrow.trim();
+  const bookingHeadline = draft.bookingHeadline.trim();
   const bookingOption = draft.bookingOptions[0] ?? createEmptyBookingOption(0);
 
   if (!headline) errors.headline = "Add a headline for this Mini Session.";
@@ -199,6 +207,18 @@ export function validateCampaignDraft(
   if (!faqIntro) errors.faqIntro = "Add the FAQ section introduction.";
   if (faqIntro.length > 600) {
     errors.faqIntro = "Keep this introduction to 600 characters or fewer.";
+  }
+  if (!bookingEyebrow) {
+    errors.bookingEyebrow = "Add the small label above the booking calendar.";
+  }
+  if (bookingEyebrow.length > 80) {
+    errors.bookingEyebrow = "Keep this label to 80 characters or fewer.";
+  }
+  if (!bookingHeadline) {
+    errors.bookingHeadline = "Add the booking section heading.";
+  }
+  if (bookingHeadline.length > 200) {
+    errors.bookingHeadline = "Keep this heading to 200 characters or fewer.";
   }
   if (totalPriceCents === null) errors.totalPrice = "Use dollars and up to two decimals.";
   if (depositCents === null) errors.deposit = "Use dollars and up to two decimals.";
@@ -263,6 +283,8 @@ export function validateCampaignDraft(
     faqEyebrow,
     faqHeadline,
     faqIntro,
+    bookingEyebrow,
+    bookingHeadline,
     ctaLabel: "Choose your time",
     dateSummary: CAL_AVAILABILITY_NOTE,
     durationMinutes: 20,
@@ -365,8 +387,11 @@ export function getPublishReadiness(
     {
       key: "booking",
       label: "Cal.com booking link",
-      ready: hasBookingLink,
-      blocker: "Add the reusable Cal.com booking link.",
+      ready:
+        draft.bookingEyebrow.trim().length > 0 &&
+        draft.bookingHeadline.trim().length > 0 &&
+        hasBookingLink,
+      blocker: "Add the booking section label, heading, and reusable Cal.com link.",
       targetId: "mini-session-booking",
     },
   ];
@@ -437,6 +462,8 @@ export function draftToPreviewCampaign(
     faqEyebrow: draft.faqEyebrow || DEFAULT_FAQ_EYEBROW,
     faqHeadline: draft.faqHeadline || DEFAULT_FAQ_HEADLINE,
     faqIntro: draft.faqIntro || DEFAULT_FAQ_INTRO,
+    bookingEyebrow: draft.bookingEyebrow || DEFAULT_BOOKING_EYEBROW,
+    bookingHeadline: draft.bookingHeadline || DEFAULT_BOOKING_HEADLINE,
     faqs: draft.faqs.map((faq) => ({
       ...faq,
       answerHtml: sanitizePreviewRichText(faq.answerHtml),

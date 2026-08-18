@@ -106,6 +106,7 @@
 - DEV-1115: Replaced generic service-page Investment copy with the approved per-session pricing matrix while preserving contact destinations, FAQs, and bottom CTAs.
 - DEV-1117: Stopped controlled rich-text updates from replacing the active editor DOM, added composition-safe synchronization, and changed FAQ edits and reordering to use persistent IDs with functional state updates.
 - DEV-1118: Added `faqEyebrow`, `faqHeadline`, and `faqIntro` across the database migration, server projections and RPCs, dashboard editor, preview, public page, duplication flow, accessibility labeling, and regression coverage. Deploy the database migration and server before or alongside the frontend.
+- DEV-1118 follow-up: Added campaign-controlled booking eyebrow and heading copy across the dashboard, preview, public booking section, and validation. Existing campaigns retain “Reserve your session” and “Choose your time.” as defaults.
 
 ## Changed URLs
 

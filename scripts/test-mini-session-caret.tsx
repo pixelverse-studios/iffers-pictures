@@ -60,6 +60,8 @@ async function renderEditor() {
         faqEyebrow: "Good to know",
         faqHeadline: "Mini Session questions.",
         faqIntro: "Everything you need to know.",
+        bookingEyebrow: "Reserve your session",
+        bookingHeadline: "Choose your time.",
         faqs: [
           {
             id: "faq-1",
@@ -150,6 +152,8 @@ test("standard inputs and textareas preserve a middle caret during campaign rere
   const summary = screen.getByLabelText(/^Short summary/) as HTMLTextAreaElement;
   const faqHeadline = screen.getByLabelText(/^FAQ section heading/) as HTMLInputElement;
   const faqIntro = screen.getByLabelText(/^FAQ section introduction/) as HTMLTextAreaElement;
+  const bookingEyebrow = screen.getByLabelText(/^Small label above calendar/) as HTMLInputElement;
+  const bookingHeadline = screen.getByLabelText(/^Booking section heading/) as HTMLInputElement;
 
   await typeInTextControl(user, headline, 4, "XYZ");
   assert.equal(headline.value, "FallXYZ Mini Session");
@@ -166,6 +170,14 @@ test("standard inputs and textareas preserve a middle caret during campaign rere
   await typeInTextControl(user, faqIntro, 10, "XYZ");
   assert.equal(faqIntro.value, "EverythingXYZ you need to know.");
   assert.equal(faqIntro.selectionStart, 13);
+
+  await typeInTextControl(user, bookingEyebrow, 7, "XYZ");
+  assert.equal(bookingEyebrow.value, "ReserveXYZ your session");
+  assert.equal(bookingEyebrow.selectionStart, 10);
+
+  await typeInTextControl(user, bookingHeadline, 6, "XYZ");
+  assert.equal(bookingHeadline.value, "ChooseXYZ your time.");
+  assert.equal(bookingHeadline.selectionStart, 9);
 });
 
 test("public FAQ section renders campaign-owned intro copy with an accessible heading", async () => {
@@ -194,6 +206,40 @@ test("public FAQ section renders campaign-owned intro copy with an accessible he
   });
   assert.ok(section.textContent?.includes("Before you arrive"));
   assert.ok(section.textContent?.includes("A few helpful details for a relaxed session."));
+});
+
+test("public booking section renders campaign-owned labels with an accessible heading", async () => {
+  const [testingLibrary, bookingModule, utilsModule] = await Promise.all([
+    import("@testing-library/react"),
+    import("../src/components/features/mini-sessions/MiniSessionsBooking"),
+    import("../src/components/features/admin-mini-sessions/utils"),
+  ]);
+  cleanupAfterTest = testingLibrary.cleanup;
+  const draft = utilsModule.createEmptyCampaignDraft();
+  draft.bookingEyebrow = "Book your fall session";
+  draft.bookingHeadline = "Find a time that works.";
+  const campaign = utilsModule.draftToPreviewCampaign(
+    {
+      campaignId: "campaign-booking-copy",
+      sourceStatus: "draft",
+      sourceUpdatedAt: null,
+      draft,
+    },
+    []
+  );
+
+  testingLibrary.render(
+    <bookingModule.MiniSessionsBooking
+      campaign={campaign}
+      previewMode
+      utmParams={{}}
+    />
+  );
+
+  const section = testingLibrary.screen.getByRole("region", {
+    name: "Find a time that works.",
+  });
+  assert.ok(section.textContent?.includes("Book your fall session"));
 });
 
 test("FAQ questions update by persistent ID without remounting sibling rows", async () => {

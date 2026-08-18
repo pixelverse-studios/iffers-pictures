@@ -28,6 +28,8 @@ import { SortableInclusions } from "./SortableInclusions";
 import type { PublishReadinessItem } from "./utils";
 import {
   createEmptyBookingOption,
+  DEFAULT_BOOKING_EYEBROW,
+  DEFAULT_BOOKING_HEADLINE,
   MAX_INCLUSIONS,
   MINI_SESSIONS_CAL_URL,
 } from "./utils";
@@ -431,6 +433,26 @@ export function CampaignEditor({
 
           <EditorSection id="mini-session-booking" eyebrow="Booking" title="Cal.com booking link" description="Clients will use this link to choose and pay for an available time.">
             <div className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                <Field
+                  label="Small label above calendar"
+                  required
+                  value={draft.bookingEyebrow}
+                  error={errors.bookingEyebrow}
+                  maxLength={80}
+                  onChange={(value) => updateDraft({ bookingEyebrow: value })}
+                  placeholder={DEFAULT_BOOKING_EYEBROW}
+                />
+                <Field
+                  label="Booking section heading"
+                  required
+                  value={draft.bookingHeadline}
+                  error={errors.bookingHeadline}
+                  maxLength={200}
+                  onChange={(value) => updateDraft({ bookingHeadline: value })}
+                  placeholder={DEFAULT_BOOKING_HEADLINE}
+                />
+              </div>
               <Field label="Booking link" required value={draft.bookingOptions[0]?.calBookingUrl ?? MINI_SESSIONS_CAL_URL} error={errors.bookingUrl} onChange={updateBookingUrl} placeholder={MINI_SESSIONS_CAL_URL} />
               <div className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4 text-sm leading-relaxed text-[var(--text-secondary)]">
                 <p>Session length, available times, buffer time, and payment are managed in Cal.com. Changes made here do not change the Cal.com schedule.</p>

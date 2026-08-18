@@ -6,6 +6,8 @@ import {
   DEFAULT_FAQ_EYEBROW,
   DEFAULT_FAQ_HEADLINE,
   DEFAULT_FAQ_INTRO,
+  DEFAULT_BOOKING_EYEBROW,
+  DEFAULT_BOOKING_HEADLINE,
   CAL_AVAILABILITY_NOTE,
   DEFAULT_LOCATION_SUMMARY,
   MINI_SESSIONS_CAL_URL,
@@ -22,6 +24,8 @@ test("new drafts include the agreed booking and balance defaults", () => {
   assert.equal(draft.faqEyebrow, DEFAULT_FAQ_EYEBROW);
   assert.equal(draft.faqHeadline, DEFAULT_FAQ_HEADLINE);
   assert.equal(draft.faqIntro, DEFAULT_FAQ_INTRO);
+  assert.equal(draft.bookingEyebrow, DEFAULT_BOOKING_EYEBROW);
+  assert.equal(draft.bookingHeadline, DEFAULT_BOOKING_HEADLINE);
   assert.equal(draft.bookingOptions[0]?.calBookingUrl, MINI_SESSIONS_CAL_URL);
   assert.equal(draft.durationMinutes, "20");
   assert.equal(draft.totalPrice, "225.00");
@@ -44,6 +48,8 @@ test("hidden fields are derived while the hero label stays campaign controlled",
   assert.equal(result.input?.faqEyebrow, DEFAULT_FAQ_EYEBROW);
   assert.equal(result.input?.faqHeadline, DEFAULT_FAQ_HEADLINE);
   assert.equal(result.input?.faqIntro, DEFAULT_FAQ_INTRO);
+  assert.equal(result.input?.bookingEyebrow, DEFAULT_BOOKING_EYEBROW);
+  assert.equal(result.input?.bookingHeadline, DEFAULT_BOOKING_HEADLINE);
   assert.equal(result.input?.metaTitle, draft.headline);
   assert.equal(result.input?.metaDescription, draft.summary);
   assert.equal(result.input?.durationMinutes, 20);
@@ -80,6 +86,15 @@ test("saving requires all FAQ section intro copy", () => {
   const result = validateCampaignDraft(draft);
   assert.equal(result.input, null);
   assert.equal(result.errors.faqHeadline, "Add the FAQ section heading.");
+});
+
+test("saving requires both booking section labels", () => {
+  const draft = createEmptyCampaignDraft();
+  draft.headline = "Autumn Keepsake Sessions";
+  draft.bookingHeadline = "   ";
+  const result = validateCampaignDraft(draft);
+  assert.equal(result.input, null);
+  assert.equal(result.errors.bookingHeadline, "Add the booking section heading.");
 });
 
 test("campaign names use a stable URL-friendly value", () => {
