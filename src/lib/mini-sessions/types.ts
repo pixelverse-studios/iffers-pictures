@@ -52,7 +52,7 @@ const campaignFields = {
   summary: z.string(),
   description: z.string(),
   experienceHeadline: z.string(),
-  inclusionsHeadline: z.string().default("Everything you need."),
+  inclusionsHeadline: z.string().default("Session Details"),
   vibeHeadline: z.string(),
   vibeContent: z.string(),
   durationMinutes: z.number().int(),

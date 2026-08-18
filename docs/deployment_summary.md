@@ -2,7 +2,7 @@
 
 ## Latest deploy summary
 
-- Made the heading above the Mini Sessions "What's Included" list editable from the campaign dashboard, with "Everything you need." preserved as the default for existing campaigns.
+- Made the heading above the Mini Sessions "What's Included" list editable from the campaign dashboard, with "Session Details" as the default for existing and new campaigns.
 
 - Fixed the Mini Sessions campaign list so publishing a new campaign immediately moves the previous public campaign to Closed instead of temporarily showing two Live cards.
 

@@ -306,7 +306,7 @@ export function CampaignEditor({
               required
               maxLength={200}
               onChange={(value) => updateDraft({ inclusionsHeadline: value })}
-              placeholder="Everything you need."
+              placeholder="Session Details"
             />
             <div className="mt-4 flex flex-col gap-2 sm:flex-row">
               <input

@@ -22,7 +22,7 @@ export const DEFAULT_BALANCE_DUE_TEXT =
   "Final payment is due 48 hours prior to event";
 export const DEFAULT_EXPERIENCE_HEADLINE =
   "A small session with room for real connection.";
-export const DEFAULT_INCLUSIONS_HEADLINE = "Everything you need.";
+export const DEFAULT_INCLUSIONS_HEADLINE = "Session Details";
 export const DEFAULT_VIBE_HEADLINE = "Relax and Enjoy the Moment";
 export const DEFAULT_VIBE_CONTENT =
   "<p>There is zero pressure for your kids (or adults!) to act perfectly. Real laughter, cozy hugs, and playful moments always make for the best photos. My goal is to capture your family naturally, not force stiff poses.</p><p>Feel free to bring a favorite small toy, comfort item, or non-messy snack to help keep little ones happy. I will gently guide you through a mix of easy prompts and candid moments so you never have to worry about how to stand or what to do with your hands. Even in just 15 to 20 minutes, we'll capture a full gallery of genuine, heartwarming memories.</p>";
