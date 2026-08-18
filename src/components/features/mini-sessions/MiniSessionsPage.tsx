@@ -109,11 +109,14 @@ export function MiniSessionsPage({
         </div>
       </section>
 
-      <section className="bg-[var(--background-warm)] py-12 md:py-16">
+      <section
+        aria-labelledby="mini-sessions-vibe-heading"
+        className="bg-[var(--background-warm)] py-12 md:py-16"
+      >
         <div className="mx-auto grid max-w-7xl gap-8 px-6 md:px-8 lg:grid-cols-[0.42fr_0.58fr] lg:gap-16">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">The vibe</p>
-            <h2 className="mt-4 font-heading text-4xl font-semibold leading-tight text-[var(--foreground)] md:text-5xl">{campaign.vibeHeadline}</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">{campaign.vibeEyebrow}</p>
+            <h2 id="mini-sessions-vibe-heading" className="mt-4 font-heading text-4xl font-semibold leading-tight text-[var(--foreground)] md:text-5xl">{campaign.vibeHeadline}</h2>
           </div>
           <div className="mini-rich-content text-base leading-8 text-[var(--text-secondary)]" dangerouslySetInnerHTML={{ __html: campaign.vibeContent }} />
         </div>

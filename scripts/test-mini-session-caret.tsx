@@ -154,6 +154,7 @@ test("standard inputs and textareas preserve a middle caret during campaign rere
   const faqIntro = screen.getByLabelText(/^FAQ section introduction/) as HTMLTextAreaElement;
   const bookingEyebrow = screen.getByLabelText(/^Small label above calendar/) as HTMLInputElement;
   const bookingHeadline = screen.getByLabelText(/^Booking section heading/) as HTMLInputElement;
+  const vibeEyebrow = screen.getByLabelText(/^Small label above Vibe section/) as HTMLInputElement;
 
   await typeInTextControl(user, headline, 4, "XYZ");
   assert.equal(headline.value, "FallXYZ Mini Session");
@@ -178,6 +179,10 @@ test("standard inputs and textareas preserve a middle caret during campaign rere
   await typeInTextControl(user, bookingHeadline, 6, "XYZ");
   assert.equal(bookingHeadline.value, "ChooseXYZ your time.");
   assert.equal(bookingHeadline.selectionStart, 9);
+
+  await typeInTextControl(user, vibeEyebrow, 3, "XYZ");
+  assert.equal(vibeEyebrow.value, "TheXYZ vibe");
+  assert.equal(vibeEyebrow.selectionStart, 6);
 });
 
 test("public FAQ section renders campaign-owned intro copy with an accessible heading", async () => {
@@ -240,6 +245,36 @@ test("public booking section renders campaign-owned labels with an accessible he
     name: "Find a time that works.",
   });
   assert.ok(section.textContent?.includes("Book your fall session"));
+});
+
+test("public Vibe section renders its campaign-owned label", async () => {
+  const [testingLibrary, pageModule, utilsModule] = await Promise.all([
+    import("@testing-library/react"),
+    import("../src/components/features/mini-sessions/MiniSessionsPage"),
+    import("../src/components/features/admin-mini-sessions/utils"),
+  ]);
+  cleanupAfterTest = testingLibrary.cleanup;
+  const draft = utilsModule.createEmptyCampaignDraft();
+  draft.vibeEyebrow = "Come as you are";
+  draft.vibeHeadline = "Relax into the moment";
+  const campaign = utilsModule.draftToPreviewCampaign(
+    {
+      campaignId: "campaign-vibe-copy",
+      sourceStatus: "draft",
+      sourceUpdatedAt: null,
+      draft,
+    },
+    []
+  );
+
+  testingLibrary.render(
+    <pageModule.MiniSessionsPage campaign={campaign} previewMode utmParams={{}} />
+  );
+
+  const section = testingLibrary.screen.getByRole("region", {
+    name: "Relax into the moment",
+  });
+  assert.ok(section.textContent?.includes("Come as you are"));
 });
 
 test("FAQ questions update by persistent ID without remounting sibling rows", async () => {

@@ -368,6 +368,15 @@ export function CampaignEditor({
 
           <EditorSection id="mini-session-vibe" eyebrow="The vibe" title="Set the tone" description="This section appears beneath the Experience and What's Included columns.">
             <div className="space-y-4">
+              <Field
+                label="Small label above Vibe section"
+                required
+                value={draft.vibeEyebrow}
+                error={errors.vibeEyebrow}
+                maxLength={80}
+                onChange={(value) => updateDraft({ vibeEyebrow: value })}
+                placeholder="The vibe"
+              />
               <Field label="Vibe heading" value={draft.vibeHeadline} onChange={(value) => updateDraft({ vibeHeadline: value })} />
               <RichTextEditor label="Vibe content" value={draft.vibeContent} onChange={(value) => updateDraft({ vibeContent: value })} />
             </div>

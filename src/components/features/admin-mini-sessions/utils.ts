@@ -23,6 +23,7 @@ export const DEFAULT_BALANCE_DUE_TEXT =
 export const DEFAULT_EXPERIENCE_HEADLINE =
   "A small session with room for real connection.";
 export const DEFAULT_INCLUSIONS_HEADLINE = "Session Details";
+export const DEFAULT_VIBE_EYEBROW = "The vibe";
 export const DEFAULT_VIBE_HEADLINE = "Relax and Enjoy the Moment";
 export const DEFAULT_FAQ_EYEBROW = "Good to know";
 export const DEFAULT_FAQ_HEADLINE = "Mini Session questions.";
@@ -70,6 +71,7 @@ export function createEmptyCampaignDraft(): CampaignDraft {
     description: "",
     experienceHeadline: DEFAULT_EXPERIENCE_HEADLINE,
     inclusionsHeadline: DEFAULT_INCLUSIONS_HEADLINE,
+    vibeEyebrow: DEFAULT_VIBE_EYEBROW,
     vibeHeadline: DEFAULT_VIBE_HEADLINE,
     vibeContent: DEFAULT_VIBE_CONTENT,
     durationMinutes: "20",
@@ -114,6 +116,7 @@ export function campaignToDraft(campaign: MiniSessionAdminCampaign): CampaignDra
     experienceHeadline: campaign.experienceHeadline,
     inclusionsHeadline:
       campaign.inclusionsHeadline || DEFAULT_INCLUSIONS_HEADLINE,
+    vibeEyebrow: campaign.vibeEyebrow || DEFAULT_VIBE_EYEBROW,
     vibeHeadline: campaign.vibeHeadline,
     vibeContent: campaign.vibeContent,
     durationMinutes: String(campaign.durationMinutes),
@@ -182,6 +185,7 @@ export function validateCampaignDraft(
   const depositCents = currencyToCents(draft.deposit);
   const headline = draft.headline.trim();
   const inclusionsHeadline = draft.inclusionsHeadline.trim();
+  const vibeEyebrow = draft.vibeEyebrow.trim();
   const faqEyebrow = draft.faqEyebrow.trim();
   const faqHeadline = draft.faqHeadline.trim();
   const faqIntro = draft.faqIntro.trim();
@@ -195,6 +199,10 @@ export function validateCampaignDraft(
   }
   if (inclusionsHeadline.length > 200) {
     errors.inclusionsHeadline = "Keep this heading to 200 characters or fewer.";
+  }
+  if (!vibeEyebrow) errors.vibeEyebrow = "Add the small label above the Vibe section.";
+  if (vibeEyebrow.length > 80) {
+    errors.vibeEyebrow = "Keep this label to 80 characters or fewer.";
   }
   if (!faqEyebrow) errors.faqEyebrow = "Add the small label above the FAQs.";
   if (faqEyebrow.length > 80) {
@@ -280,6 +288,7 @@ export function validateCampaignDraft(
     publicLabel: draft.publicLabel.trim() || "Mini Sessions",
     headline,
     inclusionsHeadline,
+    vibeEyebrow,
     faqEyebrow,
     faqHeadline,
     faqIntro,
@@ -324,6 +333,7 @@ export function getPublishReadiness(
       ready:
         sessionCopy.every((value) => value.trim().length > 0) &&
         richTextHasContent(draft.description) &&
+        draft.vibeEyebrow.trim().length > 0 &&
         draft.vibeHeadline.trim().length > 0 &&
         richTextHasContent(draft.vibeContent),
       blocker: "Add the session headline, summary, Experience, and Vibe content.",
@@ -421,6 +431,7 @@ export function draftToPreviewCampaign(
       draft.experienceHeadline || DEFAULT_EXPERIENCE_HEADLINE,
     inclusionsHeadline:
       draft.inclusionsHeadline || DEFAULT_INCLUSIONS_HEADLINE,
+    vibeEyebrow: draft.vibeEyebrow || DEFAULT_VIBE_EYEBROW,
     vibeHeadline: draft.vibeHeadline || DEFAULT_VIBE_HEADLINE,
     vibeContent: sanitizePreviewRichText(
       draft.vibeContent || DEFAULT_VIBE_CONTENT

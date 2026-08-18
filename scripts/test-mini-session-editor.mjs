@@ -8,6 +8,7 @@ import {
   DEFAULT_FAQ_INTRO,
   DEFAULT_BOOKING_EYEBROW,
   DEFAULT_BOOKING_HEADLINE,
+  DEFAULT_VIBE_EYEBROW,
   CAL_AVAILABILITY_NOTE,
   DEFAULT_LOCATION_SUMMARY,
   MINI_SESSIONS_CAL_URL,
@@ -26,6 +27,7 @@ test("new drafts include the agreed booking and balance defaults", () => {
   assert.equal(draft.faqIntro, DEFAULT_FAQ_INTRO);
   assert.equal(draft.bookingEyebrow, DEFAULT_BOOKING_EYEBROW);
   assert.equal(draft.bookingHeadline, DEFAULT_BOOKING_HEADLINE);
+  assert.equal(draft.vibeEyebrow, DEFAULT_VIBE_EYEBROW);
   assert.equal(draft.bookingOptions[0]?.calBookingUrl, MINI_SESSIONS_CAL_URL);
   assert.equal(draft.durationMinutes, "20");
   assert.equal(draft.totalPrice, "225.00");
@@ -50,6 +52,7 @@ test("hidden fields are derived while the hero label stays campaign controlled",
   assert.equal(result.input?.faqIntro, DEFAULT_FAQ_INTRO);
   assert.equal(result.input?.bookingEyebrow, DEFAULT_BOOKING_EYEBROW);
   assert.equal(result.input?.bookingHeadline, DEFAULT_BOOKING_HEADLINE);
+  assert.equal(result.input?.vibeEyebrow, DEFAULT_VIBE_EYEBROW);
   assert.equal(result.input?.metaTitle, draft.headline);
   assert.equal(result.input?.metaDescription, draft.summary);
   assert.equal(result.input?.durationMinutes, 20);
@@ -95,6 +98,15 @@ test("saving requires both booking section labels", () => {
   const result = validateCampaignDraft(draft);
   assert.equal(result.input, null);
   assert.equal(result.errors.bookingHeadline, "Add the booking section heading.");
+});
+
+test("saving requires the small Vibe section label", () => {
+  const draft = createEmptyCampaignDraft();
+  draft.headline = "Autumn Keepsake Sessions";
+  draft.vibeEyebrow = "   ";
+  const result = validateCampaignDraft(draft);
+  assert.equal(result.input, null);
+  assert.equal(result.errors.vibeEyebrow, "Add the small label above the Vibe section.");
 });
 
 test("campaign names use a stable URL-friendly value", () => {
