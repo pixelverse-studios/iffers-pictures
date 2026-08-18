@@ -15,7 +15,7 @@ export type StatusFilter = "all" | MediaStatus;
 export type LibraryFilter = "all" | MediaLibrary;
 export type SortMode = "newest" | "oldest" | "sortOrder" | "filename";
 export type UploadStatus = "queued" | "uploading" | "created" | "error";
-export type AdminMediaViewMode = "library" | "placements";
+export type AdminMediaViewMode = "library" | "placements" | "campaigns";
 export type PlacementPageFilter = "all" | string;
 export type MediaMutationOperation =
   | "save"

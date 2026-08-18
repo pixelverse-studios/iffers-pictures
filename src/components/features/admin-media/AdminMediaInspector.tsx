@@ -39,6 +39,7 @@ interface AdminMediaInspectorProps {
   isMoving: boolean;
   mediaMutationOperation: MediaMutationOperation | null;
   isBatchArchiving: boolean;
+  isReorderingSelection: boolean;
   item: AdminMediaItem | null;
   moveDestinationAvailable: boolean | null;
   moveKey: string;
@@ -53,10 +54,10 @@ interface AdminMediaInspectorProps {
   onCheckStatus: () => void;
   onClose: () => void;
   onClearArchiveSelection: () => void;
-  onEditSelectedItem: (id: number) => void;
   onMove: () => void;
   onMoveKeyChange: (value: string) => void;
   onRemoveArchiveSelectionItem: (id: number) => void;
+  onReorderSelectedItems: (orderedIds: number[]) => void;
   onRestore: () => void;
   onSave: () => void;
   onUpdateEditor: <Key extends keyof EditorState>(
@@ -73,6 +74,7 @@ export function AdminMediaInspector({
   isMoving,
   mediaMutationOperation,
   isBatchArchiving,
+  isReorderingSelection,
   item,
   moveDestinationAvailable,
   moveKey,
@@ -87,10 +89,10 @@ export function AdminMediaInspector({
   onCheckStatus,
   onClose,
   onClearArchiveSelection,
-  onEditSelectedItem,
   onMove,
   onMoveKeyChange,
   onRemoveArchiveSelectionItem,
+  onReorderSelectedItems,
   onRestore,
   onSave,
   onUpdateEditor,
@@ -108,14 +110,16 @@ export function AdminMediaInspector({
       <aside className={batchTrayClass}>
         <div className={batchTrayInnerClass}>
           <AdminMediaBulkArchiveBar
+            key={selectedBatchItems.map((item) => item.id).join("-")}
             feedback={batchArchiveFeedback}
             isArchiving={isBatchArchiving}
+            isReordering={isReorderingSelection}
             maxSelection={50}
             selectedItems={selectedBatchItems}
             onArchiveSelected={onArchiveSelected}
             onClearSelection={onClearArchiveSelection}
-            onEditSelectedItem={onEditSelectedItem}
             onRemoveItem={onRemoveArchiveSelectionItem}
+            onReorderSelected={onReorderSelectedItems}
           />
         </div>
       </aside>

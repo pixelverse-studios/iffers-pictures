@@ -7,6 +7,7 @@ import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
 import { Providers } from "@/components/providers/Providers";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { getActiveMiniSessionCampaign } from "@/lib/mini-sessions/server";
 
 const josefinSlab = Josefin_Slab({
   variable: "--font-josefin-slab",
@@ -84,11 +85,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const campaign = await getActiveMiniSessionCampaign();
+  const miniSessionsCampaign = campaign
+    ? { id: campaign.id, status: campaign.status }
+    : null;
+
   return (
     <html
       {...mantineHtmlProps}
@@ -104,7 +110,9 @@ export default function RootLayout({
       >
         <GoogleAnalytics />
         <Providers>
-          <SiteChrome>{children}</SiteChrome>
+          <SiteChrome miniSessionsCampaign={miniSessionsCampaign}>
+            {children}
+          </SiteChrome>
         </Providers>
       </body>
     </html>

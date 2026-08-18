@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, LogOut, X } from "lucide-react";
+import { CalendarDays, Images, LogOut, PanelsTopLeft, X } from "lucide-react";
 import {
   MEDIA_SERVICES,
   MEDIA_SUB_CATEGORIES,
@@ -32,14 +32,41 @@ interface AdminMediaSidebarProps {
   subCategoryFilter: "all" | MediaSubCategory;
   viewMode: AdminMediaViewMode;
   onCloseMobile?: () => void;
+  onBeforeLeave: () => boolean;
   onLogout: () => void;
   onLibraryFilterChange: (value: LibraryFilter) => void;
   onPlacementPageFilterChange: (value: PlacementPageFilter) => void;
   onServiceFilterChange: (value: "all" | MediaService) => void;
   onStatusFilterChange: (value: StatusFilter) => void;
   onSubCategoryFilterChange: (value: "all" | MediaSubCategory) => void;
-  onViewModeChange: (value: AdminMediaViewMode) => void;
+  onViewModeChange: (value: AdminMediaViewMode) => boolean;
 }
+
+const ADMIN_WORKSPACES = [
+  {
+    mode: "library",
+    label: "Library",
+    accessibleLabel: "Image Library",
+    icon: Images,
+  },
+  {
+    mode: "placements",
+    label: "Pages",
+    accessibleLabel: "Page Images",
+    icon: PanelsTopLeft,
+  },
+  {
+    mode: "campaigns",
+    label: "Minis",
+    accessibleLabel: "Mini Sessions",
+    icon: CalendarDays,
+  },
+] satisfies ReadonlyArray<{
+  mode: AdminMediaViewMode;
+  label: string;
+  accessibleLabel: string;
+  icon: typeof Images;
+}>;
 
 export function AdminMediaSidebar({
   isMobileOpen = false,
@@ -51,6 +78,7 @@ export function AdminMediaSidebar({
   statusFilter,
   subCategoryFilter,
   viewMode,
+  onBeforeLeave,
   onCloseMobile,
   onLogout,
   onLibraryFilterChange,
@@ -96,7 +124,7 @@ export function AdminMediaSidebar({
   }, []);
 
   function handleAllMediaClick() {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange("all");
     onServiceFilterChange("all");
     onSubCategoryFilterChange("all");
@@ -104,7 +132,7 @@ export function AdminMediaSidebar({
   }
 
   function handleLibraryClick(library: MediaLibrary) {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange(library);
     onServiceFilterChange("all");
     onSubCategoryFilterChange("all");
@@ -112,7 +140,7 @@ export function AdminMediaSidebar({
   }
 
   function handleServiceClick(service: MediaService) {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange("portfolio");
     onServiceFilterChange(service);
     onSubCategoryFilterChange("all");
@@ -123,7 +151,7 @@ export function AdminMediaSidebar({
     service: MediaService,
     subCategory: MediaSubCategory,
   ) {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onLibraryFilterChange("portfolio");
     onServiceFilterChange(service);
     onSubCategoryFilterChange(subCategory);
@@ -131,41 +159,39 @@ export function AdminMediaSidebar({
   }
 
   function handleArchiveClick() {
-    onViewModeChange("library");
+    if (!onViewModeChange("library")) return;
     onStatusFilterChange("archived");
     requestMobileClose();
   }
 
   function handleViewModeClick(mode: AdminMediaViewMode) {
-    if (mode === viewMode) return;
+    if (mode === viewMode) return true;
 
-    onViewModeChange(mode);
+    if (!onViewModeChange(mode)) return false;
     if (mode === "placements") {
       onPlacementPageFilterChange("all");
     }
+    return true;
   }
 
   function handlePlacementPageClick(page: PlacementPageFilter) {
-    onViewModeChange("placements");
+    if (!onViewModeChange("placements")) return;
     onPlacementPageFilterChange(page);
     requestMobileClose();
   }
 
   function handleLogoutClick() {
+    if (!onBeforeLeave()) return;
     onLogout();
     requestMobileClose();
   }
 
   function renderSidebarContent(isDrawer = false) {
     const navClassName = isDrawer
-      ? "space-y-5 px-5 pb-5"
-      : "min-h-0 flex-1 space-y-5 overflow-y-auto px-5 pb-4";
+      ? "min-h-0 flex-1 overflow-y-auto px-5 pb-5"
+      : "min-h-0 flex-1 overflow-y-auto px-5 pb-4";
     const parentButtonClassName =
       "group/nav-item grid min-h-9 w-full grid-cols-[0.625rem_minmax(0,1fr)] items-center gap-3 rounded-sm px-3 text-left text-sm font-semibold transition active:translate-y-[1px]";
-    const sectionHeaderClassName =
-      "group block w-full rounded-sm px-3 pt-2 text-left transition active:translate-y-[1px]";
-    const sectionTitleClassName =
-      "flex min-h-9 items-center justify-between gap-3 text-[13px] font-bold uppercase tracking-[0.14em]";
     const childListClassName =
       "relative ml-4 mt-1 space-y-1 border-l border-[var(--border)] pl-4";
     const childButtonClassName =
@@ -173,10 +199,10 @@ export function AdminMediaSidebar({
     const groupLabelClassName =
       "px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--text-muted)]";
     const sectionPanelMotion = {
-      animate: { height: "auto", opacity: 1, y: 0 },
-      exit: { height: 0, opacity: 0.72, y: -1 },
-      initial: { height: 0, opacity: 0.72, y: -1 },
-      transition: { duration: 0.34, ease: "easeInOut" as const },
+      animate: { opacity: 1, x: 0 },
+      exit: { opacity: 0, x: -4 },
+      initial: { opacity: 0, x: 4 },
+      transition: { duration: 0.18, ease: "easeOut" as const },
     };
 
     return (
@@ -187,6 +213,9 @@ export function AdminMediaSidebar({
               href="/"
               className="block w-fit"
               aria-label="Iffer's Pictures home"
+              onClick={(event) => {
+                if (!onBeforeLeave()) event.preventDefault();
+              }}
             >
               <Image
                 src="/logo-black.png"
@@ -200,36 +229,58 @@ export function AdminMediaSidebar({
           </div>
         )}
 
-        <nav className={navClassName}>
-          <section>
-            <button
-              type="button"
-              onClick={() => handleViewModeClick("library")}
-              className={`${sectionHeaderClassName} ${
-                viewMode === "library"
-                  ? "text-[var(--brand-strong)]"
-                  : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
-              }`}
-              aria-expanded={viewMode === "library"}
-            >
-              <span className={sectionTitleClassName}>
-                <span>Image library</span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    viewMode === "library" ? "rotate-180" : ""
+        <nav
+          className={`mx-4 grid shrink-0 grid-cols-3 gap-1 rounded-md bg-[var(--background-warm)] p-1 ${
+            isDrawer ? "mt-4" : ""
+          }`}
+          aria-label="Admin sections"
+        >
+          {ADMIN_WORKSPACES.map((workspace) => {
+            const Icon = workspace.icon;
+            const isActive = viewMode === workspace.mode;
+
+            return (
+              <button
+                key={workspace.mode}
+                type="button"
+                onClick={() => {
+                  const didChangeWorkspace = handleViewModeClick(workspace.mode);
+                  if (didChangeWorkspace && workspace.mode === "campaigns") {
+                    requestMobileClose();
+                  }
+                }}
+                className={`group flex min-h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-sm border px-1 py-2 text-[11px] font-bold transition duration-200 active:translate-y-[1px] ${
+                  isActive
+                    ? "border-[var(--border)] bg-white text-[var(--brand-strong)] shadow-[0_1px_2px_rgba(46,67,88,0.08)]"
+                    : "border-transparent text-[var(--text-secondary)] hover:bg-white/70 hover:text-[var(--foreground)]"
+                }`}
+                aria-label={`Open ${workspace.accessibleLabel}`}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <Icon
+                  className={`h-[18px] w-[18px] transition-transform duration-200 group-active:scale-95 ${
+                    isActive ? "text-[var(--brand-strong)]" : "text-[var(--text-muted)]"
                   }`}
                   aria-hidden
                 />
-              </span>
-              <span
-                className={`mt-2 block h-px w-full transition-colors ${
-                  viewMode === "library"
-                    ? "bg-[var(--brand-strong)]"
-                    : "bg-[var(--border)] group-hover:bg-[var(--text-muted)]"
-                }`}
-              />
-            </button>
+                <span className="truncate">{workspace.label}</span>
+              </button>
+            );
+          })}
+        </nav>
 
+        <div className="shrink-0 px-5 pb-3 pt-4">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[var(--text-muted)]">
+            {viewMode === "library"
+              ? "Browse library"
+              : viewMode === "placements"
+                ? "Choose a page"
+                : "Seasonal campaigns"}
+          </p>
+        </div>
+
+        <nav className={navClassName}>
+          <section>
             <AnimatePresence initial={false}>
               {viewMode === "library" && (
                 <motion.div
@@ -428,34 +479,6 @@ export function AdminMediaSidebar({
           </section>
 
           <section>
-            <button
-              type="button"
-              onClick={() => handleViewModeClick("placements")}
-              className={`${sectionHeaderClassName} ${
-                viewMode === "placements"
-                  ? "text-[var(--brand-strong)]"
-                  : "text-[var(--text-secondary)] hover:text-[var(--foreground)]"
-              }`}
-              aria-expanded={viewMode === "placements"}
-            >
-              <span className={sectionTitleClassName}>
-                <span>Page images</span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    viewMode === "placements" ? "rotate-180" : ""
-                  }`}
-                  aria-hidden
-                />
-              </span>
-              <span
-                className={`mt-2 block h-px w-full transition-colors ${
-                  viewMode === "placements"
-                    ? "bg-[var(--brand-strong)]"
-                    : "bg-[var(--border)] group-hover:bg-[var(--text-muted)]"
-                }`}
-              />
-            </button>
-
             <AnimatePresence initial={false}>
               {viewMode === "placements" && (
                 <motion.div
@@ -562,7 +585,7 @@ export function AdminMediaSidebar({
             onClick={requestMobileClose}
           />
           <aside
-            className={`absolute bottom-0 left-0 top-0 w-[min(22rem,88vw)] overflow-y-auto border-r border-[var(--border)] bg-white shadow-xl transition-transform duration-200 ease-out motion-safe:animate-[admin-drawer-in_200ms_ease-out] ${
+            className={`absolute bottom-0 left-0 top-0 flex w-[min(22rem,88vw)] flex-col overflow-hidden border-r border-[var(--border)] bg-white shadow-xl transition-transform duration-200 ease-out motion-safe:animate-[admin-drawer-in_200ms_ease-out] ${
               isDrawerClosing ? "-translate-x-full" : "translate-x-0"
             }`}
           >
