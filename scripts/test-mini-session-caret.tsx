@@ -1,0 +1,246 @@
+import assert from "node:assert/strict";
+import test, { afterEach } from "node:test";
+import { JSDOM } from "jsdom";
+import type { CampaignEditorState } from "../src/components/features/admin-mini-sessions/types";
+
+const dom = new JSDOM("<!doctype html><html><body></body></html>", {
+  url: "http://localhost/admin/media",
+});
+
+Object.defineProperties(globalThis, {
+  window: { value: dom.window },
+  document: { value: dom.window.document },
+  navigator: { value: dom.window.navigator },
+  HTMLElement: { value: dom.window.HTMLElement },
+  HTMLInputElement: { value: dom.window.HTMLInputElement },
+  HTMLTextAreaElement: { value: dom.window.HTMLTextAreaElement },
+  Node: { value: dom.window.Node },
+  MutationObserver: { value: dom.window.MutationObserver },
+  getComputedStyle: { value: dom.window.getComputedStyle.bind(dom.window) },
+  IS_REACT_ACT_ENVIRONMENT: { value: true, writable: true },
+});
+
+globalThis.requestAnimationFrame = (callback) =>
+  setTimeout(() => callback(performance.now()), 0) as unknown as number;
+globalThis.cancelAnimationFrame = (handle) => clearTimeout(handle);
+
+type UserEventInstance = ReturnType<
+  (typeof import("@testing-library/user-event"))["default"]["setup"]
+>;
+
+let cleanupAfterTest: () => void = () => undefined;
+
+afterEach(() => cleanupAfterTest());
+
+async function renderEditor() {
+  const [React, testingLibrary, userEventModule, editorModule, utilsModule] =
+    await Promise.all([
+      import("react"),
+      import("@testing-library/react"),
+      import("@testing-library/user-event"),
+      import("../src/components/features/admin-mini-sessions/CampaignEditor"),
+      import("../src/components/features/admin-mini-sessions/utils"),
+    ]);
+  const { useState } = React;
+  const { CampaignEditor } = editorModule;
+  cleanupAfterTest = testingLibrary.cleanup;
+
+  function createEditorState(): CampaignEditorState {
+    const draft = utilsModule.createEmptyCampaignDraft();
+    return {
+      campaignId: "campaign-1",
+      sourceStatus: "draft",
+      sourceUpdatedAt: "2026-08-18T20:00:00.000Z",
+      draft: {
+        ...draft,
+        headline: "Fall Mini Session",
+        summary: "Short summary",
+        description: "<p>Experience copy</p>",
+        vibeContent: "<p>Vibe copy</p>",
+        faqs: [
+          {
+            id: "faq-1",
+            question: "First question",
+            answerHtml: "<p>First answer</p>",
+            sortOrder: 0,
+          },
+          {
+            id: "faq-2",
+            question: "Second question",
+            answerHtml: "<p>Second answer</p>",
+            sortOrder: 1,
+          },
+        ],
+      },
+    };
+  }
+
+  function EditorHarness() {
+    const [editor, setEditor] = useState(createEditorState);
+    return (
+      <CampaignEditor
+        editor={editor}
+        errors={{}}
+        isDirty
+        isLifecycleMutating={false}
+        isSaving={false}
+        lifecycleError=""
+        lifecycleMessage=""
+        lifecycleWarning=""
+        message=""
+        publishedMedia={[]}
+        requestError=""
+        stale={null}
+        readiness={[]}
+        onChange={(update) => setEditor((current) => update(current))}
+        onLifecycleAction={async () => false}
+        onLoadLatest={() => undefined}
+        onSave={() => undefined}
+      />
+    );
+  }
+
+  testingLibrary.render(<EditorHarness />);
+  return {
+    fireEvent: testingLibrary.fireEvent,
+    screen: testingLibrary.screen,
+    user: userEventModule.default.setup({ document }),
+  };
+}
+
+async function typeInTextControl(
+  user: UserEventInstance,
+  control: HTMLInputElement | HTMLTextAreaElement,
+  offset: number,
+  text: string
+) {
+  control.focus();
+  control.setSelectionRange(offset, offset);
+  await user.type(control, text, { skipClick: true });
+}
+
+function setContentEditableCaret(editor: HTMLElement, offset: number) {
+  const textNode = editor.querySelector("p")?.firstChild;
+  assert.ok(textNode, "expected rich-text content to contain a text node");
+  const selection = window.getSelection();
+  const range = document.createRange();
+  range.setStart(textNode, offset);
+  range.collapse(true);
+  selection?.removeAllRanges();
+  selection?.addRange(range);
+}
+
+async function typeInRichText(
+  user: UserEventInstance,
+  editor: HTMLElement,
+  offset: number,
+  text: string
+) {
+  editor.focus();
+  setContentEditableCaret(editor, offset);
+  await user.type(editor, text, { skipClick: true });
+}
+
+test("standard inputs and textareas preserve a middle caret during campaign rerenders", async () => {
+  const { screen, user } = await renderEditor();
+  const headline = screen.getByLabelText(/^Headline/) as HTMLInputElement;
+  const summary = screen.getByLabelText(/^Short summary/) as HTMLTextAreaElement;
+
+  await typeInTextControl(user, headline, 4, "XYZ");
+  assert.equal(headline.value, "FallXYZ Mini Session");
+  assert.equal(headline.selectionStart, 7);
+
+  await typeInTextControl(user, summary, 5, "XYZ");
+  assert.equal(summary.value, "ShortXYZ summary");
+  assert.equal(summary.selectionStart, 8);
+});
+
+test("FAQ questions update by persistent ID without remounting sibling rows", async () => {
+  const { screen, user } = await renderEditor();
+  const questions = screen.getAllByLabelText("Question") as HTMLInputElement[];
+  const untouchedQuestion = questions[1];
+
+  await typeInTextControl(user, questions[0], questions[0].value.length, " XYZ");
+  const updatedQuestions = screen.getAllByLabelText("Question") as HTMLInputElement[];
+
+  assert.equal(updatedQuestions[0].value, "First question XYZ");
+  assert.equal(updatedQuestions[0].selectionStart, "First question XYZ".length);
+  assert.equal(updatedQuestions[1], untouchedQuestion);
+  assert.equal(updatedQuestions[1].value, "Second question");
+});
+
+test("Experience, Vibe, and FAQ rich text preserve middle and end carets", async () => {
+  const { screen, user } = await renderEditor();
+  const experience = screen.getByLabelText("Experience");
+  const vibe = screen.getByLabelText("Vibe content");
+  const answer = screen.getAllByLabelText("Answer")[0];
+
+  await typeInRichText(user, experience, 4, "XYZ");
+  assert.equal(experience.textContent, "ExpeXYZrience copy");
+  assert.equal(window.getSelection()?.anchorOffset, 7);
+
+  await typeInRichText(user, vibe, "Vibe copy".length, " XYZ");
+  assert.equal(vibe.textContent, "Vibe copy XYZ");
+  assert.equal(window.getSelection()?.anchorOffset, "Vibe copy XYZ".length);
+
+  await typeInRichText(user, answer, 5, "XYZ");
+  assert.equal(answer.textContent, "FirstXYZ answer");
+  assert.equal(window.getSelection()?.anchorOffset, 8);
+});
+
+test("rich-text formatting controls keep the active selection in the editor", async () => {
+  const { screen, user } = await renderEditor();
+  const experience = screen.getByLabelText("Experience");
+  const originalNode = experience.querySelector("p")?.firstChild;
+  assert.ok(originalNode);
+  const commands: string[] = [];
+  Object.defineProperty(document, "execCommand", {
+    configurable: true,
+    value: (command: string) => {
+      commands.push(command);
+      return true;
+    },
+  });
+
+  experience.focus();
+  setContentEditableCaret(experience, 4);
+  for (const label of [
+    "Bold",
+    "Italic",
+    "Underline",
+    "Bulleted list",
+    "Numbered list",
+  ]) {
+    await user.click(screen.getAllByLabelText(label)[0]);
+    assert.equal(document.activeElement, experience);
+    assert.equal(window.getSelection()?.anchorNode, originalNode);
+    assert.equal(window.getSelection()?.anchorOffset, 4);
+  }
+
+  assert.deepEqual(commands, [
+    "bold",
+    "italic",
+    "underline",
+    "insertUnorderedList",
+    "insertOrderedList",
+  ]);
+});
+
+test("rich-text composition updates do not replace the active editable DOM", async () => {
+  const { fireEvent, screen, user } = await renderEditor();
+  const experience = screen.getByLabelText("Experience");
+  const originalNode = experience.querySelector("p")?.firstChild;
+  assert.ok(originalNode);
+
+  experience.focus();
+  setContentEditableCaret(experience, 4);
+  fireEvent.compositionStart(experience);
+  await user.type(experience, "語", {
+    skipClick: true,
+  });
+  fireEvent.compositionEnd(experience);
+
+  assert.equal(experience.querySelector("p")?.firstChild, originalNode);
+  assert.equal(experience.textContent, "Expe語rience copy");
+  assert.equal(document.activeElement, experience);
+});

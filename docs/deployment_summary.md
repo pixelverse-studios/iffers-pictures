@@ -58,6 +58,7 @@
 - Portfolio position edits now immediately refresh every shifted image, so the dashboard always shows the saved sequence.
 - Added Weddings under Events throughout the media dashboard and public portfolio so Jen can upload, edit, filter, and publish wedding photography in its own category.
 - Updated every session page with its approved starting investment and a clearer Let’s Plan It! action, including the corrected $550 Event Sessions starting price.
+- Fixed cursor jumps throughout the Mini Sessions editor so regular fields, FAQ questions, and formatted Experience, Vibe, and FAQ content keep the cursor where Jen is typing.
 
 ## Notes for internal team
 
@@ -102,6 +103,7 @@
 - Media ordering now saves through one authenticated, atomic server operation and normalizes published portfolio positions.
 - DEV-1114: Added the shared `Events → Weddings` taxonomy, stable `events/weddings` upload path, server validation, and database constraints.
 - DEV-1115: Replaced generic service-page Investment copy with the approved per-session pricing matrix while preserving contact destinations, FAQs, and bottom CTAs.
+- DEV-1117: Stopped controlled rich-text updates from replacing the active editor DOM, added composition-safe synchronization, and changed FAQ edits and reordering to use persistent IDs with functional state updates.
 
 ## Changed URLs
 
