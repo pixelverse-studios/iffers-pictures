@@ -55,7 +55,7 @@
 - Prevented unsaved image edits from being lost when switching between Library, Page Images, and Mini Sessions.
 - Portfolio position edits now immediately refresh every shifted image, so the dashboard always shows the saved sequence.
 - Added Weddings under Events throughout the media dashboard and public portfolio so Jen can upload, edit, filter, and publish wedding photography in its own category.
-- Updated every session page with its approved starting investment and a clearer Start Planning action, including the corrected $550 Event Sessions starting price.
+- Updated every session page with its approved starting investment and a clearer Let’s Plan It! action, including the corrected $550 Event Sessions starting price.
 
 ## Notes for internal team
 

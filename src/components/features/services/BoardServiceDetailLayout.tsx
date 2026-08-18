@@ -396,7 +396,7 @@ export function BoardServiceDetailLayout({
           <TrackedLink
             href={`/contact?session=${serviceData.slug}`}
             tracking={{
-              cta_label: "Start Planning",
+              cta_label: "Let's Plan It!",
               cta_location: "service_pricing",
               destination: `/contact?session=${serviceData.slug}`,
               service: serviceData.slug,
@@ -404,7 +404,7 @@ export function BoardServiceDetailLayout({
             className="motion-action reveal-tile-copy mt-8 inline-flex min-h-11 items-center justify-center rounded-sm bg-[var(--brand-strong)] px-6 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors duration-200 hover:bg-[var(--brand)]"
             style={revealStyle(270)}
           >
-            Start Planning
+            Let&apos;s Plan It!
           </TrackedLink>
         </div>
       </section>
