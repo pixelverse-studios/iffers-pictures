@@ -106,7 +106,7 @@ export const familyData: ServicePageData = {
   pricing: {
     eyebrow: "Investment",
     title: "Family Photography",
-    description: "Sessions designed for families of all sizes — reach out and I'll put together a package that fits",
+    description: "Sessions designed for families of all sizes — collections beginning at $350.",
   },
 
   // FAQ Section

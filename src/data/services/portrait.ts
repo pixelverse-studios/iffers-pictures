@@ -89,7 +89,7 @@ export const portraitData: ServicePageData = {
   pricing: {
     eyebrow: "Investment",
     title: "Portrait Sessions",
-    description: "Options for every professional need — reach out and I'll put together a session that fits",
+    description: "Options for every professional need — collections beginning at $250.",
   },
 
   // FAQ Section

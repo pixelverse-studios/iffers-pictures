@@ -61,7 +61,7 @@ export const WHATS_INCLUDED: IncludedItem[] = [
 ];
 
 export const STARTING_INVESTMENTS: StartingInvestment[] = [
-  { name: "Event Sessions", price: "beginning at $600" },
+  { name: "Event Sessions", price: "beginning at $550" },
   { name: "Family Sessions", price: "beginning at $350" },
   { name: "Maternity Sessions", price: "beginning at $350" },
   { name: "Couples & Engagement", price: "beginning at $400" },

@@ -111,7 +111,7 @@ export const couplesEngagementData: ServicePageData = {
   pricing: {
     eyebrow: "Investment",
     title: "Couples & Engagement Sessions",
-    description: "Every session is tailored to your vision — reach out and I'll put together a package that fits",
+    description: "Every session is tailored to your vision — collections beginning at $400.",
   },
 
   // FAQ Section
