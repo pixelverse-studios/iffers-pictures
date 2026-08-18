@@ -22,6 +22,7 @@ export const DEFAULT_BALANCE_DUE_TEXT =
   "Final payment is due 48 hours prior to event";
 export const DEFAULT_EXPERIENCE_HEADLINE =
   "A small session with room for real connection.";
+export const DEFAULT_INCLUSIONS_HEADLINE = "Everything you need.";
 export const DEFAULT_VIBE_HEADLINE = "Relax and Enjoy the Moment";
 export const DEFAULT_VIBE_CONTENT =
   "<p>There is zero pressure for your kids (or adults!) to act perfectly. Real laughter, cozy hugs, and playful moments always make for the best photos. My goal is to capture your family naturally, not force stiff poses.</p><p>Feel free to bring a favorite small toy, comfort item, or non-messy snack to help keep little ones happy. I will gently guide you through a mix of easy prompts and candid moments so you never have to worry about how to stand or what to do with your hands. Even in just 15 to 20 minutes, we'll capture a full gallery of genuine, heartwarming memories.</p>";
@@ -62,6 +63,7 @@ export function createEmptyCampaignDraft(): CampaignDraft {
     summary: "",
     description: "",
     experienceHeadline: DEFAULT_EXPERIENCE_HEADLINE,
+    inclusionsHeadline: DEFAULT_INCLUSIONS_HEADLINE,
     vibeHeadline: DEFAULT_VIBE_HEADLINE,
     vibeContent: DEFAULT_VIBE_CONTENT,
     durationMinutes: "20",
@@ -99,6 +101,8 @@ export function campaignToDraft(campaign: MiniSessionAdminCampaign): CampaignDra
     summary: campaign.summary,
     description: campaign.description,
     experienceHeadline: campaign.experienceHeadline,
+    inclusionsHeadline:
+      campaign.inclusionsHeadline || DEFAULT_INCLUSIONS_HEADLINE,
     vibeHeadline: campaign.vibeHeadline,
     vibeContent: campaign.vibeContent,
     durationMinutes: String(campaign.durationMinutes),
@@ -161,9 +165,16 @@ export function validateCampaignDraft(
   const totalPriceCents = currencyToCents(draft.totalPrice);
   const depositCents = currencyToCents(draft.deposit);
   const headline = draft.headline.trim();
+  const inclusionsHeadline = draft.inclusionsHeadline.trim();
   const bookingOption = draft.bookingOptions[0] ?? createEmptyBookingOption(0);
 
   if (!headline) errors.headline = "Add a headline for this Mini Session.";
+  if (!inclusionsHeadline) {
+    errors.inclusionsHeadline = "Add a heading for what clients receive.";
+  }
+  if (inclusionsHeadline.length > 200) {
+    errors.inclusionsHeadline = "Keep this heading to 200 characters or fewer.";
+  }
   if (totalPriceCents === null) errors.totalPrice = "Use dollars and up to two decimals.";
   if (depositCents === null) errors.deposit = "Use dollars and up to two decimals.";
   if (
@@ -223,6 +234,7 @@ export function validateCampaignDraft(
     internalName: slugifyCampaignName(headline),
     publicLabel: draft.publicLabel.trim() || "Mini Sessions",
     headline,
+    inclusionsHeadline,
     ctaLabel: "Choose your time",
     dateSummary: CAL_AVAILABILITY_NOTE,
     durationMinutes: 20,
@@ -306,8 +318,10 @@ export function getPublishReadiness(
     {
       key: "inclusions",
       label: "What's included",
-      ready: draft.inclusions.some((item) => item.trim().length > 0),
-      blocker: "Add at least one client-facing inclusion.",
+      ready:
+        draft.inclusionsHeadline.trim().length > 0 &&
+        draft.inclusions.some((item) => item.trim().length > 0),
+      blocker: "Add the section heading and at least one client-facing inclusion.",
       targetId: "mini-session-inclusions",
     },
     {
@@ -349,6 +363,8 @@ export function draftToPreviewCampaign(
     ),
     experienceHeadline:
       draft.experienceHeadline || DEFAULT_EXPERIENCE_HEADLINE,
+    inclusionsHeadline:
+      draft.inclusionsHeadline || DEFAULT_INCLUSIONS_HEADLINE,
     vibeHeadline: draft.vibeHeadline || DEFAULT_VIBE_HEADLINE,
     vibeContent: sanitizePreviewRichText(
       draft.vibeContent || DEFAULT_VIBE_CONTENT

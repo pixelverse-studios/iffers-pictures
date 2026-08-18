@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   DEFAULT_BALANCE_DUE_TEXT,
+  DEFAULT_INCLUSIONS_HEADLINE,
   CAL_AVAILABILITY_NOTE,
   DEFAULT_LOCATION_SUMMARY,
   MINI_SESSIONS_CAL_URL,
@@ -14,6 +15,7 @@ import { reconcileCampaignsAfterLifecycle } from "../src/components/features/adm
 test("new drafts include the agreed booking and balance defaults", () => {
   const draft = createEmptyCampaignDraft();
   assert.equal(draft.balanceDueText, DEFAULT_BALANCE_DUE_TEXT);
+  assert.equal(draft.inclusionsHeadline, DEFAULT_INCLUSIONS_HEADLINE);
   assert.equal(draft.bookingOptions[0]?.calBookingUrl, MINI_SESSIONS_CAL_URL);
   assert.equal(draft.durationMinutes, "20");
   assert.equal(draft.totalPrice, "225.00");
@@ -32,6 +34,7 @@ test("hidden fields are derived while the hero label stays campaign controlled",
   assert.deepEqual(result.errors, {});
   assert.equal(result.input?.internalName, "autumn-keepsake-sessions-2026");
   assert.equal(result.input?.publicLabel, "Mini Sessions");
+  assert.equal(result.input?.inclusionsHeadline, DEFAULT_INCLUSIONS_HEADLINE);
   assert.equal(result.input?.metaTitle, draft.headline);
   assert.equal(result.input?.metaDescription, draft.summary);
   assert.equal(result.input?.durationMinutes, 20);
@@ -48,6 +51,17 @@ test("saving requires the visible headline and a Cal.com link", () => {
   assert.equal(result.input, null);
   assert.equal(result.errors.headline, "Add a headline for this Mini Session.");
   assert.equal(result.errors.bookingUrl, "Use an HTTPS booking link from cal.com.");
+});
+
+test("saving requires a client-facing inclusions heading", () => {
+  const draft = createEmptyCampaignDraft();
+  draft.inclusionsHeadline = "   ";
+  const result = validateCampaignDraft(draft);
+  assert.equal(result.input, null);
+  assert.equal(
+    result.errors.inclusionsHeadline,
+    "Add a heading for what clients receive."
+  );
 });
 
 test("campaign names use a stable URL-friendly value", () => {
