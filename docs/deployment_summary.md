@@ -57,6 +57,8 @@
 
 ## Notes for internal team
 
+- Pre-merge environment audit: removed the obsolete `AUTUMN_KEEPSAKE_CAMPAIGN_ID` setup from the active runbook; Mini Sessions FAQs are campaign-managed, and production revalidation uses the shared server `SITE_REVALIDATION_SECRET` / website `MEDIA_REVALIDATION_SECRET` value.
+
 - DEV-1083 lifecycle follow-up: reconcile mutually exclusive public statuses locally and refetch the authoritative campaign list after publish; the existing database partial unique index remains the final invariant.
 
 - DEV-1083 feedback follow-up: applied migration `20260813143436` to backfill only legacy campaigns with empty FAQ arrays; added `@dnd-kit` sortable behavior for campaign inclusions.
