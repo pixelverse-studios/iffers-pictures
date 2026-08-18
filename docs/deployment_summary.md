@@ -54,6 +54,7 @@
 - Extended unsaved-change protection to the dashboard home and logout actions.
 - Prevented unsaved image edits from being lost when switching between Library, Page Images, and Mini Sessions.
 - Portfolio position edits now immediately refresh every shifted image, so the dashboard always shows the saved sequence.
+- Added Weddings under Events throughout the media dashboard and public portfolio so Jen can upload, edit, filter, and publish wedding photography in its own category.
 
 ## Notes for internal team
 
@@ -94,6 +95,7 @@
 - Cal.com embed pass: uses supported UI variables for tighter spacing; Cal.com branding remains visible because official white-label removal requires a paid Teams plan.
 - DEV-1083 frontend review fixes: bounded the public campaign request, aligned FAQ payment validation with approved copy, removed redundant duration callouts outside the finalized FAQ, and guarded dashboard exits with unsaved edits.
 - Media ordering now saves through one authenticated, atomic server operation and normalizes published portfolio positions.
+- DEV-1114: Added the shared `Events → Weddings` taxonomy, stable `events/weddings` upload path, server validation, and database constraints.
 
 ## Changed URLs
 

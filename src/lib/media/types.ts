@@ -12,6 +12,7 @@ export const MEDIA_SUB_CATEGORIES = {
   Events: [
     "Baby Shower",
     "Bridal Shower",
+    "Weddings",
     "Gender Reveal",
     "Birthday",
     "Baptism",
