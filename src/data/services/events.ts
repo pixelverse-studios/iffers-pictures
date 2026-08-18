@@ -111,7 +111,7 @@ export const eventsData: ServicePageData = {
   pricing: {
     eyebrow: "Investment",
     title: "Event Photography",
-    description: "Flexible coverage for gatherings of all sizes — reach out and I'll put together a package that fits",
+    description: "Flexible coverage for gatherings of all sizes — collections beginning at $550.",
   },
 
   // FAQ Section

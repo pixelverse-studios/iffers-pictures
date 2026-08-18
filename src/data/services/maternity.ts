@@ -88,7 +88,7 @@ export const maternityData: ServicePageData = {
   pricing: {
     eyebrow: "Investment",
     title: "Maternity Photography",
-    description: "Celebrate this beautiful chapter — reach out and I'll put together a session that fits",
+    description: "Celebrate this beautiful chapter — collections beginning at $350.",
   },
 
   // FAQ Section
