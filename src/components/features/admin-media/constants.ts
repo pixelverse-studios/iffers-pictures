@@ -78,6 +78,9 @@ export function getFolderForCategory(
   if (service === "Events" && subCategory === "Bridal Shower") {
     return "events/bridal-shower";
   }
+  if (service === "Events" && subCategory === "Weddings") {
+    return "events/weddings";
+  }
   if (service === "Events" && subCategory === "Gender Reveal") {
     return "events/milestones/gender-reveal";
   }

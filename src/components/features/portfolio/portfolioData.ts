@@ -26,7 +26,7 @@ export type ServiceFilter = (typeof SERVICES)[number];
 
 // ── Tier 2: Sub-categories per session ──────────────────────────
 export const SUB_CATEGORIES = {
-  "Events": ["Baby Shower", "Bridal Shower", "Gender Reveal", "Birthday", "Baptism"] as const,
+  "Events": ["Baby Shower", "Bridal Shower", "Weddings", "Gender Reveal", "Birthday", "Baptism"] as const,
   "Family": ["Family"] as const,
   "Maternity": ["Maternity"] as const,
   "Couples": ["Engagement", "Proposal"] as const,
