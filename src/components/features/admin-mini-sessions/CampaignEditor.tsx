@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AlertTriangle,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { AdminMediaItem } from "@/lib/media/types";
 import type {
+  CampaignDraft,
   CampaignEditorState,
   CampaignLifecycleAction,
   StaleCampaignState,
@@ -45,7 +46,9 @@ interface CampaignEditorProps {
   requestError: string;
   stale: StaleCampaignState | null;
   readiness: PublishReadinessItem[];
-  onChange: (editor: CampaignEditorState) => void;
+  onChange: (
+    update: (current: CampaignEditorState) => CampaignEditorState
+  ) => void;
   onLifecycleAction: (action: CampaignLifecycleAction) => Promise<boolean>;
   onLoadLatest: () => void;
   onSave: () => void;
@@ -75,23 +78,25 @@ export function CampaignEditor({
   const [pendingAction, setPendingAction] =
     useState<CampaignLifecycleAction | null>(null);
   const previewButtonRef = useRef<HTMLButtonElement>(null);
-  const editorRef = useRef(editor);
-  const onChangeRef = useRef(onChange);
   const { draft } = editor;
   const isArchived = editor.sourceStatus === "archived";
 
-  useEffect(() => {
-    editorRef.current = editor;
-    onChangeRef.current = onChange;
-  }, [editor, onChange]);
-
-  const updateDraft = useCallback((patch: Partial<typeof draft>) => {
-    const currentEditor = editorRef.current;
-    onChangeRef.current({
-      ...currentEditor,
-      draft: { ...currentEditor.draft, ...patch },
-    });
-  }, []);
+  const updateDraft = useCallback(
+    (
+      update:
+        | Partial<CampaignDraft>
+        | ((current: CampaignDraft) => CampaignDraft)
+    ) => {
+      onChange((currentEditor) => ({
+        ...currentEditor,
+        draft:
+          typeof update === "function"
+            ? update(currentEditor.draft)
+            : { ...currentEditor.draft, ...update },
+      }));
+    },
+    [onChange]
+  );
   const selectHeroMedia = useCallback(
     (heroMediaId: number | null) => updateDraft({ heroMediaId }),
     [updateDraft]
@@ -100,30 +105,52 @@ export function CampaignEditor({
   function addInclusion() {
     const value = inclusion.trim();
     if (!value || draft.inclusions.length >= MAX_INCLUSIONS) return;
-    updateDraft({ inclusions: [...draft.inclusions, value] });
+    updateDraft((current) => ({
+      ...current,
+      inclusions:
+        current.inclusions.length >= MAX_INCLUSIONS
+          ? current.inclusions
+          : [...current.inclusions, value],
+    }));
     setInclusion("");
   }
 
-  function updateFaq(index: number, patch: Partial<(typeof draft.faqs)[number]>) {
-    updateDraft({
-      faqs: draft.faqs.map((faq, faqIndex) =>
-        faqIndex === index ? { ...faq, ...patch } : faq
+  function updateFaq(
+    faqId: string,
+    patch: Partial<(typeof draft.faqs)[number]>
+  ) {
+    updateDraft((current) => ({
+      ...current,
+      faqs: current.faqs.map((faq) =>
+        faq.id === faqId ? { ...faq, ...patch } : faq
       ),
+    }));
+  }
+
+  function moveFaq(faqId: string, to: number) {
+    updateDraft((current) => {
+      const from = current.faqs.findIndex((faq) => faq.id === faqId);
+      if (from < 0 || to < 0 || to >= current.faqs.length || from === to) {
+        return current;
+      }
+      const next = [...current.faqs];
+      const [faq] = next.splice(from, 1);
+      next.splice(to, 0, faq);
+      return {
+        ...current,
+        faqs: next.map((item, sortOrder) => ({ ...item, sortOrder })),
+      };
     });
   }
 
-  function moveFaq(from: number, to: number) {
-    if (to < 0 || to >= draft.faqs.length || from === to) return;
-    const next = [...draft.faqs];
-    const [faq] = next.splice(from, 1);
-    next.splice(to, 0, faq);
-    updateDraft({ faqs: next.map((item, sortOrder) => ({ ...item, sortOrder })) });
-  }
-
   function updateBookingUrl(value: string) {
-    const option = draft.bookingOptions[0] ?? createEmptyBookingOption(0);
-    updateDraft({
-      bookingOptions: [{ ...option, calBookingUrl: value }],
+    updateDraft((current) => {
+      const option =
+        current.bookingOptions[0] ?? createEmptyBookingOption(0);
+      return {
+        ...current,
+        bookingOptions: [{ ...option, calBookingUrl: value }],
+      };
     });
   }
 
@@ -348,25 +375,25 @@ export function CampaignEditor({
             <div className="space-y-4">
               {errors.faqs && <p className="text-sm font-bold text-red-700">{errors.faqs}</p>}
               {draft.faqs.map((faq, index) => (
-                <div key={faq.id} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveFaq(Number(event.dataTransfer.getData("text/plain")), index); }} className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4">
+                <div key={faq.id} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveFaq(event.dataTransfer.getData("text/plain"), index); }} className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4">
                   <div className="mb-4 flex items-center gap-3">
-                    <span draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", String(index))} className="cursor-grab touch-none" aria-label={`Drag question ${index + 1} to reorder`} title="Drag to reorder">
+                    <span draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", faq.id)} className="cursor-grab touch-none" aria-label={`Drag question ${index + 1} to reorder`} title="Drag to reorder">
                       <GripVertical className="h-5 w-5 text-[var(--text-muted)]" aria-hidden />
                     </span>
                     <span className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)]">Question {index + 1}</span>
                     <div className="ml-auto flex gap-1">
-                      <button type="button" onClick={() => moveFaq(index, index - 1)} disabled={index === 0} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} up`}>↑</button>
-                      <button type="button" onClick={() => moveFaq(index, index + 1)} disabled={index === draft.faqs.length - 1} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} down`}>↓</button>
-                      <button type="button" onClick={() => updateDraft({ faqs: draft.faqs.filter((_, faqIndex) => faqIndex !== index).map((item, sortOrder) => ({ ...item, sortOrder })) })} className="grid h-8 w-8 place-items-center text-red-700" aria-label={`Remove question ${index + 1}`}><Trash2 className="h-4 w-4" aria-hidden /></button>
+                      <button type="button" onClick={() => moveFaq(faq.id, index - 1)} disabled={index === 0} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} up`}>↑</button>
+                      <button type="button" onClick={() => moveFaq(faq.id, index + 1)} disabled={index === draft.faqs.length - 1} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} down`}>↓</button>
+                      <button type="button" onClick={() => updateDraft((current) => ({ ...current, faqs: current.faqs.filter((item) => item.id !== faq.id).map((item, sortOrder) => ({ ...item, sortOrder })) }))} className="grid h-8 w-8 place-items-center text-red-700" aria-label={`Remove question ${index + 1}`}><Trash2 className="h-4 w-4" aria-hidden /></button>
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <Field label="Question" value={faq.question} onChange={(value) => updateFaq(index, { question: value })} />
-                    <RichTextEditor label="Answer" value={faq.answerHtml} onChange={(value) => updateFaq(index, { answerHtml: value })} />
+                    <Field label="Question" value={faq.question} onChange={(value) => updateFaq(faq.id, { question: value })} />
+                    <RichTextEditor label="Answer" value={faq.answerHtml} onChange={(value) => updateFaq(faq.id, { answerHtml: value })} />
                   </div>
                 </div>
               ))}
-              <button type="button" onClick={() => updateDraft({ faqs: [...draft.faqs, { id: crypto.randomUUID(), question: "", answerHtml: "", sortOrder: draft.faqs.length }] })} className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-sm font-bold"><Plus className="h-4 w-4" aria-hidden /> Add question</button>
+              <button type="button" onClick={() => updateDraft((current) => ({ ...current, faqs: [...current.faqs, { id: crypto.randomUUID(), question: "", answerHtml: "", sortOrder: current.faqs.length }] }))} className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-sm font-bold"><Plus className="h-4 w-4" aria-hidden /> Add question</button>
             </div>
           </EditorSection>
 
