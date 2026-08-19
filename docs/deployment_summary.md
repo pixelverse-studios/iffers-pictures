@@ -58,6 +58,8 @@
 - Portfolio position edits now immediately refresh every shifted image, so the dashboard always shows the saved sequence.
 - Added Weddings under Events throughout the media dashboard and public portfolio so Jen can upload, edit, filter, and publish wedding photography in its own category.
 - Updated every session page with its approved starting investment and a clearer Let’s Plan It! action, including the corrected $550 Event Sessions starting price.
+- Fixed cursor jumps throughout the Mini Sessions editor so regular fields, FAQ questions, and formatted Experience, Vibe, and FAQ content keep the cursor where Jen is typing.
+- Made the Mini Sessions FAQ label, heading, and introductory sentence editable for each campaign, with the existing live wording preserved as the default.
 
 ## Notes for internal team
 
@@ -102,6 +104,10 @@
 - Media ordering now saves through one authenticated, atomic server operation and normalizes published portfolio positions.
 - DEV-1114: Added the shared `Events → Weddings` taxonomy, stable `events/weddings` upload path, server validation, and database constraints.
 - DEV-1115: Replaced generic service-page Investment copy with the approved per-session pricing matrix while preserving contact destinations, FAQs, and bottom CTAs.
+- DEV-1117: Stopped controlled rich-text updates from replacing the active editor DOM, added composition-safe synchronization, and changed FAQ edits and reordering to use persistent IDs with functional state updates.
+- DEV-1118: Added `faqEyebrow`, `faqHeadline`, and `faqIntro` across the database migration, server projections and RPCs, dashboard editor, preview, public page, duplication flow, accessibility labeling, and regression coverage. Deploy the database migration and server before or alongside the frontend.
+- DEV-1118 follow-up: Added campaign-controlled booking eyebrow and heading copy across the dashboard, preview, public booking section, and validation. Existing campaigns retain “Reserve your session” and “Choose your time.” as defaults.
+- DEV-1118 follow-up: Made the small label above the Vibe section campaign-controlled while preserving “The vibe” as the default and retaining the existing editable heading and rich-content body.
 
 ## Changed URLs
 

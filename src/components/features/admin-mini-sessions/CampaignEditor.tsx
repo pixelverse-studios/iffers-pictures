@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AlertTriangle,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { AdminMediaItem } from "@/lib/media/types";
 import type {
+  CampaignDraft,
   CampaignEditorState,
   CampaignLifecycleAction,
   StaleCampaignState,
@@ -27,6 +28,8 @@ import { SortableInclusions } from "./SortableInclusions";
 import type { PublishReadinessItem } from "./utils";
 import {
   createEmptyBookingOption,
+  DEFAULT_BOOKING_EYEBROW,
+  DEFAULT_BOOKING_HEADLINE,
   MAX_INCLUSIONS,
   MINI_SESSIONS_CAL_URL,
 } from "./utils";
@@ -45,7 +48,9 @@ interface CampaignEditorProps {
   requestError: string;
   stale: StaleCampaignState | null;
   readiness: PublishReadinessItem[];
-  onChange: (editor: CampaignEditorState) => void;
+  onChange: (
+    update: (current: CampaignEditorState) => CampaignEditorState
+  ) => void;
   onLifecycleAction: (action: CampaignLifecycleAction) => Promise<boolean>;
   onLoadLatest: () => void;
   onSave: () => void;
@@ -75,23 +80,25 @@ export function CampaignEditor({
   const [pendingAction, setPendingAction] =
     useState<CampaignLifecycleAction | null>(null);
   const previewButtonRef = useRef<HTMLButtonElement>(null);
-  const editorRef = useRef(editor);
-  const onChangeRef = useRef(onChange);
   const { draft } = editor;
   const isArchived = editor.sourceStatus === "archived";
 
-  useEffect(() => {
-    editorRef.current = editor;
-    onChangeRef.current = onChange;
-  }, [editor, onChange]);
-
-  const updateDraft = useCallback((patch: Partial<typeof draft>) => {
-    const currentEditor = editorRef.current;
-    onChangeRef.current({
-      ...currentEditor,
-      draft: { ...currentEditor.draft, ...patch },
-    });
-  }, []);
+  const updateDraft = useCallback(
+    (
+      update:
+        | Partial<CampaignDraft>
+        | ((current: CampaignDraft) => CampaignDraft)
+    ) => {
+      onChange((currentEditor) => ({
+        ...currentEditor,
+        draft:
+          typeof update === "function"
+            ? update(currentEditor.draft)
+            : { ...currentEditor.draft, ...update },
+      }));
+    },
+    [onChange]
+  );
   const selectHeroMedia = useCallback(
     (heroMediaId: number | null) => updateDraft({ heroMediaId }),
     [updateDraft]
@@ -100,30 +107,52 @@ export function CampaignEditor({
   function addInclusion() {
     const value = inclusion.trim();
     if (!value || draft.inclusions.length >= MAX_INCLUSIONS) return;
-    updateDraft({ inclusions: [...draft.inclusions, value] });
+    updateDraft((current) => ({
+      ...current,
+      inclusions:
+        current.inclusions.length >= MAX_INCLUSIONS
+          ? current.inclusions
+          : [...current.inclusions, value],
+    }));
     setInclusion("");
   }
 
-  function updateFaq(index: number, patch: Partial<(typeof draft.faqs)[number]>) {
-    updateDraft({
-      faqs: draft.faqs.map((faq, faqIndex) =>
-        faqIndex === index ? { ...faq, ...patch } : faq
+  function updateFaq(
+    faqId: string,
+    patch: Partial<(typeof draft.faqs)[number]>
+  ) {
+    updateDraft((current) => ({
+      ...current,
+      faqs: current.faqs.map((faq) =>
+        faq.id === faqId ? { ...faq, ...patch } : faq
       ),
+    }));
+  }
+
+  function moveFaq(faqId: string, to: number) {
+    updateDraft((current) => {
+      const from = current.faqs.findIndex((faq) => faq.id === faqId);
+      if (from < 0 || to < 0 || to >= current.faqs.length || from === to) {
+        return current;
+      }
+      const next = [...current.faqs];
+      const [faq] = next.splice(from, 1);
+      next.splice(to, 0, faq);
+      return {
+        ...current,
+        faqs: next.map((item, sortOrder) => ({ ...item, sortOrder })),
+      };
     });
   }
 
-  function moveFaq(from: number, to: number) {
-    if (to < 0 || to >= draft.faqs.length || from === to) return;
-    const next = [...draft.faqs];
-    const [faq] = next.splice(from, 1);
-    next.splice(to, 0, faq);
-    updateDraft({ faqs: next.map((item, sortOrder) => ({ ...item, sortOrder })) });
-  }
-
   function updateBookingUrl(value: string) {
-    const option = draft.bookingOptions[0] ?? createEmptyBookingOption(0);
-    updateDraft({
-      bookingOptions: [{ ...option, calBookingUrl: value }],
+    updateDraft((current) => {
+      const option =
+        current.bookingOptions[0] ?? createEmptyBookingOption(0);
+      return {
+        ...current,
+        bookingOptions: [{ ...option, calBookingUrl: value }],
+      };
     });
   }
 
@@ -339,6 +368,15 @@ export function CampaignEditor({
 
           <EditorSection id="mini-session-vibe" eyebrow="The vibe" title="Set the tone" description="This section appears beneath the Experience and What's Included columns.">
             <div className="space-y-4">
+              <Field
+                label="Small label above Vibe section"
+                required
+                value={draft.vibeEyebrow}
+                error={errors.vibeEyebrow}
+                maxLength={80}
+                onChange={(value) => updateDraft({ vibeEyebrow: value })}
+                placeholder="The vibe"
+              />
               <Field label="Vibe heading" value={draft.vibeHeadline} onChange={(value) => updateDraft({ vibeHeadline: value })} />
               <RichTextEditor label="Vibe content" value={draft.vibeContent} onChange={(value) => updateDraft({ vibeContent: value })} />
             </div>
@@ -346,32 +384,84 @@ export function CampaignEditor({
 
           <EditorSection id="mini-session-faqs" eyebrow="Questions" title="Mini Sessions FAQs" description="These questions appear only on the Mini Sessions page. Drag them into the order you want clients to see.">
             <div className="space-y-4">
+              <div className="grid gap-4 rounded-sm border border-[var(--border)] bg-white p-4 md:grid-cols-2">
+                <Field
+                  label="Small label above FAQs"
+                  value={draft.faqEyebrow}
+                  error={errors.faqEyebrow}
+                  required
+                  maxLength={80}
+                  onChange={(value) => updateDraft({ faqEyebrow: value })}
+                  placeholder="Good to know"
+                />
+                <Field
+                  label="FAQ section heading"
+                  value={draft.faqHeadline}
+                  error={errors.faqHeadline}
+                  required
+                  maxLength={200}
+                  onChange={(value) => updateDraft({ faqHeadline: value })}
+                  placeholder="Mini Session questions."
+                />
+                <div className="md:col-span-2">
+                  <TextField
+                    label="FAQ section introduction"
+                    value={draft.faqIntro}
+                    error={errors.faqIntro}
+                    required
+                    maxLength={600}
+                    rows={3}
+                    onChange={(value) => updateDraft({ faqIntro: value })}
+                    placeholder="Everything clients need to know before their session."
+                  />
+                </div>
+              </div>
               {errors.faqs && <p className="text-sm font-bold text-red-700">{errors.faqs}</p>}
               {draft.faqs.map((faq, index) => (
-                <div key={faq.id} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveFaq(Number(event.dataTransfer.getData("text/plain")), index); }} className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4">
+                <div key={faq.id} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveFaq(event.dataTransfer.getData("text/plain"), index); }} className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4">
                   <div className="mb-4 flex items-center gap-3">
-                    <span draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", String(index))} className="cursor-grab touch-none" aria-label={`Drag question ${index + 1} to reorder`} title="Drag to reorder">
+                    <span draggable onDragStart={(event) => event.dataTransfer.setData("text/plain", faq.id)} className="cursor-grab touch-none" aria-label={`Drag question ${index + 1} to reorder`} title="Drag to reorder">
                       <GripVertical className="h-5 w-5 text-[var(--text-muted)]" aria-hidden />
                     </span>
                     <span className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--brand-strong)]">Question {index + 1}</span>
                     <div className="ml-auto flex gap-1">
-                      <button type="button" onClick={() => moveFaq(index, index - 1)} disabled={index === 0} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} up`}>↑</button>
-                      <button type="button" onClick={() => moveFaq(index, index + 1)} disabled={index === draft.faqs.length - 1} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} down`}>↓</button>
-                      <button type="button" onClick={() => updateDraft({ faqs: draft.faqs.filter((_, faqIndex) => faqIndex !== index).map((item, sortOrder) => ({ ...item, sortOrder })) })} className="grid h-8 w-8 place-items-center text-red-700" aria-label={`Remove question ${index + 1}`}><Trash2 className="h-4 w-4" aria-hidden /></button>
+                      <button type="button" onClick={() => moveFaq(faq.id, index - 1)} disabled={index === 0} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} up`}>↑</button>
+                      <button type="button" onClick={() => moveFaq(faq.id, index + 1)} disabled={index === draft.faqs.length - 1} className="h-8 px-2 text-xs font-bold disabled:opacity-30" aria-label={`Move question ${index + 1} down`}>↓</button>
+                      <button type="button" onClick={() => updateDraft((current) => ({ ...current, faqs: current.faqs.filter((item) => item.id !== faq.id).map((item, sortOrder) => ({ ...item, sortOrder })) }))} className="grid h-8 w-8 place-items-center text-red-700" aria-label={`Remove question ${index + 1}`}><Trash2 className="h-4 w-4" aria-hidden /></button>
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <Field label="Question" value={faq.question} onChange={(value) => updateFaq(index, { question: value })} />
-                    <RichTextEditor label="Answer" value={faq.answerHtml} onChange={(value) => updateFaq(index, { answerHtml: value })} />
+                    <Field label="Question" value={faq.question} onChange={(value) => updateFaq(faq.id, { question: value })} />
+                    <RichTextEditor label="Answer" value={faq.answerHtml} onChange={(value) => updateFaq(faq.id, { answerHtml: value })} />
                   </div>
                 </div>
               ))}
-              <button type="button" onClick={() => updateDraft({ faqs: [...draft.faqs, { id: crypto.randomUUID(), question: "", answerHtml: "", sortOrder: draft.faqs.length }] })} className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-sm font-bold"><Plus className="h-4 w-4" aria-hidden /> Add question</button>
+              <button type="button" onClick={() => updateDraft((current) => ({ ...current, faqs: [...current.faqs, { id: crypto.randomUUID(), question: "", answerHtml: "", sortOrder: current.faqs.length }] }))} className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-[var(--border)] bg-white px-4 text-sm font-bold"><Plus className="h-4 w-4" aria-hidden /> Add question</button>
             </div>
           </EditorSection>
 
           <EditorSection id="mini-session-booking" eyebrow="Booking" title="Cal.com booking link" description="Clients will use this link to choose and pay for an available time.">
             <div className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                <Field
+                  label="Small label above calendar"
+                  required
+                  value={draft.bookingEyebrow}
+                  error={errors.bookingEyebrow}
+                  maxLength={80}
+                  onChange={(value) => updateDraft({ bookingEyebrow: value })}
+                  placeholder={DEFAULT_BOOKING_EYEBROW}
+                />
+                <Field
+                  label="Booking section heading"
+                  required
+                  value={draft.bookingHeadline}
+                  error={errors.bookingHeadline}
+                  maxLength={200}
+                  onChange={(value) => updateDraft({ bookingHeadline: value })}
+                  placeholder={DEFAULT_BOOKING_HEADLINE}
+                />
+              </div>
               <Field label="Booking link" required value={draft.bookingOptions[0]?.calBookingUrl ?? MINI_SESSIONS_CAL_URL} error={errors.bookingUrl} onChange={updateBookingUrl} placeholder={MINI_SESSIONS_CAL_URL} />
               <div className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4 text-sm leading-relaxed text-[var(--text-secondary)]">
                 <p>Session length, available times, buffer time, and payment are managed in Cal.com. Changes made here do not change the Cal.com schedule.</p>
@@ -543,12 +633,13 @@ function Field({ label, value, onChange, error, required = false, prefix, inputM
   );
 }
 
-function TextField({ label, value, onChange, rows, maxLength, placeholder }: { label: string; value: string; onChange: (value: string) => void; rows: number; maxLength?: number; placeholder?: string }) {
+function TextField({ label, value, onChange, rows, maxLength, placeholder, error, required = false }: { label: string; value: string; onChange: (value: string) => void; rows: number; maxLength?: number; placeholder?: string; error?: string; required?: boolean }) {
   const id = useId();
   return (
     <label className="block text-sm font-bold" htmlFor={id}>
-      <span className="flex justify-between gap-3"><span>{label}</span>{maxLength && <span className="text-xs font-semibold text-[var(--text-muted)]">{value.length}/{maxLength}</span>}</span>
-      <textarea id={id} value={value} rows={rows} maxLength={maxLength} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} className="mt-2 w-full resize-y rounded-sm border border-[var(--border)] bg-white px-3 py-2 text-sm leading-relaxed outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand-soft)]" />
+      <span className="flex justify-between gap-3"><span>{label}{required && <span className="text-red-700"> *</span>}</span>{maxLength && <span className="text-xs font-semibold text-[var(--text-muted)]">{value.length}/{maxLength}</span>}</span>
+      <textarea id={id} value={value} rows={rows} maxLength={maxLength} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} className={`mt-2 w-full resize-y rounded-sm border bg-white px-3 py-2 text-sm leading-relaxed outline-none focus:ring-2 focus:ring-[var(--brand-soft)] ${error ? "border-red-500" : "border-[var(--border)] focus:border-[var(--brand)]"}`} />
+      {error && <FieldError id={`${id}-error`} message={error} />}
     </label>
   );
 }

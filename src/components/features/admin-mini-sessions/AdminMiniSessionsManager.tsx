@@ -133,8 +133,10 @@ export function AdminMiniSessionsManager({
     requestAnimationFrame(() => editorRef.current?.scrollIntoView({ behavior: "smooth" }));
   }
 
-  function changeEditor(nextEditor: CampaignEditorState) {
-    setEditor(nextEditor);
+  const changeEditor = useCallback((
+    update: (current: CampaignEditorState) => CampaignEditorState
+  ) => {
+    setEditor((current) => (current ? update(current) : current));
     setIsDirty(true);
     setMessage("");
     setLifecycleError("");
@@ -142,7 +144,7 @@ export function AdminMiniSessionsManager({
     setLifecycleWarning("");
     setRequestError("");
     setStale(null);
-  }
+  }, []);
 
   async function saveCampaign() {
     if (!editor || isSaving) return;

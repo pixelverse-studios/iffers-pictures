@@ -5,10 +5,18 @@ import { miniSessionFaqSchema } from "@/lib/mini-sessions/types";
 type MiniSessionFaqItem = z.infer<typeof miniSessionFaqSchema>;
 
 interface MiniSessionsFaqsProps {
+  eyebrow: string;
+  headline: string;
+  intro: string;
   faqs: MiniSessionFaqItem[];
 }
 
-export function MiniSessionsFaqs({ faqs }: MiniSessionsFaqsProps) {
+export function MiniSessionsFaqs({
+  eyebrow,
+  headline,
+  intro,
+  faqs,
+}: MiniSessionsFaqsProps) {
   if (faqs.length === 0) {
     return null;
   }
@@ -21,17 +29,16 @@ export function MiniSessionsFaqs({ faqs }: MiniSessionsFaqsProps) {
       <div className="mx-auto grid max-w-7xl gap-10 px-6 md:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">
-            Good to know
+            {eyebrow}
           </p>
           <h2
             id="mini-sessions-faq-heading"
             className="mt-4 max-w-[10ch] font-heading text-4xl font-semibold leading-tight text-[var(--foreground)] md:text-5xl"
           >
-            Mini Session questions.
+            {headline}
           </h2>
           <p className="mt-5 max-w-md leading-7 text-[var(--text-secondary)]">
-            Everything you need to arrive prepared and enjoy a relaxed,
-            beautiful session.
+            {intro}
           </p>
         </div>
 
