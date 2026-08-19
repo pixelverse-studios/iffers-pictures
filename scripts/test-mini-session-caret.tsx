@@ -57,6 +57,11 @@ async function renderEditor() {
         summary: "Short summary",
         description: "<p>Experience copy</p>",
         vibeContent: "<p>Vibe copy</p>",
+        faqEyebrow: "Good to know",
+        faqHeadline: "Mini Session questions.",
+        faqIntro: "Everything you need to know.",
+        bookingEyebrow: "Reserve your session",
+        bookingHeadline: "Choose your time.",
         faqs: [
           {
             id: "faq-1",
@@ -145,6 +150,11 @@ test("standard inputs and textareas preserve a middle caret during campaign rere
   const { screen, user } = await renderEditor();
   const headline = screen.getByLabelText(/^Headline/) as HTMLInputElement;
   const summary = screen.getByLabelText(/^Short summary/) as HTMLTextAreaElement;
+  const faqHeadline = screen.getByLabelText(/^FAQ section heading/) as HTMLInputElement;
+  const faqIntro = screen.getByLabelText(/^FAQ section introduction/) as HTMLTextAreaElement;
+  const bookingEyebrow = screen.getByLabelText(/^Small label above calendar/) as HTMLInputElement;
+  const bookingHeadline = screen.getByLabelText(/^Booking section heading/) as HTMLInputElement;
+  const vibeEyebrow = screen.getByLabelText(/^Small label above Vibe section/) as HTMLInputElement;
 
   await typeInTextControl(user, headline, 4, "XYZ");
   assert.equal(headline.value, "FallXYZ Mini Session");
@@ -153,6 +163,118 @@ test("standard inputs and textareas preserve a middle caret during campaign rere
   await typeInTextControl(user, summary, 5, "XYZ");
   assert.equal(summary.value, "ShortXYZ summary");
   assert.equal(summary.selectionStart, 8);
+
+  await typeInTextControl(user, faqHeadline, 4, "XYZ");
+  assert.equal(faqHeadline.value, "MiniXYZ Session questions.");
+  assert.equal(faqHeadline.selectionStart, 7);
+
+  await typeInTextControl(user, faqIntro, 10, "XYZ");
+  assert.equal(faqIntro.value, "EverythingXYZ you need to know.");
+  assert.equal(faqIntro.selectionStart, 13);
+
+  await typeInTextControl(user, bookingEyebrow, 7, "XYZ");
+  assert.equal(bookingEyebrow.value, "ReserveXYZ your session");
+  assert.equal(bookingEyebrow.selectionStart, 10);
+
+  await typeInTextControl(user, bookingHeadline, 6, "XYZ");
+  assert.equal(bookingHeadline.value, "ChooseXYZ your time.");
+  assert.equal(bookingHeadline.selectionStart, 9);
+
+  await typeInTextControl(user, vibeEyebrow, 3, "XYZ");
+  assert.equal(vibeEyebrow.value, "TheXYZ vibe");
+  assert.equal(vibeEyebrow.selectionStart, 6);
+});
+
+test("public FAQ section renders campaign-owned intro copy with an accessible heading", async () => {
+  const [testingLibrary, faqModule] = await Promise.all([
+    import("@testing-library/react"),
+    import("../src/components/features/mini-sessions/MiniSessionsFaqs"),
+  ]);
+  const { MiniSessionsFaqs } = faqModule;
+  cleanupAfterTest = testingLibrary.cleanup;
+  testingLibrary.render(
+    <MiniSessionsFaqs
+      eyebrow="Before you arrive"
+      headline="Questions for fall families"
+      intro="A few helpful details for a relaxed session."
+      faqs={[{
+        id: "faq-public",
+        question: "What should we bring?",
+        answerHtml: "<p>Bring yourselves.</p>",
+        sortOrder: 0,
+      }]}
+    />
+  );
+
+  const section = testingLibrary.screen.getByRole("region", {
+    name: "Questions for fall families",
+  });
+  assert.ok(section.textContent?.includes("Before you arrive"));
+  assert.ok(section.textContent?.includes("A few helpful details for a relaxed session."));
+});
+
+test("public booking section renders campaign-owned labels with an accessible heading", async () => {
+  const [testingLibrary, bookingModule, utilsModule] = await Promise.all([
+    import("@testing-library/react"),
+    import("../src/components/features/mini-sessions/MiniSessionsBooking"),
+    import("../src/components/features/admin-mini-sessions/utils"),
+  ]);
+  cleanupAfterTest = testingLibrary.cleanup;
+  const draft = utilsModule.createEmptyCampaignDraft();
+  draft.bookingEyebrow = "Book your fall session";
+  draft.bookingHeadline = "Find a time that works.";
+  const campaign = utilsModule.draftToPreviewCampaign(
+    {
+      campaignId: "campaign-booking-copy",
+      sourceStatus: "draft",
+      sourceUpdatedAt: null,
+      draft,
+    },
+    []
+  );
+
+  testingLibrary.render(
+    <bookingModule.MiniSessionsBooking
+      campaign={campaign}
+      previewMode
+      utmParams={{}}
+    />
+  );
+
+  const section = testingLibrary.screen.getByRole("region", {
+    name: "Find a time that works.",
+  });
+  assert.ok(section.textContent?.includes("Book your fall session"));
+});
+
+test("public Vibe section renders its campaign-owned label", async () => {
+  const [testingLibrary, pageModule, utilsModule] = await Promise.all([
+    import("@testing-library/react"),
+    import("../src/components/features/mini-sessions/MiniSessionsPage"),
+    import("../src/components/features/admin-mini-sessions/utils"),
+  ]);
+  cleanupAfterTest = testingLibrary.cleanup;
+  const draft = utilsModule.createEmptyCampaignDraft();
+  draft.vibeEyebrow = "Come as you are";
+  draft.vibeHeadline = "Relax into the moment";
+  const campaign = utilsModule.draftToPreviewCampaign(
+    {
+      campaignId: "campaign-vibe-copy",
+      sourceStatus: "draft",
+      sourceUpdatedAt: null,
+      draft,
+    },
+    []
+  );
+
+  testingLibrary.render(
+    <pageModule.MiniSessionsPage campaign={campaign} previewMode utmParams={{}} />
+  );
+
+  const section = testingLibrary.screen.getByRole("region", {
+    name: "Relax into the moment",
+  });
+  assert.ok(section.textContent?.includes("Come as you are"));
 });
 
 test("FAQ questions update by persistent ID without remounting sibling rows", async () => {

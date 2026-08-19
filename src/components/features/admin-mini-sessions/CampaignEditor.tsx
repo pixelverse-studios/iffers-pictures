@@ -28,6 +28,8 @@ import { SortableInclusions } from "./SortableInclusions";
 import type { PublishReadinessItem } from "./utils";
 import {
   createEmptyBookingOption,
+  DEFAULT_BOOKING_EYEBROW,
+  DEFAULT_BOOKING_HEADLINE,
   MAX_INCLUSIONS,
   MINI_SESSIONS_CAL_URL,
 } from "./utils";
@@ -366,6 +368,15 @@ export function CampaignEditor({
 
           <EditorSection id="mini-session-vibe" eyebrow="The vibe" title="Set the tone" description="This section appears beneath the Experience and What's Included columns.">
             <div className="space-y-4">
+              <Field
+                label="Small label above Vibe section"
+                required
+                value={draft.vibeEyebrow}
+                error={errors.vibeEyebrow}
+                maxLength={80}
+                onChange={(value) => updateDraft({ vibeEyebrow: value })}
+                placeholder="The vibe"
+              />
               <Field label="Vibe heading" value={draft.vibeHeadline} onChange={(value) => updateDraft({ vibeHeadline: value })} />
               <RichTextEditor label="Vibe content" value={draft.vibeContent} onChange={(value) => updateDraft({ vibeContent: value })} />
             </div>
@@ -373,6 +384,38 @@ export function CampaignEditor({
 
           <EditorSection id="mini-session-faqs" eyebrow="Questions" title="Mini Sessions FAQs" description="These questions appear only on the Mini Sessions page. Drag them into the order you want clients to see.">
             <div className="space-y-4">
+              <div className="grid gap-4 rounded-sm border border-[var(--border)] bg-white p-4 md:grid-cols-2">
+                <Field
+                  label="Small label above FAQs"
+                  value={draft.faqEyebrow}
+                  error={errors.faqEyebrow}
+                  required
+                  maxLength={80}
+                  onChange={(value) => updateDraft({ faqEyebrow: value })}
+                  placeholder="Good to know"
+                />
+                <Field
+                  label="FAQ section heading"
+                  value={draft.faqHeadline}
+                  error={errors.faqHeadline}
+                  required
+                  maxLength={200}
+                  onChange={(value) => updateDraft({ faqHeadline: value })}
+                  placeholder="Mini Session questions."
+                />
+                <div className="md:col-span-2">
+                  <TextField
+                    label="FAQ section introduction"
+                    value={draft.faqIntro}
+                    error={errors.faqIntro}
+                    required
+                    maxLength={600}
+                    rows={3}
+                    onChange={(value) => updateDraft({ faqIntro: value })}
+                    placeholder="Everything clients need to know before their session."
+                  />
+                </div>
+              </div>
               {errors.faqs && <p className="text-sm font-bold text-red-700">{errors.faqs}</p>}
               {draft.faqs.map((faq, index) => (
                 <div key={faq.id} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); moveFaq(event.dataTransfer.getData("text/plain"), index); }} className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4">
@@ -399,6 +442,26 @@ export function CampaignEditor({
 
           <EditorSection id="mini-session-booking" eyebrow="Booking" title="Cal.com booking link" description="Clients will use this link to choose and pay for an available time.">
             <div className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                <Field
+                  label="Small label above calendar"
+                  required
+                  value={draft.bookingEyebrow}
+                  error={errors.bookingEyebrow}
+                  maxLength={80}
+                  onChange={(value) => updateDraft({ bookingEyebrow: value })}
+                  placeholder={DEFAULT_BOOKING_EYEBROW}
+                />
+                <Field
+                  label="Booking section heading"
+                  required
+                  value={draft.bookingHeadline}
+                  error={errors.bookingHeadline}
+                  maxLength={200}
+                  onChange={(value) => updateDraft({ bookingHeadline: value })}
+                  placeholder={DEFAULT_BOOKING_HEADLINE}
+                />
+              </div>
               <Field label="Booking link" required value={draft.bookingOptions[0]?.calBookingUrl ?? MINI_SESSIONS_CAL_URL} error={errors.bookingUrl} onChange={updateBookingUrl} placeholder={MINI_SESSIONS_CAL_URL} />
               <div className="rounded-sm border border-[var(--border)] bg-[var(--background-warm)] p-4 text-sm leading-relaxed text-[var(--text-secondary)]">
                 <p>Session length, available times, buffer time, and payment are managed in Cal.com. Changes made here do not change the Cal.com schedule.</p>
@@ -570,12 +633,13 @@ function Field({ label, value, onChange, error, required = false, prefix, inputM
   );
 }
 
-function TextField({ label, value, onChange, rows, maxLength, placeholder }: { label: string; value: string; onChange: (value: string) => void; rows: number; maxLength?: number; placeholder?: string }) {
+function TextField({ label, value, onChange, rows, maxLength, placeholder, error, required = false }: { label: string; value: string; onChange: (value: string) => void; rows: number; maxLength?: number; placeholder?: string; error?: string; required?: boolean }) {
   const id = useId();
   return (
     <label className="block text-sm font-bold" htmlFor={id}>
-      <span className="flex justify-between gap-3"><span>{label}</span>{maxLength && <span className="text-xs font-semibold text-[var(--text-muted)]">{value.length}/{maxLength}</span>}</span>
-      <textarea id={id} value={value} rows={rows} maxLength={maxLength} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} className="mt-2 w-full resize-y rounded-sm border border-[var(--border)] bg-white px-3 py-2 text-sm leading-relaxed outline-none focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand-soft)]" />
+      <span className="flex justify-between gap-3"><span>{label}{required && <span className="text-red-700"> *</span>}</span>{maxLength && <span className="text-xs font-semibold text-[var(--text-muted)]">{value.length}/{maxLength}</span>}</span>
+      <textarea id={id} value={value} rows={rows} maxLength={maxLength} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} className={`mt-2 w-full resize-y rounded-sm border bg-white px-3 py-2 text-sm leading-relaxed outline-none focus:ring-2 focus:ring-[var(--brand-soft)] ${error ? "border-red-500" : "border-[var(--border)] focus:border-[var(--brand)]"}`} />
+      {error && <FieldError id={`${id}-error`} message={error} />}
     </label>
   );
 }

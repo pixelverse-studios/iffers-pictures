@@ -247,14 +247,21 @@ export function MiniSessionsBooking({
   }
 
   return (
-    <section id="booking" className="bg-[var(--background-warm)] py-12 md:py-16">
+    <section
+      id="booking"
+      aria-labelledby="mini-sessions-booking-heading"
+      className="bg-[var(--background-warm)] py-12 md:py-16"
+    >
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <div className="max-w-2xl">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--brand-strong)]">
-            Reserve your session
+            {campaign.bookingEyebrow}
           </p>
-          <h2 className="mt-4 font-heading text-4xl font-semibold text-[var(--foreground)] md:text-5xl">
-            Choose your time.
+          <h2
+            id="mini-sessions-booking-heading"
+            className="mt-4 font-heading text-4xl font-semibold text-[var(--foreground)] md:text-5xl"
+          >
+            {campaign.bookingHeadline}
           </h2>
           <p className="mt-4 leading-7 text-[var(--text-secondary)]">
             Live availability and secure checkout are handled by Cal.com.
