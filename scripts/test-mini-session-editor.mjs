@@ -56,7 +56,7 @@ test("hidden fields are derived while the hero label stays campaign controlled",
   assert.equal(result.input?.metaTitle, draft.headline);
   assert.equal(result.input?.metaDescription, draft.summary);
   assert.equal(result.input?.durationMinutes, 20);
-  assert.equal(result.input?.ctaLabel, "Choose your time");
+  assert.equal(result.input?.ctaLabel, "Reserve Your Session");
   assert.equal(result.input?.dateSummary, CAL_AVAILABILITY_NOTE);
   assert.equal(result.input?.bookingOptions[0]?.dateTimeLabel, CAL_AVAILABILITY_NOTE);
   assert.equal(result.input?.bookingOptions.length, 1);
