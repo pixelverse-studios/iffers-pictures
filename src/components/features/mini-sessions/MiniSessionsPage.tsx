@@ -26,6 +26,12 @@ export function MiniSessionsPage({
   previewMode = false,
   utmParams,
 }: MiniSessionsPageProps) {
+  const campaignCtaLabel = campaign.ctaLabel.trim();
+  const ctaLabel =
+    campaignCtaLabel.toLowerCase() === "choose your time"
+      ? "Reserve Your Session"
+      : campaignCtaLabel;
+
   return (
     <div
       className={`bg-[var(--background)] ${previewMode ? "" : "pt-16 md:pt-[72px]"}`}
@@ -46,7 +52,7 @@ export function MiniSessionsPage({
             href="#booking"
             className="mt-9 inline-flex min-h-12 w-fit items-center justify-center rounded-full bg-white px-7 text-sm font-bold uppercase tracking-[0.13em] text-[var(--brand-strong)] transition-colors hover:bg-[var(--background-warm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-strong)]"
           >
-            {campaign.status === "sold_out" ? "Ask about the next release" : campaign.ctaLabel}
+            {campaign.status === "sold_out" ? "Ask about the next release" : ctaLabel}
           </a>
         </div>
         <div className="relative min-h-[480px] min-w-0 bg-[var(--background-warm)] lg:min-h-full">
