@@ -21,8 +21,12 @@ export function MiniSessionsPromotion({
 
   const status = campaign.status;
   const configuredCtaLabel = campaign.promoCtaLabel.trim();
+  const usesLegacyAutumnCta = [
+    "choose your time",
+    "book your autumn session",
+  ].includes(configuredCtaLabel.toLowerCase());
   const ctaLabel =
-    configuredCtaLabel.toLowerCase() === "choose your time"
+    usesLegacyAutumnCta
       ? "Reserve Your Session"
       : configuredCtaLabel ||
         (status === "sold_out" ? "View sold-out release" : "View mini sessions");
