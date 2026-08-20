@@ -60,6 +60,8 @@
 - Updated every session page with its approved starting investment and a clearer Let’s Plan It! action, including the corrected $550 Event Sessions starting price.
 - Fixed cursor jumps throughout the Mini Sessions editor so regular fields, FAQ questions, and formatted Experience, Vibe, and FAQ content keep the cursor where Jen is typing.
 - Made the Mini Sessions FAQ label, heading, and introductory sentence editable for each campaign, with the existing live wording preserved as the default.
+- Fixed the media dashboard so photos can be moved into the Events → Weddings folder without a database validation error.
+- Updated the Autumn Keepsake Sessions homepage button from “Choose Your Time” to “Reserve Your Session.”
 
 ## Notes for internal team
 
@@ -108,6 +110,8 @@
 - DEV-1118: Added `faqEyebrow`, `faqHeadline`, and `faqIntro` across the database migration, server projections and RPCs, dashboard editor, preview, public page, duplication flow, accessibility labeling, and regression coverage. Deploy the database migration and server before or alongside the frontend.
 - DEV-1118 follow-up: Added campaign-controlled booking eyebrow and heading copy across the dashboard, preview, public booking section, and validation. Existing campaigns retain “Reserve your session” and “Choose your time.” as defaults.
 - DEV-1118 follow-up: Made the small label above the Vibe section campaign-controlled while preserving “The vibe” as the default and retaining the existing editable heading and rich-content body.
+- DEV-1114 production hotfix: Applied the missing `add_weddings_media_subcategory` Supabase migration and verified `Events → Weddings` with a rolled-back catalog update.
+- Mini Sessions homepage patch: normalize the legacy promotion CTA value “Choose your time” to “Reserve Your Session” while preserving all other campaign-managed button text.
 
 ## Changed URLs
 
