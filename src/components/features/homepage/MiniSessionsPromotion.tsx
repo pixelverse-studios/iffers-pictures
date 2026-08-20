@@ -20,9 +20,12 @@ export function MiniSessionsPromotion({
   }
 
   const status = campaign.status;
+  const configuredCtaLabel = campaign.promoCtaLabel.trim();
   const ctaLabel =
-    campaign.promoCtaLabel ||
-    (status === "sold_out" ? "View sold-out release" : "View mini sessions");
+    configuredCtaLabel.toLowerCase() === "choose your time"
+      ? "Reserve Your Session"
+      : configuredCtaLabel ||
+        (status === "sold_out" ? "View sold-out release" : "View mini sessions");
 
   return (
     <section id="mini-sessions" className="scroll-mt-20 bg-[var(--background-warm)] py-10 md:py-14">
