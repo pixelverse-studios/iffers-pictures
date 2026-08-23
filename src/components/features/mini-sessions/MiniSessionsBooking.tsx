@@ -339,17 +339,16 @@ export function MiniSessionsBooking({
                   </div>
                 </div>
               ) : (
-                <div className="overflow-hidden border border-[var(--border)] bg-white shadow-sm">
-                  <CalBookingEmbed
-                    key={selectedOption.id}
-                    bookingUrl={selectedOption.calBookingUrl}
-                    campaignId={campaign.id}
-                    campaignStatus="live"
-                    optionId={selectedOption.id}
-                    optionLabel={selectedOption.label}
-                    utmParams={utmParams}
-                  />
-                </div>
+                <CalBookingEmbed
+                  key={selectedOption.id}
+                  bookingUrl={selectedOption.calBookingUrl}
+                  campaignId={campaign.id}
+                  campaignStatus="live"
+                  layout="column_view"
+                  optionId={selectedOption.id}
+                  optionLabel={`${selectedOption.label} in column view`}
+                  utmParams={utmParams}
+                />
               )}
 
               <p className="mt-4 text-center text-xs leading-5 text-[var(--text-muted)] lg:hidden">

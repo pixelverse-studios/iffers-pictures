@@ -28,10 +28,13 @@ interface CalBookingEmbedProps {
   bookingUrl: string;
   campaignId: string;
   campaignStatus: "live" | "sold_out";
+  layout: CalBookingLayout;
   optionId: string;
   optionLabel: string;
   utmParams: MiniSessionsUtmParams;
 }
+
+export type CalBookingLayout = "month_view" | "week_view" | "column_view";
 
 const AUTUMN_2026_MINI_SESSIONS_MONTH = "2026-10";
 
@@ -108,14 +111,22 @@ function getCalLink(rawUrl: string): string | null {
   }
 }
 
-function safeNamespace(campaignId: string, optionId: string) {
-  return `mini-${campaignId}-${optionId}`.replace(/[^a-zA-Z0-9-]/g, "-");
+function safeNamespace(
+  campaignId: string,
+  optionId: string,
+  layout: CalBookingLayout
+) {
+  return `mini-${campaignId}-${optionId}-${layout}`.replace(
+    /[^a-zA-Z0-9-]/g,
+    "-"
+  );
 }
 
 export function CalBookingEmbed({
   bookingUrl,
   campaignId,
   campaignStatus,
+  layout,
   optionId,
   optionLabel,
   utmParams,
@@ -169,7 +180,7 @@ export function CalBookingEmbed({
 
     const embedElement = embedRef.current;
     embedElement.replaceChildren();
-    const namespace = safeNamespace(campaignId, optionId);
+    const namespace = safeNamespace(campaignId, optionId, layout);
     const cal = installCalLoader();
     let active = true;
     cal("init", namespace, { origin: "https://cal.com" });
@@ -231,18 +242,45 @@ export function CalBookingEmbed({
       },
     });
     api("ui", {
+      theme: "light",
       hideEventTypeDetails: true,
       showTimezoneWhenEventDetailsHidden: true,
-      layout: "month_view",
+      layout,
       styles: {
-        body: { background: "#ffffff" },
+        body: { background: "#eff3f7" },
         branding: { brandColor: "#5a7898" },
       },
       cssVarsPerTheme: {
         light: {
           "cal-brand": "#5a7898",
-          "cal-brand-emphasis": "#476783",
+          "cal-brand-emphasis": "#1a2030",
           "cal-brand-text": "#ffffff",
+          "cal-brand-subtle": "#98b4cc",
+          "cal-brand-accent": "#ffffff",
+          "cal-text": "#1a2030",
+          "cal-text-emphasis": "#1a2030",
+          "cal-text-subtle": "#607080",
+          "cal-text-muted": "#98a8b8",
+          "cal-text-inverted": "#ffffff",
+          "cal-bg": "#eff3f7",
+          "cal-bg-emphasis": "#d8e0e8",
+          "cal-bg-subtle": "#ffffff",
+          "cal-bg-muted": "#e7edf3",
+          "cal-bg-inverted": "#1a2030",
+          "cal-border": "#d8e0e8",
+          "cal-border-emphasis": "#7898b8",
+          "cal-border-subtle": "#d8e0e8",
+          "cal-border-muted": "#e7edf3",
+          "cal-border-booker": "#d8e0e8",
+          "cal-border-booker-width": "0px",
+          radius: "0.25rem",
+          "radius-sm": "0.125rem",
+          "radius-md": "0.375rem",
+          "radius-lg": "0.5rem",
+          "radius-xl": "0.75rem",
+          "radius-2xl": "1rem",
+          "radius-3xl": "1.5rem",
+          "radius-full": "9999px",
           spacing: "3px",
         },
       },
@@ -250,7 +288,7 @@ export function CalBookingEmbed({
     api("inline", {
       elementOrSelector: embedElement,
       calLink,
-      config: { ...utmParams, layout: "month_view" },
+      config: { ...utmParams, layout },
     });
 
     return () => {
@@ -258,12 +296,20 @@ export function CalBookingEmbed({
       window.clearTimeout(timeoutId);
       embedElement.replaceChildren();
     };
-  }, [calLink, campaignId, campaignStatus, optionId, shouldLoad, utmParams]);
+  }, [
+    calLink,
+    campaignId,
+    campaignStatus,
+    layout,
+    optionId,
+    shouldLoad,
+    utmParams,
+  ]);
 
   return (
-    <div ref={boundaryRef} className="relative min-h-[560px] md:min-h-[620px]" aria-live="polite">
+    <div ref={boundaryRef} className="relative min-h-[560px] md:min-h-[460px]" aria-live="polite">
       {embedState !== "ready" && embedState !== "failed" && (
-        <div className="absolute inset-0 z-10 flex min-h-[560px] flex-col items-center justify-center bg-white px-6 text-center md:min-h-[620px]">
+        <div className="absolute inset-0 z-10 flex min-h-[560px] flex-col items-center justify-center bg-[var(--background-warm)] px-6 text-center md:min-h-[460px]">
           <div className="h-10 w-10 animate-pulse rounded-full bg-[var(--brand-soft)] motion-reduce:animate-none" />
           <p className="mt-5 font-heading text-2xl text-[var(--foreground)]">
             Loading available times…
@@ -275,7 +321,7 @@ export function CalBookingEmbed({
       )}
 
       {embedState === "failed" && (
-        <div className="absolute inset-0 z-10 flex min-h-[560px] flex-col items-center justify-center bg-[var(--background-warm)] px-6 text-center md:min-h-[620px]">
+        <div className="absolute inset-0 z-10 flex min-h-[560px] flex-col items-center justify-center bg-[var(--background-warm)] px-6 text-center md:min-h-[460px]">
           <p className="font-heading text-3xl text-[var(--foreground)]">
             The calendar is taking a little longer.
           </p>
@@ -296,7 +342,7 @@ export function CalBookingEmbed({
 
       <div
         ref={embedRef}
-        className="min-h-[560px] overflow-hidden bg-white md:min-h-[620px]"
+        className="min-h-[560px] overflow-hidden bg-[var(--background-warm)] md:min-h-[460px]"
         aria-label={`Booking calendar for ${optionLabel}`}
       />
     </div>
