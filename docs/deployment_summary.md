@@ -2,6 +2,8 @@
 
 ## Latest deploy summary
 
+- Opened the Autumn Keepsake Sessions booking calendar directly to October 2026 so clients immediately see the available session date and times.
+
 - Made the heading above the Mini Sessions "What's Included" list editable from the campaign dashboard, with "Session Details" as the default for existing and new campaigns.
 
 - Fixed the Mini Sessions campaign list so publishing a new campaign immediately moves the previous public campaign to Closed instead of temporarily showing two Live cards.
@@ -64,6 +66,8 @@
 - Updated the Autumn Keepsake Sessions page button from “Choose Your Time” to “Reserve Your Session.”
 
 ## Notes for internal team
+
+- Temporary Autumn 2026 booking patch: the reusable `https://cal.com/ifferspictures/minis` link defaults to `month=2026-10` when no explicit Cal.com `month` or `date` parameter is present. Remove this fallback after campaign-managed calendar-start controls or a Cal.com availability integration ships.
 
 - DEV-1116: Added `inclusionsHeadline` across the Mini Sessions database, API, dashboard editor, preview, duplication flow, and public page. Apply the database migration and deploy the server before or alongside the frontend.
 
