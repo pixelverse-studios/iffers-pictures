@@ -33,6 +33,29 @@ interface CalBookingEmbedProps {
   utmParams: MiniSessionsUtmParams;
 }
 
+const AUTUMN_2026_MINI_SESSIONS_MONTH = "2026-10";
+
+function withAutumn2026CalendarMonth(rawUrl: string): string {
+  try {
+    const url = new URL(rawUrl);
+    const isReusableMiniSessionsLink =
+      (url.hostname === "cal.com" || url.hostname === "www.cal.com") &&
+      url.pathname.replace(/\/+$/, "") === "/ifferspictures/minis";
+
+    if (
+      isReusableMiniSessionsLink &&
+      !url.searchParams.has("month") &&
+      !url.searchParams.has("date")
+    ) {
+      url.searchParams.set("month", AUTUMN_2026_MINI_SESSIONS_MONTH);
+    }
+
+    return url.toString();
+  } catch {
+    return rawUrl;
+  }
+}
+
 function installCalLoader(): CalFunction {
   if (window.Cal) return window.Cal;
 
@@ -103,13 +126,20 @@ export function CalBookingEmbed({
   const reportedFailureRef = useRef(false);
   const reportedLoadRef = useRef(false);
   const [shouldLoad, setShouldLoad] = useState(false);
-  const calLink = useMemo(() => getCalLink(bookingUrl), [bookingUrl]);
+  const effectiveBookingUrl = useMemo(
+    () => withAutumn2026CalendarMonth(bookingUrl),
+    [bookingUrl]
+  );
+  const calLink = useMemo(
+    () => getCalLink(effectiveBookingUrl),
+    [effectiveBookingUrl]
+  );
   const [embedState, setEmbedState] = useState<"loading" | "ready" | "failed">(
     calLink ? "loading" : "failed"
   );
   const externalUrl = useMemo(
-    () => appendMiniSessionsUtmParams(bookingUrl, utmParams),
-    [bookingUrl, utmParams]
+    () => appendMiniSessionsUtmParams(effectiveBookingUrl, utmParams),
+    [effectiveBookingUrl, utmParams]
   );
 
   useEffect(() => {
