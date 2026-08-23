@@ -2,6 +2,14 @@
 
 ## Latest deploy summary
 
+- Kept the booking calendar’s loading and tracking state reliable when clients switch between multiple Mini Session options.
+
+- Tightened the Mini Sessions booking composition so the calendar aligns with the booking summary, removes excess desktop whitespace, and gives available time slots a slightly clearer surface.
+
+- Branded the Mini Sessions calendar with the site’s soft-blue background, navy and slate text, blue interaction states, and matching internal spacing.
+
+- Simplified Mini Sessions booking to the agenda-style Column calendar and removed its extra heading, outer border, and shadow.
+
 - Opened the Autumn Keepsake Sessions booking calendar directly to October 2026 so clients immediately see the available session date and times.
 
 - Made the heading above the Mini Sessions "What's Included" list editable from the campaign dashboard, with "Session Details" as the default for existing and new campaigns.
@@ -66,6 +74,14 @@
 - Updated the Autumn Keepsake Sessions page button from “Choose Your Time” to “Reserve Your Session.”
 
 ## Notes for internal team
+
+- Review follow-up: restored the option-scoped React key on `CalBookingEmbed` so changing booking options remounts Cal.com and resets its loading, failure, completion, and analytics refs.
+
+- Column-view spacing pass: reduced the desktop Cal.com embed reserve from 620px to 460px while retaining the 560px mobile minimum; the remotely sized 410px desktop iframe now sits close to the top instead of being vertically centered with roughly 105px of dead space.
+
+- Cal.com embed branding now maps the Column view’s supported light-theme variables to the website palette while retaining Cal.com’s default semantic success, warning, and error colors for clear booking feedback.
+
+- Mini Sessions now uses only Cal.com’s `column_view`, retains the temporary October 2026 default, and relies on the embed’s internal dividers instead of a website-owned outer frame.
 
 - Temporary Autumn 2026 booking patch: the reusable `https://cal.com/ifferspictures/minis` link defaults to `month=2026-10` when no explicit Cal.com `month` or `date` parameter is present. Remove this fallback after campaign-managed calendar-start controls or a Cal.com availability integration ships.
 
