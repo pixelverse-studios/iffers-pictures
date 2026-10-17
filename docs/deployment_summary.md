@@ -73,6 +73,8 @@
 - Fixed the media dashboard so photos can be moved into the Events → Weddings folder without a database validation error.
 - Updated the Autumn Keepsake Sessions page button from “Choose Your Time” to “Reserve Your Session.”
 
+- Allowed search engines to load the website’s photos, styles, and scripts so they can render pages correctly.
+
 ## Notes for internal team
 
 - Review follow-up: restored the option-scoped React key on `CalBookingEmbed` so changing booking options remounts Cal.com and resets its loading, failure, completion, and analytics refs.
@@ -133,6 +135,8 @@
 - DEV-1114 production hotfix: Applied the missing `add_weddings_media_subcategory` Supabase migration and verified `Events → Weddings` with a rolled-back catalog update.
 - Mini Sessions page patch: changed the automatic hero CTA to “Reserve Your Session,” including compatibility for the live campaign’s legacy value, while leaving both homepage CTA fields fully CMS-controlled.
 
+- 2026-10-17 SEO rendering fix (pending deployment): removed `/_next/` from the generated robots disallow rules; retained `/api/`, `/admin/`, and the sitemap declaration. Baseline: GSC event-page live test reported 34/36 resources unavailable, with images, scripts, stylesheets, and fonts blocked by robots.txt. After deployment, verify `/robots.txt`, rerun live inspection for `/services/events` and `/services`, and confirm resource loading and rendered screenshots. Tracking and page content are unchanged; indexing impact remains unmeasured.
+
 ## Changed URLs
 
 - https://ifferspictures.com/sitemap.xml
@@ -146,3 +150,4 @@
 - https://ifferspictures.com/services/portrait
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/mini-sessions
+- https://ifferspictures.com/robots.txt
