@@ -3,7 +3,7 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { TestimonialsPageContent } from "@/components/features/testimonials/TestimonialsPageContent";
 
 export const metadata: Metadata = {
-  title: "Testimonials | Iffer's Pictures | Bergen County NJ",
+  title: { absolute: "Testimonials | Iffer's Pictures | Bergen County NJ" },
   description:
     "Read what our clients say about their photography experience with Iffer's Pictures. Real reviews from Bergen County families, couples, and event hosts.",
   openGraph: {

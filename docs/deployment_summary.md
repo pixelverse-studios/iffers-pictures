@@ -75,6 +75,17 @@
 
 - Allowed search engines to load the website’s photos, styles, and scripts so they can render pages correctly.
 
+- Removed repeated branding from public page titles and updated the homepage title to describe Bergen County event photography.
+- Added a styled booking-inquiry date picker, required a description for Custom sessions, and added a required explanation when visitors select Other as their referral source.
+
+- Updated Event Time to a styled time picker with AM/PM selection to match the date field.
+
+- Custom-session descriptions and Other referral details now highlight as invalid on submit even when other required fields are empty.
+
+- Referral source and its Other detail field now sit side by side on wider screens and stack on mobile.
+
+- Email and phone fields now share a row on wider screens and stack on mobile.
+
 ## Notes for internal team
 
 - Review follow-up: restored the option-scoped React key on `CalBookingEmbed` so changing booking options remounts Cal.com and resets its loading, failure, completion, and analytics refs.
@@ -137,6 +148,11 @@
 
 - 2026-10-17 SEO rendering fix (pending deployment): removed `/_next/` from the generated robots disallow rules; retained `/api/`, `/admin/`, and the sitemap declaration. Baseline: GSC event-page live test reported 34/36 resources unavailable, with images, scripts, stylesheets, and fonts blocked by robots.txt. After deployment, verify `/robots.txt`, rerun live inspection for `/services/events` and `/services`, and confirm resource loading and rendered screenshots. Tracking and page content are unchanged; indexing impact remains unmeasured.
 
+- 2026-10-18 (pending deployment): public routes with complete titles now use absolute metadata titles; FAQ and campaign-managed Mini Sessions titles retain their existing behavior. Homepage title uses Bergen County instead of Cliffside Park.
+- Contact form: added Mantine Dates 9.1.1 with shared field styling; date values remain YYYY-MM-DD. Shared Zod validation enforces Custom descriptions and Other referral details in the UI and contact API. Referral details are forwarded in inquiry data and omitted when no longer applicable; free-text fields are not added to analytics.
+
+- Contact time picker now uses Mantine TimePicker with shared field styling and a dropdown; preserves HH:mm submission values.
+
 ## Changed URLs
 
 - https://ifferspictures.com/sitemap.xml
@@ -151,3 +167,8 @@
 - https://ifferspictures.com/admin/media
 - https://ifferspictures.com/mini-sessions
 - https://ifferspictures.com/robots.txt
+- https://ifferspictures.com/services
+- https://ifferspictures.com/about
+- https://ifferspictures.com/contact
+- https://ifferspictures.com/investment
+- https://ifferspictures.com/testimonials

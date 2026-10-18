@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Josefin_Slab, Nunito } from "next/font/google";
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import "./globals.css";
-import { SITE_CONFIG, BUSINESS_INFO } from "@/lib/constants";
+import { SITE_CONFIG } from "@/lib/constants";
 import { Providers } from "@/components/providers/Providers";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { SiteChrome } from "@/components/layout/SiteChrome";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     apple: "/apple-icon",
   },
   title: {
-    default: `${SITE_CONFIG.name} | Event Photographer in ${BUSINESS_INFO.address.city}, ${BUSINESS_INFO.address.state}`,
+    default: `${SITE_CONFIG.name} | Event Photographer in Bergen County, NJ`,
     template: `%s | ${SITE_CONFIG.name}`,
   },
   description: SITE_CONFIG.description,

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { contactSchema, toContactSubmissionData } from "@/lib/contact";
 
 const PVS_API_URL = process.env.PVS_CONTACT_API_URL;
 const WEBSITE_SLUG = process.env.PVS_WEBSITE_SLUG;
@@ -12,7 +13,17 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = await request.json();
+    const parsed = contactSchema.safeParse(await request.json());
+    if (!parsed.success) {
+      return NextResponse.json(
+        { errors: parsed.error.issues.map((issue) => ({
+          path: issue.path.join("."),
+          msg: issue.message,
+        })) },
+        { status: 400 }
+      );
+    }
+    const body = toContactSubmissionData(parsed.data);
 
     const response = await fetch(
       `${PVS_API_URL}/api/v1/contact-forms/${WEBSITE_SLUG}`,
@@ -33,6 +44,9 @@ export async function POST(request: Request) {
             eventLocation: body.eventLocation || "",
             socialHandle: body.socialHandle || "",
             referralSource: body.referralSource || "",
+            ...(body.referralSourceOther
+              ? { referralSourceOther: body.referralSourceOther }
+              : {}),
             message: body.message || "",
           },
         }),
