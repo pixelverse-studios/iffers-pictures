@@ -10,7 +10,7 @@ import {
 import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
-  title: "Sessions | Iffer's Pictures | Bergen County NJ",
+  title: { absolute: "Sessions | Iffer's Pictures | Bergen County NJ" },
   description:
     "Photography sessions in Bergen County, NJ. Event photography, family portraits, maternity, couples & engagement, and professional portraits. Serving Cliffside Park, Fort Lee & Northern NJ.",
   keywords: [

@@ -5,7 +5,7 @@ import { PersonSchema } from "@/components/seo/PersonSchema";
 import { getPublicMediaPlacementsWithFallback } from "@/lib/media/server";
 
 export const metadata: Metadata = {
-  title: "About Jennifer | Iffer's Pictures | Bergen County Photographer",
+  title: { absolute: "About Jennifer | Iffer's Pictures | Bergen County Photographer" },
   description:
     "Meet Jennifer, the photographer behind Iffer's Pictures. Based in Cliffside Park, NJ, she specializes in event and family photography across Bergen County and Northern New Jersey.",
   keywords: [

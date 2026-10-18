@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:contact": "node --import tsx --test scripts/test-contact.ts scripts/test-contact-form.tsx",
     "test:mini-session-editor": "node --import tsx --test scripts/test-mini-session-editor.mjs scripts/test-mini-session-caret.tsx",
     "validate:social-image": "node scripts/validate-social-image.mjs"
   },
@@ -17,8 +18,10 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@mantine/core": "^9.1.1",
+    "@mantine/dates": "^9.1.1",
     "@mantine/hooks": "^9.1.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.23",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.556.0",
     "next": "16.0.7",

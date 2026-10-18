@@ -44,7 +44,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: serviceData.seo.title,
+    title: { absolute: serviceData.seo.title },
     description: serviceData.seo.description,
     keywords: serviceData.seo.keywords,
     alternates: {

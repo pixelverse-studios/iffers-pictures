@@ -6,6 +6,7 @@ import {
   TextInput,
   type MantineThemeOverride,
 } from "@mantine/core";
+import { DatePickerInput, TimePicker } from "@mantine/dates";
 
 const fieldStyles = {
   label: {
@@ -68,6 +69,40 @@ export const mantineTheme: MantineThemeOverride = createTheme({
     lg: "0.75rem",
   },
   components: {
+    DatePickerInput: DatePickerInput.extend({
+      defaultProps: {
+        size: "md",
+        radius: "md",
+        popoverProps: {
+          styles: {
+            dropdown: {
+              borderColor: "var(--border)",
+              backgroundColor: "var(--surface)",
+              color: "var(--foreground)",
+            },
+          },
+        },
+      },
+      styles: fieldStyles,
+      classNames: fieldClassNames,
+    }),
+    TimePicker: TimePicker.extend({
+      defaultProps: {
+        size: "md",
+        radius: "md",
+        popoverProps: {
+          styles: {
+            dropdown: {
+              borderColor: "var(--border)",
+              backgroundColor: "var(--surface)",
+              color: "var(--foreground)",
+            },
+          },
+        },
+      },
+      styles: fieldStyles,
+      classNames: fieldClassNames,
+    }),
     TextInput: TextInput.extend({
       defaultProps: {
         size: "md",

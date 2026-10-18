@@ -10,7 +10,7 @@ import {
 import { toPublicGalleryItems } from "@/lib/media/gallery";
 
 export const metadata: Metadata = {
-  title: "Investment | Iffer's Pictures | Bergen County NJ",
+  title: { absolute: "Investment | Iffer's Pictures | Bergen County NJ" },
   description:
     "Photography session investment details. Learn what's included in each session type. Custom quotes for event, family, maternity, couples, and portrait photography in Bergen County, NJ.",
   alternates: {
