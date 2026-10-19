@@ -10,7 +10,7 @@
 - Ticket-scoped branches should use the ticket identifier, for example `dev-798` or `codex/dev-798`; do not use protected integration branch names for ticket work.
 - Do not batch unrelated commits.
 - Never push `dev/*`, `epic/*`, or other integration branches to the remote unless the user explicitly asks for that exact branch to be pushed.
-- Never push `main` to the remote unless the user explicitly says "push main" or "push to main remote".
+- Never push `main` to the remote without a clear user instruction to deploy or push to production. Interpret the user's intent rather than requiring exact wording: "push live," "push to production," "deploy to prod," "push to main," and equivalent requests all authorize the production push and the commits or merges needed for the requested scope. Do not ask for a second confirmation solely because the user used "live," "production," or "prod" instead of "main." A mention of these terms without an instruction to deploy does not authorize a push.
 - Merging PRs into local `main` is fine, but pushing `main` to origin triggers deployment.
 - PRs created from ticket workflows must include a running, flat QA checklist describing exactly what the user should review.
 
