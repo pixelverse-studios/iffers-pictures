@@ -7,6 +7,7 @@ import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import { Providers } from "@/components/providers/Providers";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { getActiveMiniSessionCampaign } from "@/lib/mini-sessions/server";
 
@@ -110,6 +111,7 @@ export default async function RootLayout({
         className={`${josefinSlab.variable} ${nunito.variable} antialiased min-h-screen flex flex-col`}
       >
         <GoogleAnalytics />
+        <MicrosoftClarity />
         <Providers>
           <SiteChrome miniSessionsCampaign={miniSessionsCampaign}>
             {children}

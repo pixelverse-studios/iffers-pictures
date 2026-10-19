@@ -86,6 +86,8 @@
 
 - Email and phone fields now share a row on wider screens and stack on mobile.
 
+- Added Microsoft Clarity to help understand how visitors use the website and identify opportunities to improve their experience.
+
 ## Notes for internal team
 
 - Review follow-up: restored the option-scoped React key on `CalBookingEmbed` so changing booking options remounts Cal.com and resets its loading, failure, completion, and analytics refs.
@@ -152,6 +154,8 @@
 - Contact form: added Mantine Dates 9.1.1 with shared field styling; date values remain YYYY-MM-DD. Shared Zod validation enforces Custom descriptions and Other referral details in the UI and contact API. Referral details are forwarded in inquiry data and omitted when no longer applicable; free-text fields are not added to analytics.
 
 - Contact time picker now uses Mantine TimePicker with shared field styling and a dropdown; preserves HH:mm submission values.
+
+- Microsoft Clarity: installed project `z08xofv85r` in the shared root layout using Next.js Script with `afterInteractive`, alongside Google Analytics. No additional environment configuration is required. Verify collection in Clarity after deployment.
 
 ## Changed URLs
 
