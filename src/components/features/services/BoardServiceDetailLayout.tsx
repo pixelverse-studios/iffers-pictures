@@ -23,6 +23,7 @@ import type { PublicMediaPlacement } from "@/lib/media/types";
 import { Lightbox } from "@/components/features/portfolio/Lightbox";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
+import { FeaturedEvent } from "./FeaturedEvent";
 import type { ServicePageData } from "@/data/services/types";
 import type { SESSIONS } from "@/lib/constants";
 import {
@@ -285,6 +286,14 @@ export function BoardServiceDetailLayout({
           </div>
         </div>
       </section>
+
+      {serviceData.featuredEvent && (
+        <FeaturedEvent
+          event={serviceData.featuredEvent}
+          mediaItems={portfolioItems}
+          serviceSlug={serviceData.slug}
+        />
+      )}
 
       <section
         id="board-service-gallery"

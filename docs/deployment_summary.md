@@ -88,6 +88,8 @@
 
 - Added Microsoft Clarity to help understand how visitors use the website and identify opportunities to improve their experience.
 
+- Gave bridal showers more prominence on the events page and featured a real celebration at Season’s Catering, while keeping inquiries open to all event types.
+
 ## Notes for internal team
 
 - Review follow-up: restored the option-scoped React key on `CalBookingEmbed` so changing booking options remounts Cal.com and resets its loading, failure, completion, and analytics refs.
@@ -157,6 +159,8 @@
 
 - Microsoft Clarity: installed project `z08xofv85r` in the shared root layout using Next.js Script with `afterInteractive`, alongside Google Analytics. No additional environment configuration is required. Verify collection in Clarity after deployment.
 
+- DEV-1619: Applied Phil-approved copy, featured Jen’s verified DSC-6699 (published media ID 138), and updated events metadata. The feature hides when its image is unavailable; inquiry destinations and existing analytics remain intact. Production deployment is pending; record the actual release date and schedule DEV-1620 for 2–3 weeks afterward, with at least 14 complete days of data.
+
 ## Changed URLs
 
 - https://ifferspictures.com/sitemap.xml
@@ -176,3 +180,4 @@
 - https://ifferspictures.com/contact
 - https://ifferspictures.com/investment
 - https://ifferspictures.com/testimonials
+- https://ifferspictures.com/services/events

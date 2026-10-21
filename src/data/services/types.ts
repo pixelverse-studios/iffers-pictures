@@ -8,11 +8,21 @@ export interface ServicePageData {
   benefits: BenefitsData;
   whatToExpect: WhatToExpectData;
   gallery: GalleryData;
+  featuredEvent?: FeaturedEventData;
   testimonials?: TestimonialsData;
   pricing: PricingData;
   faq: FAQData;
   cta: CTAData;
   seo: SEOData;
+}
+
+export interface FeaturedEventData {
+  title: string;
+  location: string;
+  description: string;
+  mediaId: number;
+  imageAlt: string;
+  buttonText: string;
 }
 
 export interface HeroData {

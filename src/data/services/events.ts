@@ -12,8 +12,18 @@ export const eventsData: ServicePageData = {
   // Hero Section
   hero: {
     headline: "Event Sessions",
-    subheadline: "From baby showers and baptisms to milestone celebrations, every event holds moments worth remembering.",
-    description: "My approach to event photography is natural and unobtrusive. I focus on capturing genuine interactions, thoughtful details, and the joy that unfolds organically throughout the day. From décor and candid laughter to heartfelt embraces, I document your celebration as it truly felt — so you can relive it for years to come.\n\nBecause once the day passes, the memories deserve to remain.",
+    subheadline: "Bridal shower photography in Bergen County, focused on the people, thoughtful details, and moments that make your celebration yours.",
+    description: "My approach to event photography is natural and unobtrusive. I focus on capturing genuine interactions, thoughtful details, and the joy that unfolds organically throughout the day. From décor and candid laughter to heartfelt embraces, I document your celebration as it truly felt — so you can relive it for years to come.\n\nBecause once the day passes, the memories deserve to remain.\n\nI also photograph baby showers, baptisms, birthdays, and other milestone celebrations.",
+  },
+
+  featuredEvent: {
+    title: "A Bridal Shower at Season’s Catering",
+    location: "Township of Washington, NJ",
+    description: "This bridal shower at Season’s Catering brought together delicious food, thoughtful details, and fun activities throughout the celebration. One moment from the day: the bride-to-be gathering flowers at the flower stand, bouquet in hand.",
+    // Jen identified DSC-6699; resolve only this published CMS asset.
+    mediaId: 138,
+    imageAlt: "Bride-to-be holding a bouquet at the flower stand during her bridal shower at Season’s Catering.",
+    buttonText: "Tell Me About Your Event",
   },
 
   // Benefits Section
@@ -158,14 +168,14 @@ export const eventsData: ServicePageData = {
   cta: {
     headline: "I Would Love to Capture Your Next Celebration",
     description: "Because the moments may pass, but the memories deserve to last.",
-    buttonText: "Inquire Here",
+    buttonText: "Tell Me About Your Event",
     buttonLink: "/contact",
   },
 
   // SEO
   seo: {
-    title: "Event Sessions | Iffer's Pictures | Bergen County NJ",
-    description: "Professional event photography in Bergen County, NJ. Jennifer Matone photographs engagement parties, bridal showers, baby showers, birthday parties, holiday gatherings, and corporate events throughout Northern NJ. Candid, documentary-style coverage with fast turnaround.",
+    title: "Bridal Shower & Event Photography Bergen County | Iffer’s Pictures",
+    description: "Bridal shower and event photography in Bergen County, NJ. Explore a celebration at Season’s Catering and inquire about natural, candid coverage for your event.",
     keywords: [
       "event photographer Bergen County NJ",
       "party photographer Cliffside Park NJ",
