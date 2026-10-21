@@ -14,7 +14,7 @@ Hypothesis: a clear bridal shower introduction and a verified real-event example
 
 - Only the events data enables the optional `FeaturedEvent` component. It renders before the general gallery, using the existing board palette and a stacked/mobile, two-column/desktop layout.
 - Resolve media ID 138 from the public Events catalog. If absent, hide the feature rather than substituting an unrelated photo or bypassing CMS publication controls. The original portrait is shown without cropping. No CMS metadata was mutated.
-- Preserve the existing H1, broader gallery, testimonial, pricing, FAQ, canonical, sitemap, robots, and inquiry workflow.
+- Use Phil’s subsequently approved H1 “Bridal Shower & Event Photography”, with a wider heading measure and smaller type for the longer events heading. Preserve the broader gallery, testimonial, pricing, FAQ, canonical, sitemap, robots, and inquiry workflow.
 - Update title and description, which also feed the existing Open Graph, Twitter, and Service schema output.
 - Feature and bottom CTAs use the broad approved wording and `/contact?session=events`. The feature uses the existing `TrackedLink` and `cta_click` path with location `service_featured_event`. Existing event identifiers, form behavior, and source handling are unchanged.
 

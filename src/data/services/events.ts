@@ -11,7 +11,7 @@ export const eventsData: ServicePageData = {
 
   // Hero Section
   hero: {
-    headline: "Event Sessions",
+    headline: "Bridal Shower & Event Photography",
     subheadline: "Bridal shower photography in Bergen County, focused on the people, thoughtful details, and moments that make your celebration yours.",
     description: "My approach to event photography is natural and unobtrusive. I focus on capturing genuine interactions, thoughtful details, and the joy that unfolds organically throughout the day. From décor and candid laughter to heartfelt embraces, I document your celebration as it truly felt — so you can relive it for years to come.\n\nBecause once the day passes, the memories deserve to remain.\n\nI also photograph baby showers, baptisms, birthdays, and other milestone celebrations.",
   },

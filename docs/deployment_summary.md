@@ -90,6 +90,8 @@
 
 - Gave bridal showers more prominence on the events page and featured a real celebration at Season’s Catering, while keeping inquiries open to all event types.
 
+- Updated the events page heading to “Bridal Shower & Event Photography” to match its focus and search title.
+
 ## Notes for internal team
 
 - Review follow-up: restored the option-scoped React key on `CalBookingEmbed` so changing booking options remounts Cal.com and resets its loading, failure, completion, and analytics refs.
@@ -160,6 +162,8 @@
 - Microsoft Clarity: installed project `z08xofv85r` in the shared root layout using Next.js Script with `afterInteractive`, alongside Google Analytics. No additional environment configuration is required. Verify collection in Clarity after deployment.
 
 - DEV-1619: Applied Phil-approved copy, featured Jen’s verified DSC-6699 (published media ID 138), and updated events metadata. The feature hides when its image is unavailable; inquiry destinations and existing analytics remain intact. Production deployment is pending; record the actual release date and schedule DEV-1620 for 2–3 weeks afterward, with at least 14 complete days of data.
+
+- DEV-1619 review: aligned the H1 with the approved bridal shower and event positioning; adjusted only the events heading width and type size to accommodate the longer wording.
 
 ## Changed URLs
 
