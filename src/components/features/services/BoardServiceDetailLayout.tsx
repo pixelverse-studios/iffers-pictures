@@ -23,6 +23,7 @@ import type { PublicMediaPlacement } from "@/lib/media/types";
 import { Lightbox } from "@/components/features/portfolio/Lightbox";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { ScrollRevealObserver } from "@/components/ui/ScrollRevealObserver";
+import { FeaturedEvent } from "./FeaturedEvent";
 import type { ServicePageData } from "@/data/services/types";
 import type { SESSIONS } from "@/lib/constants";
 import {
@@ -134,7 +135,7 @@ export function BoardServiceDetailLayout({
             {serviceInfo.name}
           </p>
           <h1
-            className="hero-reveal mt-6 max-w-[9ch] font-heading text-5xl font-semibold leading-[0.95] md:text-6xl"
+            className={`hero-reveal mt-6 font-heading font-semibold leading-[0.95] ${serviceData.slug === "events" ? "max-w-[18ch] text-4xl md:text-5xl" : "max-w-[9ch] text-5xl md:text-6xl"}`}
             style={revealStyle(110)}
           >
             {serviceData.hero.headline}
@@ -285,6 +286,14 @@ export function BoardServiceDetailLayout({
           </div>
         </div>
       </section>
+
+      {serviceData.featuredEvent && (
+        <FeaturedEvent
+          event={serviceData.featuredEvent}
+          mediaItems={portfolioItems}
+          serviceSlug={serviceData.slug}
+        />
+      )}
 
       <section
         id="board-service-gallery"
