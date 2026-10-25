@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { HomePageContent } from "@/components/features/homepage";
 import {
   getPublicMediaCatalogWithFallback,
@@ -5,6 +6,13 @@ import {
 } from "@/lib/media/server";
 import { toPublicGalleryItems } from "@/lib/media/gallery";
 import { getActiveMiniSessionCampaign } from "@/lib/mini-sessions/server";
+import { SITE_CONFIG } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: SITE_CONFIG.url,
+  },
+};
 
 export default async function HomePage() {
   const [catalog, placementsResponse, miniSessionCampaign] = await Promise.all([

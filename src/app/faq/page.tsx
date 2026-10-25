@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     description: `Common questions about booking a photography session with ${SITE_CONFIG.name} in Bergen County, NJ.`,
     url: `${SITE_CONFIG.url}/faq`,
   },
+  alternates: {
+    canonical: `${SITE_CONFIG.url}/faq`,
+  },
 };
 
 /** Collect service FAQs paired with their display name and slug. */
